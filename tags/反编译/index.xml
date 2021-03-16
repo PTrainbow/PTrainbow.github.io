@@ -1,0 +1,21 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>反编译 - 标签 - 北邙山之光的 Blog</title>
+        <link>http://PTrain666.github.io/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/</link>
+        <description>反编译 - 标签 - 北邙山之光的 Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 27 Sep 2017 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/" rel="self" type="application/rss+xml" /><item>
+    <title>Smali 插桩</title>
+    <link>http://PTrain666.github.io/posts/2017-09-27-Smali-%E6%8F%92%E6%A1%A9/</link>
+    <pubDate>Wed, 27 Sep 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-09-27-Smali-%E6%8F%92%E6%A1%A9/</guid>
+    <description><![CDATA[<p>最近都在搞反编译插桩的东西，我也入门了这方面，大致总结一下</p>
+<p>Smali插桩步骤十分简单：</p>
+<ul>
+<li>1.apktool 反编译得到 smali 文件</li>
+<li>2.通过脚本如 python 动态插入 smali 语句</li>
+<li>3.apktool 重新打包</li>
+<li>4.签名 apk</li>
+</ul>]]></description>
+</item></channel>
+</rss>

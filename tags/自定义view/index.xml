@@ -1,0 +1,175 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>自定义View - 标签 - 北邙山之光的 Blog</title>
+        <link>http://PTrain666.github.io/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/</link>
+        <description>自定义View - 标签 - 北邙山之光的 Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 29 Aug 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/" rel="self" type="application/rss+xml" /><item>
+    <title>recyclerview 的 measure 问题</title>
+    <link>http://PTrain666.github.io/posts/2018-08-29-recyclerview-%E7%9A%84-measure-%E9%97%AE%E9%A2%98/</link>
+    <pubDate>Wed, 29 Aug 2018 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2018-08-29-recyclerview-%E7%9A%84-measure-%E9%97%AE%E9%A2%98/</guid>
+    <description><![CDATA[<p>之前写过一篇 recyclerview 的 onMeasure 问题，但是只是看看博客，泛泛而谈，至今也没有看源码</p>
+<p>最近遇到了一个奇怪的问题，一个 wrap_content 的 relativelayout 布局，放到 recyclerview 中变成了 match_parent</p>]]></description>
+</item><item>
+    <title>RecyclerView 的 onMeasure</title>
+    <link>http://PTrain666.github.io/posts/2018-02-24-RecyclerView-%E7%9A%84-onMeasure/</link>
+    <pubDate>Sat, 24 Feb 2018 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2018-02-24-RecyclerView-%E7%9A%84-onMeasure/</guid>
+    <description><![CDATA[<h2 id="交给-layoutmanager">交给 LayoutManager</h2>
+<p>首先，RecyclerView 的 onMeasure 会通过一个 if 判断，是否交由 LayoutManager 来管理。</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="k">if</span> <span class="o">(</span><span class="n">mLayout</span><span class="o">.</span><span class="na">mAutoMeasure</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mLayout</span><span class="o">.</span><span class="na">onMeasure</span><span class="o">(</span><span class="n">mRecycler</span><span class="o">,</span> <span class="n">mState</span><span class="o">,</span> <span class="n">widthSpec</span><span class="o">,</span> <span class="n">heightSpec</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div><p>mAutoMeasure 这个值，在我们经常使用的 LinearLayoutManager 中是 true，所以会走进这个 if 判断</p>
+<p>详见 LinearLayoutManager 的构造函数：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nf">LinearLayoutManager</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kt">int</span> <span class="n">orientation</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">reverseLayout</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">setOrientation</span><span class="o">(</span><span class="n">orientation</span><span class="o">);</span>
+        <span class="n">setReverseLayout</span><span class="o">(</span><span class="n">reverseLayout</span><span class="o">);</span>
+        <span class="n">setAutoMeasureEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div>]]></description>
+</item><item>
+    <title>圆角图片的终极奥义</title>
+    <link>http://PTrain666.github.io/posts/2018-01-21-%E5%9C%86%E8%A7%92%E5%9B%BE%E7%89%87%E7%9A%84%E7%BB%88%E6%9E%81%E5%A5%A5%E4%B9%89/</link>
+    <pubDate>Sun, 21 Jan 2018 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2018-01-21-%E5%9C%86%E8%A7%92%E5%9B%BE%E7%89%87%E7%9A%84%E7%BB%88%E6%9E%81%E5%A5%A5%E4%B9%89/</guid>
+    <description><![CDATA[<p>最近终于可以写UI了，但是感觉 UI 确实有时候挺无聊的，但是 UI 的过程相当复杂，至今还是没怎么摸清。强大的谷歌爸爸帮我们封装了一层又一层，以至于我想写个自定义的圆角图片要吐血了！</p>
+<h2 id="网上流传的代码">网上流传的代码</h2>
+<p>自定义圆角图片，网上一搜全是，但是无一例外全是 demo，只考虑出个样子就行了，不考虑内存、优化等各种问题。</p>
+<p>常见的就两种方式来实现，一种是 xfermode 一种是 bitmapshader</p>
+<p>xfermode 是不好的，浪费内存，它是两个视图的融合，一个原始图片的视图和一个我们圆角的图形视图，然后综合在一起。</p>
+<p>bitmapshader 更好，它可以直接设置在 paint 上，并不用创建新的视图层。</p>
+<p>其实还有一种就是直接 clipPath，但是这个如果是弧线会有锯齿，而且参数中没有 paint 没法抗锯齿。网上各种给 canvas 添加什么抗锯齿参数的方法，经过测试是毫无卵用的···</p>]]></description>
+</item><item>
+    <title>addView 方法解析</title>
+    <link>http://PTrain666.github.io/posts/2018-01-08-addView-%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90/</link>
+    <pubDate>Mon, 08 Jan 2018 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2018-01-08-addView-%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90/</guid>
+    <description><![CDATA[<p>addView 之后的调用过程我很不清晰，而且因为不清晰所以不敢随意使用 addView，畏手畏脚</p>
+<p>addView 最终都会调用到</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addView</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="n">LayoutParams</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+       <span class="k">if</span> <span class="o">(</span><span class="n">DBG</span><span class="o">)</span> <span class="o">{</span>
+           <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="k">this</span> <span class="o">+</span> <span class="s">&#34; addView&#34;</span><span class="o">);</span>
+       <span class="o">}</span>
+
+       <span class="k">if</span> <span class="o">(</span><span class="n">child</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+           <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;Cannot add a null child view to a ViewGroup&#34;</span><span class="o">);</span>
+       <span class="o">}</span>
+
+       <span class="c1">// addViewInner() will call child.requestLayout() when setting the new LayoutParams
+</span><span class="c1"></span>       <span class="c1">// therefore, we call requestLayout() on ourselves before, so that the child&#39;s request
+</span><span class="c1"></span>       <span class="c1">// will be blocked at our level
+</span><span class="c1"></span>       <span class="n">requestLayout</span><span class="o">();</span>
+       <span class="n">invalidate</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+       <span class="n">addViewInner</span><span class="o">(</span><span class="n">child</span><span class="o">,</span> <span class="n">index</span><span class="o">,</span> <span class="n">params</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+   <span class="o">}</span>
+</code></pre></div>]]></description>
+</item><item>
+    <title>onCreate 中获取宽高</title>
+    <link>http://PTrain666.github.io/posts/2017-12-17-onCreate-%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%AE%BD%E9%AB%98/</link>
+    <pubDate>Sun, 17 Dec 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-12-17-onCreate-%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%AE%BD%E9%AB%98/</guid>
+    <description><![CDATA[View的getWidth() 和 getMeasuredWidth() 有什么区别吗？ getWidth() ```java public final int getWidth() { return mRight - mLeft; } ``` 这个值是 view 在 layout 时候确定的 //setFrame会进行mRight等的]]></description>
+</item><item>
+    <title>View 的 inflate</title>
+    <link>http://PTrain666.github.io/posts/2017-11-10-View-%E7%9A%84-inflate/</link>
+    <pubDate>Fri, 10 Nov 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-11-10-View-%E7%9A%84-inflate/</guid>
+    <description><![CDATA[<p>View 的 inflate方法，最终都会调用到</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">View</span> <span class="nf">inflate</span><span class="o">(</span><span class="n">XmlPullParser</span> <span class="n">parser</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">ViewGroup</span> <span class="n">root</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">attachToRoot</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">synchronized</span> <span class="o">(</span><span class="n">mConstructorArgs</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="n">Context</span> <span class="n">inflaterContext</span> <span class="o">=</span> <span class="n">mContext</span><span class="o">;</span>
+            <span class="kd">final</span> <span class="n">AttributeSet</span> <span class="n">attrs</span> <span class="o">=</span> <span class="n">Xml</span><span class="o">.</span><span class="na">asAttributeSet</span><span class="o">(</span><span class="n">parser</span><span class="o">);</span>
+            <span class="n">View</span> <span class="n">result</span> <span class="o">=</span> <span class="n">root</span><span class="o">;</span>
+            <span class="k">try</span> <span class="o">{</span>
+                  <span class="k">if</span> <span class="o">(</span><span class="n">TAG_MERGE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="o">!</span><span class="n">attachToRoot</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">throw</span> <span class="k">new</span> <span class="n">InflateException</span><span class="o">(</span><span class="s">&#34;&lt;merge /&gt; can be used only with a valid &#34;</span>
+                                <span class="o">+</span> <span class="s">&#34;ViewGroup root and attachToRoot=true&#34;</span><span class="o">);</span>
+                    <span class="o">}</span>
+
+                    <span class="n">rInflate</span><span class="o">(</span><span class="n">parser</span><span class="o">,</span> <span class="n">root</span><span class="o">,</span> <span class="n">inflaterContext</span><span class="o">,</span> <span class="n">attrs</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="c1">// Temp is the root view that was found in the xml
+</span><span class="c1"></span>                    <span class="kd">final</span> <span class="n">View</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">createViewFromTag</span><span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">inflaterContext</span><span class="o">,</span> <span class="n">attrs</span><span class="o">);</span>
+
+                    <span class="n">ViewGroup</span><span class="o">.</span><span class="na">LayoutParams</span> <span class="n">params</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+                    <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+
+                        <span class="c1">// Create layout params that match root, if supplied
+</span><span class="c1"></span>                        <span class="n">params</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">generateLayoutParams</span><span class="o">(</span><span class="n">attrs</span><span class="o">);</span>
+                        <span class="k">if</span> <span class="o">(!</span><span class="n">attachToRoot</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="c1">// Set the layout params for temp if we are not
+</span><span class="c1"></span>                            <span class="c1">// attaching. (If we are, we use addView, below)
+</span><span class="c1"></span>                            <span class="n">temp</span><span class="o">.</span><span class="na">setLayoutParams</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                    <span class="c1">// Inflate all children under temp against its context.
+</span><span class="c1"></span>                    <span class="n">rInflateChildren</span><span class="o">(</span><span class="n">parser</span><span class="o">,</span> <span class="n">temp</span><span class="o">,</span> <span class="n">attrs</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+
+                    <span class="c1">// We are supposed to attach all the views we found (int temp)
+</span><span class="c1"></span>                    <span class="c1">// to root. Do that now.
+</span><span class="c1"></span>                    <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">attachToRoot</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">root</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">temp</span><span class="o">,</span> <span class="n">params</span><span class="o">);</span>
+                    <span class="o">}</span>
+
+                    <span class="c1">// Decide whether to return the root that was passed in or the
+</span><span class="c1"></span>                    <span class="c1">// top view found in xml.
+</span><span class="c1"></span>                    <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="o">!</span><span class="n">attachToRoot</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div>]]></description>
+</item><item>
+    <title>9png 的使用</title>
+    <link>http://PTrain666.github.io/posts/2017-09-18-9png-%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+    <pubDate>Mon, 18 Sep 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-09-18-9png-%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+    <description><![CDATA[<h2 id="9png">9.png</h2>
+<p>9png使用在需要图片拉伸的地方，常见的就是对话框</p>
+<h2 id="制作">制作</h2>
+<p>9png图片旁边有黑点或者黑线，是用来控制拉伸和内容显示的。</p>
+<p>左和上：决定了图片横向拉伸和纵向拉伸使用哪一块。程序会自动复制这一块区域，用来填充被拉伸后的图片。</p>
+<p>右和下：决定了图片的显示内容的区域，比如对话框的文字，我们肯定不想让它显示在正中心，所以就可以在右边和下方画出一条黑线，规定一下内容的显示区域就好了。</p>]]></description>
+</item><item>
+    <title>可以旋转的饼图（二）</title>
+    <link>http://PTrain666.github.io/posts/2017-09-17-%E5%8F%AF%E4%BB%A5%E6%97%8B%E8%BD%AC%E7%9A%84%E9%A5%BC%E5%9B%BE-2/</link>
+    <pubDate>Sun, 17 Sep 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-09-17-%E5%8F%AF%E4%BB%A5%E6%97%8B%E8%BD%AC%E7%9A%84%E9%A5%BC%E5%9B%BE-2/</guid>
+    <description><![CDATA[<p>饼图的最终效果大概如下：</p>
+<p></p>]]></description>
+</item><item>
+    <title>getMeasuredXX 和 getXX的区别</title>
+    <link>http://PTrain666.github.io/posts/2017-09-06-getMeasuredXX-%E5%92%8C-getXX-%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+    <pubDate>Wed, 06 Sep 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-09-06-getMeasuredXX-%E5%92%8C-getXX-%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+    <description><![CDATA[<p>一直喜欢 copy 代码的后果就是细节不清晰，今天就碰到 getMeasuredWidth 和 getWidth 的问题</p>
+<p>自定义 ViewGroup 少不了对 onMeasure 方法的重写，那么在 onMeasure 方法中是无法 getWidth 的！</p>
+<p>getWidth 依赖于的是 onlayout 方法，没有执行 onlayout 之前就全是0，而 onMeasure 在 onLayout 之前所以全0</p>
+<p>getMeasuredWidth 是可以得到值的，所以不要再傻傻分不清楚了，而 getMeasuredWidth 的值是通过读取 xml 文件生成的，在我们 activity 执行 onCreate 时就已经读取了</p>]]></description>
+</item><item>
+    <title>Behavior 的小细节</title>
+    <link>http://PTrain666.github.io/posts/2017-09-04-Behavior-%E7%9A%84%E5%B0%8F%E7%BB%86%E8%8A%82/</link>
+    <pubDate>Mon, 04 Sep 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-09-04-Behavior-%E7%9A%84%E5%B0%8F%E7%BB%86%E8%8A%82/</guid>
+    <description><![CDATA[<p>想做一个知乎一样的 FloatingActionButton 效果，那种效果可以通过自定义一个 ViewGroup 里面包裹一个 Fab 和响应的一些控件来实现。
+这里推荐一个我觉得挺好的 <a href="https://github.com/550609334/FloatingActionButtonPlus" target="_blank" rel="noopener noreffer">Fab</a> 效果如下(图也是人家的~~)：
+</p>]]></description>
+</item></channel>
+</rss>

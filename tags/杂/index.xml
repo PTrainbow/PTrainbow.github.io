@@ -1,0 +1,49 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>杂 - 标签 - 北邙山之光的 Blog</title>
+        <link>http://PTrain666.github.io/tags/%E6%9D%82/</link>
+        <description>杂 - 标签 - 北邙山之光的 Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 29 Jan 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/%E6%9D%82/" rel="self" type="application/rss+xml" /><item>
+    <title>经验教训之异常显示</title>
+    <link>http://PTrain666.github.io/posts/2018-01-29-%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD%E4%B9%8B%E5%BC%82%E5%B8%B8%E6%98%BE%E7%A4%BA/</link>
+    <pubDate>Mon, 29 Jan 2018 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2018-01-29-%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD%E4%B9%8B%E5%BC%82%E5%B8%B8%E6%98%BE%E7%A4%BA/</guid>
+    <description><![CDATA[<p>突然被查出来个问题，卡片异常显示了···</p>
+<p>因为后台穿了个错误的数据，而我这边没有进行容错，直接 gone 掉，所以卡片只显示了个头部，下面的内容 gone 了</p>
+<p>吓尿了~~</p>
+<p>记得前几天填那个转正的目标，线上 bug 小于3次，以为要炸呢···</p>
+<p>不过老大们一致认为是后台问题，不应该这么传过来，而且数据的处理不应该端上来做~~</p>]]></description>
+</item><item>
+    <title>究竟什么才是技术好？</title>
+    <link>http://PTrain666.github.io/posts/2017-11-06-%E7%A9%B6%E7%AB%9F%E4%BB%80%E4%B9%88%E6%89%8D%E6%98%AF%E6%8A%80%E6%9C%AF%E5%A5%BD/</link>
+    <pubDate>Mon, 06 Nov 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-11-06-%E7%A9%B6%E7%AB%9F%E4%BB%80%E4%B9%88%E6%89%8D%E6%98%AF%E6%8A%80%E6%9C%AF%E5%A5%BD/</guid>
+    <description><![CDATA[<p>这些天心情很低沉</p>
+<p>首先，工作上和安卓似乎渐行渐远···回首自己毕业到现在。</p>
+<p>一开始收到 offer 时的激动，一晚上睡不着觉，到现在的厌烦···技术上基本没有什么提升。</p>]]></description>
+</item><item>
+    <title>md 转 pdf</title>
+    <link>http://PTrain666.github.io/posts/2017-10-23-md-%E8%BD%AC-pdf/</link>
+    <pubDate>Mon, 23 Oct 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-10-23-md-%E8%BD%AC-pdf/</guid>
+    <description><![CDATA[今天写个简历，之前都是用 word 找的模板写的，也想试试 markdown 的简历 但是不知道怎么转成 pdf，总不能发个 markdown 给人家吧！ 一顿搜索之后，发现一条路径可达 如果 chrome]]></description>
+</item><item>
+    <title>今年的小计划</title>
+    <link>http://PTrain666.github.io/posts/2017-08-31-%E4%BB%8A%E5%B9%B4%E7%9A%84%E5%B0%8F%E8%AE%A1%E5%88%92/</link>
+    <pubDate>Thu, 31 Aug 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-08-31-%E4%BB%8A%E5%B9%B4%E7%9A%84%E5%B0%8F%E8%AE%A1%E5%88%92/</guid>
+    <description><![CDATA[<h2 id="android">Android</h2>
+<ul>
+<li>开发完自己的记账软件</li>
+<li>Android过渡动画</li>
+<li>再看一遍Android开发艺术探索</li>
+<li>PullToRefresh控件</li>
+<li>kotlin</li>
+<li>Android热修复和插件化了解基础知识，一直不是很懂</li>
+</ul>]]></description>
+</item></channel>
+</rss>

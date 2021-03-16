@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>RecyclerView Adapter 的问题 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="RecyclerView Adapter 的问题" />
+<meta property="og:description" content="前言 因为之前一直写 TV 相关的业务，而 TV 业务多半为列表页展示必然使用 RecyclerView，当然我们使用的 RecyclerView 经过了一定的改造，处理了焦点和各种" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2021-01-30-RecyclerView-Adapter-%E7%9A%84%E9%97%AE%E9%A2%98/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-01-30T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-01-30T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="RecyclerView Adapter 的问题"/>
+<meta name="twitter:description" content="前言 因为之前一直写 TV 相关的业务，而 TV 业务多半为列表页展示必然使用 RecyclerView，当然我们使用的 RecyclerView 经过了一定的改造，处理了焦点和各种"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2021-01-30-RecyclerView-Adapter-%E7%9A%84%E9%97%AE%E9%A2%98/" /><link rel="prev" href="http://PTrain666.github.io/posts/2021-01-24-Kotlin-Coroutines-VS-Goroutines/" /><link rel="next" href="http://PTrain666.github.io/posts/2021-02-01-Java-%E6%B3%9B%E5%9E%8B%E7%9A%84%E8%A7%81%E8%A7%A3/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "RecyclerView Adapter 的问题",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2021-01-30-RecyclerView-Adapter-%E7%9A%84%E9%97%AE%E9%A2%98\/"
+        },"genre": "posts","keywords": "Java","wordcount":  4056 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/2021-01-30-RecyclerView-Adapter-%E7%9A%84%E9%97%AE%E9%A2%98\/","datePublished": "2021-01-30T00:00:00+00:00","dateModified": "2021-01-30T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">RecyclerView Adapter 的问题</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-01-30">2021-01-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4056 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#原始的-adapter-的缺点">原始的 Adapter 的缺点</a></li>
+    <li><a href="#理想的-adapter-的设计">理想的 Adapter 的设计</a></li>
+    <li><a href="#multitype-原理">MultiType 原理</a></li>
+    <li><a href="#我遇到的泛型问题">我遇到的泛型问题</a>
+      <ul>
+        <li><a href="#what-is-a-raw-type">What is a raw type</a></li>
+        <li><a href="#shouldnt-use-a-raw-type">Shouldn&rsquo;t use a raw type</a></li>
+        <li><a href="#除了-raw-type-还要办法吗">除了 raw type 还要办法吗</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#20210207-补充">2021.02.07 补充</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="前言">前言</h2>
+<p>因为之前一直写 TV 相关的业务，而 TV 业务多半为列表页展示必然使用 <code>RecyclerView</code>，当然我们使用的 <code>RecyclerView</code> 经过了一定的改造，处理了焦点和各种奇怪的业务需求，目前写的并不好，后续打算有时间整理重构并梦想开源(因为一开始用了一个开源的 <code>TVRecyclerView</code>，问题挺多的)。第一步，就是想重构下 <code>Adapter</code>，结果没想到出师不利。</p>
+<p>这里的问题，并不是指 <code>Android</code> 相关的问题，更不是 <code>Adapter</code> 和 <code>RecyclerView</code> 的代码问题，而是泛型的问题，参考了两个开源的 <code>Adapter</code> 库，最终我也没有一个较好的解决方案。</p>
+<p>我先说说用原始的 <code>Adapter</code> 为什么不太好，再说说我理想的 <code>Adapter</code> 和 创造这个 <code>Adapter</code> 遇到的泛型问题(这个才是收获)</p>
+<h2 id="原始的-adapter-的缺点">原始的 Adapter 的缺点</h2>
+<p>先来看看最原始的 Adapter。</p>
+<p>其实我们在写 RecyclerView 的时候都知道，一种 ViewHolder 对应一种 ViewType，RecyclerView 也是通过拿到 Adapter 中的数据，判断 type 创建对应的 ViewHolder，来看看下面的大家都滚瓜烂熟的 Adapter 的代码和当视图类型过多时遇到的问题。</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"> <span class="nd">@NonNull</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">ViewHolder</span> <span class="nf">onCreateViewHolder</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">ViewGroup</span> <span class="n">parent</span><span class="o">,</span> <span class="kt">int</span> <span class="n">viewType</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// 通过 getItemViewType 拿到的 viewType 创建对应的 ViewHolder
+</span><span class="c1"></span>      <span class="c1">// 当视图类型过多时
+</span><span class="c1"></span>      <span class="k">switch</span><span class="o">(</span><span class="n">viewType</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">case</span> <span class="n">type1</span><span class="o">:</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="n">Type1ViewHolder</span><span class="o">();</span>
+          <span class="k">case</span> <span class="n">type2</span><span class="o">:</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="n">Type2ViewHolder</span><span class="o">();</span>
+        <span class="c1">// 无限多
+</span><span class="c1"></span>      <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onBindViewHolder</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">ViewHolder</span> <span class="n">holder</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// 根据 position 拿到数据，并持有 onCreateViewHolder 创建的 holder，来做视图(holder 持有 view)和数据的绑定
+</span><span class="c1"></span>      <span class="c1">// 当视图类型过多时
+</span><span class="c1"></span>      <span class="k">if</span> <span class="o">(</span><span class="n">holder</span> <span class="k">instanceof</span> <span class="n">Type1ViewHolder</span><span class="o">)</span> <span class="o">{</span>
+
+      <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">holder</span> <span class="k">instanceof</span> <span class="n">Type2ViewHolder</span><span class="o">)</span> <span class="o">{</span>
+
+      <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">()</span> <span class="o">{</span> <span class="c1">// 无限多
+</span><span class="c1"></span>
+      <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">()</span> <span class="o">{</span> <span class="c1">// 无限多
+</span><span class="c1"></span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getItemViewType</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 根据 postion 拿到 List 数据返回其类型
+</span><span class="c1"></span>    <span class="c1">// 当视图类型过多时，如果 List 存储的数据自身可以判断类型，倒也不会增加额外代码
+</span><span class="c1"></span>  <span class="o">}</span>
+</code></pre></div><p>所以当类型过多的时候，我们需要创建的类 <code>可能有</code> Model、ViewHolder等，其实这还算好，但是烦点在于 <code>onCreateViewHolder</code> 和 <code>onBindViewHolder</code> 中，因为你每加一个 type，就要加一行 switch-case 或者 if-else，类型多了以后，这个类文件的行数会异常的多，目前我司的 Adapter 就是 switch-case 和 if-else 有好多种 type，adapter 代码，嗯，很长···</p>
+<p>所以总结一下，我感觉缺点有：</p>
+<ol>
+<li>
+<p>增加了一个类文件的长度(可能会很长)，阅读困难，就是···维护成本高(我好像会用这种吹牛皮的名词了)</p>
+</li>
+<li>
+<p>可能会存在漏判断的问题，或者在迁移代码、修改代码时比较困难(虽然也不是那么困难)，就是···维护成本高(我好像会用这种吹牛皮的名词了)</p>
+</li>
+<li>
+<p>写这种代码会很烦躁，降低程序员的写代码时的愉悦感(我自己瞎说的)</p>
+</li>
+</ol>
+<h2 id="理想的-adapter-的设计">理想的 Adapter 的设计</h2>
+<p>理想是，onCreateViewHolder 和 onBindViewHolder 代码不变动，即 <code>Adapter 本身代码不变</code>，只新创建 model 和 ViewHolder。</p>
+<p>很多人早就有了这种想法了，开源库很多很多，我看了两个开源库 MultiType(<a href="https://github.com/drakeet/MultiType" target="_blank" rel="noopener noreffer">github</a>) 和 GenericRecyclerAdapter(<a href="https://github.com/burakeregar/GenericRecyclerAdapter" target="_blank" rel="noopener noreffer">github</a>)。</p>
+<p>我在上家公司也做过 Feed 流列表页，也用过 RecyclerView，但是当时是别人写好的架子，我只是增加卡片类型。当时的设计也挺好的，也不用新增判断，但是好像<code>并不是</code>一个 ViewHolder 的 class 类型对应一个 ViewType(就是说，10种卡片创建的都是 CommonViewHolder，但是对应的 view 和 data 确是不同的，貌似绑定了两个泛型，太久不记得了)，其实也没什么问题，因为复用的时候判断的是 ViewHolder 实例的 ViewType，并不会出现复用的问题，但是感觉违背了 ViewHolder 的初衷。</p>
+<p>所以，这种 Adapter 的思想都差不多，只不过有各自的实现过程不太一致。</p>
+<p>核心解决三个问题：</p>
+<ol>
+<li>
+<p>viewType 的获取</p>
+</li>
+<li>
+<p>onCreateViewHolder 中根据 viewType 写一段通用的代码创建出对应的 ViewHolder(一般都是有一张表来查 viewType 对用的 ViewHolder 的类型)</p>
+</li>
+<li>
+<p>onBindViewHolder 中根据 holder 写一段通用代码，做一个类似 bind 的操作，将 holder 和 data 绑定(这里就比较麻烦，需要泛型绑定)</p>
+</li>
+</ol>
+<p>这三个问题也分别对应了 Adapter 中的三个方法。</p>
+<p>在我看了上面的两个库后，我选了 MultiType 来自己试试，因为库是 Kotlin 写的，我想着顺便再学一些语法，看看别人都是怎么写 Kotlin 的。但是写着写着就放弃了，改用 java 写了(因为语法不太熟，加上老是和 Golang 记混到底类型声明该放在前面还是后面，导致写的太慢了)，最后切到了 MultiType 的 Java 分支了。</p>
+<h2 id="multitype-原理">MultiType 原理</h2>
+<p>首先，它的假设是，Adapter 中的数据是任意类型的(没有除 Object 外没有共有的父类)，所以存放数据的 List 是 <code>List&lt;Object&gt;</code> ，其次有几个关键的类</p>
+<p>ItemViewBinder.java</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 绑定了两个泛型，一个是 ViewHolder 子类，一个是任意的 Model 类
+</span><span class="c1"></span><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">ItemViewBinder</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">VH</span> <span class="kd">extends</span> <span class="n">ViewHolder</span><span class="o">&gt;</span> <span class="o">{</span>
+
+  <span class="cm">/* internal */</span> <span class="n">MultiTypeAdapter</span> <span class="n">adapter</span><span class="o">;</span>
+
+
+  <span class="kd">protected</span> <span class="kd">abstract</span> <span class="nd">@NonNull</span> <span class="n">VH</span> <span class="nf">onCreateViewHolder</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">LayoutInflater</span> <span class="n">inflater</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">ViewGroup</span> <span class="n">parent</span><span class="o">);</span>
+
+  <span class="kd">protected</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">onBindViewHolder</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">VH</span> <span class="n">holder</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">T</span> <span class="n">item</span><span class="o">);</span>
+
+  <span class="c1">// 省略其他代码
+</span><span class="c1"></span>
+<span class="o">}</span>
+</code></pre></div><p>MultiTypePool.java</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MultiTypePool</span> <span class="kd">implements</span> <span class="n">TypePool</span> <span class="o">{</span>
+  <span class="c1">// 存储 model 类型
+</span><span class="c1"></span>  <span class="kd">private</span> <span class="kd">final</span> <span class="nd">@NonNull</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;?&gt;&gt;</span> <span class="n">classes</span><span class="o">;</span>
+  <span class="c1">// 存储对应 binder
+</span><span class="c1"></span>  <span class="kd">private</span> <span class="kd">final</span> <span class="nd">@NonNull</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">ItemViewBinder</span><span class="o">&lt;?,</span> <span class="o">?&gt;&gt;</span> <span class="n">binders</span><span class="o">;</span>
+  <span class="c1">// 省略其他代码
+</span><span class="c1"></span><span class="o">}</span>
+</code></pre></div><p>使用时，代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">MultiTypeAdapter</span> <span class="n">adapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MultiTypeAdapter</span><span class="o">();</span>
+<span class="n">adapter</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">Category</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">CategoryItemViewBinder</span><span class="o">());</span>
+<span class="n">adapter</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">Post</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">PostViewBinder</span><span class="o">());</span>
+<span class="n">adapter</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">PostList</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">HorizontalPostsViewBinder</span><span class="o">());</span>
+</code></pre></div><p>register() 会把 class 和 binder 注册到 MultiTypePool 的两个 List(上图中的 classes 和 binders) 中，这样就存在了一个映射关系。</p>
+<p><code>getItemViewType()</code> 通过 position 获取 <code>List&lt;Object&gt;</code> 中的 object 对象，再通过其 class 类型查 <code>MultiTypePool</code> 中的 classes，返回其 index 作为 viewType。</p>
+<p><code>onCreateViewHolder()</code> 通过 viewType(其实就是 classes 和 binders 的 index)，获取 <code>MultiTypePool</code> 中的 binder，调用 binder.onCreateViewHolder。</p>
+<p><code>onBindViewHolder()</code> 过 position 获取 <code>List&lt;Object&gt;</code> 中的 object 对象，再通过其 class 类型查 <code>MultiTypePool</code> 中的 classes，返回其 index，再获取 <code>MultiTypePool</code> 中的 binder，调用 binder.onBindViewHolder。</p>
+<p>所以整个过程，我们只需要<code>加一行注册代码</code>，一个基础的 <code>model</code> 类和一个 继承 ItemViewBinder 的 <code>binder</code>。</p>
+<p>还是挺美好的</p>
+<h2 id="我遇到的泛型问题">我遇到的泛型问题</h2>
+<p>我想依葫芦画瓢实现一个一样的 Adapter，因为已经知道了原理，我想自己写一遍，却发现了一些问题。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/generic-error.jpg"
+        data-srcset="/img/in-post/generic-error.jpg, /img/in-post/generic-error.jpg 1.5x, /img/in-post/generic-error.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/generic-error.jpg"
+        title="/img/in-post/generic-error.jpg" /></p>
+<p>这里居然有一个 error！如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">Required type</th>
+<th style="text-align:center">Provided</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">holder</td>
+<td style="text-align:center">capture of ? extends ViewHolder</td>
+<td style="text-align:center">ViewHolder</td>
+</tr>
+<tr>
+<td style="text-align:center">item</td>
+<td style="text-align:center">capture of ?</td>
+<td style="text-align:center">Object</td>
+</tr>
+</tbody>
+</table>
+<p>代码中，<code>mTypes.get(position).binder</code> 这里拿到了 binder，onBindViewHolder 接收两个泛型参数，而 Adapter 给我的 holder 是 ViewHolder 类型，给我的 item 是 Object(因为 <code>List&lt;Object&gt;</code>)，Java 编译器不通过，而原作者的代码肯定不会存在编译问题，于是我找了找发现了这段代码。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/generic-warning.jpg"
+        data-srcset="/img/in-post/generic-warning.jpg, /img/in-post/generic-warning.jpg 1.5x, /img/in-post/generic-warning.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/generic-warning.jpg"
+        title="/img/in-post/generic-warning.jpg" /></p>
+<p>这是原作者的代码，存在一个 warning，提示为 <code>Raw use of parameterized class 'ItemViewBinder' </code></p>
+<p>显然编译器是不推荐你这样使用的，因为丢失了类型 <code>可能存在风险</code>，上面的我的代码也可以通过这种方式，使得编译通过，但是同样会产生一个 warning。</p>
+<h3 id="what-is-a-raw-type">What is a raw type</h3>
+<p><a href="https://stackoverflow.com/questions/2770321/what-is-a-raw-type-and-why-shouldnt-we-use-it" target="_blank" rel="noopener noreffer">stackoverflow</a></p>
+<p><a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.8" target="_blank" rel="noopener noreffer">JLS 4.8 Raw Types</a></p>
+<p>不知道该怎么翻译</p>
+<h3 id="shouldnt-use-a-raw-type">Shouldn&rsquo;t use a raw type</h3>
+<p>有个例子</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">List</span> <span class="n">names</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">();</span> <span class="c1">// warning: raw type!
+</span><span class="c1"></span><span class="n">names</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;John&#34;</span><span class="o">);</span>
+<span class="n">names</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;Mary&#34;</span><span class="o">);</span>
+<span class="n">names</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">Boolean</span><span class="o">.</span><span class="na">FALSE</span><span class="o">);</span> <span class="c1">// not a compilation error!
+</span><span class="c1"></span><span class="k">for</span> <span class="o">(</span><span class="n">Object</span> <span class="n">o</span> <span class="o">:</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+<span class="o">}</span> <span class="c1">// throws ClassCastException!
+</span><span class="c1"></span>  <span class="c1">//    java.lang.Boolean cannot be cast to java.lang.String
+</span></code></pre></div><p>如果你使用 raw type，names 这个 List 就可以接收 Object 类型，所以即使你的<code>本意是存储一个 string</code>，但是你却可以<code>放入一个 bool 值且编译不报错</code>。但是，一旦到了<code>运行时</code>，你读取了 List 中的数据，就会产生 <code>Exception</code>。</p>
+<p>所以不推荐使用 raw type。</p>
+<h3 id="除了-raw-type-还要办法吗">除了 raw type 还要办法吗</h3>
+<p>无论是原作者的代码还是我的代码都有使用 raw type 的问题，还有 GenericAdapter 等等，许多 Adapter 的开源库可能为了灵活性而使用了 raw type，或者他们也跟我一样依葫芦画瓢，编译通过则万事大吉。</p>
+<p>虽然使用了 raw type 并不一定会产生 Exception，因为有时候你可以确定你传进去的就是这些个类型，但是仍然是不推荐的做法，而且 warning 也看着糟心，那有什么办法拯救</p>
+<p>有！</p>
+<p>在目前的代码基础上的话，只能直接让 binder 使用 Object 和 ViewHolder 类型了，但是这样有一个弊端。就是当你继承 binder 的时候，重写的方法参数就成了 Object 和 ViewHolder 类型了···你<code>必须要自己加一行 instance of 或者自己加一行强转</code>，这个我无法接受···因为我都已经确认传进来的一定是对的类型，我居然还要强转一次···而且每次都要加一行这个代码···</p>
+<p>还有没有别的办法呢？？</p>
+<p>在认为 Adapter 的数据为 <code>List&lt;Object&gt;</code> 的情况下(List 容纳多种类型)，我认为(我断言)其实是没有了。</p>
+<p>为什么？</p>
+<p>因为其实上面的写法本身是存在问题的，ViewHolder 本身也应该绑定泛型，但是因为 binder 绑定了泛型，而 ViewHolder 本身也可以忽略了。那么，如果 List 容纳多种类型，那么 ViewHolder 必须绑定泛型，那么 Adapter 必须绑定泛型。</p>
+<p>因为</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GenericAdapter</span> <span class="kd">extends</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">Adapter</span><span class="o">&lt;</span><span class="n">RecyclerView</span><span class="o">.</span><span class="na">ViewHolder</span><span class="o">&gt;</span> <span class="o">{</span>
+
+<span class="o">}</span>
+</code></pre></div><p>Adapter 本身就是个泛型类，绑定了 ViewHolder 类型，而我们如果<code>不自己创建一个 BaseViewHolder&lt;T&gt;</code> 的话，ViewHolder 永远不会是泛型，onBindViewHolder 那里的参数在不使用 raw type 的前提下，永远传不进去，编译报错。</p>
+<p>可一旦 ViewHolder 是泛型，那么上图中的 <code>GenericAdapter 就要变成 GenericAdapter&lt;T&gt;</code>。</p>
+<p>可一旦这样，代表着 Adapter 只能绑定一种通用的数据类型，不可以是 <code>List&lt;Object&gt;</code>，而需要是类似 <code>List&lt;AllModelInOne&gt;(这个 model 类型本身自己就是多种类型的，可能内部有一个 type 字段判断类型，一个 data 字段才表示其真实数据)</code> 这种很冗杂的类型。</p>
+<p>这样我的 <code>GenericAdapter 变成 GenericAdapter&lt;T&gt;</code>，重写部分代码，参数可以传入，也不会存在任何的 raw type 相关的 warning。</p>
+<p>但是，这样也有问题，当一个类似 <code>AllModelInOne</code> 这种数据存在的时候，感觉会很麻烦，无论是解析 json 的时候，还是到了具体的 bind(AllModelInOne model) 的时候，你还是要自己去判断一些 model 的类型，其实也相当于是在这里强转了。</p>
+<p>所以，也并不是什么好的办法。</p>
+<h2 id="总结">总结</h2>
+<p>好像绕了一圈，也没有什么好的办法。</p>
+<p>唯一的收获是，对于泛型的理解更多了一些。但是还有很多好玩的情形，比如</p>
+<blockquote>
+<p><code>Double[]</code> is a subtype of <code>Number[]</code>, but a <code>List&lt;Double&gt;</code> is NOT a subtype of <code>List&lt;Number&gt;</code></p>
+</blockquote>
+<h2 id="20210207-补充">2021.02.07 补充</h2>
+<p>我以为让 Adapter 绑定了泛型，就可以抛开一切的 raw type 或者 unchecked 的 warning，结果我最近真的开始写的时候发现，并不能如愿啊！</p>
+<p>问题在于这个 binder 的概念，为了参数类型的确定性(总不能用 object 吧，那就不用泛型了)，这个泛型接口必然绑定了两个泛型，一个是 model，一个是 viewHolder。</p>
+<p>而我们还要存储 binder 和 viewType 的映射关系，无论用什么集合存储，这个集合都会同时存(注册 viewType)和取(通过 viewType 获取 binder)</p>
+<p>比如使用 List，那么如果 <code>MyAdapter&lt;T&gt; extends RecyclerView.Adapter&lt;BaseViewHolder&lt;T&gt;&gt;</code> 则有 <code>List&lt;Binder&lt;T, BaseViewHolder&lt;T&gt;&gt;&gt;</code>，这时候外部无法创建一个 <code>Binder&lt;T, BaseViewHolder&lt;T&gt;&gt;</code>，因为都是 BaseViewHolder 子类。</p>
+<p>如果是 <code>Binder&lt;T,? extends BaseViewHolder&lt;T&gt;&gt;</code> 甚至 <code>Binder&lt;？,?&gt;</code> 都一样，因为这时候 <code>onBindViewHolder(BaseViewHolder&lt;T&gt; holder，···)</code> 类型不对，只能用 raw type 使得编译通过。</p>
+<p>如果我们不封装自己的 BaseViewHolder 呢？</p>
+<p>那么首先，自己写的 ViewHolder 类的数据类型需要我们自己处理。</p>
+<p>其次，如果想让 onBindViewHolder 的时候没有 warning，那么List 的元素就必须得是 <code>Binder&lt;T, ViewHolder&gt;</code>，可是这样注册的时候也会存在问题，所以又一定得是 <code>Binder&lt;T, ? extends ViewHolder&gt;</code>，但是 onBindViewHolder 又会 warning···</p>
+<p>所以无解。</p>
+<p>或许可以保存 Class 类型，反射创建对象，但是反射显然不好的，我宁愿有 warning。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-01-30</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Java/">Java</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2021-01-24-Kotlin-Coroutines-VS-Goroutines/" class="prev" rel="prev" title="Kotlin Coroutines VS Goroutines"><i class="fas fa-angle-left fa-fw"></i>Kotlin Coroutines VS Goroutines</a>
+            <a href="/posts/2021-02-01-Java-%E6%B3%9B%E5%9E%8B%E7%9A%84%E8%A7%81%E8%A7%A3/" class="next" rel="next" title="Java 泛型的见解">Java 泛型的见解<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-01-30T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"RecyclerView Adapter 的问题"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

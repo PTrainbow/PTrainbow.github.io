@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>虚拟内存和 mmap - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="虚拟内存和 mmap" />
+<meta property="og:description" content="虚拟内存 虚拟内存是计算机系统内存管理的一种技术。它使得应用程序认为它拥有连续可用的内存（一个连续完整的地址空间），而实际上，它通常是被分隔成" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2019-05-22-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E5%92%8C-mmap/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-05-22T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-05-22T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="虚拟内存和 mmap"/>
+<meta name="twitter:description" content="虚拟内存 虚拟内存是计算机系统内存管理的一种技术。它使得应用程序认为它拥有连续可用的内存（一个连续完整的地址空间），而实际上，它通常是被分隔成"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2019-05-22-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E5%92%8C-mmap/" /><link rel="prev" href="http://PTrain666.github.io/posts/2019-05-15-Kotlin-%E4%B8%AD%E7%9A%84-lateinit-%E5%92%8C-by-lazy/" /><link rel="next" href="http://PTrain666.github.io/posts/2019-06-14-%E5%88%9D%E8%AF%86-webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "虚拟内存和 mmap",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2019-05-22-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E5%92%8C-mmap\/"
+        },"genre": "posts","keywords": "基础, 操作系统","wordcount":  2393 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/2019-05-22-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E5%92%8C-mmap\/","datePublished": "2019-05-22T00:00:00+00:00","dateModified": "2019-05-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">虚拟内存和 mmap</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-05-22">2019-05-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2393 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#虚拟内存">虚拟内存</a></li>
+        <li><a href="#mmap">mmap</a></li>
+        <li><a href="#借鉴">借鉴</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="虚拟内存">虚拟内存</h3>
+<ul>
+<li>
+<p><code>虚拟内存</code>是计算机系统内存管理的一种技术。它使得应用程序认为它拥有连续可用的内存（一个连续完整的地址空间），而实际上，它通常是被分隔成多个物理内存碎片，还有部分暂时存储在外部磁盘存储器上，在需要时进行数据交换。</p>
+</li>
+<li>
+<p>与没有使用虚拟内存技术的系统相比，使用这种技术的系统使得大型程序的编写变得更容易，对真正的物理内存（例如RAM）的使用也更有效率。</p>
+</li>
+</ul>
+<h4 id="为什么要有虚拟内存">为什么要有虚拟内存</h4>
+<ul>
+<li>
+<p>内存使用效率</p>
+<ul>
+<li>
+<p>在没有虚拟内存的时候，程序完全被装载进物理内存中，那么1G的存储空间永远只能执行固定个数的应用程序，一旦内存占满，就要触发 swap 和磁盘交换数据。而且每个应用程序大小不一，比如程序A占4M空间，程序B需要6M空间，即使A被释放了，B也无法使用这4M的空间。</p>
+</li>
+<li>
+<p>而在虚拟内存中，首先并不是将程序所需所有数据一次性装载进内存，而是需要什么数据才会装载什么数据。其次，虚拟内存以页为单位(常规4KB)同物理内存最小单位一致，那么就可以减少碎片化的问题，可以给程序分配4KB为单位的非连续的物理空间，但是虚拟内存中却看起来是连续的。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>直接操纵物理内存也很不安全，一旦修改了其他物理内存的数据，可能造成其他程序的崩溃。而虚拟内存可以有验证等权限控制。</p>
+</li>
+<li>
+<p>其他，有待思考</p>
+</li>
+</ul>
+<h4 id="如何分配">如何分配</h4>
+<p>常规32位机器中，可以访问的内存最大为 2^32 = 4G，通常 linux 规定其中3G是用户空间，1G是内核空间。</p>
+<ul>
+<li>
+<p>1G内核空间如何映射全部4G物理内存</p>
+<ul>
+<li>通常，内核空间中有128M的特殊空间称为高端内存，其作用就是去对其他内存空间进行映射。</li>
+<li>剩余的896M空间是线性映射到内核空间去的，也就是说内核中所在的虚拟地址和真实的物理内存地址只是差了一个 Offset，所以内核访问其物理地址速度很快，不需要访问页表。</li>
+<li><code>那么意思是一次最多映射128M？超过了会怎么样？？？还是说这128M是页表空间？？</code></li>
+</ul>
+</li>
+<li>
+<p>虚拟地址4G,真实物理内存只有2G怎么办？</p>
+<p>没看到什么文章详细介绍，如果我使用的内存已经超出2G，猜测是使用 swap 分区来和磁盘进行数据交换，那如果超出了真实内存和 swap 分区的总和呢？又会发生什么？</p>
+</li>
+</ul>
+<h4 id="虚拟内存和物理内存如何转换">虚拟内存和物理内存如何转换</h4>
+<p>内核空间的一部分区域是和真实物理内存进行线性映射的，而用户空间就不一定了，虚拟地址转换为物理地址一般是 <code>MMU</code> 实现，是一个硬件。<br>
+但是，它也要不断访问进程<code>页表</code>才能转义出真实的物理地址。所以出现了 <code>TLB</code>，用来根据程序访问内存的局部性机制来缓存已经转换过的虚拟页与实际页的对应关系，加快速度。</p>
+<ul>
+<li>
+<p>什么是页表</p>
+<ul>
+<li>页表用于<code>存放逻辑页与物理页帧的对应关系</code></li>
+<li>页表的每一个表项分两部分，第一部分记录此页<code>是否在物理内存上</code>，第二部分记录<code>物理内存页的地址</code>（如果在的话）</li>
+<li>当进程访问某个虚拟地址，去看页表，如果发现对应的数据不在物理内存中，则<code>缺页异常</code>，缺页异常的处理过程，就是把进程需要的数据从磁盘上拷贝到物理内存中，如果内存已经满了，没有空地方了，那就找一个页覆盖，当然如果被覆盖的页曾经被修改过，需要将此页写回磁盘。</li>
+</ul>
+</li>
+<li>
+<p>每个进程有自己的页表，页表占用空间过大</p>
+<p>一个页表项大小为4个字节，如果内存有4G，一个页大小为4K，那么就有2^20个页，那么一个进程要占用4MB空间存放自己的页表，显然浪费空间。所以还有多级页表的概念出现。<br>
+因为页表项有一部分记录了此页是否在物理页上，如果不存在，其下一级页表也不会存在，不开辟空间，从而节省了很大空间。</p>
+</li>
+</ul>
+<h4 id="esp和ebp">esp和ebp</h4>
+<ul>
+<li>
+<p>为什么会说到这里？<br>
+主要因为我们讨论虚拟内存的时候说到了64位机器，只用了48位寻址。为什么？<br>
+讨论了一下 感觉是48位虚拟地址空间已经足够大，而且随着虚拟地址空间增大维护的页表也会增大，而且tlb的命中率也会降低所以折中选择了48位吧。</p>
+</li>
+<li>
+<p>为什么会牵扯到 esp 和 ebp<br>
+比如说一个地址存着一个int32的值，那么这个值只有32位，但是存它的地址却是一个比他本身还大的空间，这就是一种浪费。组长是iOS的，它说在iOS里面会直接使用这个值，存上这个32位的值。<br>
+当时，我就觉得很奇怪，我们都知道访问所有的东西都是需要一个地址的。那这个int值没有了自己的地址，怎么找到它呢？</p>
+<p>组长就说了 esp 和 ebp，因为这些变量都是在栈上创建的，其实在我们代码运行时，可以认为有两个指针一直会指向栈空间。当我们定义了一些基本变量的时候，它的大小是定值，那么在代码编译的时候，可以认为每个变量都有相对于栈空间的一个偏移量，通过指针偏移量来访问栈上的所有内容。</p>
+</li>
+<li>
+<p><code>变量创建在栈上一定要初始化</code><br>
+之后我们就引c出了另一个问题，类C的语言，比如基本变量开辟在栈上，一定要初始化。为什么？<br>
+因为栈空间没有人会帮你重置，那么当你在栈上定义了变量没有初始化，这个地址上也许已经存在内容了，那么此时变量的值就是错误的。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/esp%e5%92%8cebp.png"
+        data-srcset="/img/in-post/esp%e5%92%8cebp.png, /img/in-post/esp%e5%92%8cebp.png 1.5x, /img/in-post/esp%e5%92%8cebp.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/esp和ebp.png"
+        title="/img/in-post/esp和ebp.png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c">  <span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;  </span><span class="cp">
+</span><span class="cp"></span>
+  <span class="kt">void</span> <span class="nf">test1</span><span class="p">(){</span>
+      <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mh">0x12345678</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="nf">test2</span><span class="p">(){</span>
+      <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+      <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%2x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+      <span class="n">test1</span><span class="p">();</span>
+      <span class="n">test2</span><span class="p">();</span>
+      <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div><p>这段代码打印出来的是什么？<code>答案是0x12345678</code>。<br>
+因为 test1 执行的时候将一片栈空间修改了，test2 执行的时候重新从之前的位置开始执行，同时也是个 int 类型，读出来的值就是 test1 中的值。</p>
+</li>
+</ul>
+<h3 id="mmap">mmap</h3>
+<p>mmap 官方解释 <code>map files or devices into memory</code></p>
+<p>mmap 会在虚拟内存中开辟一段新的空间，并不会真的分配物理空间，当访问到这段虚拟地址时，根据前面的虚拟内存知识，页表中表示该虚拟地址没有对应的物理地址，则会发生缺页中断，此时才会进行物理内存分配和读取相应内容进物理内存。</p>
+<p>总之，Linux 的一切都是一种懒加载的模式，只有真正用到，才会真的开辟真实空间。</p>
+<h4 id="那么-mmap-有什么作用">那么 mmap 有什么作用？</h4>
+<ul>
+<li>
+<p>读取文件</p>
+<p>mmap 跟常规的 read 有区别，只有一次拷贝过程，效率更高(这里 read 的内容如果在页缓存中应该也差不多吧？)，很多文章分析，并且有详细的函数调用过程。</p>
+</li>
+<li>
+<p>跨进程通信</p>
+<p>mmap 有一种 MAP_SHARED 的 flag，两个进程可以 mmap 同一个文件到自己的进程中，这样就可以通过这一个文件进行通信了。但是一个完善的跨进程通信有很多细节，比如这两个进程如何互相找到对方，数据传输等各种细节。</p>
+</li>
+</ul>
+<h4 id="binder_mmap">binder_mmap</h4>
+<p>android 中的基石 binder，就是用于跨进程通信，是一套完善的IPC机制，并且好像也合并入了新的 Linux 中。</p>
+<p>具体的过程，未完待定~~</p>
+<h3 id="借鉴">借鉴</h3>
+<p><a href="https://github.com/Durant35/durant35.github.io/issues/24">https://github.com/Durant35/durant35.github.io/issues/24</a>
+<a href="https://blog.csdn.net/xungjhj/article/details/70946057">https://blog.csdn.net/xungjhj/article/details/70946057</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2019-05-22</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%9F%BA%E7%A1%80/">基础</a>,&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2019-05-15-Kotlin-%E4%B8%AD%E7%9A%84-lateinit-%E5%92%8C-by-lazy/" class="prev" rel="prev" title="Kotlin(一) lateinit 和 by lazy"><i class="fas fa-angle-left fa-fw"></i>Kotlin(一) lateinit 和 by lazy</a>
+            <a href="/posts/2019-06-14-%E5%88%9D%E8%AF%86-webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/" class="next" rel="next" title="初识 webpack 遇到的坑">初识 webpack 遇到的坑<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2019-05-22T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"虚拟内存和 mmap"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

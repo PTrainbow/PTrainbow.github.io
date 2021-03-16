@@ -1,0 +1,43 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>各种坑 - 标签 - 北邙山之光的 Blog</title>
+        <link>http://PTrain666.github.io/tags/%E5%90%84%E7%A7%8D%E5%9D%91/</link>
+        <description>各种坑 - 标签 - 北邙山之光的 Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 22 Jan 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/%E5%90%84%E7%A7%8D%E5%9D%91/" rel="self" type="application/rss+xml" /><item>
+    <title>GitHub 的 contributions 问题</title>
+    <link>http://PTrain666.github.io/posts/2018-01-22-GitHub-%E7%9A%84-contributions-%E9%97%AE%E9%A2%98/</link>
+    <pubDate>Mon, 22 Jan 2018 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2018-01-22-GitHub-%E7%9A%84-contributions-%E9%97%AE%E9%A2%98/</guid>
+    <description><![CDATA[<p>添加网页统计的时候才注意到一个神奇的事情：<br>
+我不断修改并且提交自己的博客代码，博客成功更新，但是 GitHub 得 contributions 图却没有更新！<br>
+我这强迫症果断受不了，而且这个图一定程度上给我一种自我安慰···如果它一直是空的而不是绿色的，我会很难受···</p>]]></description>
+</item><item>
+    <title>Git Error</title>
+    <link>http://PTrain666.github.io/posts/2017-10-09-error_unlink_old_xxx/</link>
+    <pubDate>Mon, 09 Oct 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-10-09-error_unlink_old_xxx/</guid>
+    <description><![CDATA[关闭掉当前运行的程序和 IDE,重新 stash 和 pull!]]></description>
+</item><item>
+    <title>Android 7.0 抓包问题</title>
+    <link>http://PTrain666.github.io/posts/2017-09-26-Android-7.0-%E6%8A%93%E5%8C%85%E9%97%AE%E9%A2%98/</link>
+    <pubDate>Tue, 26 Sep 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-09-26-Android-7.0-%E6%8A%93%E5%8C%85%E9%97%AE%E9%A2%98/</guid>
+    <description><![CDATA[<h2 id="查不到https请求">查不到https请求</h2>
+<p>今天，整个工程从23直接升级到25，发现本来用于测试的demo抓不到https请求包了，下了个主工程也抓不到</p>
+<p>查了资料，是 android 7.0之后做了一些修改，多了网络安全的配置</p>
+<h2 id="network-security-configuration">Network Security Configuration</h2>
+<p>需要一个xml添加在Manifest中</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span class="nt">&lt;manifest</span> <span class="err">...</span> <span class="nt">&gt;</span>
+    <span class="nt">&lt;application</span> <span class="na">android:networkSecurityConfig=</span><span class="s">&#34;@xml/network_security_config&#34;</span>
+                    <span class="err">...</span> <span class="nt">&gt;</span>
+        ...
+    <span class="nt">&lt;/application&gt;</span>
+<span class="nt">&lt;/manifest&gt;</span>
+</code></pre></div><p>这个 xml 可以配置众多参数</p>
+<p>包括限制 domain，证书锁，证书有效时间各种参数，十分强大！</p>]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>初识 webpack 遇到的坑 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="初识 webpack 遇到的坑" />
+<meta property="og:description" content="概述 最近在搞 weex 工程，然后想要把我们开发的所有 weex 相关的东西集成到一个工程里面，然后可以实现组件的复用，打 bundle 的时候又需要分开编译 简而言之，就是支" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2019-06-14-%E5%88%9D%E8%AF%86-webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-06-14T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-06-14T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="初识 webpack 遇到的坑"/>
+<meta name="twitter:description" content="概述 最近在搞 weex 工程，然后想要把我们开发的所有 weex 相关的东西集成到一个工程里面，然后可以实现组件的复用，打 bundle 的时候又需要分开编译 简而言之，就是支"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2019-06-14-%E5%88%9D%E8%AF%86-webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/" /><link rel="prev" href="http://PTrain666.github.io/posts/2019-05-22-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E5%92%8C-mmap/" /><link rel="next" href="http://PTrain666.github.io/posts/2019-06-23-H5-audio-%E6%A0%87%E7%AD%BE/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "初识 webpack 遇到的坑",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2019-06-14-%E5%88%9D%E8%AF%86-webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91\/"
+        },"genre": "posts","keywords": "JavaScript","wordcount":  686 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/2019-06-14-%E5%88%9D%E8%AF%86-webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91\/","datePublished": "2019-06-14T00:00:00+00:00","dateModified": "2019-06-14T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">初识 webpack 遇到的坑</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-06-14">2019-06-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 686 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#概述">概述</a></li>
+        <li><a href="#前提知识储备">前提知识储备</a></li>
+        <li><a href="#说说我的问题">说说我的问题</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="概述">概述</h3>
+<p>最近在搞 weex 工程，然后想要把我们开发的所有 weex 相关的东西集成到一个工程里面，然后可以实现组件的复用，打 bundle 的时候又需要分开编译</p>
+<p>简而言之，就是支持多个工程分别打包，单个 vue 分别编译</p>
+<p>于是，可怜的我开始了采坑之旅</p>
+<h3 id="前提知识储备">前提知识储备</h3>
+<h4 id="packagejson">package.json</h4>
+<p>这个文件的 scripts 下可以自定义一些命令，比如我的 upload 和 build</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/package_json.jpg"
+        data-srcset="/img/in-post/package_json.jpg, /img/in-post/package_json.jpg 1.5x, /img/in-post/package_json.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/package_json.jpg"
+        title="/img/in-post/package_json.jpg" /></p>
+<p>那么我们在打包的时候就会先执行我们指定的这些 js 文件，然后按照我 js 里面的逻辑来执行一些自定义命令</p>
+<p>具体 webpack 的执行流程，我也不是很清晰，以后遇到再研究</p>
+<h4 id="configs">configs</h4>
+<p>在 wee x中，webpack.config.js 指向多个具体的 config，都在一个 configs 文件夹下</p>
+<p>├── build.js<br>
+├── config.js<br>
+├── helper.js<br>
+├── hotreload.js<br>
+├── logo.png<br>
+├── plugin.js<br>
+├── project.js<br>
+├── utils.js<br>
+├── vue-loader.conf.js<br>
+├── webpack.common.conf.js<br>
+├── webpack.dev.conf.js<br>
+├── webpack.prod.conf.js<br>
+├── webpack.release.conf.js<br>
+└── webpack.test.conf.js</p>
+<p>其中 project.js 和 build.js 是我为了实现具体功能增加的</p>
+<p>这里面的 js 文件也是打包时最重要的文件</p>
+<h3 id="说说我的问题">说说我的问题</h3>
+<p>当我苦逼的终于大概看明白了前面的一些 webpack.xx.conf.js 并着手修改这些文件得到时候，碰到了一个坑爹的问题。</p>
+<p>我通过获取命令行输入的工程名，同时动态创建 js 文件，在 config.js 中 import 进来，从而知道想要编译哪个文件。</p>
+<p><code>npm run build project_name</code> 运行之后，两个工程都能编译成功，没有仔细看，后来发现，两个编译后的 js 居然一样大，而且几乎一模一样，原因就是两个工程没有互相引用，但是打包的时候却都给打进去了，这让我很头疼。</p>
+<h4 id="问题原因">问题原因</h4>
+<p>查了很久无果，最后去问了下前端同学，10s就帮我找到了问题···果然专业的就是不一样</p>
+<p>所有的一切都源于一句话</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="cm">/* global Vue */</span>
+<span class="kr">const</span> <span class="nx">project</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;@/configs/project&#39;</span><span class="p">)</span>
+<span class="cm">/* weex initialized here, please do not move this line */</span>
+<span class="kr">const</span> <span class="p">{</span> <span class="nx">router</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./router&#39;</span><span class="p">)</span>
+
+
+<span class="c1">// 就是这一行
+</span><span class="c1"></span><span class="kr">const</span> <span class="nx">App</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;@/&#39;</span><span class="o">+</span> <span class="nx">project</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;/index.vue&#39;</span><span class="p">)</span>
+
+<span class="cm">/* eslint-disable no-new */</span>
+<span class="k">new</span> <span class="nx">Vue</span><span class="p">(</span><span class="nx">Vue</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span><span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;#root&#39;</span><span class="p">,</span> <span class="nx">router</span><span class="p">},</span> <span class="nx">App</span><span class="p">))</span>
+<span class="c1">// router.push(&#39;/&#39;)
+</span></code></pre></div><p>因为我的 require 语句带了表达式，所以会全部打包，而且这个地方根本不需要表达式，直接写死一切 ok!</p>
+<p>详见<code>带表达式的 require 语句</code><br>
+<a href="https://webpack.docschina.org/guides/dependency-management/">https://webpack.docschina.org/guides/dependency-management/</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2019-06-14</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/JavaScript/">JavaScript</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2019-05-22-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E5%92%8C-mmap/" class="prev" rel="prev" title="虚拟内存和 mmap"><i class="fas fa-angle-left fa-fw"></i>虚拟内存和 mmap</a>
+            <a href="/posts/2019-06-23-H5-audio-%E6%A0%87%E7%AD%BE/" class="next" rel="next" title="H5 audio 标签">H5 audio 标签<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2019-06-14T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"初识 webpack 遇到的坑"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

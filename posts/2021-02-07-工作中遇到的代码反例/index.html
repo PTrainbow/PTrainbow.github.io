@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>工作中遇到的代码反例 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="工作中遇到的代码反例" />
+<meta property="og:description" content="前言 最近一直都是 copy 工程师和 scapegoat 工程师 不过也发现了一些些问题，也用来警示自己以后写代码 尽量 考虑全面(人无完人···) 反例1-下次进入 App，回到" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2021-02-07-%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8F%8D%E4%BE%8B/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-07T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-02-07T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="工作中遇到的代码反例"/>
+<meta name="twitter:description" content="前言 最近一直都是 copy 工程师和 scapegoat 工程师 不过也发现了一些些问题，也用来警示自己以后写代码 尽量 考虑全面(人无完人···) 反例1-下次进入 App，回到"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2021-02-07-%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8F%8D%E4%BE%8B/" /><link rel="prev" href="http://PTrain666.github.io/posts/2021-02-01-Java-%E6%B3%9B%E5%9E%8B%E7%9A%84%E8%A7%81%E8%A7%A3/" /><link rel="next" href="http://PTrain666.github.io/posts/DataBinding-%E8%A7%A3%E8%AF%BB/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "工作中遇到的代码反例",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2021-02-07-%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8F%8D%E4%BE%8B\/"
+        },"genre": "posts","keywords": "Java","wordcount":  1829 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/2021-02-07-%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8F%8D%E4%BE%8B\/","datePublished": "2021-02-07T00:00:00+00:00","dateModified": "2021-02-07T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">工作中遇到的代码反例</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-02-07">2021-02-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1829 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#反例1-下次进入-app回到上次退出的页面">反例1-下次进入 App，回到上次退出的页面</a>
+      <ul>
+        <li><a href="#如何修改">如何修改</a></li>
+        <li><a href="#吸取经验">吸取经验</a></li>
+      </ul>
+    </li>
+    <li><a href="#反例2-tab-颜色渐变">反例2-tab 颜色渐变</a>
+      <ul>
+        <li><a href="#不合理的点">不合理的点</a></li>
+        <li><a href="#修改">修改</a></li>
+      </ul>
+    </li>
+    <li><a href="#吸取经验-1">吸取经验</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="前言">前言</h2>
+<p>最近一直都是 copy 工程师和 scapegoat 工程师</p>
+<p>不过也发现了一些些问题，也用来警示自己以后写代码 <code>尽量</code> 考虑全面(人无完人···)</p>
+<h2 id="反例1-下次进入-app回到上次退出的页面">反例1-下次进入 App，回到上次退出的页面</h2>
+<p>如下图</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/tab-example.jpg"
+        data-srcset="/img/in-post/tab-example.jpg, /img/in-post/tab-example.jpg 1.5x, /img/in-post/tab-example.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/tab-example.jpg"
+        title="/img/in-post/tab-example.jpg" /></p>
+<p>类似知乎App的场景，顶部有一排 tab，每次记录选中的是哪一个 tab，下次进入时展示上次退出时的 tab。</p>
+<p>原本的代码中是这样实现的(伪代码)</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 监听 ViewPager 回调
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageSelected</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 1.拿当前 fragment
+</span><span class="c1"></span>    <span class="n">fragment</span> <span class="o">=</span> <span class="n">getCurFragment</span><span class="o">();</span>
+    <span class="c1">// 2.通过 fragment 拿 channel
+</span><span class="c1"></span>    <span class="n">channel</span> <span class="o">=</span> <span class="n">getChannel</span><span class="o">(</span><span class="n">Fragment</span><span class="o">);</span>
+    <span class="c1">// 3.保存 channel(int值)
+</span><span class="c1"></span>    <span class="n">savePage</span><span class="o">(</span><span class="n">channel</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">getChannel</span><span class="o">(</span><span class="n">Fragment</span> <span class="n">fragment</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">if</span> <span class="o">(</span><span class="n">fragment</span> <span class="k">instanceof</span> <span class="n">FragmentA</span><span class="o">)</span> <span class="o">{</span>
+       <span class="k">return</span> <span class="n">1</span><span class="o">;</span>
+   <span class="o">}</span>
+   <span class="c1">// ···各个 tab
+</span><span class="c1"></span><span class="o">}</span>
+</code></pre></div><p>到这里也还好，但是当初始化的时候逻辑就很奇怪了</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onViewCreated</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 1.获取之前保存在本地的 channel
+</span><span class="c1"></span>    <span class="n">channel</span> <span class="o">=</span> <span class="n">getChannel</span><span class="o">();</span>
+    <span class="c1">// 2.通过 channel 获取 position（我第一次看的时候是懵逼的，凭啥？）
+</span><span class="c1"></span>    <span class="n">position</span> <span class="o">=</span> <span class="n">getPosition</span><span class="o">(</span><span class="n">channel</span><span class="o">);</span>
+    <span class="n">setInitTabPosition</span><span class="o">(</span><span class="n">position</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getPosition</span><span class="o">(</span><span class="kt">int</span> <span class="n">channel</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 只为了表示 channel 和 position 有映射关系
+</span><span class="c1"></span>    <span class="k">switch</span><span class="o">(</span><span class="n">channel</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="n">5</span><span class="o">:</span>
+            <span class="k">return</span> <span class="n">0</span><span class="o">;</span>
+        <span class="k">case</span> <span class="n">7</span><span class="o">:</span>
+            <span class="k">return</span> <span class="n">1</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>这段代码就是想从本地取之前存好的 channel(也就是代表哪个 Fragment)，然后通过 channel 和 position 的映射关系拿到 position，传给 ViewPager 从而让此 Fragment 对应的 tab 变为选中状态。</p>
+<p>但是，这段代码完全没有考虑我这个后来者。如果 Fragment 的顺序永远固定，那么也就算了，但是显然是不可能的···</p>
+<p>所以，一旦 Fragment 的数量或者位置可以主动变化，那么这段代码就没法维护了，全部乱套。</p>
+<p>拿上面的知乎为例，假设我停在了 <code>热榜</code> 页面，此时我退出了 app，存储 channel = 热榜，channel 和 position 的映射关系为 <code>channel = 热榜 &amp; position = 2</code>。这时候我又进入了 app，如果 tab 是动态下发的，那么热榜前面可能多了两个 tab，此时顺序完全错乱。又或者我处于登录状态，然后退出登录，<code>可能</code> 会有一些 tab 需要隐藏，此时顺序也可能会错乱。</p>
+<p>而我做的新需求，恰巧就是会有 tab 变化的(不然我也不会发现这个问题)。当我添加一个 tab 后全部错乱了时，我只能坐在电脑前凌乱···</p>
+<h3 id="如何修改">如何修改</h3>
+<p>修改的办法也很简单，就是不存储 position 的映射关系，存储任意一个恒定不变的关系，比如 tab 的 id 或者 类型 或者 其他自定义的东西，反正就是一个 key。</p>
+<p>而 position 怎么获取呢？ 就通过遍历 tab 或者 adapter(看你怎么封装了，都放进 adapter 好一些吧)，比较 key 是否相等，返回 position。</p>
+<p>这样，无论 tab 如何变化，adapter 中的数据也一定会跟着变化，拿着 key 永远找不错。如果找不到这个 key，那只能说明数据变化后，这个 tab 被删除了，那你就得自己看业务需求让你展示哪个页面，再写一段兜底逻辑。</p>
+<h3 id="吸取经验">吸取经验</h3>
+<p>映射关系 key 的选取要考虑全面，任何情况下都不能变动，否则这个映射关系肯定存在问题。</p>
+<h2 id="反例2-tab-颜色渐变">反例2-tab 颜色渐变</h2>
+<p>还是拿知乎 app 来举例，假设顶部 tab 中有两个 tab 的文字颜色跟其他 tab 不一致，并且滑动的时候还想渐变到对应的颜色，怎么做呢？</p>
+<p>这也恰巧就是我的需求，我要新增一个 tab，tab 文字颜色和其余 tab 不一致。</p>
+<p>当我辛辛苦苦找到处理 tab 文字颜色的代码时，我是崩溃的</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 以下为伪代码
+</span><span class="c1"></span><span class="n">colors</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]</span> <span class="o">{</span>
+    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color1</span><span class="o">),</span>
+    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color2</span><span class="o">),</span>
+    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color3</span><span class="o">),</span>
+    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color4</span><span class="o">),</span>
+    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color5</span><span class="o">)}</span>
+
+ <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageScrolled</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="kt">float</span> <span class="n">progress</span><span class="o">,</span> <span class="kt">int</span> <span class="n">positionOffsetPixels</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">tabCount</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Tab</span> <span class="n">tab</span> <span class="o">=</span> <span class="n">getTabAtIndex</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">position</span> <span class="o">==</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 一坨
+</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">()</span> <span class="o">{</span>
+            <span class="c1">// 一坨
+</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">position</span> <span class="o">==</span> <span class="n">count</span> <span class="o">-</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 一坨
+</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// 一坨
+</span><span class="c1"></span>        <span class="o">}</span>
+    <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div><p>一开始我没有细看代码，我本着快速做完需求的想法，想着删删改改来完成需求。结果这段代码看的着实头疼，虽然有很多注释，但是不找原作者感觉很难理解了···而且我改了前面后面错，改了后面前面错。</p>
+<p>最后我看到了 <code>position == count - 1</code> 这种判断，我决定不使用这段代码。因为这定是为了一种特殊情况(最后一个 tab)做的逻辑，必然不可能用普适性。</p>
+<h3 id="不合理的点">不合理的点</h3>
+<ol>
+<li>
+<p>color 资源没和 tab 绑定<br>
+tab 的字体颜色，应该是构造函数的参数更好一些，如果参数太多了就用构造器模式呗。目前是五种颜色，假设以后越来越多，这数组还得了嘛···而且 setColor 的时候都是 colors[0]、 colors[1] 这种代码，写着不晕？</p>
+</li>
+<li>
+<p>特殊逻辑 <code>position == count - 1</code><br>
+既然是 tab 颜色变化，应该是个基础功能，而不应该有什么特殊的逻辑判断</p>
+</li>
+</ol>
+<h3 id="修改">修改</h3>
+<ol>
+<li>
+<p>tab 构造函数传入一个 int[] 数组来表示各种颜色。<br>
+一个 tab 目前可以多有3个颜色。为啥？首先是选中状态的颜色，其次是未选中状态时，Fragment 的背景可能是黑色可能是白色，对应有两种未选中状态的颜色。取颜色时，通过 tab.getTabTextColor 取到数组，通过定义常量，比如 SELECTED_COLOR = 0，来表示 color 数组的第一个元素是选中态的颜色。</p>
+<p>于是代码变化为：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"> <span class="c1">// 原始写法：
+</span><span class="c1"></span> <span class="kt">int</span> <span class="n">colors</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="n">color0</span><span class="o">,</span> <span class="n">color1</span><span class="o">}</span>
+ <span class="n">setTextColor</span><span class="o">(</span><span class="n">colors</span><span class="o">[</span><span class="n">0</span><span class="o">],</span> <span class="n">colors</span><span class="o">[</span><span class="n">1</span><span class="o">],</span> <span class="n">progress</span><span class="o">)</span>
+
+ <span class="c1">// 修改后的写法： 
+</span><span class="c1"></span> <span class="kt">int</span><span class="o">[]</span> <span class="n">colors</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="na">getTextColors</span><span class="o">();</span>  
+ <span class="n">setTextColor</span><span class="o">(</span><span class="n">colors</span><span class="o">[</span><span class="n">SELECTED_COLOR</span><span class="o">],</span> <span class="n">colors</span><span class="o">[</span><span class="n">UNSELECTED_COLOR</span><span class="o">],</span> <span class="n">progress</span><span class="o">)</span>
+</code></pre></div><p>我个人认为还是比上面的要好懂很多的。</p>
+</li>
+<li>
+<p>改掉特殊逻辑<br>
+这块就是纯粹的写逻辑了，我感觉之前的人可能就是没太理清楚逻辑(或者确实需求如此)，导致存在一个特殊判断。</p>
+</li>
+</ol>
+<h2 id="吸取经验-1">吸取经验</h2>
+<ol>
+<li>
+<p>常量最好是定义一个有意义的名字</p>
+</li>
+<li>
+<p>考虑好一些变量的范围，该放到哪里比较通用、比较好</p>
+</li>
+<li>
+<p>通用组件越通用越好，特殊逻辑应该搞个接口之类的抛给外面</p>
+</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-02-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Java/">Java</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2021-02-01-Java-%E6%B3%9B%E5%9E%8B%E7%9A%84%E8%A7%81%E8%A7%A3/" class="prev" rel="prev" title="Java 泛型的见解"><i class="fas fa-angle-left fa-fw"></i>Java 泛型的见解</a>
+            <a href="/posts/DataBinding-%E8%A7%A3%E8%AF%BB/" class="next" rel="next" title="DataBinding 解读">DataBinding 解读<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-02-07T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"工作中遇到的代码反例"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

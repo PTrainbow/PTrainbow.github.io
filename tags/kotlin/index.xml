@@ -1,0 +1,36 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>kotlin - 标签 - 北邙山之光的 Blog</title>
+        <link>http://PTrain666.github.io/tags/kotlin/</link>
+        <description>kotlin - 标签 - 北邙山之光的 Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 24 Jan 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/kotlin/" rel="self" type="application/rss+xml" /><item>
+    <title>Kotlin Coroutines VS Goroutines</title>
+    <link>http://PTrain666.github.io/posts/2021-01-24-Kotlin-Coroutines-VS-Goroutines/</link>
+    <pubDate>Sun, 24 Jan 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2021-01-24-Kotlin-Coroutines-VS-Goroutines/</guid>
+    <description><![CDATA[前言 最近一直在看 Kotlin 协程，因为以前也写过 Golang，所以试着去对比了一下，发现了很多好玩的事情。 两种协程的比较 一个 Kotlin 的小例子 试问下面一段代码]]></description>
+</item><item>
+    <title>Kotlin Scope Function</title>
+    <link>http://PTrain666.github.io/posts/2021-01-22-Kotlin-Scope-Function/</link>
+    <pubDate>Fri, 22 Jan 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2021-01-22-Kotlin-Scope-Function/</guid>
+    <description><![CDATA[前言 经常看公司里的人写的一些基础库(基于 Kotlin)看不太懂，总有各种关键字和函数，不知道他们是在刻意用还是咋地，所以学一波，就从出现次数]]></description>
+</item><item>
+    <title>半天入门了下 kotlin</title>
+    <link>http://PTrain666.github.io/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/</link>
+    <pubDate>Thu, 24 Dec 2020 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/</guid>
+    <description><![CDATA[最近好多人都在用 kotlin 了，我真实接触并且使用 kotlin 的时候是 2019 年。那个时候也依葫芦画瓢写了一篇《lateinit 和 by lazy 》的文章 但是，当时写代码还是停留]]></description>
+</item><item>
+    <title>Kotlin(一) lateinit 和 by lazy</title>
+    <link>http://PTrain666.github.io/posts/2019-05-15-Kotlin-%E4%B8%AD%E7%9A%84-lateinit-%E5%92%8C-by-lazy/</link>
+    <pubDate>Wed, 15 May 2019 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2019-05-15-Kotlin-%E4%B8%AD%E7%9A%84-lateinit-%E5%92%8C-by-lazy/</guid>
+    <description><![CDATA[<p>再不学 kotlin，google 的 sample 都看不懂了···<br>
+但是对于一些 kotlin 的关键字和写法理解不够深刻，自己基础不够扎实，需要研究一下！</p>]]></description>
+</item></channel>
+</rss>

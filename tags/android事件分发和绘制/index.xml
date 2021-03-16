@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Android事件分发和绘制 - 标签 - 北邙山之光的 Blog</title>
+        <link>http://PTrain666.github.io/tags/Android%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E5%92%8C%E7%BB%98%E5%88%B6/</link>
+        <description>Android事件分发和绘制 - 标签 - 北邙山之光的 Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 11 Sep 2017 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E5%92%8C%E7%BB%98%E5%88%B6/" rel="self" type="application/rss+xml" /><item>
+    <title>事件分发的小细节</title>
+    <link>http://PTrain666.github.io/posts/2017-09-11-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E7%9A%84%E5%B0%8F%E7%BB%86%E8%8A%82/</link>
+    <pubDate>Mon, 11 Sep 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-09-11-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E7%9A%84%E5%B0%8F%E7%BB%86%E8%8A%82/</guid>
+    <description><![CDATA[<h2 id="前提">前提</h2>
+<p>说到事件分发机制，就是三个方法，dispatchTouchEvent、onInterceptTouchEvent、onTouchEvent</p>
+<p>其中 onInterceptTouchEven t只有 ViewGroup 拥有。</p>
+<p>这三者关系其实复杂又清晰</p>
+<p>清晰是因为分工明确，围绕 dispatchTouchEvent 来操作，具体可以去看 dispatchTouchEvent 的源码。在其源码中，分别直接或者间接调用了 onInterceptTouchEvent 和 onTouchEvent 方法。而且这两个方法目的明确，一个负责是否拦截，一个负责处理具体事件。</p>
+<p>复杂是因为其中的逻辑十分复杂，比如 down 事件就是一个很特殊的情况，要重置状态等等。再比如，intercept 具体怎么处理的，mFirstTouchTarget 的选取，null 和 !null 怎么处理的等等。</p>
+<p>总之，我还有一些困惑的地方没有解开···希望哪天解开了，就再来更新一波。</p>
+<h2 id="误区">误区</h2>
+<p>onTouchEvent 返回了 false 给人一种什么都没做的感觉，然而其实只要走到了 onTouchEvent 中，事件都会走进我们所写的 switch-case 中，然后执行我们的代码，之后即使返回了 false，但是我们的代码是执行了的。</p>
+<p>返回 false 的意义在于表明它不接受这个事件，不想管后面的后续事件，也不是要找的那个 target。</p>]]></description>
+</item></channel>
+</rss>

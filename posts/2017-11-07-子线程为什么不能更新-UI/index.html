@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>子线程为什么不能更新UI - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="子线程为什么不能更新UI" />
+<meta property="og:description" content="Android 子线程去更新 UI 一般会抛出异常，  &ldquo;Only the original thread that created a view hierarchy can touch its views.&rdquo;
+UI 更新最终会调用到 ViewrootImpl.invalidateChildInParent 方法中
+public ViewParent invalidateChildInParent(int[] location, Rect dirty) {
+       checkThread();
+       ············
+   }
+checkThread 会检查 ViewRootImpl 的 mThread 变量是不是 Thread.currentThread。从而抛出了异常" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2017-11-07-%E5%AD%90%E7%BA%BF%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0-UI/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-11-07T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2017-11-07T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="子线程为什么不能更新UI"/>
+<meta name="twitter:description" content="Android 子线程去更新 UI 一般会抛出异常，  &ldquo;Only the original thread that created a view hierarchy can touch its views.&rdquo;
+UI 更新最终会调用到 ViewrootImpl.invalidateChildInParent 方法中
+public ViewParent invalidateChildInParent(int[] location, Rect dirty) {
+       checkThread();
+       ············
+   }
+checkThread 会检查 ViewRootImpl 的 mThread 变量是不是 Thread.currentThread。从而抛出了异常"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://PTrain666.github.io/posts/2017-11-07-%E5%AD%90%E7%BA%BF%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0-UI/" /><link rel="prev" href="http://PTrain666.github.io/posts/2017-11-06-%E7%A9%B6%E7%AB%9F%E4%BB%80%E4%B9%88%E6%89%8D%E6%98%AF%E6%8A%80%E6%9C%AF%E5%A5%BD/" /><link rel="next" href="http://PTrain666.github.io/posts/2017-11-10-View-%E7%9A%84-inflate/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "子线程为什么不能更新UI",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2017-11-07-%E5%AD%90%E7%BA%BF%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0-UI\/"
+        },"genre": "posts","keywords": "Android","wordcount":  1972 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/2017-11-07-%E5%AD%90%E7%BA%BF%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E6%9B%B4%E6%96%B0-UI\/","datePublished": "2017-11-07T00:00:00+00:00","dateModified": "2017-11-07T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">子线程为什么不能更新UI</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-11-07">2017-11-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1972 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
+                <i class="far fa-eye fa-fw"></i>&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>次阅读</span>&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#能不能子线程更新ui">能不能子线程更新UI?</a></li>
+    <li><a href="#分析一下-window-的创建">分析一下 window 的创建</a></li>
+    <li><a href="#activity-的-oncreate-何时执行呢">Activity 的 onCreate 何时执行呢？</a></li>
+    <li><a href="#viewrootimpl-什么时候创建的">ViewRootImpl 什么时候创建的？</a></li>
+    <li><a href="#所以呢">所以呢</a></li>
+    <li><a href="#问题">问题</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Android 子线程去更新 UI 一般会抛出异常，  &ldquo;Only the original thread that created a view hierarchy can touch its views.&rdquo;</p>
+<p>UI 更新最终会调用到 ViewrootImpl.invalidateChildInParent 方法中</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">ViewParent</span> <span class="nf">invalidateChildInParent</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">location</span><span class="o">,</span> <span class="n">Rect</span> <span class="n">dirty</span><span class="o">)</span> <span class="o">{</span>
+       <span class="n">checkThread</span><span class="o">();</span>
+       <span class="err">············</span>
+   <span class="o">}</span>
+</code></pre></div><p>checkThread 会检查 ViewRootImpl 的 mThread 变量是不是 Thread.currentThread。从而抛出了异常</p>
+<h2 id="能不能子线程更新ui">能不能子线程更新UI?</h2>
+<p>经过上面的分析，只要我们的 ViewRootImpl 的 mThread == Thread.mcurrentThread 就不会抛出异常。</p>
+<p>但是 ViewRootImpl 的创建是在哪里呢？</p>
+<p>WindowManagerGlobal</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addView</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="n">ViewGroup</span><span class="o">.</span><span class="na">LayoutParams</span> <span class="n">params</span><span class="o">,</span>
+            <span class="n">Display</span> <span class="n">display</span><span class="o">,</span> <span class="n">Window</span> <span class="n">parentWindow</span><span class="o">)</span> <span class="o">{</span>
+
+              <span class="err">··················</span>
+
+                <span class="n">root</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ViewRootImpl</span><span class="o">(</span><span class="n">view</span><span class="o">.</span><span class="na">getContext</span><span class="o">(),</span> <span class="n">display</span><span class="o">);</span>
+
+            <span class="o">}</span>
+</code></pre></div><p>ViewRootImpl构造函数</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nf">ViewRootImpl</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Display</span> <span class="n">display</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mContext</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
+        <span class="n">mWindowSession</span> <span class="o">=</span> <span class="n">WindowManagerGlobal</span><span class="o">.</span><span class="na">getWindowSession</span><span class="o">();</span>
+        <span class="n">mDisplay</span> <span class="o">=</span> <span class="n">display</span><span class="o">;</span>
+        <span class="n">mBasePackageName</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getBasePackageName</span><span class="o">();</span>
+        <span class="n">mThread</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">();</span>
+        <span class="err">····························</span>
+      <span class="o">}</span>
+</code></pre></div><p>所以，ViewRootImpl 是在 WindowManager.addView 的时候创建的 ViewRootImpl，而且构造的时候 mThread 赋值为当前线程的值，这个值其实就是主线程。像很多博客上写的反例一样，我们可以在子线程中通过 WindowManager 调用 addView 的方式，来创建 ViewRootImpl 此时其 mThread 值就是子线程的值，那么就不会抛出异常。</p>
+<h2 id="分析一下-window-的创建">分析一下 window 的创建</h2>
+<p>Activity 启动的时候，会在 app 进程和 system_server 进程中通信，后续部分都是在主线程中执行的，通过一个 mH 这个 handler。一切都在 ActivityThread 这个类中，有详细的调度过程</p>
+<p>因为 ViewRootImpl 通过 windowManager 的 addView 创建的，而 WindowManager 是在 window 创建的时候关联的，所以要知道 window 是在什么时候创建的？
+这个其实是在 Activity 的 perforLauncherActivity 执行的,而这个方法本身是通过 handler 接受到相应的消息之后，一个超长的 switch-case 执行的！</p>
+<p>那么 ActivityThread 为什么会收到这个 Message 呢？
+是通过AMS进程跨进程调用到 ActivityThread 中了,然后通过调用 scheduleLaunchActivty 方法里面有个 sendMessage，转到 Handler 中</p>
+<p>那么如何跨进程调用过来的？
+这个是基于 Binder 机制的，ActivityThread 中有个 ApplicationThread 内部类，这个其实是个 Binder 对象，ApplicationThread extends ApplicationThreadNative extends Binder,AMS持有这个 Binder 的 Proxy，反调过来的。</p>
+<p>整理一下：</p>
+<p>AMS通过ApplicationThreadProxy&ndash;&gt;ActivityThread的scheduleLaunchActivity&ndash;&gt;sendMessage(H.LAUNCH_ACTIVITY, r)&ndash;&gt;H这个Handler的handleMessage&ndash;&gt;ActivityThread.handleLaunchActivity&ndash;&gt;ActivityThread.performLaunchActivity</p>
+<p>到performLaunchActivity这个地方window就创建了，这个方法执行了Activity的attach方法。</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">Activity</span> <span class="nf">performLaunchActivity</span><span class="o">(</span><span class="n">ActivityClientRecord</span> <span class="n">r</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">customIntent</span><span class="o">)</span> <span class="o">{</span>
+  <span class="err">······</span>
+  <span class="n">activity</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="n">appContext</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="n">getInstrumentation</span><span class="o">(),</span> <span class="n">r</span><span class="o">.</span><span class="na">token</span><span class="o">,</span>
+                     <span class="n">r</span><span class="o">.</span><span class="na">ident</span><span class="o">,</span> <span class="n">app</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">intent</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">activityInfo</span><span class="o">,</span> <span class="n">title</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">parent</span><span class="o">,</span>
+                     <span class="n">r</span><span class="o">.</span><span class="na">embeddedID</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">lastNonConfigurationInstances</span><span class="o">,</span> <span class="n">config</span><span class="o">,</span>
+                     <span class="n">r</span><span class="o">.</span><span class="na">referrer</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">voiceInteractor</span><span class="o">,</span> <span class="n">window</span><span class="o">);</span>
+  <span class="err">······</span>
+            <span class="c1">//onCreate
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">isPersistable</span><span class="o">())</span> <span class="o">{</span>
+                 <span class="n">mInstrumentation</span><span class="o">.</span><span class="na">callActivityOnCreate</span><span class="o">(</span><span class="n">activity</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">state</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">persistentState</span><span class="o">);</span>
+             <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                 <span class="n">mInstrumentation</span><span class="o">.</span><span class="na">callActivityOnCreate</span><span class="o">(</span><span class="n">activity</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">state</span><span class="o">);</span>
+             <span class="o">}</span>
+             <span class="k">if</span> <span class="o">(!</span><span class="n">activity</span><span class="o">.</span><span class="na">mCalled</span><span class="o">)</span> <span class="o">{</span>
+                 <span class="k">throw</span> <span class="k">new</span> <span class="n">SuperNotCalledException</span><span class="o">(</span>
+                     <span class="s">&#34;Activity &#34;</span> <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="na">intent</span><span class="o">.</span><span class="na">getComponent</span><span class="o">().</span><span class="na">toShortString</span><span class="o">()</span> <span class="o">+</span>
+                     <span class="s">&#34; did not call through to super.onCreate()&#34;</span><span class="o">);</span>
+             <span class="o">}</span>
+             <span class="n">r</span><span class="o">.</span><span class="na">activity</span> <span class="o">=</span> <span class="n">activity</span><span class="o">;</span>
+             <span class="n">r</span><span class="o">.</span><span class="na">stopped</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+             <span class="k">if</span> <span class="o">(!</span><span class="n">r</span><span class="o">.</span><span class="na">activity</span><span class="o">.</span><span class="na">mFinished</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">//onstart
+</span><span class="c1"></span>                 <span class="n">activity</span><span class="o">.</span><span class="na">performStart</span><span class="o">();</span>
+                 <span class="n">r</span><span class="o">.</span><span class="na">stopped</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+             <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>Activity 的 attach方法</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">mWindow</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PhoneWindow</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">window</span><span class="o">);</span>
+<span class="n">mWindow</span><span class="o">.</span><span class="na">setWindowControllerCallback</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="n">mWindow</span><span class="o">.</span><span class="na">setCallback</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</code></pre></div><p>所以在 Activity 的 onCreate 之前，window 已经创建，并且 callback 是 Activity 本身，onCreate 之后调用我们自己 MainActivit y的 setContentView 这些，DecorView 出现。</p>
+<h2 id="activity-的-oncreate-何时执行呢">Activity 的 onCreate 何时执行呢？</h2>
+<p>其实也是在 performLaunchActivity 中，attach 之后,见上面的代码中注释，会有 callActivityonCreate &ndash;&gt; activity.performCreate &ndash;&gt; activity.oncreate</p>
+<h2 id="viewrootimpl-什么时候创建的">ViewRootImpl 什么时候创建的？</h2>
+<p>这个是 handleLaunchActivity 中的相关 resume 生命周期的时候 WindowManager 去 addview 时创建的。</p>
+<p>handleLaunchActivity 中，先是调用了 performLaunchActivity，后面调用了 handleResumeActivity，这个方法中调用了 performResumeActivity 这里回调 activity 的 onresume，后面才调用到 addView 方法。</p>
+<h2 id="所以呢">所以呢</h2>
+<p>所以其实在 onResume 完成之前都可以子线程更新 UI 的。
+或者就重新创建 ViewRootImpl</p>
+<h2 id="问题">问题</h2>
+<ul>
+<li>View 怎么一步步调用到 ViewRootImpl 中的？看了一些调用栈，了解个大概流程，不懂代码意思
+这个问题可以初步解答了！
+比如 setText 方法调用之后，checkForRelayout -&gt; requestLayout() 和i nvalidate()
+这里，如果是 ViewRootImpl 还没产生的话，那么 requestLayout() 中不会走进 ViewRootImpl 那个 if，而是会走 mPrivateFlags，改变它的值</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">requestLayout</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mMeasureCache</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="n">mMeasureCache</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">mAttachInfo</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mAttachInfo</span><span class="o">.</span><span class="na">mViewRequestingLayout</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// Only trigger request-during-layout logic if this is the view requesting it,
+</span><span class="c1"></span>            <span class="c1">// not the views in its parent hierarchy
+</span><span class="c1"></span>            <span class="n">ViewRootImpl</span> <span class="n">viewRoot</span> <span class="o">=</span> <span class="n">getViewRootImpl</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">viewRoot</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">viewRoot</span><span class="o">.</span><span class="na">isInLayout</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(!</span><span class="n">viewRoot</span><span class="o">.</span><span class="na">requestLayoutDuringLayout</span><span class="o">(</span><span class="k">this</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">return</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">mAttachInfo</span><span class="o">.</span><span class="na">mViewRequestingLayout</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="n">mPrivateFlags</span> <span class="o">|=</span> <span class="n">PFLAG_FORCE_LAYOUT</span><span class="o">;</span>
+        <span class="n">mPrivateFlags</span> <span class="o">|=</span> <span class="n">PFLAG_INVALIDATED</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">mParent</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">mParent</span><span class="o">.</span><span class="na">isLayoutRequested</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">mParent</span><span class="o">.</span><span class="na">requestLayout</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mAttachInfo</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mAttachInfo</span><span class="o">.</span><span class="na">mViewRequestingLayout</span> <span class="o">==</span> <span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mAttachInfo</span><span class="o">.</span><span class="na">mViewRequestingLayout</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div><p>其中的 mAttachInfo 似乎存储了一些关键的东西，有待进一步研究。而如果 ViewRootImpl 存在直接 return 了。
+在之后的 invalidate 中</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="k">if</span> <span class="o">((</span><span class="n">mPrivateFlags</span> <span class="o">&amp;</span> <span class="o">(</span><span class="n">PFLAG_DRAWN</span> <span class="o">|</span> <span class="n">PFLAG_HAS_BOUNDS</span><span class="o">))</span> <span class="o">==</span> <span class="o">(</span><span class="n">PFLAG_DRAWN</span> <span class="o">|</span> <span class="n">PFLAG_HAS_BOUNDS</span><span class="o">)</span>
+               <span class="o">||</span> <span class="o">(</span><span class="n">invalidateCache</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">mPrivateFlags</span> <span class="o">&amp;</span> <span class="n">PFLAG_DRAWING_CACHE_VALID</span><span class="o">)</span> <span class="o">==</span> <span class="n">PFLAG_DRAWING_CACHE_VALID</span><span class="o">)</span>
+               <span class="o">||</span> <span class="o">(</span><span class="n">mPrivateFlags</span> <span class="o">&amp;</span> <span class="n">PFLAG_INVALIDATED</span><span class="o">)</span> <span class="o">!=</span> <span class="n">PFLAG_INVALIDATED</span>
+               <span class="o">||</span> <span class="o">(</span><span class="n">fullInvalidate</span> <span class="o">&amp;&amp;</span> <span class="n">isOpaque</span><span class="o">()</span> <span class="o">!=</span> <span class="n">mLastIsOpaque</span><span class="o">))</span> <span class="o">{</span>
+               <span class="o">}</span>
+</code></pre></div><p>也有这么一个超级大的 if 和 mPrivateFlags 相关，相信会受到之前的 requestLayout 影响。如果 ViewRootImpl 不存在就走不进 if 中去把？(需要进一步看一下)</p>
+<p>这个 mPrivateFlags 是 View 的属性，有好几个值，代表了是否要 request 啊，draw 啊之类的。当我们 ViewRootImpl 还没有创建的时候，这个 View 的 Flag 的相关的位会改变，要求 forcelayout 或者 invalidate。</p>
+<p>当 resume 的时候，ViewRootImpl 创建了之后，会调用 ViewRootImpl 的整个绘制流程，这个时候会用上这个 flag 的值</p>
+<p>但是我又多了一个问题！
+在 ViewRootImpl 没有创建的时候，我们一打开 Activity 的时候，是有画面的，包括 actionbar 和一个空白的界面。这些是谁来 draw 的呢？</p>
+<p>如果 ViewRootImpl 存在，就是正常流程，如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/ViewRootImpl.png"
+        data-srcset="/img/in-post/ViewRootImpl.png, /img/in-post/ViewRootImpl.png 1.5x, /img/in-post/ViewRootImpl.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/ViewRootImpl.png"
+        title="/img/in-post/ViewRootImpl.png" /></p>
+<ul>
+<li>WindowManager 调用 addView 涉及很多参数···需要研究一下，比如做一个悬浮窗~~</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">WindowManager</span> <span class="n">windowManager</span> <span class="o">=</span> <span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">getWindowManager</span><span class="o">();</span>
+                        <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">(</span>
+                                <span class="n">200</span><span class="o">,</span> <span class="n">200</span><span class="o">,</span> <span class="n">200</span><span class="o">,</span> <span class="n">200</span><span class="o">,</span> <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">.</span><span class="na">FIRST_SUB_WINDOW</span><span class="o">,</span>
+                                <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">.</span><span class="na">TYPE_WALLPAPER</span><span class="o">,</span> <span class="n">PixelFormat</span><span class="o">.</span><span class="na">RGBA_8888</span><span class="o">);</span>
+                        <span class="n">windowManager</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">tx</span><span class="o">,</span> <span class="n">params</span><span class="o">);</span>
+</code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2017-11-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2017-11-06-%E7%A9%B6%E7%AB%9F%E4%BB%80%E4%B9%88%E6%89%8D%E6%98%AF%E6%8A%80%E6%9C%AF%E5%A5%BD/" class="prev" rel="prev" title="究竟什么才是技术好？"><i class="fas fa-angle-left fa-fw"></i>究竟什么才是技术好？</a>
+            <a href="/posts/2017-11-10-View-%E7%9A%84-inflate/" class="next" rel="next" title="View 的 inflate">View 的 inflate<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2017-11-07T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"子线程为什么不能更新UI"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></body>
+</html>

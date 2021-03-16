@@ -1,0 +1,1079 @@
+[
+    {
+        "layout": "posts",
+        "uri": "/about",
+        "content": "2021 2021                                                                                                                                      80                    Leader              ppt                                                                                                                                                                                                                                                                     JsCore                                          App                 C C             ART 2020 2020                         Mobile AI                                                                                          Android Framework     Linux Kernel                                                      3    Google                                                       2018 2020   Android                    Go JS       Python                                                                                                                        read fucking source code     read     fuck                       Java              Gityuan           ART",
+        "objectID": "about",
+        "date": "2021-02-03",
+        "author": "北邙山之光",
+        "title": "我的离奇人生"
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-08-29-全屏-Dialog",
+        "content": "Dialog                                                     Dialog       style         window                                                                       NoTitle    windowBackgroud        title               title                                     Dialog         drawable              getdialog decorview padding     38                   windowBackgroud      null          0                        getDecorView   setpadding              windowbackgroud                                          bottomDialog   new Dialog this R style style_dialog     false             true       bottomDialog setCanceledOnTouchOutside false           bottomDialog setCancelable false           dialog     View contentView   LayoutInflater from this  inflate R layout dialogcontentnormal  null   bottomDialog setContentView contentView         decorview padding       bottomDialog getWindow   getDecorView   setPadding 0  0  0  0       dialog           ViewGroup LayoutParams layoutParams   contentView getLayoutParams    layoutParams width         contentView setLayoutParams layoutParams      Dialog                   bottomDialog getWindow   setGravity Gravity BOTTOM       window      bottomDialog getWindow   setWindowAnimations R style BottomDialog_Animation   dialog style  color white true true  null dialog window         anim tranlatedialogin  anim tranlatedialogout translatedialogin xml",
+        "objectID": "posts/2017-08-29-全屏-Dialog",
+        "title": "全屏宽的 Dialog",
+        "date": "2017-08-29",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-08-29-beginDelayTransition-的一些见解",
+        "content": "Transition                                            bug                                 RecyclerView                 crash            GitHub         DropDownView       beginDelayedTransition           dropdown                                  TransitonManager beginDelayedTransition   public static void beginDelayedTransition final ViewGroup sceneRoot  Transition transition      sceneRoot   layout          transition             transition      sPendingTransitions contains sceneRoot     sceneRoot isLaidOut       Transition DBG    Log d LOG_TAG   beginDelayedTransition  root  transition       sceneRoot          transition           list  private static ArrayList sPendingTransitions   new ArrayList    sPendingTransitions add sceneRoot    transition    null            transition            private static Transition sDefaultTransition   new AutoTransition    transition   sDefaultTransition    final Transition transitionClone   transition clone       1 sceneChangeSetup sceneRoot  transitionClone      2 Scene setCurrentScene sceneRoot  null      3 sceneChangeRunTransition sceneRoot  transitionClone       1 sceneChangeSetup   private static void sceneChangeSetup ViewGroup sceneRoot  Transition transition       Capture current values               sceneRoot     transition       pause            sRunningTranstions ArrayMap            Transitions ArrayList runningTransitions   getRunningTransitions   get sceneRoot    runningTransitions    null    runningTransitions size     0     Transition runningTransition   runningTransitions    runningTransition pause sceneRoot               transition  null          transition  transition    null        transition           1 1 transition captureValues sceneRoot  true        Notify previous scene exited Scene previousScene   Scene getCurrentScene sceneRoot    previousScene    null    previousScene exit        1 1 transition captureValues               void captureValues ViewGroup sceneRoot  boolean start          start  true  false     Values    Values          1 3 clearValues start       mTargetIds    addTarget            mTargetNames   mTargetXX           view          Adds id target view Transition interested animating  default  no targetIds  Transition will listen changes every view hierarchy below sceneRoot Scene transitioned into  Setting targetIds constrains Transition listen for  act on  views IDs  Views different IDs  no IDs whatsoever  will ignored    Note using ids specify targets implies ids unique within view hierarchy underneath scene root     see View getId    param targetId id target view  positive number   return Transition targetId added  Returning object makes easier chain calls during construction  transitionSet addTransitions new Fade    addTarget someId        mTargetIds size     0    mTargets size     0      mTargetNames    null    mTargetNames isEmpty        mTargetTypes    null    mTargetTypes isEmpty                         view                 else                sceneRoot      Values  1 2 captureHierarchy sceneRoot  start       start    mNameOverrides    null               1 2 captureHierarchy   private void captureHierarchy View view  boolean start     view    null    return    int id   view getId     mTargetIdExcludes    null    mTargetIdExcludes contains id     return     mTargetExcludes    null    mTargetExcludes contains view     return     mTargetTypeExcludes    null    view    null    int numTypes   mTargetTypeExcludes size     int   0  values   new ArrayMap        Transitions targeted view      View       transiton      final ArrayList targetedTransitions   new ArrayList    TransitionValuesMaps class TransitionValuesMaps   ArrayMap viewValues   new ArrayMap    SparseArray idValues   new SparseArray    LongSparseArray itemIdValues   new LongSparseArray    ArrayMap nameValues   new ArrayMap      2 Scene setCurrentScene sceneRoot  null         Scence  view setTagInternal com android internal R id current_scene  scene   public void setTagInternal int key  Object tag      key     24     0x1    throw new IllegalArgumentException  The key framework specific    resource id       setKeyedTag key  tag     3 sceneChangeRunTransition   private static void sceneChangeRunTransition final ViewGroup sceneRoot  final Transition transition     transition    null    sceneRoot    null           MultiListener   listener   OnPreDrawListener     sceneRoot          sceneRoot              MultiListener   MultiListener  OnPreDraw     3 1    MultiListener listener   new MultiListener transition  sceneRoot   sceneRoot addOnAttachStateChangeListener listener   sceneRoot getViewTreeObserver   addOnPreDrawListener listener       3 1 MultiListener OnPreDraw public boolean onPreDraw     removeListeners       Don t start transition it s no longer pending                                         transtion    sPendingTransitions remove mSceneRoot     return true       Add running list  handle end remove         final ArrayMap  runningTransitions   getRunningTransitions    ArrayList currentTransitions   runningTransitions get mSceneRoot   ArrayList previousRunningTransitions   null   currentTransi",
+        "objectID": "posts/2017-08-29-beginDelayTransition-的一些见解",
+        "title": "beginDelayedTransition 的一些源码分析",
+        "date": "2017-08-29",
+        "author": "北邙山之光",
+        "category": "Android动画",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android动画"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-08-31-今年的小计划",
+        "content": "Android            Android         Android       PullToRefresh   kotlin Android                     Java netty              IO     effective Java          Python            css       react react native         WebApp",
+        "objectID": "posts/2017-08-31-今年的小计划",
+        "title": "今年的小计划",
+        "date": "2017-08-31",
+        "author": "北邙山之光",
+        "category": "杂",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "杂"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-09-01-可以旋转的饼图-1",
+        "content": "100          100                                         0 0001      0 00                                              down                                              down                                                                                          y x                                           star                      onMeasure                   width   height                     padding                          onDraw           data                              item startangle            drawArc          CategoryEntity c   mCategories    mPaint setColor c getColor     canvas drawArc mRectF  currentTotalAngle  c getAngle    true  mPaint   currentTotalAngle    c getAngle                                                                      setDrawingCacheEnabled true   Bitmap cache   getDrawingCache     cache    null    Log e TAG   bitmap    null    break      pixel          int pixel   cache getPixel  int  downX   int  downY   int i                   index for i 0 i  angleList size      System out println       i size 1    return 0    float angleT   angleList get i                                   180   angleT   90f    angleR   270f   angleT    else  angleT    0    angleT 360        System out println angleList           list                    int id   0  id   360f    temp   temp   360    else  temp   0    temp    360f    angleList set id  temp       System out println angleList   return angleR         private void startRotation Float angle                                   mStartAngle    angle  System out println  plan rotate      angle   int time    int   1000   Math abs angle    360   System out println  real rotate       mStartAngle   animate   rotation mStartAngle  setDuration time  start         animate rotation                    280        370       370           90       10  370    10          270           370                             float",
+        "objectID": "posts/2017-09-01-可以旋转的饼图-1",
+        "title": "可以旋转的饼图（一）",
+        "date": "2017-09-01",
+        "author": "北邙山之光",
+        "category": "自定义View",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-09-03-ImageView-须知",
+        "content": "ImageView             background   src        ScaleType              background   src    background background                               View     src src   background                  scaletype             background   src              ScaleType center                             center_crop                                                             center_inside                                               1000   1000         200   300        200   200 fit_XY             View",
+        "objectID": "posts/2017-09-03-ImageView-须知",
+        "title": "ImageView 须知",
+        "date": "2017-09-03",
+        "author": "北邙山之光",
+        "category": "自定义View",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-09-04-Behavior-的小细节",
+        "content": "FloatingActionButton                  ViewGroup        Fab                           Fab                                              LinearLayout     fab                     fab                                    Behavior    fab                                              copy         Behavior     Fab           Behavior    Behavior     fab     fab     layout_behavior                                       Behavior     fab                                 Behavior                    recyclerview        coordinatorlayout    NestedScrolling               View         CoordinatorLayout               Behavior                          GitHub                                           CoordinatorLayout  Behavior                 Fab   Behavior                   Fab   Behavior                             CoordinatorLayout              Fab   Behavior                  public boolean onInterceptTouchEvent MotionEvent ev    MotionEvent cancelEvent   null  final int action   MotionEventCompat getActionMasked ev      sure reset case missed previous important event   action    MotionEvent ACTION_DOWN    resetTouchBehaviors      final boolean intercepted   performIntercept ev  TYPEONINTERCEPT    cancelEvent    null    cancelEvent recycle       action    MotionEvent ACTIONUP    action    MotionEvent ACTIONCANCEL    resetTouchBehaviors      return intercepted       performIntercept     final int childCount   topmostChildList size     int   0  0     child hide      else  dyConsumed   0     child show                      FloatingActionButton   Behavior   layout_behavior        Fab          crash             Fab                                        CoordinatorLayout   Behavior                  Behavior       LinearLayout",
+        "objectID": "posts/2017-09-04-Behavior-的小细节",
+        "title": "Behavior 的小细节",
+        "author": "北邙山之光",
+        "date": "2017-09-04",
+        "category": "自定义View",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-09-06-getMeasuredXX-和-getXX-的区别",
+        "content": "copy                    getMeasuredWidth   getWidth         ViewGroup      onMeasure           onMeasure        getWidth    getWidth       onlayout         onlayout      0   onMeasure   onLayout      0 getMeasuredWidth                        getMeasuredWidth         xml           activity    onCreate         onCreate  setContentView setContentView R layout activity_main            xml                 AppCompatAcitivity   setContentView     Override public void setContentView  LayoutRes int layoutResID    getDelegate   setContentView layoutResID     getDelegate  NonNull public AppCompatDelegate getDelegate      mDelegate    null    mDelegate   AppCompatDelegate create this  this     return mDelegate    private static AppCompatDelegate create Context context  Window window  AppCompatCallback callback    final int sdk   Build VERSION SDK_INT   BuildCompat isAtLeastN      return new AppCompatDelegateImplN context  window  callback     else  sdk    23    return new AppCompatDelegateImplV23 context  window  callback     else  sdk    14    return new AppCompatDelegateImplV14 context  window  callback     else  sdk    11    return new AppCompatDelegateImplV11 context  window  callback     else   return new AppCompatDelegateImplV9 context  window  callback               sdk                                  setContentView      AppCompatDelegateImplV9    AppCompatDelegateImplV9  setContentView  Override public void setContentView int resId    ensureSubDecor    ViewGroup contentParent    ViewGroup  mSubDecor findViewById android R id content   contentParent removeAllViews         LayoutInflater from mContext  inflate resId  contentParent   mOriginalWindowCallback onContentChanged      inflate             public View inflate XmlPullParser parser   Nullable ViewGroup root  boolean attachToRoot           synchronized  mConstructorArgs    final Context inflaterContext   mContext  final AttributeSet attrs   Xml asAttributeSet parser   Context lastContext    Context  mConstructorArgs 0   mConstructorArgs 0    inflaterContext  View result   root      merge      TAG_MERGE equals name     rInflate parser  root  inflaterContext  attrs  false     else      Temp root view found xml final View temp   createViewFromTag root  name  inflaterContext  attrs   ViewGroup LayoutParams params   null   root    null       Create layout params match root  supplied params   root generateLayoutParams attrs     attachToRoot       Set layout params temp not    attaching   If are  use addView  below  temp setLayoutParams params          Inflate children temp against its context  rInflateChildren parser  temp  attrs  true      supposed attach views found  int temp     root  now   root    null    attachToRoot    root addView temp  params        Decide whether return root passed    top view found xml   root    null     attachToRoot    result   temp      return result                            inflate      root   attachToRoot                temp      xml                root   null               attachToRoot           root    null attachToRoot   false               addView   root attachToRoot   true            addView   root                         attachToRoot     false     true             recyclerview    item     inflate        true     recyclerview                            fragment                 true     false   true           addView                     inflate layout null            studio                        matchparent          matchparent",
+        "objectID": "posts/2017-09-06-getMeasuredXX-和-getXX-的区别",
+        "title": "getMeasuredXX 和 getXX的区别",
+        "date": "2017-09-06",
+        "author": "北邙山之光",
+        "category": "自定义View",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-09-11-事件分发的小细节",
+        "content": "dispatchTouchEvent onInterceptTouchEvent onTouchEvent    onInterceptTouchEven t   ViewGroup                               dispatchTouchEvent            dispatchTouchEvent                       onInterceptTouchEvent   onTouchEvent                                                       down                          intercept         mFirstTouchTarget     null    null                                                  onTouchEvent     false                        onTouchEvent               switch case                     false                  false                                     target                                                View    LinearLayout       inflate                       Header        recyclerview   layout      header   margin                                                            recyclerview              View down                           View      down      click              move        recyclerview         recyclerview                                   up                          move           onTouchEvent     return super onTouchEvent       View   onTouchEvent   LinearLayout              false            move                    onTonchEvent     false         View                                       mFirstTouchTarget    null        down     View         mFirstToutTarget                 null    mFirstTouchTarget     null     dispatchTransformedTouchEvent      child     null          onTouchEvent             mFirstTouchTarget    null           onTouchEvent          false                           View   onTouchEvent   return true   return false                      false         activity   true                                                View                        down                          false     Activity            Activity                                                        Activity   dispatchTouchEvent           public boolean dispatchTouchEvent MotionEvent ev     ev getAction      MotionEvent ACTION_DOWN    onUserInteraction       getWindow   superDispatchTouchEvent ev     return true    return onTouchEvent ev             onUserInteraction                 phoneWindow superDispatchTouchEvent       DecorView superDispatchTouchEven   DecorView public boolean superDispatchTouchEvent MotionEvent event      DecorView     Framelayout  ViewGroup dispatchTouchEvent return super dispatchTouchEvent event                 ViewGroup   View                  down       false       move            Activity   dispatchTouchEvent                                 ViewGroup   dispatchTouchEvent        return onTouchEvent                       down                   Activity                    Activity   dispatchTouchEvent        down                                          dispatchTouchEvent           superDispatchTouchEvent       onTouchEvent",
+        "objectID": "posts/2017-09-11-事件分发的小细节",
+        "title": "事件分发的小细节",
+        "date": "2017-09-11",
+        "author": "北邙山之光",
+        "category": "Android事件分发和绘制",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android事件分发和绘制"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-09-17-可以旋转的饼图-2",
+        "content": "timi                                                                                                          item           index",
+        "objectID": "posts/2017-09-17-可以旋转的饼图-2",
+        "title": "可以旋转的饼图（二）",
+        "date": "2017-09-17",
+        "author": "北邙山之光",
+        "category": "自定义View",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-09-18-9png-的使用",
+        "content": "9 png 9png                         9png",
+        "objectID": "posts/2017-09-18-9png-的使用",
+        "title": "9png 的使用",
+        "date": "2017-09-18",
+        "author": "北邙山之光",
+        "category": "自定义View",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-09-21-Linux-命令",
+        "content": "Adb Shell      adb shell   Linux shell            adb pull         PC                PC    data data  root                 sdcard    adb push  adb pull   adb devices         adb shell ps   grep com xxx                           find   find                find path  name   xml path          name        xml                 path         xml    find                       exec   xargs exec find path  name    xml  exec cp    path      find        path                  string      replaced current file name processed everywhere occurs arguments command xargs find path  name    xml    xargs  i cp    path     i                                                          exec              xargs",
+        "objectID": "posts/2017-09-21-Linux-命令",
+        "title": "Linux 命令",
+        "date": "2017-09-21",
+        "author": "北邙山之光",
+        "category": "Linux & Adb Shell",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Linux & Adb Shell"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-09-26-Android-7.0-抓包问题",
+        "content": "https           23     25          demo   https                       android 7 0                   Network Security Configuration     xml   Manifest         xml               domain                           xml                Android 6 0        debug                                          overridePins true                             overridePins                  google        xml   Android 6 0                https          overridePins google                       overridePins        CA               true          CA                    CA                     MiTM              false      debug overrides                      true      google",
+        "objectID": "posts/2017-09-26-Android-7.0-抓包问题",
+        "title": "Android 7.0 抓包问题",
+        "date": "2017-09-26",
+        "author": "北邙山之光",
+        "category": "各种坑",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "各种坑"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-10-09-error_unlink_old_xxx",
+        "content": "IDE    stash   pull",
+        "objectID": "posts/2017-10-09-error_unlink_old_xxx",
+        "title": "Git Error",
+        "date": "2017-10-09",
+        "author": "北邙山之光",
+        "category": "各种坑",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "各种坑"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-10-12-java_cp-命令",
+        "content": "flowdroid          java  cp xxxxxxxxxxxxxx           java  cp    classpath                          jar            jar   window             java  cp c  classes myClass jar d  classes   jar packname mainclassname         main",
+        "objectID": "posts/2017-10-12-java_cp-命令",
+        "title": "java_cp 命令",
+        "date": "2017-10-12",
+        "author": "北邙山之光",
+        "category": "Java",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Java"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-10-18-插件化基础-简单调起-Activity",
+        "content": "Android                   github                                                                      Virtual Apk                               apk        apk                apk                                               Classloader android     pathclassloader   dexclassloader pathclassloader           dexclassloader        dex              BaseDexClassloader          DexClassLoader          ClassLoader              apk               classloader            BaseDexClassLoader    pathlist           pathlist     DexPathList      DexPathList           dexElements                     dex                                               apk               activity                apk   dex     apk   dex                                               Activity                 hook    AMS           activity      Intent    startActivity      Intent           Activiy      manifest                               Activity                Activity                Activity     AMS        hook    AMS    Intent     new    Intent    Intent            Acitivity        Intent       Intent                           Activity            apk          Activity          Acitivity        hook       launchActivity                Handler                handler                     handler             handler   mCallback              handleMessage       activity            intent                apk      DexClassLoader String apkPath   Environment getExternalStorageDirectory   getAbsolutePath     test apk   String cachePath   MainActivity this getCacheDir   getAbsolutePath    DexClassLoader mClassLoader   new DexClassLoader apkPath cachePath cachePath getClassLoader         dex public static void hook DexClassLoader classLoader   PathClassLoader pathClassLoader    PathClassLoader  MyApplication getContext   getClassLoader    try           apk pathlist Object mainPathList   getPathList pathClassLoader        classloder      DexClassLoader          apk pathlist Object mPathList   getPathList classLoader           dex   dex            dexElements  Class clazz   PathList getClass    Field field   clazz getDeclaredField  dexElements    field setAccessible true   return field get PathList     dexElements       dexElements      Class localClass   suzhu getClass   getComponentType             dexElements           Object result   Array newInstance localClass  newarrlength   setField suZhuPathList  suZhuPathList getClass     dexElements   dexElements      Object dexElements   combineArray  getDexElements mainPathList   getDexElements mPathList              dexElements         dexElements Field localField   mainPathList getClass   getDeclaredField  dexElements    localField setAccessible true   localField set mainPathList dexElements     catch  Exception e    e printStackTrace          AMS   hookAMS private void AmsHook   throws ClassNotFoundException  NoSuchFieldException  IllegalAccessException   Class ActivityManagerNative   Class forName  android app ActivityManagerNative    Field gDefaultField   ActivityManagerNative getDeclaredField  gDefault    gDefaultField setAccessible true   Object gDefault   gDefaultField get null   Class Singleton   Class forName  android util Singleton    Field mInstanceField   Singleton getDeclaredField  mInstance    mInstanceField setAccessible true   Object obj   mInstanceField get gDefault   Class IActivityManager   Class forName  android app IActivityManager    Object proxy   Proxy newProxyInstance getClassLoader    new Class   IActivityManager   new ActivityManagerHandler obj    mInstanceField set gDefault  proxy           gDefault         SingleTon IActivityManager       AMP                                            AcitivityManagerHandler      Intent intent  int index   0   int   0    objects length  i       objects i  instanceof Intent    index   i  break      intent    Intent  objects index   Intent newIntent   new Intent    String subPackageName   MyApplication getContext   getPackageName    ComponentName componetName   new ComponentName subPackageName  ZhanKeng class getName     newIntent setComponent componetName   newIntent putExtra  real_intent   intent   objects index    newIntent  Log e  Main    startActivity   hook       Log e  Main    args index  hook       objects index    return method invoke mBase  objects             Intent          ZhanKeng    Acitivity              acitivity         Intent  Handler   hook private void handlerHook   throws Exception   Class ActivityThread   Class forName  android app ActivityThread    Method currentActivityThread   ActivityThread getDeclaredMethod  currentActivityThread    currentActivityThread setAccessible true   Object ActivityThreadInstance   currentActivityThread invoke null   Field mH   ActivityThread getDeclaredField  mH    mH setAccessible true   Handler H    Handler  mH get ActivityThreadInstance   Field mCallBackField   Handler class getDeclaredField  mCallback    mCallBackField setAccessible true   mCallBackField set H  new ActivityThreadHandlerCallBack H               hook   AMS       Intent                              Intent                   Activity                 H ",
+        "objectID": "posts/2017-10-18-插件化基础-简单调起-Activity",
+        "title": "插件化基础（简单调起 Activity）",
+        "date": "2017-10-18",
+        "author": "北邙山之光",
+        "category": "插件化",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "插件化"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-10-20-代码混淆",
+        "content": "mapping                               mapping                    mapping                         proguard pro             keep            mapping                              build gradle     release   minifyEnabled true proguardFile  proguard cfg       proguard                   proguard pro           release                         mapping                                                            keepattributes Exceptions InnerClasses  keep public class com appsdk apifactory model TrackBaseData         gradle                    mark 1    doLast   doFirst       2    task          doFirst   doLast 3     task    doLast           4     task    doFirst           5     task   doFirst       doLast 6     doLast 7 dependsOn             task",
+        "objectID": "posts/2017-10-20-代码混淆",
+        "title": "代码混淆",
+        "date": "2017-10-20",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-10-23-md-转-pdf",
+        "content": "word             markdown               pdf       markdown                          chrome        md                        markdown            chrome                pdf    pdf",
+        "objectID": "posts/2017-10-23-md-转-pdf",
+        "title": "md 转 pdf",
+        "date": "2017-10-23",
+        "author": "北邙山之光",
+        "category": "杂",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "杂"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-10-26-Activity-启动过程",
+        "content": "App   startActivity                 startActivityForResult          Instrumentation          Activity      attach                           ActivityThread     ActivityThread      ApplicationThread extends ApplicationThreadNative AMS       ApplicationThreadProxy                     Instrumentation      execStartActivity            ActivityManagerNative getDefault          AMS                AMS             ActivityManagerProxy            Binder       AMS                      ActivityStackSupervisor   ActivityStack                                 ActivityStackSupervisor         app thread sheduleLaunchAcitivity  app thread          ApplicationThread                  binder         app           App   ApplicationThread         ActivityThread         sheduleLaunchAcitivity       Handler    LAUCH_ACTIVITY      Handler           ActivityThread   HandleLaunchActivity              public final void scheduleLaunchActivity Intent intent  IBinder token  int ident  ActivityInfo info  Configuration curConfig  Configuration overrideConfig  CompatibilityInfo compatInfo  String referrer  IVoiceInteractor voiceInteractor  int procState  Bundle state  PersistableBundle persistentState  List pendingResults  List pendingNewIntents  boolean notResumed  boolean isForward  ProfilerInfo profilerInfo    updateProcessState procState  false   ActivityClientRecord r   new ActivityClientRecord          H sendMessage sendMessage H LAUNCH_ACTIVITY  r     H          ActivityThread   handleLaunchActivity    performLaunchActivity          activity mInstrumentation newActivity   application Application app   r packageInfo makeApplication false  mInstrumentation   contextImpl Context appContext   createBaseContextForActivity r  activity     window      activity attach appContext  this  getInstrumentation    r token  r ident  app  r intent  r activityInfo  title  r parent  r embeddedID  r lastNonConfigurationInstances  config  r referrer  r voiceInteractor  window   activity mCalled   false   r isPersistable      mInstrumentation callActivityOnCreate activity  r state  r persistentState     else   mInstrumentation callActivityOnCreate activity  r state         callActivityOnCreate        Activity                          Gityuan",
+        "objectID": "posts/2017-10-26-Activity-启动过程",
+        "title": "Activity 启动过程",
+        "date": "2017-10-26",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-10-31-一些收获",
+        "content": "Fragment   View                         Fragment    View     Container                           Fragment       inflatelayout                            Android          ViewRootImpl                                             Looper       MessageQueue                        MessageQueue           progaurd",
+        "objectID": "posts/2017-10-31-一些收获",
+        "title": "一些收获",
+        "date": "2017-10-31",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-11-06-究竟什么才是技术好？",
+        "content": "offer                                                                                                                                                 framework",
+        "objectID": "posts/2017-11-06-究竟什么才是技术好？",
+        "title": "究竟什么才是技术好？",
+        "date": "2017-11-06",
+        "author": "北邙山之光",
+        "category": "杂",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "杂"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-11-10-View-的-inflate",
+        "content": "View   inflate           public View inflate XmlPullParser parser   Nullable ViewGroup root  boolean attachToRoot    synchronized  mConstructorArgs    final Context inflaterContext   mContext  final AttributeSet attrs   Xml asAttributeSet parser   View result   root  try    TAG_MERGE equals name      root    null     attachToRoot    throw new InflateException   used valid    ViewGroup root attachToRoot true      rInflate parser  root  inflaterContext  attrs  false     else      Temp root view found xml final View temp   createViewFromTag root  name  inflaterContext  attrs   ViewGroup LayoutParams params   null   root    null       Create layout params match root  supplied params   root generateLayoutParams attrs     attachToRoot       Set layout params temp not    attaching   If are  use addView  below  temp setLayoutParams params          Inflate children temp against its context  rInflateChildren parser  temp  attrs  true      supposed attach views found  int temp     root  now   root    null    attachToRoot    root addView temp  params        Decide whether return root passed    top view found xml   root    null     attachToRoot    result   temp        return result         ViewGroup root  boolean attachToRoot                   createViewFromTag       layout    View      root              params      root    null                        adapter    onCreateView              root     null         Avoid passing null view root  needed resolve layout parameters inflated layout s root element  less    When inflating layout  avoid passing null parent view  otherwise layout parameters root inflated layout will ignored             rInflateChildren        View        inflate       attachToRoot  root    null    attachToRoot    root addView temp  params      root    null     attachToRoot    result   temp       attachToRoot   true           View           root   null    attachToRoot   false        layout    View     View     add          View      inflate         View          add     root   parent      merge            inflate            root    null    params    attachToRoot         inflate         View root    null   params attachToRoot   true root      inflate       root attachToRoot   false      inflate         View             View              Inflate              attachToRoot   true       attachtoRoot   true     add               add           public View inflate XmlPullParser parser   Nullable ViewGroup root    return inflate parser  root  root    null     root    null    true",
+        "objectID": "posts/2017-11-10-View-的-inflate",
+        "title": "View 的 inflate",
+        "date": "2017-11-10",
+        "author": "北邙山之光",
+        "category": "自定义View",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-11-21-ThreadPoolExecutor",
+        "content": "execute   submit                 execute    public void execute Runnable command     command    null  throw new NullPointerException       Proceed 3 steps    1  fewer corePoolSize threads running  try start new thread given command its first task  call addWorker atomically checks runState workerCount  so prevents false alarms add threads when shouldn t  returning false    2  task successfully queued  need double check whether added thread  because existing ones died last checking  pool shut down entry method  So recheck state necessary roll back enqueuing stopped  start new thread none    3  cannot queue task  try add new thread  fails  know shut down saturated so reject task     int c   ctl get     workerCountOf c  largestPoolSize  largestPoolSize   s  workerAdded   true      finally   mainLock unlock       workerAdded    t start    workerStarted   true        finally      workerStarted  addWorkerFailed w     return workerStarted                                     return false               new Worker firstTask   worker     Runnable    AbstractQueuedSynchronizer Worker Runnable firstTask    setState  1      inhibit interrupts until runWorker this firstTask   firstTask  this thread   getThreadFactory   newThread this         Thread    ThreadFactory                                    worker                           workers add                    workerAdd true          t start    worker       start          worker   run    Worker run run      runWorker   final void runWorker Worker w    Thread wt   Thread currentThread    Runnable task   w firstTask  w firstTask   null  w unlock       allow interrupts boolean completedAbruptly   true  try    task    null     task   getTask       null    w lock       pool stopping  ensure thread interrupted     not  ensure thread not interrupted     requires recheck second case deal    shutdownNow race clearing interrupt   runStateAtLeast ctl get    STOP      Thread interrupted      runStateAtLeast ctl get    STOP        wt isInterrupted    wt interrupt    try   beforeExecute wt  task   Throwable thrown   null  try   task run      catch  RuntimeException x    thrown   x  throw x    catch  Error x    thrown   x  throw x    catch  Throwable x    thrown   x  throw new Error x     finally   afterExecute task  thrown       finally   task   null  w completedTasks    w unlock        completedAbruptly   false    finally   processWorkerExit w  completedAbruptly           task        run                    finally         workers       getTask   private Runnable getTask     boolean timedOut   false     last poll   time out         int c   ctl get    int rs   runStateOf c      Check queue empty necessary   rs    SHUTDOWN     rs    STOP    workQueue isEmpty       decrementWorkerCount    return null    int wc   workerCountOf c      workers subject culling  boolean timed   allowCoreThreadTimeOut    wc   corePoolSize    wc   maximumPoolSize     timed    timedOut       wc   1    workQueue isEmpty        compareAndDecrementWorkerCount c   return null  continue    try   Runnable r   timed   workQueue poll keepAliveTime  TimeUnit NANOSECONDS    workQueue take     r    null  return r  timedOut   true    catch  InterruptedException retry    timedOut   false                        task                                                   execute            worker    worker               Runnable         thread        thread     threadfactory                Thread       addworker                  t start    Worker        start                    target   run       Runnable run         worker run        Worker  run                 Runnable              Runnable    execute                                   worker               task   run                                    Worker              processWorkerExit    runWorker   finally                   tryTerminate   final void tryTerminate            int c   ctl get     isRunning c     runStateAtLeast c  TIDYING      runStateOf c     SHUTDOWN      workQueue isEmpty     return   workerCountOf c     0       Eligible terminate interruptIdleWorkers ONLY_ONE   return    final ReentrantLock mainLock   this mainLock  mainLock lock    try    ctl compareAndSet c  ctlOf TIDYING  0      try   terminated      finally   ctl set ctlOf TERMINATED  0    termination signalAll      return      finally   mainLock unlock         else retry failed CAS              interruptIdleWorkers           ONLY_ONE               Worker       Worker                     terminated",
+        "objectID": "posts/2017-11-21-ThreadPoolExecutor",
+        "title": "ThreadPoolExecutor",
+        "date": "2017-11-21",
+        "author": "北邙山之光",
+        "category": "Java",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Java"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-11-27-MVP-简单的解析",
+        "content": "google                   todo mvp       MVP                                                                    Activity          Presenter          Model                                             Model                    View  UI    View    Presenter     Model   View    Model         View          UI        MVP    Presenter                 Activity              View     Fragment     Activity      Activity      View           Presenter     Presenter      Activity                       Activity    destroy         null      WeakReference                          BasePresenter         baseActivity   Fragment         public abstract class BasePresenter   public T mView  public void attach T mView    this mView   mView    public void dettach     mView   null      public abstract class BaseMvpActivity  extends AppCompatActivity   public T presenter   Override protected void onCreate Bundle savedInstanceState    super onCreate savedInstanceState   presenter   initPresenter       Override protected void onResume     super onResume    presenter attach  V this      Override protected void onDestroy     presenter dettach    super onDestroy            presenter public abstract T initPresenter              Activity extends             View        initPresenter    presenter       google",
+        "objectID": "posts/2017-11-27-MVP-简单的解析",
+        "title": "MVP 简单的解析",
+        "date": "2017-11-27",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-12-10-启动其他应用的-Activity",
+        "content": "demo      activity       taskAffinity   com tencent mm                   demo                        demo     demo          Activity    MainActivity                MainActivity                                                              Activity    AMS                                      AMS     Activity            AMS      Activity                      Activity                                         gityuan                           starting window             framework",
+        "objectID": "posts/2017-12-10-启动其他应用的-Activity",
+        "title": "启动其他应用的 Activity",
+        "date": "2017-12-10",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-12-17-onCreate-中获取宽高",
+        "content": "View getWidth     getMeasuredWidth           getWidth   public final int getWidth     return mRight   mLeft         view   layout         setFrame   mRight     boolean changed   isLayoutModeOptical mParent    setOpticalFrame l  t  r  b    setFrame l  t  r  b    changed     mPrivateFlags   PFLAGLAYOUTREQUIRED     PFLAGLAYOUTREQUIRED    onLayout changed  l  t  r  b          getMeasuredWidth   public final int getMeasuredWidth     return mMeasuredWidth   MEASUREDSIZEMASK       mMeasuredWidth    setMeasuredDimension             setMeasuredDimensionRaw private void setMeasuredDimensionRaw int measuredWidth  int measuredHeight    mMeasuredWidth   measuredWidth  mMeasuredHeight   measuredHeight  mPrivateFlags    PFLAGMEASUREDDIMENSION_SET       getWidth      layout             getMeasuredWidth    measure          layout      View        ViewGroup       child layout         View             onCreate     View             onCreate   getWidth      layout            view post             layout     onCreate    MessageQueue      Message        layou t            AttachInfo    AttachInfo          dispatchAttachedToWindow   ViewRootImpl           layout       ViewTreeObserver       listener        OnGlobalLayoutListener OnPreDrawListener      ViewRootImpl   performTraversals         dispatchOnPreDraw     dispatchOnGlobalLayout",
+        "objectID": "posts/2017-12-17-onCreate-中获取宽高",
+        "title": "onCreate 中获取宽高",
+        "date": "2017-12-17",
+        "author": "北邙山之光",
+        "category": "自定义View",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2017-12-26-APK-打包流程",
+        "content": "Shinelw Blog      1            R java             aapt The Android Asset Packaing Tool     android sdk platform tools                 AndroidManifest xml         XML              R java  2     aidl          Java                 aidl Android Interface Definition Language    Android           android sdk platform tools     aidl                   Java                       aidl              3             class           Java       R java    aidl        Java     javac      class        class          bin classes      4        class       classes dex    dx        Android    Dalvik        classes dex          android sdk platform tools             libraries    class           dex     dx           Java        Dalvik                    5       APK               images            dex       apkbuilder           apk            apkbuilder    android sdk tools     apkbuilder                android sdk tools lib sdklib jar     com android sdklib build ApkbuilderMain   6    APK          APK                                          keystore          debug keystore           Eclipse    Android Studio     run               debug keystore                keystore  7        APK                 APK             APK               zipalign     android sdk tools                APK                   4                 APK",
+        "objectID": "posts/2017-12-26-APK-打包流程",
+        "title": "APK 打包流程",
+        "date": "2017-12-26",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-01-08-addView-方法解析",
+        "content": "addView                              addView      addView         public void addView View child  int index  LayoutParams params     DBG    System out println this     addView       child    null    throw new IllegalArgumentException  Cannot add null child view ViewGroup         addViewInner   will call child requestLayout   when setting new LayoutParams    therefore  call requestLayout   ourselves before  so child s request    will blocked level requestLayout    invalidate true   addViewInner child  index  params  false     requestLayout   View   requestLayout                ViewRootImpl  r equestLayout    ViewRootImpl      scheduleTraversals          performTraversals                          performMeasure             layoutRequested   true        layout           performlayout       layout  layout      setFrame            protected boolean setFrame int left  int top  int right  int bottom    boolean changed   false   DBG    Log d  View       View setFrame     left         top       right         bottom            mLeft    left    mRight    right    mTop    top    mBottom    bottom    changed   true     Remember drawn bit int drawn   mPrivateFlags   PFLAG_DRAWN  int oldWidth   mRight   mLeft  int oldHeight   mBottom   mTop  int newWidth   right   left  int newHeight   bottom   top  boolean sizeChanged    newWidth    oldWidth      newHeight    oldHeight      Invalidate old position invalidate sizeChanged   mLeft   left  mTop   top  mRight   right  mBottom   bottom  mRenderNode setLeftTopRightBottom mLeft  mTop  mRight  mBottom   mPrivateFlags    PFLAGHASBOUNDS   sizeChanged    sizeChange newWidth  newHeight  oldWidth  oldHeight       mViewFlags   VISIBILITY_MASK     VISIBLE    mGhostView    null       visible  force DRAWN bit so    invalidate will go  at least parent      someone may invalidated view    call setFrame in  thereby clearing    DRAWN bit  mPrivateFlags    PFLAG_DRAWN  invalidate sizeChanged      parent display list may need recreated based change bounds    child invalidateParentCaches         Reset drawn bit original value  invalidate turns off  mPrivateFlags    drawn  mBackgroundSizeChanged   true   mForegroundInfo    null    mForegroundInfo mBoundsChanged   true    notifySubtreeAccessibilityStateChangedIfNeeded      return changed              invalidate                         requestlayout      measure   layout      draw     requestLayout    invalidate                                    invalidate    invalidate      draw draw                   invalidate     invalidateCache    mPrivateFlags    PFLAG_INVALIDATED  mPrivateFlags     PFLAGDRAWINGCACHE_VALID                     p invalidateChild        ViewParent        ViewGroup     ViewParent        do while    invalidateChild      View view   null   parent instanceof View    view    View  parent     drawAnimation     view    null    view mPrivateFlags    PFLAGDRAWANIMATION    else  parent instanceof ViewRootImpl      ViewRootImpl  parent  mIsAnimating   true         parent dirty opaque not dirty  mark dirty opaque    flag coming child initiated invalidate  view    null      view mViewFlags   FADINGEDGEMASK     0    view getSolidColor      0    opaqueFlag   PFLAG_DIRTY      view mPrivateFlags   PFLAGDIRTYMASK     PFLAG_DIRTY    view mPrivateFlags    view mPrivateFlags    PFLAGDIRTYMASK    opaqueFlag      parent   parent invalidateChildInParent location  dirty    view    null       Account transform current parent Matrix m   view getMatrix      m isIdentity      RectF boundingRect   attachInfo mTmpTransformRect  boundingRect set dirty   m mapRect boundingRect   dirty set  int  Math floor boundingRect left    int  Math floor boundingRect top    int  Math ceil boundingRect right    int  Math ceil boundingRect bottom           parent    null               invalidateChildInParent invalidateChildInParent    public ViewParent invalidateChildInParent final int   location  final Rect dirty      mPrivateFlags    PFLAGDRAWN   PFLAGDRAWINGCACHEVALID      0       either DRAWN  DRAWINGCACHEVALID   mGroupFlags    FLAGOPTIMIZEINVALIDATE   FLAGANIMATIONDONE      FLAGOPTIMIZEINVALIDATE    dirty offset location CHILDLEFTINDEX    mScrollX  location CHILDTOPINDEX    mScrollY     mGroupFlags   FLAGCLIPCHILDREN     0    dirty union 0  0  mRight   mLeft  mBottom   mTop     final int left   mLeft  final int top   mTop    mGroupFlags   FLAGCLIPCHILDREN     FLAGCLIPCHILDREN      dirty intersect 0  0  mRight   left  mBottom   top     dirty setEmpty        location CHILDLEFTINDEX    left  location CHILDTOPINDEX    top    else     mGroupFlags   FLAGCLIPCHILDREN     FLAGCLIPCHILDREN    dirty set 0  0  mRight   mLeft  mBottom   mTop     else      case dirty rect extends outside bounds container dirty union 0  0  mRight   mLeft  mBottom   mTop     location CHILDLEFTINDEX    mLeft  location CHILDTOPINDEX    mTop  mPrivateFlags     PFLAG_DRAWN    mPrivateFlags     PFLAGDRAWINGCACHE_VALID   mLayerType    LAYERTYPENONE    mPrivateFlags    PFLAG_INVALIDATED    return mParent    return null          invalidateChild         View       view   invalidateChildInParent       ViewRootImpl   invalidateCh",
+        "objectID": "posts/2018-01-08-addView-方法解析",
+        "title": "addView 方法解析",
+        "date": "2018-01-08",
+        "author": "北邙山之光",
+        "catalog": true,
+        "category": "自定义View",
+        "excerpt_separator": "<!--more-->",
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-01-21-圆角图片的终极奥义",
+        "content": "UI       UI              UI                                                                                           demo                                           xfermode     bitmapshader xfermode                                                    bitmapshader             paint                          clipPath                       paint             canvas                            BitmapShader      Shader used draw bitmap texture  1 BitmapShader     public BitmapShader  NonNull Bitmap bitmap  TileMode tileX  TileMode tileY    mBitmap   bitmap  mTileX   tileX  mTileY   tileY  init nativeCreate bitmap  tileX nativeInt  tileY nativeInt          TileMode                        bitmap    bitmap                         bitmap        createBitmap   new canvas     drawable draw canvas             2 BitmapDrawable   Drawable   canvas           onDraw      canvas drawXXXXX    drawable    drawable draw canvas                          canvas drawBitmap   Drawable            ImageView                                  setBitmap Imageview         drawable public void setImageBitmap Bitmap bm       Hacky fix force setImageDrawable full setImageDrawable    instead doing object reference comparison mDrawable   null   mRecycleableBitmapDrawable    null    mRecycleableBitmapDrawable   new BitmapDrawable mContext getResources    bm     else   mRecycleableBitmapDrawable setBitmap bm     setImageDrawable mRecycleableBitmapDrawable     Canvas                                                         bitmap         bitmap    BitmapDrawable                      png jpg             BitmapDrawable          Drawable      bitmap                            createbitmap      BitmapDrawable     Bitmap           ImageView        Github   star4K                 ImageView             Drawable              Drawable            ImageView            ImageView   onDraw             drawable draw             drawable   draw          BitmapShader        Paint    shader                   canvas drawPath                             1         ImageView        ScaleType           Bitmap     ImageView                   bitmapshader      matrix                  ScaleType               type                        drawable    bitmapshader     matrix       ImageView              setScaleType      ImageView                drawable   bitmapshader   matrix  2                       bitmap       view        bitmap             View                 Drawable         View          ImageView   layout      setFrame       configBounds    ImageView      drawable    setBounds   onBondsChanged       onBondsChanged    protected void onBoundsChange Rect bounds    super onBoundsChange bounds   mDrawableRectF set bounds    mBitmapHeight    0    mBitmapWidth    0    float scaleX   mDrawableRectF width     1 0f   mBitmapWidth  float scaleY   mDrawableRectF height     1 0f   mBitmapHeight  mMatrix setScale scaleX  scaleY     isSizeChanged   true       bounds        view        bitmap             scaleType   fitXY     View            Drawable      ImageView       scaleType          ImageView             switch  scaleType    case CENTER  case CENTER_CROP  case CENTER_INSIDE  case FIT_CENTER  case FIT_START  case FIT_END  case FIT_XY  super setScaleType ScaleType FIT_XY   break  default  super setScaleType scaleType   break       ImageView        type      FIT_XY              onBoundsChange     View                     ImageView        FITCENTER      initImageView                     ImageView                ImageView     scaleType                    setScaleType                switch case            FITXY            drawable   setScaleTyp e                   ImageView                FIT_CENTER           Matrix      mDrawMatrix    null    canvas concat mDrawMatrix     mDrawable draw canvas                    ImageView                bitmapshader    matrix        FIT_XY      drawable      getIntrinsicHeight Width      1         View        matrix   null  dwidth",
+        "objectID": "posts/2018-01-21-圆角图片的终极奥义",
+        "title": "圆角图片的终极奥义",
+        "date": "2018-01-21",
+        "author": "北邙山之光",
+        "category": "自定义View",
+        "catalog": true,
+        "excerpt_separator": "<!--more-->",
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-01-22-GitHub-的-contributions-问题",
+        "content": "GitHub   contributions                                                                                    git             GitHub                                                  xxxxx github com                                           https                                                                     git log     commit             GitHub   settings    account                  contribution                  git   config     user email",
+        "objectID": "posts/2018-01-22-GitHub-的-contributions-问题",
+        "title": "GitHub 的 contributions 问题",
+        "date": "2018-01-22",
+        "author": "北邙山之光",
+        "catalog": true,
+        "category": "各种坑",
+        "excerpt_separator": "<!--more-->",
+        "tags": [
+            "各种坑"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-01-29-经验教训之异常显示",
+        "content": "gone                     gone                        bug   3                                                            ios                                                                                                                         wrap                                                                      100     50                            1",
+        "objectID": "posts/2018-01-29-经验教训之异常显示",
+        "title": "经验教训之异常显示",
+        "date": "2018-01-29",
+        "author": "北邙山之光",
+        "category": "杂",
+        "catalog": true,
+        "excerpt_separator": "<!--more-->",
+        "tags": [
+            "杂"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-02-02-yoga-和-flexbox",
+        "content": "Yoga https   facebook github io yoga  facebook                Android     Yoga    compile  com facebook yoga android yoga layout 1 5 0  compile  com facebook yoga yoga 1 5 0                    BUCK                      flexbox                   android   ios    react native          yoga       android             YogaLayout   VirtualYogaLayout           xml                    addView                 YogaLayout        YogaNode     c                       view      node      node           android   view                                                 YogaLayout       addView    addView View v YogaNode node                  node     node    flex       addView          android    view          YogaLayout   onLayout         children               addView children           mYogaNodes                    view    layout    add               ViewGroup   addView                          addView                    YogaNode     flexbox         YogaNode           view     Node           YogaLayout                   xml      View   addView          map   view   node           view    key    node    applyLayoutParams     View     node            node        flex                      addView    getYogaNodeForView    YogaNode  FlexBox flexbox         flex    layout_weight                  flex direction                     justify content           View flex start    View            flex end    View           center    View      space around    View         space between          View     View      flex wrap  wrap    nowrap     View                            align align        align items   align self                  justify content             stretch     View",
+        "objectID": "posts/2018-02-02-yoga-和-flexbox",
+        "title": "yoga 和 flexbox",
+        "date": "2018-02-02",
+        "author": "北邙山之光",
+        "category": "JavaScript",
+        "catalog": true,
+        "excerpt_separator": "<!--more-->",
+        "tags": [
+            "JavaScript"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-02-24-RecyclerView-的-onMeasure",
+        "content": "LayoutManager    RecyclerView   onMeasure               LayoutManager       mLayout mAutoMeasure    mLayout onMeasure mRecycler  mState  widthSpec  heightSpec     mAutoMeasure              LinearLayoutManager    true               LinearLayoutManager        public LinearLayoutManager Context context  int orientation  boolean reverseLayout    setOrientation orientation   setReverseLayout reverseLayout   setAutoMeasureEnabled true       setAutoMeasureEnabled     mAutoMeasure     true       LayoutManager    SpecMode      specMode   EXACTLY       RecyclerView   specMode   EXACTLY    onMeasure            return      dispatchLayoutstep1   2                   onMeasure        dispatchLayoutStep1   2      State        State STEP_LAYOUT     onLayout                                dispatchLayoutstep1                      recyclerview    itemView            dispatchLayoutStep3 onMeasure                     recyclerview                                  dispatchlayoutStep2                         fill                           view             recyclerview              recyclerview             fill                                                      2w   recyclerview",
+        "objectID": "posts/2018-02-24-RecyclerView-的-onMeasure",
+        "title": "RecyclerView 的 onMeasure",
+        "date": "2018-02-24",
+        "author": "北邙山之光",
+        "category": "自定义View",
+        "catalog": true,
+        "excerpt_separator": "<!--more-->",
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-02-26-16进制-String-转-colorInt",
+        "content": "Color       parseColor     ColorInt public static int parseColor  Size min 1  String colorString     colorString charAt 0               Use long avoid rollovers  ffXXXXXX long color   Long parseLong colorString substring 1   16    colorString length      7       Set alpha value color    0x00000000ff000000    else  colorString length      9    throw new IllegalArgumentException  Unknown color      return  int color    else   Integer color   sColorNameMap get colorString toLowerCase Locale ROOT     color    null    return color      throw new IllegalArgumentException  Unknown color                  FFFFFF                    Color   t                                             Long parseLong        Integer paseInt     Integer paseInt                      FFXXXXXX                  bit    java   parseInt            FXXXXXXX            int  0xFFFFFFFF System out println a             a  1            8bit    1 10000001    11111110   11111111    parseInt                                              String        1                          Long                           FFFFFFFF        parseInt                         8 F           1              Color parseColor  Long",
+        "objectID": "posts/2018-02-26-16进制-String-转-colorInt",
+        "title": "16进制 String 转 colorInt",
+        "date": "2018-02-26",
+        "author": "北邙山之光",
+        "category": "Android",
+        "catalog": true,
+        "excerpt_separator": "<!--more-->",
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-04-10-go-语言模板",
+        "content": "go    Template    go      template                                template        template                          tpl Execute buf  jObj MustMap make map string interface      tpl                             Execute                 text                   data       text      map       key struct                      lt no value gt                                             text       text               if  data text0         end          bool   string                   range         range  data buttons          text         end              data    buttons           button    text       index              range  index  element     array0           index          end                     len  data buttons                          eq Returns boolean truth arg1    arg2 ne Returns boolean truth arg1    arg2 lt Returns boolean truth arg1 arg2 ge Returns boolean truth arg1    arg2                  if eq  extension T  banner         end                       go   template                                 t Funcs template FuncMap   subtract   subtract                          subtract     func subtract a int  b int  int   return   b              subtract 2 1        1        t ParseGlob  cfg xml   tpl      cfg xml      tpl                    2",
+        "objectID": "posts/2018-04-10-go-语言模板",
+        "title": "go 语言模板",
+        "date": "2018-04-10",
+        "author": "北邙山之光",
+        "category": "go",
+        "catalog": true,
+        "excerpt_separator": "<!--more-->",
+        "tags": [
+            "go"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-05-15-recyclerview-的小技巧",
+        "content": "recyclerview         smoothScrollToPosition         SmoothScroller                     LinearSmoothScroller    protected float calculateSpeedPerPixel DisplayMetrics displayMetrics    return MILLISECONDSPERINCH   displayMetrics densityDpi       protected int calculateTimeForScrolling int dx       case dx small  rounding may return 0 although dx   0     avoid issue  ceil result so dx   0  we ll always return positive    time  return  int  Math ceil Math abs dx    MILLISECONDSPERPX                                                                            item                                                               public int calculateDyToMakeVisible View view  int snapPreference    final RecyclerView LayoutManager layoutManager   getLayoutManager     layoutManager    null     layoutManager canScrollVertically      return 0    final RecyclerView LayoutParams params    RecyclerView LayoutParams  view getLayoutParams    final int top   layoutManager getDecoratedTop view    params topMargin OFFSET   final int bottom   layoutManager getDecoratedBottom view    params bottomMargin  final int start   layoutManager getPaddingTop    final int end   layoutManager getHeight     layoutManager getPaddingBottom    return calculateDtToFit top  bottom  start  end  SNAPTOSTART                  top          offset                  item           ok      smoothScrollToPosition                                                     smoothScroller       smoothScrollToPosition          smoothScroller                   smoothScrollToPosition                                                   smoothScrollBy                                                 view                                            smoothScrollToPosition                                        overScroller                                  smoothScroller               Crash Inconsistency detected  Invalid item position 5 offset 5  state 6 Inconsistency detected  Invalid view holder adapter positionViewHolder     crash       recyclerview                                                                            remove       adapter                             adapter            recyclerview    crash invalid item         recyclerview            adapter                   List         List clear        notifydataSetchanged           recyclerview    crash        recyclerview                     adapter                                                     adapter       final   list                     list            final     list         addAll           list         adapter       list                  final list     list                         indexOutOfBounds   crash            velocitytracker velocitytracker                       demo             actionmove                        fling        move              0             recyclerview   actionup    copy                            question        fling    velocitytracker         recyclerview              action_up               fling      fling                     addOnFlingListener                 overScroller                                             xxx",
+        "objectID": "posts/2018-05-15-recyclerview-的小技巧",
+        "title": "recyclerview 的小技巧",
+        "date": "2018-05-15",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-05-25-go-的-map",
+        "content": "map      golang    map                          Java    map                     golang    map                    map   iteratorinit                  random                     item             hashmap go   reflect_mapiterinit",
+        "objectID": "posts/2018-05-25-go-的-map",
+        "title": "go 的 map",
+        "date": "2018-05-25",
+        "author": "北邙山之光",
+        "category": "go",
+        "catalog": true,
+        "excerpt_separator": "<!--more-->",
+        "tags": [
+            "go"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-06-06-未解-Bug",
+        "content": "Bug mRecycler getViewForPosition                               position      viewholder          view                         viewholder                    tryGetViewHolderForPositionByDeadline        crash             Inconsistency detected         Invalid item position          bug                recyclerview   crash        crash               Bug                                     crash                 recyclerview layout                  measure        measure      mRecycler getViewForPosition     view                                      view       measure              view     measurechild       measure                     measure                                   View v   mRecycler getViewForPosition i       View v   data content    null   data content getView     mRecycler getViewForPosition i             crash    adapter     data        view       view       view     getViewForPosition                getViewForPosition          crash                                       getLeft    view   getLeft                      view     draw              0        getLeft           bug        getLeft    draw              view      draw   draw   draw             bug             onDraw      getLeft",
+        "objectID": "posts/2018-06-06-未解-Bug",
+        "title": "未解 Bug",
+        "date": "2018-06-06",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-06-28-Gradle-Plugin-3.0",
+        "content": "compile provided   apk                         Android          implementation lib          lib api lib         lib      lib           compil e                                 plugin 3 0   compile     implementation   api              projectA     module     mA      implementation        mA    mB    projectA         mB      api                       implementation",
+        "objectID": "posts/2018-06-28-Gradle-Plugin-3.0",
+        "title": "Gradle Plugin 3.0",
+        "date": "2018-06-28",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-07-09-function-types",
+        "content": "function types   function type denotes set functions parameter result types  function                     duck typing golang    interface             interface                   type geometry interface   area   float64 perim   float64   type rect struct   width  height float64   type circle struct   radius float64   func  r rect  area   float64   return r width   r height   func  r rect  perim   float64   return 2r width   2r height   func  c circle  area   float64   return math Pi   c radius   c radius   func  c circle  perim   float64   return 2   math Pi   c radius   func measure g geometry    fmt Println g  fmt Println g area    fmt Println g perim      func main     r    rect width  3  height  4  c    circle radius  5  measure r  measure c    golang        interface                    rect   circle     geometry              geometry       measure              java      implements geometry         type Router interface   Route str string       type RouterFunc func str string     func  f RouterFunc  Route str string       return f str    func testRouter router Router   router Route  router     func main     gRouterFunc  RouterFunc func str string    fmt Println  hello   str     gRouterFunc Route  world   testRouter gRouterFunc         hello world   hello  router      RouterFunc   function         RouterFunc     Router               function      Router       testRouter",
+        "objectID": "posts/2018-07-09-function-types",
+        "title": "function types",
+        "date": "2018-07-09",
+        "author": "北邙山之光",
+        "category": "go",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "go"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-08-29-recyclerview-的-measure-问题",
+        "content": "recyclerview   onMeasure                                           wrapcontent   relativelayout       recyclerview      matchparent                    onMeasure   log     MeasureSpec   mode                match_parent         measureChildWithMargins public void measureChildWithMargins View child  int widthUsed  int heightUsed    final LayoutParams lp    LayoutParams  child getLayoutParams    final Rect insets   mRecyclerView getItemDecorInsetsForChild child   widthUsed    insets left   insets right  heightUsed    insets top   insets bottom  final int widthSpec   getChildMeasureSpec getWidth    getWidthMode    getPaddingLeft     getPaddingRight     lp leftMargin   lp rightMargin   widthUsed  lp width  canScrollHorizontally     final int heightSpec   getChildMeasureSpec getHeight    getHeightMode    getPaddingTop     getPaddingBottom     lp topMargin   lp bottomMargin   heightUsed  lp height  canScrollVertically      shouldMeasureChild child  widthSpec  heightSpec  lp     child measure widthSpec  heightSpec                MeasureSpec  canScrollVertically                      recyclerview              canScrollVertically   false          public static int getChildMeasureSpec int parentSize  int parentMode  int padding  int childDimension  boolean canScroll    int size   Math max 0  parentSize   padding   int resultSize   0  int resultMode   0   canScroll     childDimension    0    resultSize   childDimension  resultMode   MeasureSpec EXACTLY    else  childDimension    LayoutParams MATCH_PARENT    switch  parentMode    case MeasureSpec AT_MOST  case MeasureSpec EXACTLY  resultSize   size  resultMode   parentMode  break  case MeasureSpec UNSPECIFIED  resultSize   0  resultMode   MeasureSpec UNSPECIFIED  break      else  childDimension    LayoutParams WRAP_CONTENT    resultSize   0  resultMode   MeasureSpec UNSPECIFIED      else    childDimension    0    resultSize   childDimension  resultMode   MeasureSpec EXACTLY    else  childDimension    LayoutParams MATCH_PARENT    resultSize   size  resultMode   parentMode    else  childDimension    LayoutParams WRAP_CONTENT    resultSize   size   parentMode    MeasureSpec AT_MOST    parentMode    MeasureSpec EXACTLY    resultMode   MeasureSpec AT_MOST    else   resultMode   MeasureSpec UNSPECIFIED          noinspection WrongConstant return MeasureSpec makeMeasureSpec resultSize  resultMode              canScroll   false      else     resultSize     View          item       recyclerview           match_parent                       recyclerview                      measureChildWithMargins   recyclerview              canScrollVertically         true           public           shouldMeasureChild                    mMeasurementCacheEnabled     true",
+        "objectID": "posts/2018-08-29-recyclerview-的-measure-问题",
+        "title": "recyclerview 的 measure 问题",
+        "date": "2018-08-29",
+        "author": "北邙山之光",
+        "category": "自定义View",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "自定义View"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-09-10-任务模型",
+        "content": "link0 link1         link             400ms      link                            400ms                                                          Java            API           FutureTask                 CountDownLatch                                                                                                           400ms     runnable                400ms         400ms                                    400ms                             mTimer   new Runnable      Override public void run       mHasRefreshed                mThreadPool execute task   mHandler postDelayed mTimer  400   taskManager bindCallback new Callback     Override public void onTaskSuccess     counter      mHasRefreshed  counter  tasks size                   task         Handler mTaskHandler   new Handler Looper getMainLooper     mTaskHandler post new Runnable     Override public void run       mHasRefreshed    callback onTaskSuccess                                Java API   CountDownLatch CountDownLatch countDownLatch   new CountDownLatch tasks size     for int   0    tasks size    i     mThreadPool execute tasks get i      countDownLatch await 200 TimeUnit MILLISECONDS     task  countDownLatch countDown",
+        "objectID": "posts/2018-09-10-任务模型",
+        "title": "任务模型",
+        "date": "2018-09-10",
+        "author": "北邙山之光",
+        "category": "Java",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Java"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2018-12-26-久违的更新之编译链接",
+        "content": "c       c            hello h  ifndef HELLO  define HELLO int fnc int xlocal    endif hello c                             extern int z_global                                int fnc int xlocal    return  zglobal   xlocal     hello_main c  include hello h   include int z_global   1  int main int argc  char  argv      printf   d   fn_c 10    return 0    hellomain c      hello c    fnc           hello_main c gcc  c hellomain c  o hellomain o nm hello_main o                          fn_c                   hello c                    hello c         gcc  c hello c  o hello o gcc hello o hello_main o  o main out nm main out               fn_c",
+        "objectID": "posts/2018-12-26-久违的更新之编译链接",
+        "title": "久违的更新之链接",
+        "date": "2018-12-26",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "基础"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2019-05-15-Kotlin-中的-lateinit-和-by-lazy",
+        "content": "kotlin google   sample                 kotlin                                     lazy         val        lateinit      var        lateinit                  lateinit                lateinit            by lazy            lateinit          by lazy      lateinit                 isInitialized               getter  setter   by lazy         Lazy          isInitialized                  lazy                       lateinit   lazy      class A  val lazyA lazy   1   lateinit var lateInitA   String   fun main     val   A   print a lazyA  print a lateInitA             kotlin UninitializedPropertyAccessException  lateinit property lateInitA not initialized var delegate  a  lazyA apply   isAccessible   true   getDelegate             Lazy     isInitialized print  delegate Lazy  isInitialized             java    public final class       FF  synthetic field static final KProperty     delegatedProperties   new KProperty    KProperty Reflection property1 new PropertyReference1Impl Reflection getOrCreateKotlinClass A class    lazyA    getLazyA  I       NotNull private final Lazy lazyA delegate   NotNull public String lateInitA  public final int getLazyA     Lazy var1   this lazyA delegate  KProperty var3     delegatedProperties 0   return   Number var1 getValue    intValue       NotNull public final String getLateInitA     String var10000   this lateInitA   var10000    null    Intrinsics throwUninitializedPropertyAccessException  lateInitA      return var10000    public final void setLateInitA  NotNull String var1    Intrinsics checkParameterIsNotNull var1       this lateInitA   var1    public A     this lazyA delegate   LazyKt lazy  Function0 null INSTANCE         new A    int var1   a getLazyA    System out print var1   String var2   a getLateInitA    System out print var2   lateinit    lateinit                                 null       lateinit                         lazy          lazy      getLazyA          lazyA delegate    lazyA delegate       lazyA delegate     public A     this lazyA delegate   LazyKt lazy  Function0 null INSTANCE          idea     show kotlin byte code decompile                 lambda        null                            lazyA delegate         LazyKt lazy             LazyJVM kt          SynchronizedLazyImpl initializer  SynchronizedLazyImpl                          override val value  T get     val v1   value  v1     UNINITIALIZEDVALUE     Suppress  UNCHECKED_CAST   return _v1 T   return synchronized lock    val v2   value  v2     UNINITIALIZEDVALUE     Suppress  UNCHECKEDCAST    v2 T    else   val typedValue   initializer         lambda     _value   typedValue initializer   null typedValue        nbsp   nbsp     by lazy           kotlin                    lazy                       public final int getLazyA     Lazy var1   this lazyA delegate  KProperty var3     delegatedProperties 0   return   Number var1 getValue    intValue      lazyA delegate   getValue       value              SynchronizedLazyImpl   value                                     lateinit                                                               lazy                lambda",
+        "objectID": "posts/2019-05-15-Kotlin-中的-lateinit-和-by-lazy",
+        "title": "Kotlin(一) lateinit 和 by lazy",
+        "date": "2019-05-15",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "kotlin"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2019-05-22-虚拟内存和-mmap",
+        "content": "RAM                                                       1G                                 swap                          A 4M     B  6M     A     B      4M                                                                    4KB                                  4KB                                                                                                       32                2 32   4G    linux     3G      1G       1G          4G              128M                                  896M                                              Offset                                     128M               128M            4G         2G                             2G       swap                          swap                                                                                  MMU                                            TLB                                                                                                                                                                                                                                                                                    4         4G       4K     2 20            4MB                                                                                         esp ebp                             64       48                  48                                     tlb               48            esp   ebp            int32          32                                  iOS     iOS               32                                         int                        esp   ebp                                                                                                                                              c         C                                                                                           include void test1    int   0x12345678    void test2    int a  printf   2x n  a     int main    test1    test2    return 0                    0x12345678     test1                test2                         int            test1      mmap mmap      map files devices memory mmap                                                                                                               Linux                                     mmap             mmap      read                      read                                                mmap     MAP_SHARED   flag        mmap                                                                             binder_mmap android      binder                 IPC               Linux",
+        "objectID": "posts/2019-05-22-虚拟内存和-mmap",
+        "title": "虚拟内存和 mmap",
+        "date": "2019-05-22",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "基础",
+            "操作系统"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2019-06-14-初识-webpack-遇到的坑",
+        "content": "weex                 weex                              bundle                                 vue                            package json       scripts                 upload   build                        js          js                    webpack                       configs   wee x  webpack config js         config      configs          build js     config js     helper js     hotreload js     logo png     plugin js     project js     utils js     vue loader conf js     webpack common conf js     webpack dev conf js     webpack prod conf js     webpack release conf js     webpack test conf js    project js   build js                    js                                         webpack xx conf js                                                 js      config js   import                  npm run build project_name                                   js                                                                             10s                                     global Vue    const project   require    configs project      weex initialized here  please not move line    const   router     require    router            const App   require       project name     index vue      eslint disable no new    new Vue Vue util extend  el    root   router   App      router push           require                                       ok          require",
+        "objectID": "posts/2019-06-14-初识-webpack-遇到的坑",
+        "title": "初识 webpack 遇到的坑",
+        "date": "2019-06-14",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "JavaScript"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2019-06-23-H5-audio-标签",
+        "content": "h5                                 audio         play                    pause                       waiting           canplay            play play   autoplay    timeupdate        ended                              waiting       loading       canplay       loading    play   pause                    timeupdate               ended                                   webview             hack        hack               webview                                autoplay         play                                                                     localstorage          load                                 audio currentTime      currentTime      0               audio play       currentTime          canplay                              currentTime                                   canplay      load       currentTime iOS           android waiting canplay                 waiting   canplay                                                      iOS                                       load   load      Ok                                                                                                                           H5",
+        "objectID": "posts/2019-06-23-H5-audio-标签",
+        "title": "H5 audio 标签",
+        "date": "2019-06-23",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "JavaScript"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2019-07-02-http-的-post-的-form-data-和-MIME-的秘密",
+        "content": "post    Content Type   multipart form data   key   filecontent value        nodejs node js            const options     method   POST   url   xxxxxxxxxxxxx   headers     Content Type    multipart form data     timeout  3000  formData       key filecontent value stream  filecontent   fs createReadStream zipfilepath       request options  function  err  res  body     err    console log err     else   let data   JSON parse body    data errcode    console log data    else   console log  cdn    t    data download_url           golang      golang                                       multipart createFormFile                               HTTP     golang      post       multipart form data buf    new bytes Buffer  w    multipart NewWriter buf  http NewRequest  POST   GIFT_URL  buf  contentType    w FormDataContentType   req Header Set  Content Type   contentType            net http                                           Content Type   multipart form data     debug      body                                                                                                    golang      MIME         HTTP             MIME         HTTP   Content Type     multipart form data             MIME         HTTP                  HTTP                 MIME         HTTP         HTTP                                MIME            golang                 MIME   Content Type                                                   text                        text plain  text html  text css  text javascript     image                           gif    image     image gif  image png  image jpeg  image bmp  image webp  image x icon  image vnd microsoft icon    audio               audio midi  audio mpeg  audio webm  audio ogg  audio wav    video               video webm  video ogg     application                application octet stream  application pkcs12  application vnd mspowerpoint  application xhtml xml  application xml  application pdf            Content Type     image xxx boundary                     boundary                                               Content Type  multipart form data  boundary aBoundaryString  other headers associated multipart document whole    aBoundaryString Content Disposition  form data  name  myFile   filename  img jpg  Content Type  image jpeg  data    aBoundaryString Content Disposition  form data  name  myField   data    aBoundaryString  more subparts    aBoundaryString             boundary Content Type           Content Disposition        HTTP    Content Disposition                                                              multipart body                    form data                                                                                     MIME   Content Type                                     imageData  _    base64 StdEncoding DecodeString imageDataStr  buf    new bytes Buffer  w    multipart NewWriter buf  hash    md5 Sum imageData  baseFileName    filepath Base hex EncodeToString hash       ext  header    make textproto MIMEHeader  header Set  Content Disposition   fmt Sprintf form data  name   s   filename   s    filecontent   baseFileName   mimeType    mime TypeByExtension ext  mimeType         mimeType    application octet stream    header Set  Content Type   mimeType  fw  err    w CreatePart header  err    nil   c EchoError wr  r  err   1  return   _  err   io Copy fw  strings NewReader string imageData    err    nil   c EchoError wr  r  err   1  return   contentType    w FormDataContentType   w Close   req  err    http NewRequest  POST   GIFT_URL  buf",
+        "objectID": "posts/2019-07-02-http-的-post-的-form-data-和-MIME-的秘密",
+        "title": "http 的 post 的 form-data 和 MIME 的秘密",
+        "date": "2019-07-02",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "基础",
+            "http"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2019-07-25-OPTIONS-请求",
+        "content": "H5                       OPTIONS                                               OPTIONS             HTTP REQUEST METHODS              POST                CONNECT DELETE HEAD OPTIONS PATCH POST PUT TRACE                  https   developer mozilla org zh CN docs Web HTTP Methods         POST     CONTENT TYPE              HTTP BODY                         http post form data MIME    OPTIONS       OPTIONS                                  Allow                       HTTP      HTTP 1 1 200 OK Allow  OPTIONS  GET  HEAD  POST Cache Control  max age 604800 Date  Thu  13 Oct 2016 11 45 00 GMT Expires  Thu  20 Oct 2016 11 45 00 GMT Server  EOS  lax004 2813  x ec custom error  1 Content Length  0                              CORS                               CORS HTTP CORS",
+        "objectID": "posts/2019-07-25-OPTIONS-请求",
+        "title": "OPTIONS 请求",
+        "date": "2019-07-25",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "基础",
+            "http"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2019-07-26-HTTP-CORS",
+        "content": "CORS         CORS               HTTP                origin  domain    Web                                                                     HTTP     https   developer mozilla org zh CN docs Web HTTP AccesscontrolCORS                   xxx blocked CORS policy  No  Access Control Allow Origin  header present requested resource          RESPONSE   HEADER     Access Control Allow Origin",
+        "objectID": "posts/2019-07-26-HTTP-CORS",
+        "title": "HTTP CORS",
+        "date": "2019-07-26",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "基础",
+            "http"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2019-08-08-再来看看-WMS",
+        "content": "Android Framework           WindowManagerService WMS           getSystemService  window               WMS               android 28              getSystemService     SystemServiceRegistry java       WMS      registerService Context WINDOW_SERVICE  WindowManager class  new CachedServiceFetcher      Override public WindowManager createService ContextImpl ctx    return new WindowManagerImpl ctx                     WindowManagerImpl          binder      WindowManagerImpl     public final class WindowManagerImpl implements WindowManager   private final WindowManagerGlobal mGlobal   WindowManagerGlobal getInstance              WindowManagerImpl     WindowManager          binder                       WindowManagerImpl           WMS        WindowManagerGlobal WindowManagerImpl    100      addView           WindowManagerGlobal         WindowManagerGlobal java             WMS                                 getWindowManagerService   getWindowSession        getWindowSession     getWindowManagerService        WindowSession      binder        ViewRootImpl   WMS                addView        ViewRootImpl     ViewRootImpl    WindowSession   WMS        WindowManagerGlobal                 WindowSession   WMS",
+        "objectID": "posts/2019-08-08-再来看看-WMS",
+        "title": "再来看看 WMS",
+        "date": "2019-08-08",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2019-08-15-exports-module.exports等等",
+        "content": "weex     weex    vue js                                                                                   lint      vue                                                      webpack               exports                                       mark   exports module exports export export default",
+        "objectID": "posts/2019-08-15-exports-module.exports等等",
+        "title": "exports、module.exports等等",
+        "date": "2019-08-15",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "JavaScript"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2019-11-20-Promise",
+        "content": "Android                                               8                       JsCore              CSS             loader                  webpack                                                                                                                            redux           promise                       RxJava RxAndroid              RxJava      subscribeOn observeOn            compose                     Promise                                                            callback    asyncCall  hello           asyncCall2  hello           asyncCall3  hello           asyncCall4  hello   cb                                        Promise           RxJava                                            RxJava        Promise              promise    Promise  all  promises    then  resultArray           catch  err                           then             catch                                   Promise           js            Promise           Promise  then  resp               let data   resp data     catch  err                 Promise            new Promise  resolve reject        ok    resolve     else   reject                Promise                   all  race                                   then          Promise        then                                     then    return                  Promise                  then     return                then    return                  Promise    then                      then                            promise                Promise                then   function                    Promise                                   then                                               then                Promise                       const rp   require  request promise    function getTicket callback    setTimeout         callback      2000     function      console log  step 3   getTicket ticket      return rp  http   www baidu com    then _      console log  step 4           function test     console log  step 1   rp  http   www baidu com    then _      console log  step 2   return get      then _      console log  step 5        test         H5                                                               bridge            getTicket          2s         ticket                           step 1    2    3    4    5       step 1    2    3    5    4 why               return    Promise                                                         Promise                                                                            Promise          const rp   require  request promise    function getTicket callback    setTimeout         callback      2000     function      return new Promise  resolve reject       console log  step 3   getTicket ticket      return rp  http   www baidu com    then _      console log  step 4   resolve              function test     console log  step 1   rp  http   www baidu com    then _      console log  step 2   return get      then _      console log  step 5        test                                Promise                  callback                                                                                   Promise",
+        "objectID": "posts/2019-11-20-Promise",
+        "title": "Promise",
+        "date": "2019-11-20",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "JavaScript"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2020-02-18-RxJava-doOnNext-歪打正着",
+        "content": "RxJava                                                  MVPs                                                                                                                                                                       RxJava              RxJava            1                   balabala                                                       RxJava                                                                                           RxJava                                             crash                                                                        Promise      RxJava        2                                                                                RxJava           subscribeOn   observeOn                       flatMap    retryWhen           doOnNext     doOnNext                                       onNext           observeOn                  observeOn           onNext                               Android                 RxJava   Retrofit                        subscribeOn   observeOn                                 UI                                            Singleton get XXXAPiService class   sendXXXRequest xxx   map new ResponseFunction     doOnNext    subscribe                               dev                               doOnNext   subscribe                        crash      UI                                          subscribe                                                 Android                                Retrofit   RxJava          CallAdapter           RxJava2CallAdapterFactory           scheduler           subscribeOn                 subscribeOn       observeOn                                              doOnNext                    crash              log      doOnNext                                        crash                           debug                      retrofit rxjava     RxJava2CallAdapterFactory                 callAdapter Factory     CustomAdapterFactory                      buildObservable          observeOn   subscribeOn                                           doOnNext                                             crash                                                                                                                                                                                                              copy                                                                          observeOn                             observeOn                                       observeOn     subscribeOn                                     RxJava                                                                                                                                       RxJava            spring",
+        "objectID": "posts/2020-02-18-RxJava-doOnNext-歪打正着",
+        "title": "RxJava doOnNext 歪打正着",
+        "date": "2020-02-18",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Java"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2020-03-20-代码不规范的典型示例",
+        "content": "1                       public static Activity getCurrentActivity     return ActivityContextInitModule getActivityContext   getCurrentActivity                                     activity         activity          AMS                                                                                      snackBar          statusBar                        statusBar                                                                                                                                                                                                      Activity       snackBar                                     snackBar                     activity       findViewById    view    view getHeight                     view getHeight                   0   view                    view          0                                                              getCurrentActivity   snackBar                                                    Activity                 2                                             APP      7 0                                5 x       fork               7 0                 support   5 x       androidx   7 x                                 crash                              debug       release                                                     log      FieldNotFoundException                                gradle                                      android support v4 widget SlidingPaneLayout            android support             FieldNotFoundException                        support    bug              debug                configuration           exclude                ClassNotFound                    support   release   debug                                                              public class XXXXSlidingPaneLayout extends android support v4 widget SlidingPaneLayout   public XXXXSlidingPaneLayout             try catch setField this   mSlideOffset   0 0f            view                   release             mSlideOffset                                       support                                                                                                        keep   SlidingPaneLayout",
+        "objectID": "posts/2020-03-20-代码不规范的典型示例",
+        "title": "代码不规范的典型示例",
+        "date": "2020-03-20",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "代码规范"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2020-03-21-SingleTask-血案",
+        "content": "bug      APP                  APP                              debug                        onDestory                    SingleTask                               singleTask        singleTask        clearTop      activity      singleTask         clearTop               activity       activity                         HomeActivity   SingleTask          onNewIntent          lei       Activity   SingleTask                                 Activity       onNewIntent    onRestart    onStart    onResume     onCreate                 Activity        onCreate                     onNewIntent     setIntent                                      API",
+        "objectID": "posts/2020-03-21-SingleTask-血案",
+        "title": "SingleTask 血案",
+        "date": "2020-03-21",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2020-05-18-Android-焦点",
+        "content": "Android TV     APP      TV                   Touch                Leanback     TV                                                              public                                      VerticalGridView                                 UI                                                    tab              tab         tab                                                                                                             ViewRootImpl      private int processKeyEvent QueuedInputEvent q    final KeyEvent event    KeyEvent q mEvent   mUnhandledKeyManager preViewDispatch event     return FINISH_HANDLED       Deliver key view hierarchy   mView dispatchKeyEvent event     return FINISH_HANDLED     shouldDropInputEvent q     return FINISHNOTHANDLED       dispatch windows don t Window Callback  Otherwise     Window Callback usually will already called  see    DecorView superDispatchKeyEvent  leaving call no op   mUnhandledKeyManager dispatch mView  event     return FINISH_HANDLED    int groupNavigationDirection   0   event getAction      KeyEvent ACTION_DOWN    event getKeyCode      KeyEvent KEYCODE_TAB     KeyEvent metaStateHasModifiers event getMetaState    KeyEvent METAMETAON     groupNavigationDirection   View FOCUS_FORWARD    else  KeyEvent metaStateHasModifiers event getMetaState    KeyEvent METAMETAON   KeyEvent METASHIFTON     groupNavigationDirection   View FOCUS_BACKWARD         modifier held  try interpret key shortcut   event getAction      KeyEvent ACTION_DOWN     KeyEvent metaStateHasNoModifiers event getMetaState       event getRepeatCount      0     KeyEvent isModifierKey event getKeyCode       groupNavigationDirection    0     mView dispatchKeyShortcutEvent event     return FINISH_HANDLED     shouldDropInputEvent q     return FINISHNOTHANDLED         Apply fallback event policy   mFallbackEventHandler dispatchKeyEvent event     return FINISH_HANDLED     shouldDropInputEvent q     return FINISHNOTHANDLED       Handle automatic focus changes   event getAction      KeyEvent ACTION_DOWN     groupNavigationDirection    0     performKeyboardGroupNavigation groupNavigationDirection     return FINISH_HANDLED      else    performFocusNavigation event     return FINISH_HANDLED        return FORWARD                              dispatchKeyEvent                               dispatchKeyEvent                        true                   performFocusNavigation                      private boolean performFocusNavigation KeyEvent event    int direction   0  switch  event getKeyCode      case KeyEvent KEYCODEDPADLEFT   event hasNoModifiers      direction   View FOCUS_LEFT    break  case KeyEvent KEYCODEDPADRIGHT   event hasNoModifiers      direction   View FOCUS_RIGHT    break  case KeyEvent KEYCODEDPADUP   event hasNoModifiers      direction   View FOCUS_UP    break  case KeyEvent KEYCODEDPADDOWN   event hasNoModifiers      direction   View FOCUS_DOWN    break  case KeyEvent KEYCODE_TAB   event hasNoModifiers      direction   View FOCUS_FORWARD    else  event hasModifiers KeyEvent METASHIFTON     direction   View FOCUS_BACKWARD    break     direction    0    View focused   mView findFocus     focused    null    View v   focused focusSearch direction    v    null    v    focused       math interesting rect    previous focused coord system    newly focused view focused getFocusedRect mTempRect    mView instanceof ViewGroup      ViewGroup  mView  offsetDescendantRectToMyCoords  focused  mTempRect     ViewGroup  mView  offsetRectIntoDescendantCoords  v  mTempRect      v requestFocus direction  mTempRect     playSoundEffect SoundEffectConstants  getContantForFocusDirection direction    return true         Give focused view last chance handle dpad key   mView dispatchUnhandledMove focused  direction     return true      else    mView restoreDefaultFocus      return true        return false                                focusSearch   requestFocus       View                          requestFocus     ViewGroup      onRequestFocusInDescendants             getDescendantFocusability               ViewGroup    descendantFocusability                                                                                 dispatchKeyEvent                                        focusSearch   requestFocus   onRequestFocusInDescendants           focusSearch               view             focusSearch      isRootNamespace    true  FocusFinder getInstance   findNextFocus this  focused  direction  FocusFinder                  view                                                                                     dispatchKeyEvent                     return true          OK    tab              tab                        tab   ViewGroup                 View   onRequestFocusInDescendants          ViewGroup              ViewGroup   FOCUSAFTERDESCENDANTS                         View     requestFocus       true                                   dispatchKeyEvent              focusSearch",
+        "objectID": "posts/2020-05-18-Android-焦点",
+        "title": "Android 焦点",
+        "date": "2020-05-18",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2020-07-31-ffmpeg-简易播放器",
+        "content": "1 ffmpeg   sdl                                         brew install ffmpeg   with sdl2     usr local Cellar      ffmpeg   sdl2   2             MacOS   CLion                CMakeLists    2 1 CMakeLists    include_directories     Add given directories compiler uses search include files  Relative paths interpreted relative current source directory          link_directories     Add directories linker will look libraries          targetlinklibraries     Specify libraries flags use when linking given target and or its dependents             add_executable     Add executable project using specified source files                     2 2 CMakeLists      includedirectories  usr local Cellar ffmpeg 4 2 23 include   usr local Cellar sdl2 2 0 12_1 include   linkdirectories  usr local Cellar ffmpeg 4 2 23 lib   usr local Cellar sdl2 2 0 12_1 lib   addexecutable simpleplayer simple_player c  targetlinklibraries  simple_player avcodec avdevice avfilter avformat avresample avutil postproc swresample swscale sdl2   2 3                                  Run Configurations 3 ffmpeg   sdl                              API    3 1 ffmpeg 3 1 1 avformatopeninput AVFormatContext ps  const char url  ff_const59 AVInputFormat fmt  AVDictionary options     Open input stream read header  codecs not opened  stream closed avformatcloseinput                   avformatcloseinput    3 1 2 avdumpformat AVFormatContext ic  int index  const char url  int is_output                      3 1 3 vcodecalloccontext3 const AVCodec  codec      AVCodecContext                                       avcodec_open2           3 1 4 avcodecparametersto_context AVCodecContext codec  const AVCodecParameters par                    AVStream            AVCodecContext        3 1 5 avcodecfinddecoder enum AVCodecID id         3 1 6 avcodec_open2 AVCodecContext avctx  const AVCodec codec  AVDictionary   options                      AVCodecContext 3 1 7 sws_getContext int srcW  int srcH  enum AVPixelFormat srcFormat  int dstW  int dstH  enum AVPixelFormat dstFormat  int flags  SwsFilter srcFilter  SwsFilter dstFilter  const double  param     Allocate return SwsContext  need perform scaling conversion operations using sws_scale          context 3 1 8 avframealloc        AVFrame       3 1 9 avimagegetbuffersize enum AVPixelFormat pix_fmt  int width  int height  int align                               3 1 10 avimagefillarrays uint8t dstdata 4   int dstlinesize 4   const uint8t src  enum AVPixelFormat pixfmt  int width  int height  int align     buffer   AVFrame    3 1 11 avreadframe AVFormatContext s  AVPacket pkt                     3 1 12 avcodecsendpacket AVCodecContext avctx  const AVPacket avpkt                3 1 13 avcodecreceiveframe AVCodecContext avctx  AVFrame frame             3 2 sdl 3 2 1     SDL_Init       SDL SDL_CreateWindow         Window  SDL_CreateRenderer              Render  SDL_CreateTexture         Texture  3 2 2        SDL_UpdateTexture            SDL_RenderCopy             SDL_RenderPresent       4                                                              5                                                                                include  include  include  include  include  include int main int argc  char  argv       argc nb_streams  i       fmtctx  streams i   codecpar  codectype    AVMEDIATYPEVIDEO    vstreamidx   i  break       vstreamidx     1    printf  Cannot find video stream n    goto end    codecctx   avcodecalloc_context3 NULL   avcodecparameterstocontext codecctx  fmtctx  streams vstream_idx   codecpar   codec   avcodecfinddecoder codecctx  codecid    codec    NULL    printf  Unsupported codec video file n    goto end     avcodecopen2 codecctx  codec  NULL  width  codec_ctx  height  SDLWINDOWRESIZABLE   r x   0  r y   0  r w   codec_ctx  width  r h   codec_ctx  height  renderer   SDL_CreateRenderer window   1  0   texture   SDLCreateTexture renderer  SDLPIXELFORMATYV12  SDLTEXTUREACCESS_STREAMING  codecctx  width  codecctx  height   struct SwsContext  sws_ctx   NULL  swsctx   swsgetContext codecctx  width  codecctx  height  codecctx  pixfmt  codecctx  width  codecctx  height  AVPIXFMTYUV420P  SWSBILINEAR  NULL  NULL  NULL   frame   avframealloc    int ret1  ret2  AVFrame  pict  pict   avframealloc    int numBytes  uint8_t  buffer   NULL  numBytes   avimagegetbuffersize AVPIXFMTYUV420P  codecctx  width  codec_ctx  height  1   buffer    uint8t   avmalloc numBytes sizeof uint8_t       required  bad dst image pointers avimagefillarrays pict  data  pict  linesize  buffer  AVPIXFMTYUV420P  codecctx  width  codecctx  height  1    1    SDL_PollEvent  event    event type    SDL_QUIT  break  ret   avreadframe fmt_ctx   packet    ret data  frame  linesize  0  codec_ctx  height  pict  data  pict  linesize   SDL_UpdateYUVTexture texture   r  pict  data 0   pict  linesize 0   pict  data 1   pict  linesize 1   pict  data 2   pict  linesize 2    SDL_RenderClear renderer   SDL_RenderCopy renderer  texture  NULL  NULL   SDL_RenderPresent renderer   SDL_Delay 16     avpacketunref  packet     SDL_DestroyRenderer renderer   SDL_Quit    avframefree  frame   avcodecclose",
+        "objectID": "posts/2020-07-31-ffmpeg-简易播放器",
+        "title": "ffmpeg 简易播放器",
+        "date": "2020-07-31",
+        "author": "北邙山之光",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2020-08-12-再来看-Activity-启动流程",
+        "content": "Activity                                         Android 9 0 1    startActivity         APP     ActivityManagerService     AMS system_process              IPC                      1 ActivityA startActivityB        A onPause    B onCreate    B onStart    B onResume          onPause             2      Activity      Intent                  3                             startActivity          4 onNewIntent                      5       ActivityStack     TaskRecord      ActivityRecord      IPC         PMS   WMS          2      ActivityA startActivityB      2 1 ActivityA startActivity         startActivity               AMS             IPC       AMS              execStartActivity 1666  Instrumentation  android app  startActivityForResult 4586  Activity  android app  startActivityForResult 54  BaseFragmentActivityApi16  android support v4 app  startActivityForResult 65  FragmentActivity  android support v4 app  startActivityForResult 4544  Activity  android app  startActivityForResult 711  FragmentActivity  android support v4 app  startActivity 4905  Activity  android app  startActivity 4873  Activity  android app  onResult 2337  AccountManager AmsTask Response  android accounts  onTransact 60  IAccountManagerResponse Stub  android accounts  execTransact 731  Binder  android os       Instrumentation execStartActivity ActivityManager getService   startActivity whoThread  who getBasePackageName    intent  intent resolveTypeIfNeeded who getContentResolver     token  target    null   target mEmbeddedID   null  requestCode  0  null  options         ActivityB            AMS Binder              2 2 ActivityB             startActivity         AMS    AMS                                                       AMS                            ActivityA onPause        IPC    APP             resumeTopActivityInnerLocked 2448  ActivityStack  com android server am  resumeTopActivityUncheckedLocked 2302  ActivityStack  com android server am  resumeFocusedStackTopActivityLocked 2229  ActivityStackSupervisor  com android server am  startActivityUnchecked 1466  ActivityStarter  com android server am  startActivity 1200  ActivityStarter  com android server am  startActivity 868  ActivityStarter  com android server am  startActivity 544  ActivityStarter  com android server am  startActivityMayWait 1099  ActivityStarter  com android server am  execute 486  ActivityStarter  com android server am  startActivityAsUser 5120  ActivityManagerService  com android server am  startActivityAsUser 5094  ActivityManagerService  com android server am  startActivity 5085  ActivityManagerService  com android server am  onTransact startActivity  10084  IActivityManager Stub  android app  onTransact 122  IActivityManager Stub  android app  onTransact 3291  ActivityManagerService  com android server am  execTransact 731  Binder  android os     ActivityStarter startActivityMayWait        2          ResolveInfo rInfo   mSupervisor resolveIntent intent  resolvedType  userId  0    matchFlags     computeResolveFilterUid callingUid  realCallingUid  mRequest filterCallingUid    ActivityInfo aInfo   mSupervisor resolveActivity intent  rInfo  startFlags  profilerInfo   mSupervisor resolveIntent      mService getPackageManagerInternalLocked   resolveIntent intent  resolvedType  modifiedFlags  userId  true  filterCallingUid          Binder IPC    PMS     intent debug    resolveIntent               Activity       2       ResolverActivity    Activity           Activity resumeTopActivityInnerLocked       resumeActivity      onPause             startSpecificActivityLocked       2 2 1 ActivityA onPause                     resumeTopActivityInnerLocked                 mResumedActivity    null    pausing    startPausingLocked userLeaving  false  next  false     startPausingLocked       Binder IPC      APP           mService getLifecycleManager   scheduleTransaction prev app thread  prev appToken  PauseActivityItem obtain prev finishing  userLeaving  prev configChangeFlags  pauseImmediately    scheduleTransaction       ClientTransaction scheduleTransaction     mClient   ApplicationThread ApplicationThread     APP           Binder             Binder IPC     APP          APP       ActivityThread    Handler      Message       TransactionExecutor execute          ActivityThread extends ClientTransactionHandler         transaction              public void execute ClientTransaction transaction    final IBinder token   transaction getActivityToken    log  Start resolving transaction client      mTransactionHandler      token      token   executeCallbacks transaction   executeLifecycleState transaction   mPendingActions clear    log  End resolving transaction      execute      executeLifecycleState                Transition final state requested transaction    private void executeLifecycleState ClientTransaction transaction    final ActivityLifecycleItem lifecycleItem   transaction getLifecycleStateRequest     lifecycleItem    null       No lifecycle request  return early  return    log  Resolving lifecycle state      lifecycleItem   final IBinder token   transaction getActivityToken    final ActivityC",
+        "objectID": "posts/2020-08-12-再来看-Activity-启动流程",
+        "title": "再来看 Activity 启动流程",
+        "date": "2020-12-07",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2020-12-24-半天入门了下-kotlin",
+        "content": "kotlin             kotlin      2019                  lateinit   lazy                    if else         java                                    kotlin                    kotlin                                      80                                                Java    Kotlin    if else for               range         switch case     when                               kotlin     40  50                                    var       val                      null                                       var someObj  SomeObject   SomeObject 1  someObj   SomeObject 2  val finalObj  SomeObject   SomeObject 1  finalObj   SomeObject 2                 var            val                                                                       var someObj  SomeObject       var someObj2  someObject   null       val finalObj  SomeObject          kotlin                                            null                null                                               kotlin                       set               kotlin           var someObj2  someObject   null       var someObj3  someObject    null    ok                                  lateinit var someObj  SomeObject             someObj           SomeObject                                                                         lateinit         lateinit      2019    kotlin                                         kotlin                                            kotlin                                                  lateinit                                                                                                  lateinit                              var   null        var somObj  SomeObject   null                      Null not value non null type SomeObject                                   lateinit                  var   null                                                                private fun getLayoutView    View     mLithoView    null    mLithoView   LithoView rootView context    return mLithoView   var mPlcEntryDataAdapter  PlcEntryDataAdapter    null  getLayoutView      null    mStyleView   FlexStyleUtils addStyleViewToParent  rootView RelativeLayout  getLayoutView      getContainerId       mPlcEntryDataAdapter  actionType    PlcEntryStyleInfo ActionType APP_DOWNLOAD    mDownloadActionObserver onNext false                                              kotlin                             null    kotlin                                                                              mPlcEntryDataAdapter   mPlcEntryDataAdapter  actionType                                  kotlin                                                    android                   intent          intent              intent               var                            intent                           intent                                                      lateinit  var config  AlbumDetectionConfig    null override fun onStartCommand intent  Intent   flags  Int  startId  Int   Int   config   intent  let   IntentUtils getSerializableExtra  it  AlbumDetectInitModuleALBUMDETECTIONCONFIG_KEY      emitter onError IllegalArgumentException  AlbumDetectionConfig not null      VideoInfo buildVideoInfo config    count           intent       config        buildVideoInfo                      lateinit    lateinit                                       var                             let         val   final             var                          var    val                   val size  Int get     return value  size       1                                       set         size                val                value       value       1       value          val       final                    kotlin                   set                   val         final                   final               java                        60  70    kotlin            Scope Function kotlin   java                                                    let          lazy              let               with run apply also                    let                            let          lambda      return                intent           let              null                                     intent      intentUtils getSerializableExtra              emitter onError                                  java                                kotlin                                         open                                                                          object   kotlin                                           companion object xxx          android       object  interface                          java                                                                  kotlin         java    static       kotlin     static      companion object                        kotlin                   kotlin   object                 object   var    A  fun a        fun main args  Array    A a    ok A a      ok       java                             java                 public static void main String   args    A a       error A INSTANCE a       ok                          companion object      java        A Companion                  Jvmtatic                           ",
+        "objectID": "posts/2020-12-24-半天入门了下-kotlin",
+        "title": "半天入门了下 kotlin",
+        "date": "2020-12-24",
+        "author": "北邙山之光",
+        "category": "kotlin",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "kotlin"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2021-01-21-java-匿名内部类",
+        "content": "Covariance contravariance                                            Java                       view setOnClickListener new OnClickListener      Override public void onClick View v              Android             new OnClickListener                                                                new           Java                         new                         OnClickListener              new          JVM                                                                                                                                            Java                                  Java   ITest java public interface ITest   void test      Test java ITest t   new ITest     Override public void test                                    class     Test 1 class       Test 1 class             Source code recreated  class file IntelliJ IDEA     powered Fernflower decompiler     final class Test 1 implements ITest   Test 1       public void test            Test class             Source code recreated  class file IntelliJ IDEA     powered Fernflower decompiler     public class Test   public Test       public static void main String   var0    ITest var10000   new ITest     public void test                              Test 1       Test java                   class                            Test java     static INNERCLASS Test 1 null null    access flags 0x1 public   V L0 LINENUMBER 1 L0 ALOAD 0 INVOKESPECIAL java lang Object    V RETURN L1 LOCALVARIABLE LTest  L0 L1 0 MAXSTACK   1 MAXLOCALS   1    access flags 0x9 public static main  Ljava lang String  V L0 LINENUMBER 3 L0 NEW Test 1 DUP INVOKESPECIAL Test 1    V ASTORE 1 L1 LINENUMBER 10 L1 RETURN L2 LOCALVARIABLE args  Ljava lang String  L0 L2 0 LOCALVARIABLE t LITest  L1 L2 1 MAXSTACK   2 MAXLOCALS   2        main        NEW Test 1   INVOKESPECIAL Test 1    V          new                           java                          xxx x                                                                                    new                                       new                           xxx x",
+        "objectID": "posts/2021-01-21-java-匿名内部类",
+        "title": "java 匿名内部类",
+        "date": "2021-01-21",
+        "author": "北邙山之光",
+        "category": "Java",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Java"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2021-01-22-Kotlin-Scope-Function",
+        "content": "Kotlin                                                Scope Function        Kotlin standard library contains several functions whose sole purpose execute block code within context object  When call function object lambda expression provided  forms temporary scope  scope  access object without its name  functions called scope functions  five them  let  run  with  apply  also       5  Scope Function                                     function                                         Calls specified function  block  value its receiver returns its result    detailed usage information documentation scope functions      kotlin internal InlineOnly public inline fun T run block  T       R   R   contract   callsInPlace block  InvocationKind EXACTLY_ONCE    return block         Calls specified function  block  given  receiver  its receiver returns its result    detailed usage information documentation scope functions      kotlin internal InlineOnly public inline fun with receiver  T  block  T       R   R   contract   callsInPlace block  InvocationKind EXACTLY_ONCE    return receiver block         Calls specified function  block  value its receiver returns value    detailed usage information documentation scope functions      kotlin internal InlineOnly public inline fun T apply block  T       Unit   T   contract   callsInPlace block  InvocationKind EXACTLY_ONCE    block   return       Calls specified function  block  value its argument returns value    detailed usage information documentation scope functions      kotlin internal InlineOnly  SinceKotlin  1 1   public inline fun T also block   T     Unit   T   contract   callsInPlace block  InvocationKind EXACTLY_ONCE    block this  return       Calls specified function  block  value its argument returns its result    detailed usage information documentation scope functions      kotlin internal InlineOnly public inline fun T let block   T     R   R   contract   callsInPlace block  InvocationKind EXACTLY_ONCE    return block this    Inline Function      5      Inline Function                      Java        Function                    inline                   Kotlin                                Extension Function         4     Extension Functions     Kotlin              Extension Functions                         fun String hello world   String    String   return  hello     world    fun main     System out println  abc  hello  world                  String         hello                                static   hello         class     Generic Function          5                     Extension Function              with with      Extention Function                   5                                                               1 The refer context object  2 The return value    Function   Object reference  Return value                                     let     Lambda result     run     Lambda result     run       Lambda result         Lambda result     apply     Context object         Context object             run           run                                 lambda                       kotlin internal InlineOnly public inline fun run block        R   R   contract   callsInPlace block  InvocationKind EXACTLY_ONCE    return block",
+        "objectID": "posts/2021-01-22-Kotlin-Scope-Function",
+        "title": "Kotlin Scope Function",
+        "date": "2021-01-22",
+        "author": "北邙山之光",
+        "category": "kotlin",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "kotlin"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2021-01-24-Kotlin-Coroutines-VS-Goroutines",
+        "content": "Kotlin            Golang                                   Kotlin                         fun main     runBlocking              val coroutineDispatcher   Executors newFixedThreadPool 1  asCoroutineDispatcher   val name   Thread currentThread   name println  main start thread id    name    i 0  2    launch coroutineDispatcher     true    val j     1 val filename     Users xxxx Desktop mapping j txt  val file   File filename  val contents   file readText   val name   Thread currentThread   name println  thread id    name  work  i         println  main end thread id    name            runBlocking         3                                  mapping txt      30M              Mac kotlin         kotlinx coroutines core  1 4 2 kotlin stdlib  1 4 0       main start thread id   main main end thread id   main thread id   pool 1 thread 1  work 0 thread id   pool 1 thread 1  work 0 thread id   pool 1 thread 1  work 0 thread id   pool 1 thread 1  work 0 thread id   pool 1 thread 1  work 0 thread id   pool 1 thread 1  work 0 thread id   pool 1 thread 1  work 0 thread id   pool 1 thread 1  work 0 thread id   pool 1 thread 1  work 0 thread id   pool 1 thread 1  work 0 thread id   pool 1 thread 1  work 0 thread id   pool 1 thread 1  work 0                                                                                                           0                                           Kotlin                                           Golang                         package main import    fmt   io ioutil   os   runtime   syscall   time    func main     runtime GOMAXPROCS 1     0    3  i     go func j int      file  err    os Open fmt Sprint   Users xxxx Desktop mapping    j   1     txt    err    nil   panic err    defer file Close   ioutil ReadAll file  tid    gettid   fmt Printf  thread id    d  work  d n   tid  j      i    time Sleep 1   time Second  fmt Println  finish work     func gettid    n uint64    r0       syscall RawSyscall syscall SYSTHREADSELFID  0  0  0  n   uint64 r0  return n            runtime GOMAXPROCS 1      P      Golang    go                  Kotlin                    3             Kotlin                      thread id   2873233  work 1 thread id   2873233  work 2 thread id   2873233  work 0 thread id   2873233  work 1 thread id   2873233  work 0 thread id   2873233  work 0 thread id   2873233  work 1 thread id   2873233  work 1 thread id   2873233  work 2 thread id   2873233  work 2 thread id   2873233  work 0 thread id   2873233  work 1 thread id   2873233  work 2 thread id   2873233  work 0 thread id   2873233  work 1 thread id   2873233  work 2 thread id   2873233  work 0 thread id   2873233  work 0 thread id   2873233  work 1 thread id   2873233  work 2 thread id   2873233  work 2 thread id   2873233  work 0 thread id   2873233  work 1 thread id   2873233  work 1 thread id   2873233  work 1 thread id   2873233  work 2 thread id   2873233  work 2 thread id   2873233  work 0 thread id   2873233  work 1 thread id   2873233  work 2 thread id   2873233  work 2 thread id   2873233  work 0 thread id   2873233  work 0 thread id   2873233  work 1 thread id   2873233  work 2 thread id   2873233  work 2 thread id   2873233  work 2 thread id   2873233  work 0 thread id   2873233  work 0 thread id   2873233  work 1 thread id   2873233  work 1 finish work                                     1s                        sleep  1s              gettid         id     3                            gettid            MacOSX       Golang       syscall Gettid         tid        undefined Gettid       MacOSX                          func gettid    n uint64    r0       syscall RawSyscall syscall SYSTHREADSELFID  0  0  0  n   uint64 r0  return n                   Kotlin                                            Golang                                            go          go1 14                               go1 13    go1 10                         netpoller",
+        "objectID": "posts/2021-01-24-Kotlin-Coroutines-VS-Goroutines",
+        "title": "Kotlin Coroutines VS Goroutines",
+        "date": "2021-01-24",
+        "author": "北邙山之光",
+        "category": "kotlin",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "kotlin"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2021-01-30-RecyclerView-Adapter-的问题",
+        "content": "TV         TV                RecyclerView         RecyclerView                                                                TVRecyclerView                   Adapter                       Android           Adapter   RecyclerView                        Adapter                             Adapter                Adapter        Adapter                     Adapter              Adapter         RecyclerView           ViewHolder      ViewType RecyclerView        Adapter         type       ViewHolder                Adapter                     NonNull  Override public RecyclerView ViewHolder onCreateViewHolder  NonNull ViewGroup parent  int viewType          getItemViewType     viewType       ViewHolder             switch viewType    case type1  return new Type1ViewHolder    case type2  return new Type2ViewHolder                Override public void onBindViewHolder  NonNull RecyclerView ViewHolder holder  int position          position          onCreateViewHolder     holder      holder    view                     holder instanceof Type1ViewHolder      else  holder instanceof Type2ViewHolder      else               else                  Override public int getItemViewType int position          postion    List                        List                                                    Model ViewHolder                onCreateViewHolder   onBindViewHolder           type       switch case    if else                            Adapter    switch case   if else      type adapter                                                                                                                                                                                       Adapter         onCreateViewHolder   onBindViewHolder         Adapter             model   ViewHolder                                MultiType github    GenericRecyclerAdapter github             Feed          RecyclerView                                                    ViewHolder   class        ViewType     10         CommonViewHolder       view   data                                              ViewHolder     ViewType                    ViewHolder            Adapter                                    viewType     onCreateViewHolder     viewType                ViewHolder            viewType     ViewHolder      onBindViewHolder     holder               bind       holder   data                                Adapter                         MultiType            Kotlin                          Kotlin                 java                  Golang                                  MultiType   Java      MultiType             Adapter                Object                   List   List            ItemViewBinder java                ViewHolder           Model   public abstract class ItemViewBinder      internal    MultiTypeAdapter adapter  protected abstract  NonNull VH onCreateViewHolder  NonNull LayoutInflater inflater   NonNull ViewGroup parent   protected abstract void onBindViewHolder  NonNull VH holder   NonNull T item               MultiTypePool java public class MultiTypePool implements TypePool         model    private final  NonNull List  classes          binder private final  NonNull List  binders                        MultiTypeAdapter adapter   new MultiTypeAdapter    adapter register Category class  new CategoryItemViewBinder     adapter register Post class  new PostViewBinder     adapter register PostList class  new HorizontalPostsViewBinder     register      class   binder     MultiTypePool     List      classes   binders                  getItemViewType      position    List    object         class     MultiTypePool    classes     index    viewType  onCreateViewHolder      viewType      classes   binders   index     MultiTypePool    binder    binder onCreateViewHolder  onBindViewHolder     position    List    object         class     MultiTypePool    classes     index     MultiTypePool    binder    binder onBindViewHolder                            model         ItemViewBinder   binder                                 Adapter                                     error         Required type   Provided                                     holder   capture   extends ViewHolder   ViewHolder     item   capture     Object       mTypes get position  binder       binder onBindViewHolder            Adapter     holder   ViewHolder        item   Object    List  Java                                                       warning     Raw use parameterized class  ItemViewBinder                                                                   warning  raw type stackoverflow JLS 4 8 Raw Types          Shouldn t use raw type      List names   new ArrayList       warning  raw type  names add  John    names add  Mary    names add Boolean FALSE      not compilation error   Object o   names    String name    String  o  System out println name        throws ClassCastException     java lang Boolean cannot cast java lang String       raw type names    List       Object                  string            bool                         List           Exception          raw type     raw type                   ",
+        "objectID": "posts/2021-01-30-RecyclerView-Adapter-的问题",
+        "title": "RecyclerView Adapter 的问题",
+        "date": "2021-01-30",
+        "author": "北邙山之光",
+        "category": "Java",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Java"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2021-02-01-Java-泛型的见解",
+        "content": "RecyclerView   Adapter                                https   docs oracle com javase tutorial java generics index html                                                                                                class interface method              type                                              type check                                                         List        E                   conventions      E   Element  used extensively Java Collections Framework  K   Key N   Number T   Type V   Value S U V etc    2nd  3rd  4th types                             VH                   ViewHolder                                                    Multiple Bounds  T extends   B   C      Raw Type        JDK 5 0                            warning Raw use parameterized class  ItemViewBinder                                  warning                                                                                List names   new ArrayList       warning  raw type  names add  John    names add  Mary    names add Boolean FALSE      not compilation error   Object o   names    String name    String  o  System out println name        throws ClassCastException     java lang Boolean cannot cast java lang String             List                            List                        ClassCastException                 Integer extends Number    Box   Box                  public static void main String   args    Integer   integers   new Integer 0   List integerList   new ArrayList    testGenericInheritance integerList      compile error testArrayInheritance integers      ok   private static void testArrayInheritance Number   numbers     private static void testGenericInheritance List integerList            java        covariant                        Wildcards                        public static void main String   args    Integer   integers   new Integer 0   List integerList   new ArrayList    testGenericInheritance integerList      ok   private static void testGenericInheritance List integerList                     List     List                                      public static void main String   args    List integerList   new ArrayList    List numberList   integerList  numberList add 0f        List   List              List    List             numberList add double          List    Integer            Type Inference          public static void main String   args    Serializable s   pick  d   new ArrayList        ok String s1   pick  d   new ArrayList        compile error List s2   pick  d   new ArrayList        compile error   private static T pick T a1  T a2    return a2                               Wildcards                                            Upper Bounded Wildcards    extends Type                 public static void main String   args    List numbers   new ArrayList    List numbers2   new ArrayList    numbers add 1      compile error numbers add new Object        compile error numbers add null      ok numbers2 add numbers2 get 0       compile error                    numbers       Number    Numbers        add 1         add Object               numbers       numbers2 add numbers2 get 0                              List                CAP 1                                         null                                      List                Java   List   List   List                          List   List   List    Number                      Lower Bounded Wildcards    super Type                 public static void main String   args    List numbers   new ArrayList    List numbers2   new ArrayList    numbers add 1      ok numbers add new BigInteger new byte           ok numbers add new Object        compile error numbers add null      ok numbers2 add numbers2 get 0       compile error Number num1   numbers get 0      compile error Object num2   numbers get 0      ok             add Number                   Object            unBounded Wildcards            List   List      List        null                                            Object            covariant       contravariant           contravariant                                     covariant                                     invariant                                                                                       List list   new ArrayList    List list   new ArrayList                Java          compiler                                     Type Erasure                                                                                     public class Node   public T data  public Node T data    this data   data    public void setData T data    System out println  Node setData    this data   data      public class MyNode extends Node   public MyNode Integer data    super data      Override public void setData Integer data    System out println  MyNode setData    super setData data       MyNode mn   new MyNode 5   Node n   mn     raw type   compiler throws unchecked warning n setData  Hello    Integer x   mn data     Causes ClassCastException thrown                  setData     Node   setData Object data          T    Object          Node data   String   mn    MyNode    extends No",
+        "objectID": "posts/2021-02-01-Java-泛型的见解",
+        "title": "Java 泛型的见解",
+        "date": "2021-02-01",
+        "author": "北邙山之光",
+        "category": "Java",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Java"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/2021-02-07-工作中遇到的代码反例",
+        "content": "copy      scapegoat                                                 1      App                   App          tab             tab               tab                          ViewPager    public void onPageSelected int position       1     fragment fragment   getCurFragment       2    fragment   channel channel   getChannel Fragment      3    channel int   savePage channel     public void getChannel Fragment fragment     fragment instanceof FragmentA    return 1             tab                            Override public void onViewCreated View view  Bundle savedInstanceState       1            channel channel   getChannel       2    channel    position                   position   getPosition channel   setInitTabPosition position     public int getPosition int channel             channel   position       switch channel    case 5  return 0  case 7  return 1                       channel         Fragment       channel   position         position    ViewPager      Fragment     tab                                Fragment                                   Fragment                                                               app    channel      channel   position        channel        position   2          app    tab                     tab                                    tab                                 tab                          tab                                            position                        tab   id                          key    position              tab    adapter             adapter          key         position        tab      adapter                 key               key               tab                                              key                                       2 tab            app          tab      tab          tab                                               tab tab         tab                 tab                          colors   new int     resources getColor R color color1   resources getColor R color color2   resources getColor R color color3   resources getColor R color color4   resources getColor R color color5   public void onPageScrolled int position  float progress  int positionOffsetPixels     int   0    tabCount    i    Tab tab   getTabAtIndex i    position    i            else if             else if position    count   1            else                                                                                                                    position    count   1                                    tab                       color      tab    tab                                                                    setColor       colors 0   colors 1                  position    count   1     tab                                 tab          int                 tab       3                            Fragment                                     tab getTabTextColor                SELECTED_COLOR   0     color                                    int colors   new int   color0  color1  setTextColor colors 0   colors 1   progress             int   colors   tab getTextColors    setTextColor colors SELECTEDCOLOR   colors UNSELECTEDCOLOR   progress",
+        "objectID": "posts/2021-02-07-工作中遇到的代码反例",
+        "title": "工作中遇到的代码反例",
+        "date": "2021-02-07",
+        "author": "北邙山之光",
+        "category": "Java",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Java"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/Bundle-Parcel-和-ClassLoader",
+        "content": "cglib   jdk Proxy     Java                        Java                 balabala            DexElements                tomcat                Android                                                                 TestData          implements Parcelable  aidl                TestData   Bundle bundle putParcelable TestData            TestService aidl interface ITestService   void setTestData in TestData data   void setBundle in Bundle data        TestData java public class TestData implements Parcelable   public int data_int  public String data_str  protected TestData Parcel in    data_int   in readInt    data_str   in readString      public TestData int dataint  String datastr    this dataint   dataint  this datastr   datastr     Override public void writeToParcel Parcel dest  int flags    dest writeInt data_int   dest writeString data_str      Override public int describeContents     return 0    public static final Creator CREATOR   new Creator      Override public TestData createFromParcel Parcel in    return new TestData in      Override public TestData   newArray int size    return new TestData size             TestService java public class TestService extends Service   private static final String TAG    TestService   public TestService       private final ITestService Stub mStub   new ITestService Stub      Override public void setTestData TestData data  throws RemoteException   Log e TAG   setTestData      data data_str      Override public void setBundle Bundle data  throws RemoteException   TestData testData   data getParcelable  test    Log e TAG   setBundle      testData data_str         Override public IBinder onBind Intent intent    return mStub             remote service                      java lang ClassNotFoundException          setTestData                   setBundle     crash       ClassNotFoundException         java lang ClassNotFoundException  com ptrain testclassloader TestData java lang Class classForName Native Method  java lang Class forName Class java 453  android os Parcel readParcelableCreator Parcel java 2811  android os Parcel readParcelable Parcel java 2765  android os Parcel readValue Parcel java 2668  android os Parcel readArrayMapInternal Parcel java 3037  android os BaseBundle initializeFromParcelLocked BaseBundle java 288  android os BaseBundle unparcel BaseBundle java 232  android os Bundle getParcelable Bundle java 940  com ptrain testclassloader TestService 1 setBundle TestService java 30  com ptrain testclassloader ITestService Stub onTransact ITestService java 103  Bundle   ClassLoader    Bundle        Bundle extends BaseBundle BaseBundle     ClassLoader   BootClassLoader               ClassLoader                  TestData                    ClassLoader        Bundle setClassLoader      Bundle                      public void setClassLoader ClassLoader loader                  Bundle extends BaseBundle super setClassLoader loader                 Bundle      ClassLoader                       crash    Bundle setClassLoader TestData class getClassLoader         setTestData      crash     Bundle                   TestData crash        Bundle    Parcelable          Bundle readParcelableCreator            Class forName String name  boolean initialize  ClassLoader loader      loader       ClassLoader         TestData     createFromParcel Parcel in          TestData            Parcelable          crash    TestData not found    TestData            ClassNotFoundException  public class TestData implements Parcelable   public int data_int  public String data_str          implements Parcelable       public TestData2 data_test2  protected TestData Parcel in    data_int   in readInt    data_str   in readString    data_test2   in readParcelable TestData2 class getClassLoader            Android Studio               in readParcelable TestData2 class getClassLoader       ClassLoader                               ClassLoader       ClassNotFoundException        TestData2 class getClassLoader      Bundle   ClassLoader   BootClassLoader                 TestData2   ClassLoader        crash     ClassNotFoundException                                 ClassLoader",
+        "objectID": "posts/Bundle-Parcel-和-ClassLoader",
+        "title": "Bundle Parcel 和 ClassLoader",
+        "date": "2021-02-20",
+        "author": "北邙山之光",
+        "category": "Android",
+        "resources": [
+            {
+                "name": "featured-image",
+                "src": "bundle_and_parcel.png"
+            }
+        ],
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/DataBinding-解读",
+        "content": "Android                      Android                    2021        dataBinding       RecyclerView   item                       AGP Android Gradle Plugin       1 5 0                      AGP          Android                                   gradle android       dataBinding   enabled   true                 dataBinding AGP 4 0         buildFeatures     AGP                                  layout                                              layout          notification          notification xxx              notification xxx                     XXXBinding binding   DataBindingUtil inflate context  layoutId  parent  attachToParent                 NotificationOnePictureBinding binding   DataBindingUtil inflate context  layoutId  parent  attachToParent   binding setXXXX model   binding executePendingBindings                  binding setNotification notification                                                                                 AGP                NotificationOnePictureBinding java    setNotification                     XXXBinding java       XXXBindingImpl extends XXXBinding     xml          xml              notificationnopicture xml        NotificationNoPictureBinding java        id   view            XXXBindingImpl java       XXXBindingImpl extends XXXBinding       XXXBinding java                     java     ViewDataBing java              databing runtime        ViewDataBing extends BaseObservable XXXBingding extends ViewDataBinding         BaseObservable java             ViewDataBinding           listener        notifyXXX    BR java                                    key                  ID                databinding                                            BaseObservable                            google   https   developer android com topic libraries data binding observability            LiveData                   Java       LiveData        DataBinding          model              BaseObservable  public class Notification extends BaseObservable   public String description  public String title    layout              bind           bind         onCreateViewHolder   onBindViewHolder    Override public NotificationOnePictureViewHolder onCreateViewHolder ViewGroup parent    NotificationOnePictureBinding binding   DataBindingUtil  inflate LayoutInflater from parent getContext     NotificationType ONE_PICTURE  parent  false   return new NotificationOnePictureViewHolder binding        onBindViewHolder     Adapter             Override protected void onBind Notification data               binding binding setNotification data   binding executePendingBindings                                                                                              notificationList    List notificationList   new ArrayList           adapter adapter setData notificationList             5s             Handler Handler handler   new Handler    handler postDelayed new Runnable      Override public void run     notificationList get 0  setTitle  i changed         5000                              BaseObservable         notify               public class Notification extends BaseObservable   public String description  public String title  public String getTitle     return title    public String getDescription     return description    public void updateTitle String title    this title   title          notifyPropertyChanged BR notification     public void updateDescription String description    this description   description          notifyPropertyChanged BR notification                         BR java   key       notifyPropertyChanged         BR java   key              BR java        notification   _all              notification      layout              BR   layout    data     name    key           google          Bindable                  getter       Bindable           BR    key               BR java    key    Bindable   layout                Bindable            public class Notification extends BaseObservable   public String description  public String title           Bindable public String getTitle     return title             Bindable public String getDescription     return description    public void updateTitle String title    this title   title  notifyPropertyChanged BR notification     public void updateDescription String description    this description   description  notifyPropertyChanged BR notification                              notifyPropertyChanged    notifyPropertyChanged              Notification extends BaseObservable BaseObservable   notifyPropertyChanged      public void notifyPropertyChanged int fieldId    synchronized  this     mCallbacks    null    return      mCallbacks notifyCallbacks this  fieldId  null           mCallbacks       mCallbacks              addOnPropertyChangedCallback 33  BaseObservable  androidx databinding  addListener 1446  ViewDataBinding WeakPropertyListener  androidx databinding  addListener 1431  ViewDataBinding WeakPropertyListener  androidx databinding  setTarget 1404  ViewDataBinding WeakListener  androidx databinding  registerTo 688  ViewDataBinding  androidx databinding  updateRegistration 612  ViewD",
+        "objectID": "posts/DataBinding-解读",
+        "title": "DataBinding 解读",
+        "date": "2021-02-11",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "resources": [
+            {
+                "name": "featured-image",
+                "src": "data-binding.png"
+            }
+        ],
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/Handler-Looper-MQ-的几个问题",
+        "content": "Handler Looper MessageQueue                                                                    1    Handler        MQ               Handler                   2 Looper                           3 Looper                     https   www zhihu com question 34652589    4      2          MQ next          nativePollOnce                     nativePollOnce      pollOnce      pollInner      pollOnce         nativePollOnce             5 Java    Native    MQ Looper                   6                                               IMS       Question 1 Handler                sendMessage   post                       enqueueMessage   private boolean enqueueMessage MessageQueue queue  Message msg  long uptimeMillis          Handler    msg target   this   mAsynchronous    msg setAsynchronous true     return queue enqueueMessage msg  uptimeMillis     Handler           public Handler Looper looper  Callback callback  boolean async    mLooper   looper  mQueue   looper mQueue  mCallback   callback  mAsynchronous   async    public Handler Callback callback  boolean async          mLooper   Looper myLooper     mLooper    null    throw new RuntimeException   Can t create handler inside thread     Thread currentThread     not called Looper prepare        mQueue   mLooper mQueue  mCallback   callback  mAsynchronous   async           Handler               Looper          Looper       Looper   AcitivityThread main    App              Looper prepareMainLooper                           Handler        Looper MQ   Looper          Handler enqueueMessage            Looper         MQ               enqueueMessage         Message     target                Handler              Message                          Handler        MQ                   Message     Handler           Looper          Message      Message target     Handler handleMessage      Question 2 Looper loop                             loop                    Message msg   queue next       block  msg    null       No message indicates message queue quitting  return                         queue next           msg    null   return                           Looper quit       quit              MQ quit            safe                        void quit boolean safe      mQuitAllowed    throw new IllegalStateException  Main thread not allowed quit       synchronized  this     mQuitting    return    mQuitting   true   safe    removeAllFutureMessagesLocked      else   removeAllMessagesLocked         assume mPtr    0 mQuitting previously false  nativeWake mPtr               mQuitAllowed         false       Looper                 Looper                            quit       Looper          Looper    mQuitAllowed    MainLooper      false       quit     queue next          null       Message next     final long ptr   mPtr   ptr    0    return null    int pendingIdleHandlerCount    1      1 during first iteration int nextPollTimeoutMillis   0          nextPollTimeoutMillis    0    Binder flushPendingCommands      nativePollOnce ptr  nextPollTimeoutMillis             mPtr     0      null                  mPtr   MQ         nativeInit       NativeMQ                         return    message   nativePollOnce        epoll_wait                    3                 Looper                                                                          Looper                  Question 3             https   www zhihu com question 34652589        epoll_wait                      CPU                 epoll             binder                    Handler                                                fd Linux            poll         epollctl      epollwait                    fd            epoll_ctl                  Looper    Java   enqueueMessage            pipe        eventfd Question 4   5 MessageQueue next      Question 2            native       nativePollOnce      pollOnce      pollInner                         pollOnce         mResponseIndex   0          return ident       result    0          return result    result   pollInner timeoutMillis        pollInner int Looper  pollInner int timeoutMillis          struct epollevent eventItems EPOLLMAX_EVENTS   int eventCount   epollwait mEpollFd get    eventItems  EPOLLMAX_EVENTS  timeoutMillis    int   0  handleEvent fd  events  data    callbackResult    0    removeFd fd  response request seq               return result             pollOnce                   return     result      pollInner      pollInner          epoll_wait                             event    pushResponse                              result          0  result       enum       Result LooperpollOnce   LooperpollAll    poll awoken using wake   timeout expired no callbacks executed no file descriptors ready     POLL_WAKE    1      Result LooperpollOnce   LooperpollAll    One callbacks executed     POLL_CALLBACK    2      Result LooperpollOnce   LooperpollAll    timeout expired     POLL_TIMEOUT    3      Result LooperpollOnce   LooperpollAll    error occurred     POLL_ERROR    4        pollOnce                         nativePollOnce         pollOnce     nativePollOnce        Java    MQ next               MQ java    Message   ",
+        "objectID": "posts/Handler-Looper-MQ-的几个问题",
+        "title": "Handler Looper MQ 的几个问题",
+        "date": "2021-03-04",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "resources": [
+            {
+                "name": "featured-image",
+                "src": "epoll.png"
+            }
+        ],
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/MMKV-和-mmap",
+        "content": "MMKV             mmap                        key                        mmap                  mmap                  mmap        include void mmap void addr  sizet length  int prot  int flags  int fd  offt offset   int munmap void  addr  size_t length     mmap   creates new mapping virtual address space calling process  starting address new mapping specified addr  length argument specifies length mapping  which greater 0   addr NULL  kernel chooses  page aligned  address create mapping  portable method creating new mapping                              addr        length          flags MAPSHARED    prot            PROTREAD    offset           offset                  mmap                  offset     0        mmap       https   zhuanlan zhihu com p 83398714             Linux Kernel              pageCache    read write                                               mmap              MMKV                                     pageSize                                                      4kb        4kb         1byte                                                          MMKV         4byte               32                  4byte                     github       c            open          fd   open fileName  ORDWR   OCREAT  0777                int pageSize   getpagesize                    pageSize     ftruncate fd  mmapSize     mmap    mmapPointer    char    mmap NULL  mmapSize  PROTREAD   PROTWRITE  MAP_SHARED  fd  0                    offset memcpy  offset  mmapPointer  offsetSize                           memcpy mmapPointer   offset   offsetSize  data  strlen data          offset memcpy mmapPointer   offset  offsetSize           munmap mmapPointer  mmapSize   close fd                          getpagesize               ftruncate             mmap    mmapPointer                     mmap     size                   1       fileSize   mmapSize             SIGBUS 2         mmapSize             SIGSEGV                                      int offset    mmapPointer   offset   4                           memcpy                             mmap   flag   MAP_SHARED                           mmap      Protobuf                                  int         sizeof        4          int     1          1bit             1     MMKV     protobuf protobuf                                                           MMKV                     mmap     memcpy             mmap            protobuf",
+        "objectID": "posts/MMKV-和-mmap",
+        "title": "MMKV 和 mmap",
+        "date": "2021-02-26",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "resources": [
+            {
+                "name": "featured-image",
+                "src": "mmap.png"
+            }
+        ],
+        "tags": [
+            "Android"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "/posts/ReferenceQueue-and-GC",
+        "content": "Handler             Handler   timer                        Activity                                                   timer                                                                 JNI Global Reference            native                                RxJava    dispose    RxJava                                                                    Activity                                                                     debug                                           LeakCanary    Android         Activity Fragment View                        LeakCanary                       LeakCanary            Activity              adapter                 dump    MAT                 LeakCanary                ReferenceQueue           ReferenceQueue        ReferenceQueue         Reference   ReferenceQueue                  Java                          SoftReference WeakReference PhantomReference               ReferenceQueue                            Reference   ReferenceQueue Reference            Reference   JVM        Active Pending Enqueued Inactive                           rt jar        Reference java                Android         Platform   Reference java          java                                Platform       Reference    Reference       queueNext                             pendingNext        unenqueued        queue           ReferenceQueue queueNext   pendingNext    Reference    queue   ReferenceQueue            public abstract class Reference   final ReferenceQueue queue  Reference queueNext  Reference pendingNext    ReferenceQueue ReferenceQueue        reference                                                                ReferenceQueue         unenqueued           public static Reference unenqueued   null                                   ReferenceQueue        unenqueued              head        ReferenceQueue                    Reference  ReferenceQueue            add     enqueuePending         static void add Reference list    synchronized  ReferenceQueue class     unenqueued    null    unenqueued   list    else      Find last element unenqueued  Reference last   unenqueued   last pendingNext    unenqueued    last   last pendingNext       Add list end  Update pendingNext point back enqueued  last pendingNext   list  last   list   last pendingNext    list    last   last pendingNext    last pendingNext   unenqueued    ReferenceQueue class notifyAll        public static void enqueuePending Reference list    Reference start   list    ReferenceQueue queue   list queue   queue    null    Reference next   list pendingNext  list pendingNext   list  list   next    else   synchronized  queue lock      Reference next   list pendingNext  list pendingNext   list  queue enqueueLocked list   list   next     list    start    list queue    queue   queue lock notifyAll           list    start     enqueuePending         enqueueLocked   enqueueLocked               referece queueNext   newReference     reference              add        reference    unenqueued                                            ReferenceQueue   unenqueued                            ReferenceQueue   unenqueued         Reference unenqueue        ReferenceQueue add reference        reference    unenqueued            pendingNext               unenqueued        queueNext    null                       Reference     ReferenceQueue enqueuePending reference        reference          ReferenceQueue     head    null     reference    head                      queueNext                          Reference                      unenqueued         queue         ReferenceQueue        Reference        ReferenceQueue    Reference        ReferenceQueue  enqueuePending                                 ReferenceQueue add reference    reference       unenqueued    ReferenceQueue enqueuePending reference    reference    ReferenceQueue         ReferenceQueue add     enqueuePending               ReferenceQueue                  LeakCanary        LeakCanary       LeakCanary      KeyedWeakReference      Activity         WeakReference    WeakReference      ReferenceQueue     Activity   onDestroy                               Runtime gc                          JVM ART                       ReferenceQueue         Reference                               GC    Runtime gc      Runtime gc       native gc         native     JVM_GC      OpenjdkJvm cc JNIEXPORT void JVM_GC void     art  Runtime  Current    IsExplicitGcDisabled      LOG INFO  GetHeap    CollectGarbage    clearsoftreferences    false     CollectGarbage          CollectClearedReferences              heap cc collector  GcType Heap  CollectGarbageInternal collector  GcType gctype  GcCause gccause  bool clearsoftreferences         collector  Run gccause  clearsoft_references    runtime  IsZygote     IncrementFreedEver    RequestTrim self      Collect cleared references  SelfDeletingTask  clear   referenceprocessor  CollectClearedReferences self      Grow heap so know when perform next GC  GrowForUtilization collector  bytesallocatedbefore_gc   LogGC gc_cause  collector   FinishGC self  gc_type      Actually enqueue cleared references  GC of",
+        "objectID": "posts/ReferenceQueue-and-GC",
+        "title": "ReferenceQueue and Rumtime.gc()",
+        "date": "2021-03-12",
+        "author": "北邙山之光",
+        "category": "Android",
+        "excerpt_separator": "<!--more-->",
+        "catalog": true,
+        "resources": [
+            {
+                "name": "featured-image",
+                "src": "referenceq.png"
+            }
+        ],
+        "tags": [
+            "Android"
+        ]
+    }
+]

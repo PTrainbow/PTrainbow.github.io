@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>MMKV 和 mmap - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="MMKV 和 mmap" />
+<meta property="og:description" content="前言 最近看了点 MMKV 的代码，其核心就是通过 mmap 来读写文件。当然还有多进程、序列化、扩容重排 key等问题(这些随便找篇文章都有讲)。本文主要通过 mmap 实" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/MMKV-%E5%92%8C-mmap/" /><meta property="og:image" content="http://PTrain666.github.io/posts/MMKV-%E5%92%8C-mmap/mmap.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-26T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-02-26T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/MMKV-%E5%92%8C-mmap/mmap.png"/>
+<meta name="twitter:title" content="MMKV 和 mmap"/>
+<meta name="twitter:description" content="前言 最近看了点 MMKV 的代码，其核心就是通过 mmap 来读写文件。当然还有多进程、序列化、扩容重排 key等问题(这些随便找篇文章都有讲)。本文主要通过 mmap 实"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/MMKV-%E5%92%8C-mmap/" /><link rel="prev" href="http://PTrain666.github.io/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/" /><link rel="next" href="http://PTrain666.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "MMKV 和 mmap",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/MMKV-%E5%92%8C-mmap\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/MMKV-%E5%92%8C-mmap\/mmap.png",
+                            "width":  638 ,
+                            "height":  479 
+                        }],"genre": "posts","keywords": "Android","wordcount":  1297 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/MMKV-%E5%92%8C-mmap\/","datePublished": "2021-02-26T00:00:00+00:00","dateModified": "2021-02-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">MMKV 和 mmap</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-02-26">2021-02-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1297 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/MMKV-%E5%92%8C-mmap/mmap.png"
+        data-srcset="/posts/MMKV-%E5%92%8C-mmap/mmap.png, /posts/MMKV-%E5%92%8C-mmap/mmap.png 1.5x, /posts/MMKV-%E5%92%8C-mmap/mmap.png 2x"
+        data-sizes="auto"
+        alt="/posts/MMKV-%E5%92%8C-mmap/mmap.png"
+        title="/posts/MMKV-%E5%92%8C-mmap/mmap.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#mmap-是什么">mmap() 是什么</a></li>
+    <li><a href="#mmap-的原理">mmap() 的原理</a></li>
+    <li><a href="#用-mmap-来读写文件">用 mmap 来读写文件</a>
+      <ul>
+        <li><a href="#代码示例">代码示例</a></li>
+        <li><a href="#protobuf">Protobuf</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="前言">前言</h2>
+<p>最近看了点 MMKV 的代码，其核心就是通过 mmap 来读写文件。当然还有多进程、序列化、扩容重排 key等问题(这些随便找篇文章都有讲)。本文主要通过 mmap 实现简单的文件的读写。</p>
+<p>具体包括 <code>mmap 函数的使用</code> 和 <code>如何扩展文件大小</code></p>
+<h2 id="mmap-是什么">mmap() 是什么</h2>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;sys/mman.h&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="kt">void</span> <span class="o">*</span><span class="nf">mmap</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">length</span><span class="p">,</span> <span class="kt">int</span> <span class="n">prot</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="n">off_t</span> <span class="n">offset</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">munmap</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">length</span><span class="p">);</span>
+</code></pre></div><blockquote>
+<p><code>mmap()</code> creates a new mapping in the virtual address space of the
+calling process.  The starting address for the new mapping is
+specified in <code>addr</code>.  The <code>length</code> argument specifies the length of
+the mapping (which must be greater than 0).
+If <code>addr</code> is <code>NULL</code>, then the kernel chooses the (page-aligned)
+address at which to create the mapping; this is the most portable
+method of creating a new mapping.</p>
+</blockquote>
+<p>还有一部分描述没有贴。</p>
+<p>总之，作用就是 <code>内存映射</code>，参数 addr 为起始地址， length 为长度，还有一些 flags，<code>MAP_SHARED</code> 等等，prot 是映射区域的保护方式 <code>PROT_READ</code> 等等，offset 是文件映射的偏移量，offset 必须是一页内存大小的整数倍，否则 mmap 会调用失败，一般读文件使用的时候 offset 通常为 0，表示文件开头</p>
+<h2 id="mmap-的原理">mmap() 的原理</h2>
+<p><a href="https://zhuanlan.zhihu.com/p/83398714" target="_blank" rel="noopener noreffer">https://zhuanlan.zhihu.com/p/83398714 有比较详细的解释</a></p>
+<p>因为 Linux Kernel 层的东西不是很了解，比如 pageCache，比如 read/write 系统调用究竟如何完成的等等，所以就不 <code>人云亦云</code> 了，等哪天补齐了这部分知识，再来更新。</p>
+<h2 id="用-mmap-来读写文件">用 mmap 来读写文件</h2>
+<p>因为有看一些 MMKV 的代码，它首先会创建文件或者读取文件(如果文件已经存在的话)，大小均为 pageSize 的整数倍。</p>
+<p>那么就会有一个问题，试想一下如下的情形：</p>
+<p>首先创建文件，写入一个字节的数据，假设一页的大小是 4kb，那么这个大小 4kb 的文件其实只有 1byte 的实际内容。下次读取文件时，我们肯定是要从上一次写入的末尾追加写入的。</p>
+<p>这就涉及到了如何存储之前内容的长度的问题，MMKV 采用了文件的前 4byte 用来记录文件内容的真实长度(32位机器下)。</p>
+<p>所以本文中我也使用头 4byte 存储文件实际长度。</p>
+<h3 id="代码示例">代码示例</h3>
+<p>完整代码 <a href="https://github.com/PTrain666/mmap_test" target="_blank" rel="noopener noreffer">github</a></p>
+<p>其实就一个 c 文件~</p>
+<p>主逻辑</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="c1">// open 打开或者创建文件
+</span><span class="c1"></span><span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="n">O_RDWR</span> <span class="o">|</span> <span class="n">O_CREAT</span><span class="p">,</span> <span class="mo">0777</span><span class="p">);</span>
+<span class="c1">// 获取一页的内存大小
+</span><span class="c1"></span><span class="kt">int</span> <span class="n">pageSize</span> <span class="o">=</span> <span class="n">getpagesize</span><span class="p">();</span>
+<span class="c1">// 如果需要，改变文件大小到 pageSize 整数倍
+</span><span class="c1"></span><span class="n">ftruncate</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">mmapSize</span><span class="p">)</span>
+<span class="c1">// mmap 映射
+</span><span class="c1"></span><span class="n">mmapPointer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="n">mmap</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">mmapSize</span><span class="p">,</span> <span class="n">PROT_READ</span> <span class="o">|</span> <span class="n">PROT_WRITE</span><span class="p">,</span> <span class="n">MAP_SHARED</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="c1">// 获取真实的文件内容的长度到 offset
+</span><span class="c1"></span><span class="n">memcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">offset</span><span class="p">,</span> <span class="n">mmapPointer</span><span class="p">,</span> <span class="n">offsetSize</span><span class="p">);</span>
+<span class="c1">// 写入数据到内存中(这里也包含扩容的过程)
+</span><span class="c1"></span><span class="n">memcpy</span><span class="p">(</span><span class="n">mmapPointer</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">offsetSize</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+<span class="c1">// 更新 offset
+</span><span class="c1"></span><span class="n">memcpy</span><span class="p">(</span><span class="n">mmapPointer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">offset</span><span class="p">,</span> <span class="n">offsetSize</span><span class="p">);</span>
+<span class="c1">// 释放资源
+</span><span class="c1"></span><span class="n">munmap</span><span class="p">(</span><span class="n">mmapPointer</span><span class="p">,</span> <span class="n">mmapSize</span><span class="p">);</span>
+<span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+</code></pre></div><p>首先我们打开一个文件获得文件描述符，然后通过 getpagesize 获得一个页的大小，然后使用 <code>ftruncate 改变文件大小</code>，之后通过 mmap 映射，mmapPointer 即是文件内容在内存的首地址。</p>
+<blockquote>
+<p>如果 mmap 设置的 size 比本身文件内容要大，会有什么效果？<br>
+1.如果操作了 fileSize ~ mmapSize 之间的内存区域，会触发 SIGBUS<br>
+2.如果操作了 &gt; mmapSize 之间的内存区域，会触发 SIGSEGV</p>
+</blockquote>
+<p>考虑之前说的，前四个字节记录真实文件长度的问题，我们读取前四个字节，转成 int offset，那么 <code>mmapPointer + offset + 4</code> 就是我们文件的真实的内容在内存中的尾地址，然后使用 memcpy 修改这片内存区域的内容即可。</p>
+<p>至于何时回写，因为使用的 mmap 的 flag 为 MAP_SHARED，操作系统会在合适的时机帮助我们回写到磁盘(详细查看 mmap 文档)。</p>
+<h3 id="protobuf">Protobuf</h3>
+<p>通过上文对于文件的读写，我们可以将数据写入文件。但是，如果写入如 int 类型的值时，用 sizeof 取值的话肯定是4字节，但是如果这个 int 仅仅是 1，其实理论最低只要 1bit 就可以单纯的表示它的值是1。</p>
+<p>所以 MMKV 使用了 protobuf。protobuf 有自己的编码，可以减少内存占用(不过如果都是字符串呢？)，编解码速度更快(好像也不一定？)。</p>
+<h2 id="总结">总结</h2>
+<p>通过阅读了部分 MMKV 的代码，学到了如下知识：</p>
+<ol>
+<li>学会了基本的 mmap() 和 memcpy() 的使用</li>
+<li>了解了部分 mmap() 原理</li>
+<li>了解了一些 protobuf 相关的内容</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-02-26</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/" class="prev" rel="prev" title="Bundle Parcel 和 ClassLoader"><i class="fas fa-angle-left fa-fw"></i>Bundle Parcel 和 ClassLoader</a>
+            <a href="/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/" class="next" rel="next" title="Handler Looper MQ 的几个问题">Handler Looper MQ 的几个问题<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-02-26T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"MMKV 和 mmap"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

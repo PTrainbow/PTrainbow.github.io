@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>半天入门了下 kotlin - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="半天入门了下 kotlin" />
+<meta property="og:description" content="最近好多人都在用 kotlin 了，我真实接触并且使用 kotlin 的时候是 2019 年。那个时候也依葫芦画瓢写了一篇《lateinit 和 by lazy 》的文章 但是，当时写代码还是停留" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-12-24T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-12-24T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="半天入门了下 kotlin"/>
+<meta name="twitter:description" content="最近好多人都在用 kotlin 了，我真实接触并且使用 kotlin 的时候是 2019 年。那个时候也依葫芦画瓢写了一篇《lateinit 和 by lazy 》的文章 但是，当时写代码还是停留"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/" /><link rel="prev" href="http://PTrain666.github.io/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" /><link rel="next" href="http://PTrain666.github.io/posts/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "半天入门了下 kotlin",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin\/"
+        },"genre": "posts","keywords": "kotlin","wordcount":  4007 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin\/","datePublished": "2020-12-24T00:00:00+00:00","dateModified": "2020-12-24T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">半天入门了下 kotlin</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-12-24">2020-12-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4007 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#超快从-java---kotlin">超快从 Java -&gt; Kotlin</a></li>
+    <li><a href="#类成员变量初始化的各种写法">类成员变量初始化的各种写法</a>
+      <ul>
+        <li><a href="#最基本的概念">最基本的概念</a></li>
+        <li><a href="#打脸成员变量一定要初始化">打脸成员变量一定要初始化</a></li>
+        <li><a href="#使用-var--null-初始化的可空类型的后续问题">使用 var + null 初始化的可空类型的后续问题</a></li>
+        <li><a href="#为什么他的-kotlin-代码里有-">为什么他的 kotlin 代码里有 ！！</a></li>
+        <li><a href="#打脸-val-和-final">打脸 val 和 final</a></li>
+      </ul>
+    </li>
+    <li><a href="#烦人的各种-scope-function">烦人的各种 Scope Function</a></li>
+    <li><a href="#类和方法">类和方法</a>
+      <ul>
+        <li><a href="#伴生对象">伴生对象</a></li>
+        <li><a href="#数据类和密封类">数据类和密封类</a></li>
+        <li><a href="#gettersetter-和-幕后字段">getter/setter 和 幕后字段</a></li>
+      </ul>
+    </li>
+    <li><a href="#协程">协程</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>最近好多人都在用 kotlin 了，我真实接触并且使用 kotlin 的时候是 2019 年。那个时候也依葫芦画瓢写了一篇《lateinit 和 by lazy 》的文章</p>
+<p>但是，当时写代码还是停留在 if-else、 for 循环等等，跟 java 代码没什么区别，所以并没有深入的理解。</p>
+<p>我目前是带着目的去看别人写的 kotlin 代码，我也不想一瞬间就能看懂别人写的 kotlin 代码，毕竟有很多诡异的写法，再加上每个人习惯不同，所以我只要求自己能看懂 80%，剩下的遇到的再去查。我也不要求自己能写的很好，目前只是能看懂，能改改，那就足够了。</p>
+<h2 id="超快从-java---kotlin">超快从 Java -&gt; Kotlin</h2>
+<p>首先 if-else、for 循环这些没什么区别，多了个 range，这个也不难理解，switch-case 变成了 when。业务代码大多是这种东西的堆叠，所以只要能看懂这个，就能看懂 kotlin 代码的 40%-50%。</p>
+<p>其次，一些变量的修饰符，我觉得这个是我一开始很头疼的东西。</p>
+<p>都说 var 是可变的， val 是不可变的，<code>且均要进行初始化</code> 即使赋值是 null，这个地方就关联了很多诡异的写法。</p>
+<h2 id="类成员变量初始化的各种写法">类成员变量初始化的各种写法</h2>
+<h3 id="最基本的概念">最基本的概念</h3>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+<span class="n">someObj</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+
+<span class="k">val</span> <span class="py">finalObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+<span class="n">finalObj</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">2</span><span class="p">)</span> <span class="c1">// 编译报错
+</span><span class="c1"></span>
+</code></pre></div><p>基本概念就是 var 修饰的变量后续 <code>可变</code>，val <code>不可变</code>。先这么记住，后续会存在 <code>打脸</code>。
+你会发现我这里声明的变量都初始化了，不初始化行不行？</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 注意这里的都是类成员变量，不是局部变量
+</span><span class="c1"></span><span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="c1">// 报错
+</span><span class="c1"></span><span class="k">var</span> <span class="py">someObj2</span><span class="p">:</span> <span class="n">someObject</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// 报错
+</span><span class="c1"></span><span class="k">val</span> <span class="py">finalObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="c1">// 报错
+</span></code></pre></div><p>因为 kotlin 为了避免空指针，<code>类成员变量不允许不初始化</code> (后续也会打脸)，一定要初始化(你初始化为 null 也行，但是还会检测出你复制为 null 了，要求你转为 <code>可空类型</code>)。</p>
+<p>有可空类型，就有非空类型</p>
+<ul>
+<li>
+<p>可空类型</p>
+<p>顾名思义，可能是空的类型。kotlin 在访问一个类的成员变量时，其实是访问的是其 get set 方法，他会去判空。可空类型在kotlin中的写法就是带个问号</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">someObj2</span><span class="p">:</span> <span class="n">someObject</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// 报错
+</span><span class="c1"></span><span class="k">var</span> <span class="py">someObj3</span><span class="p">:</span> <span class="n">someObject</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// ok
+</span></code></pre></div></li>
+<li>
+<p>非空类型</p>
+<p>更简单了，不是空~~</p>
+</li>
+</ul>
+<h3 id="打脸成员变量一定要初始化">打脸成员变量一定要初始化</h3>
+<p>看这段代码</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">lateinit</span> <span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span>
+</code></pre></div><p>这里就是声明了一个叫做 someObj 的成员变量，类型是 SomeObject，声明变量时可以在冒号后指定类型，也可以不指定。这都不是重点。重点是，不是说一定要 <code>初始化么</code> ？好了，这里没有初始化，打脸了，但是看到一个关键字，<code>lateinit</code> 来了。</p>
+<p>什么是 <code>lateinit</code> ？这是我 2019 年碰 kotlin 的时候，就了解了的。</p>
+<p>想追原理，自己去看字节码。</p>
+<p>总结一句话就是，我就是想打破 kotlin 的赋值初始化规则，让编译器不要管我有没有初始化了(为什么编译器要管初始化的问题？因为 kotlin 想尽力避免空指针的出现，所以都要初始化)，我自己去负责这个变量的初始化。</p>
+<p>那么问题来了，如果你用 <code>lateinit</code> 声明了一个变量，让编译器放你一马，之后你又没有去管理这个变量的初始化，在之后的代码里没有对它进行任何的赋值操作，那么你自己在运行时使用这个变量的时候，很显然啊，空指针啊！</p>
+<p>那么问题又来了，既然 <code>lateinit</code> 只是说明我这个属性是暂时不初始化的，那我为什么不能直接用 var + null 声明呢？如下</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">somObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="k">null</span>
+</code></pre></div><p>这样写对吗？铁定不对啊，编译器会给你报错 <code>Null can not be a value of a non-null type SomeObject</code>，为啥？前面基本概念就说了，你这是可空类型，得加问号啊。但是如果你用 lateinit，就不需要加这个烦人的问号。</p>
+<h3 id="使用-var--null-初始化的可空类型的后续问题">使用 var + null 初始化的可空类型的后续问题</h3>
+<p>一旦你的一个成员变量是可空类型，你在后续写代码的时候使用会有各种烦人的问题，比如下面这一坨代码。</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">private</span> <span class="k">fun</span> <span class="nf">getLayoutView</span><span class="p">():</span> <span class="n">View</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">mLithoView</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">mLithoView</span> <span class="p">=</span> <span class="n">LithoView</span><span class="p">(</span><span class="n">rootView</span><span class="p">.</span><span class="n">context</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">mLithoView</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="py">mPlcEntryDataAdapter</span><span class="p">:</span> <span class="n">PlcEntryDataAdapter</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">getLayoutView</span><span class="p">()</span> <span class="o">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">mStyleView</span> <span class="p">=</span> <span class="n">FlexStyleUtils</span><span class="p">.</span><span class="n">addStyleViewToParent</span><span class="p">(</span>
+        <span class="n">rootView</span> <span class="k">as</span> <span class="n">RelativeLayout</span><span class="p">,</span>
+        <span class="n">getLayoutView</span><span class="p">()</span><span class="o">!!</span><span class="p">,</span>
+        <span class="n">getContainerId</span><span class="p">())</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">mPlcEntryDataAdapter</span><span class="o">?.</span><span class="n">actionType</span> <span class="o">==</span> <span class="n">PlcEntryStyleInfo</span><span class="p">.</span><span class="n">ActionType</span><span class="p">.</span><span class="n">APP_DOWNLOAD</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">mDownloadActionObserver</span><span class="p">.</span><span class="n">onNext</span><span class="p">(</span><span class="k">false</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>你会发现有很多的 <code>？？？？？</code>，居然还有 <code>！！！！</code>。<br>
+是的没错，为了尽可能避免空指针，kotlin 要求所有成员变量都要初始化对吧，你居然还想初始化赋值为 null，那我 kotlin 辛辛苦苦想避免的空指针不就白费了么？所以，如果你一定要这么赋值，那么你就要在声明中加个问号，使用时也得带着问号，就是所谓的可空类型嘛，也就是上面代码里的 <code>mPlcEntryDataAdapter？和 mPlcEntryDataAdapter?.actionType</code> 这个变量的声明和使用的体现。</p>
+<p>那<code>!!</code>这个又是什么呢？</p>
+<h3 id="为什么他的-kotlin-代码里有-">为什么他的 kotlin 代码里有 ！！</h3>
+<p><code>!!</code> 的作用其实就是告诉编译器，我这个可空类型的变量是非空的！(真打脸)</p>
+<p>但是，这在 android 中是非常常见的。比如我们经常使用的 intent 来传递参数，可是 intent 是可空类型的，那么我们从 intent 里面读出来的参数，如果使用 var 声明，那么肯定也是可空类型的。但是，我们又知道，这个 intent 肯定不是空的，我们会传自己的参数进来，所以我们存在 intent 里面的参数也一定不是空的，我们接收参数的方法，也是接收一个非空参数。这个时候只能如下这样写用 <code>!!</code>，或者 lateinit。</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">config</span><span class="p">:</span> <span class="n">AlbumDetectionConfig</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+<span class="k">override</span> <span class="k">fun</span> <span class="nf">onStartCommand</span><span class="p">(</span><span class="n">intent</span><span class="p">:</span> <span class="n">Intent</span><span class="p">?,</span> <span class="n">flags</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">startId</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">Int</span> <span class="p">{</span>
+    <span class="n">config</span> <span class="p">=</span> <span class="n">intent</span><span class="o">?.</span><span class="n">let</span> <span class="p">{</span>
+        <span class="n">IntentUtils</span><span class="p">.</span><span class="n">getSerializableExtra</span><span class="p">&lt;</span><span class="n">AlbumDetectionConfig</span><span class="p">&gt;(</span>
+            <span class="k">it</span><span class="p">,</span>
+            <span class="n">AlbumDetectInitModuleALBUM_DETECTION_CONFIG_KEY</span>
+            <span class="p">)}</span><span class="o">?:</span>
+            <span class="n">emitter</span><span class="p">.</span><span class="n">onError</span><span class="p">(</span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s2">&#34;AlbumDetectionConfig must not be null!!&#34;</span><span class="p">))</span>
+    <span class="n">VideoInfo</span><span class="p">.</span><span class="n">buildVideoInfo</span><span class="p">(</span><span class="n">config</span><span class="o">!!</span><span class="p">,</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>这里因为 intent 可空，所以 config 可空，又因为 buildVideoInfo 接收非空类型，所以我们只能用 <code>!!</code>，或者 lateinit，但是 lateinit 只能用于声明全局变量，很多时候我们只需要一个局部变量，所以很多时候只能使用 var 和 <code>!!</code></p>
+<p>在上面的代码里，我们又会发现了两个诡异的东西 <code>let</code> 和 <code>?:</code></p>
+<h3 id="打脸-val-和-final">打脸 val 和 final</h3>
+<p>终于搞完了前面一大堆的 var 相关的类成员变量声明的问题，这时候我们一直谨记着 var 可变 val 不可变。</p>
+<p><code>但是你又会看到这样的代码</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">size</span><span class="p">:</span> <span class="n">Int</span>
+    <span class="k">get</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">value</span><span class="o">?.</span><span class="n">size</span><span class="p">()</span> <span class="o">?:</span> <span class="p">-</span><span class="m">1</span>
+    <span class="p">}</span>
+
+</code></pre></div><p>首先看这个写法，咋还能这么写？？？是的，他就是可以这么写，可以重写 get 和 set 方法。</p>
+<p>然后看 size 这个成员变量，这个成员变量是 val 声明的，但是···这不是随着 value 的值在变么？value 空了就是 -1，不是空就是 value 的大小。<code>一直以为 val 声明的就是 final 的变量，其实不然</code>···</p>
+<p>这其实是因为 kotlin 为我们生成了所有类成员变量的默认的 get set 方法，我们当然可以重写，我们声明的 val 只是声明了一个 final 的 get 方法仅此而已，而不是声明了一个 final 的成员变量，这个可以通过转 java 代码查看。</p>
+<p>好了，至此，搞懂这些，应该能看懂 60%-70% 的 kotlin 代码了吧~~</p>
+<h2 id="烦人的各种-scope-function">烦人的各种 Scope Function</h2>
+<p>kotlin 比 java 多出了很多这些个东西，会阻断你的学习，让你觉得学起来很烦，不想学了。其实，到这里也就差不多了，知道了 <code>let</code> 和 <code>?:</code>，知道了 <code>by or by lazy</code>，基本就差不多了。</p>
+<p>当你查 <code>let</code> 的时候，你就会发现原来还有 <code>with、run、apply、also</code>，让你想哭，但是这些都是功能不同罢了。</p>
+<p><code>let</code> 经常使用在上面代码中的场景下：可空类型不为空才会执行 <code>let</code> 的函数体，又因为 lambda 可以省略 return，所以上面的那一坨代码的意思是，intent 空的话那我就不执行 let 里面的函数体了，那就是个 null 了。<code>?:</code> 的意思就是，如果前面的是空则执行后面的代码。那么就是说，如果 intent 空了或者 intentUtils.getSerializableExtra() 的结果是空了，就执行 emitter.onError()，就是这么简单。</p>
+<p><code>by</code> 关键字是一块很多的东西，但是你看字节码或者转 java 代码看的时候就知道，这其实就是个委托的概念。</p>
+<h2 id="类和方法">类和方法</h2>
+<p>这里 kotlin 也有很多新概念，你会发现你甚至没法继承类了，没法重写方法了。没错，因为一定要加 <code>open</code> 关键字</p>
+<p>还有许许多多的概念，比如什么是伴生对象？什么是密封类？什么又是内联类？什么是幕后字段？？？？？？？？</p>
+<p>这里只说几个常用的</p>
+<h3 id="伴生对象">伴生对象</h3>
+<p>首先 <code>object</code> 在 kotlin 中也是一个关键字，它可以用于</p>
+<ul>
+<li>
+<p>对象声明<br>
+懒加载的单例</p>
+</li>
+<li>
+<p>伴生对象<br>
+也是我们经常看到的 companion object xxx 写法</p>
+</li>
+<li>
+<p>匿名内部类<br>
+android 中也很常见 object: interface {}<br>
+而且可以随意增加方法，外部还能继续调用，而 java 中在匿名内部类声明的方法，外部是无法访问匿名内部类里新声明的属性或者方法的。</p>
+</li>
+</ul>
+<p>主要来看伴生对象，如果想快速理解的话就是伴生对象在 kotlin 中的感觉就像是 java 中的 static 一样，因为 kotlin 中没有 static 的概念。</p>
+<p>companion object 是通过创建一个单例类来实现的。</p>
+<p>如果你只是在 kotlin 代码中互相调用，是没有感知的，因为 kotlin 中 object 的声明，就代表了可以直接引用。</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">object</span> <span class="nc">A</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;A&#34;</span>
+    <span class="k">fun</span> <span class="nf">a</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="n">A</span><span class="p">.</span><span class="n">a</span> <span class="c1">// ok
+</span><span class="c1"></span>    <span class="n">A</span><span class="p">.</span><span class="n">a</span><span class="p">()</span> <span class="c1">// ok
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></div><p>这就跟 java 中的静态方法调用写法一致，但是实际 A 是个单例类，当你从 java 代码中调用时会明显发现不对劲。</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">A</span><span class="o">.</span><span class="na">a</span><span class="o">();</span> <span class="c1">// error
+</span><span class="c1"></span>  <span class="n">A</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">.</span><span class="na">a</span><span class="o">();</span> <span class="c1">// ok
+</span><span class="c1"></span><span class="o">}</span>
+</code></pre></div><p>这里就很明显了吧，其实就是一个单例类而已。而 companion object 同理，在 java 中调用时要用 A.Companion 来调用。</p>
+<p>这里就有了另一个注解 @Jvmtatic，如果你加上了这个注解，那么编译器会在外部帮你生成一个真实的 java static 方法或者成员变量，那么你在 java 代码中调用的时候，就不需要 A.Companion 了，可以直接 A.a()！</p>
+<h3 id="数据类和密封类">数据类和密封类</h3>
+<p>数据类就是 <code>data</code> 关键字来声明，只是帮我们生成了一些常用的方法仅此而已。<br>
+密封类其实也没啥，是个抽象类，不过被严格要求了子类声明位置(所以密封了嘛···)，这样可以对集成类型进行限制，算是一种代码设计层次的东西。</p>
+<h3 id="gettersetter-和-幕后字段">getter/setter 和 幕后字段</h3>
+<p>java 中我们要写 getter 和 setter，kotlin 中对于类型成员变量的方法和改变也是 getter 和 setter。<br>
+但是下面这段在 java 中看似没毛病的代码确是不行的~~</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
+      <span class="k">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="n">a</span> <span class="p">=</span> <span class="n">value</span>
+      <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>运行直接栈溢出</p>
+<p>所以为了解决这个问题出现了 <code>幕后字段</code>，用关键字 <code>field</code> 表示，我基本没用到过，所以刚才的代码要这么写</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
+      <span class="k">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">field</span> <span class="p">=</span> <span class="n">value</span>
+      <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>之后我看到了一些 <code>幕后属性</code> 的概念，但是没看到官方对此有任何的说明，举例也没有任何关键字，只是一种约定，感觉像是自己说出来的东西。<br>
+通过 _a，这种变量名写法表示是 <code>幕后属性</code>？，然后再声明个 a，外部访问只能访问 a，不可访问 _a， a 的值依赖 _a，来达到一种可读不可写的作用域。</p>
+<p>但是，直接声明个 a，private set，外部不就不可以调用了吗？内部依旧可以</p>
+<h2 id="协程">协程</h2>
+<p>因为之前写过一段时间 go，go 也有 Goroutines，相类似的概念，但是 golang 可是自己写了一波调度器的，那 kotlin 如何实现的呢？</p>
+<p>未完待续···</p>
+<hr>
+<p>2021.1.10 补充</p>
+<p>看了一波别人写的实现原理分析，源码也看了点，发现 kotlin 其实也是做了一套调度，帮忙更好的处理异步操作。</p>
+<p>那既然如此，只能去慢慢学 api 了，没有办法的。</p>
+<p>而且配上 kotlin 之后，加上 Android Architecture Components 那一套东西，帮你处理了很多生命周期和对象释放的问题等等···会让代码看起来十分简洁，不知道这算是对编程人员的要求更低了，还是要求更高了呢？</p>
+<p>关于协程能否提升性能？这个看你怎么看 <code>协程</code> 这两个字了，如果你说的是 Goroutines，那确实可以提高性能，如果你说的是 kotlin 中的协程，不能，就是线程池而已。</p>
+<p>为什么有这些区别？主要在于协程的实现上的区别，其实本质的纯洁的协程和性能没有半毛钱关系，它只是一段可供调用的逻辑段，谈何性能呢？</p>
+<p>只不过，配合上线程，那么就能做到很多调度(也要看你怎么实现，但是这部分本身已经超出了最本质的协程的概念)，写出同步形式的异步代码。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-12-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/kotlin/">kotlin</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" class="prev" rel="prev" title="再来看 Activity 启动流程"><i class="fas fa-angle-left fa-fw"></i>再来看 Activity 启动流程</a>
+            <a href="/posts/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/" class="next" rel="next" title="java 匿名内部类">java 匿名内部类<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2020-12-24T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"半天入门了下 kotlin"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

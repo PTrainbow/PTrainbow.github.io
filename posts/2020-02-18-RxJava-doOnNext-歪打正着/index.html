@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>RxJava doOnNext 歪打正着 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="RxJava doOnNext 歪打正着" />
+<meta property="og:description" content="来到了快手，代码是真滴乱。RxJava 到处甩，然后又炫技式的使用，冗余各种复杂逻辑，且有些地方使用并不规范，只不过没有出问题。配合自制 MVPs 架构" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-02-18T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-02-18T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="RxJava doOnNext 歪打正着"/>
+<meta name="twitter:description" content="来到了快手，代码是真滴乱。RxJava 到处甩，然后又炫技式的使用，冗余各种复杂逻辑，且有些地方使用并不规范，只不过没有出问题。配合自制 MVPs 架构"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/" /><link rel="prev" href="http://PTrain666.github.io/posts/2019-11-20-Promise/" /><link rel="next" href="http://PTrain666.github.io/posts/2020-03-20-%E4%BB%A3%E7%A0%81%E4%B8%8D%E8%A7%84%E8%8C%83%E7%9A%84%E5%85%B8%E5%9E%8B%E7%A4%BA%E4%BE%8B/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "RxJava doOnNext 歪打正着",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80\/"
+        },"genre": "posts","keywords": "Java","wordcount":  2190 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80\/","datePublished": "2020-02-18T00:00:00+00:00","dateModified": "2020-02-18T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">RxJava doOnNext 歪打正着</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-02-18">2020-02-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2190 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么很多人推崇-rxjava然后又有很多人唾弃它">为什么很多人推崇 RxJava，然后又有很多人唾弃它</a></li>
+    <li><a href="#我是如何歪打正着的">我是如何歪打正着的</a>
+      <ul>
+        <li><a href="#doonnext-的理解">doOnNext 的理解</a></li>
+        <li><a href="#疑惑">疑惑</a></li>
+        <li><a href="#更疑惑了">更疑惑了</a></li>
+        <li><a href="#解惑">解惑</a></li>
+      </ul>
+    </li>
+    <li><a href="#后怕">后怕</a></li>
+    <li><a href="#好的代码是什么样子">好的代码是什么样子？</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>来到了快手，代码是真滴乱。RxJava 到处甩，然后又炫技式的使用，冗余各种复杂逻辑，且有些地方使用并不规范，只不过没有出问题。配合自制 MVPs 架构，又秀了一波依赖注入，全是注解，导致我刚看代码时，完全凌乱了，重点是没有任何文档，对新人极不友好，且我认为，代码不应该这样写。</p>
+<p>依赖注入可以用，架构可以自己定制，但是逻辑一定要清晰，生命周期或者说状态机一定要越简单越好，越直接越好，而不是外部有状态机，其中一步内部又维护了一套状态，反正就我目前的理解来看，并不好用。</p>
+<p>言归正传！RxJava 问题！</p>
+<h2 id="为什么很多人推崇-rxjava然后又有很多人唾弃它">为什么很多人推崇 RxJava，然后又有很多人唾弃它</h2>
+<ul>
+<li>
+<p>1.推崇派<br>
+如果要去搜那些文章的话，可以balabala说一堆有的没的(现在面试的现状也是凄惨，就是背诵课文的感觉，没啥意思)。<br>
+我个人认为有两点最主要</p>
+<ul>
+<li>懒人的幸福<br>
+RxJava 提供了丰富的操作符，你想到的基本他都有，只是一个操作符，可以让你实现 定时、轮询、重试、拦截等等等各种骚操作，按照正常来写，难免有人会写不出，或者状态搞乱，或者线程搞乱。但是有了 RxJava，依葫芦画瓢，你就能实现，且大多情况下没有问题，因为自己理解不到位出现问题的话，基本就是 crash。</li>
+<li>拯救强迫症<br>
+无穷无尽的回调地狱让所有人都梦碎，这玩意把回调变成链式的，不知道拯救了多少强迫症，但是其实前端早就有了这类东西，比如我的上一篇 <a href="../../../../2019/11/20/Promise" rel="">Promise</a>，我觉得比 RxJava 要纯粹和简单</li>
+</ul>
+</li>
+<li>
+<p>2.唾弃派</p>
+<ul>
+<li>学习曲线陡峭 = 不会用 = 瞎几把用 = 谁也说不出个所以然</li>
+<li>异常调用栈嵌套一万层 = 不知道错在哪了</li>
+</ul>
+</li>
+</ul>
+<h2 id="我是如何歪打正着的">我是如何歪打正着的</h2>
+<p>没来快手之前我也接触过 RxJava，但是基本停留在使用 subscribeOn 和 observeOn 切换线程，他们俩如何影响上下游，最多使用个 flatMap 或者 retryWhen 之类的常用操作符。</p>
+<h3 id="doonnext-的理解">doOnNext 的理解</h3>
+<p>doOnNext这个操作符，在来快手之前，我完全不知道，按照我的理解和看文档，它应当是发生在 onNext 之前，那么其一定和 <code>observeOn</code> 线程关联在一起的，而如果没有指定 observeOn 的情况下呢？ 那么 onNext 等方法会执行在<code>当前代码所在线程</code>之中。</p>
+<p>所谓<code>当前代码所在线程</code>，Android 中基本就是主线程，但是一般使用 RxJava + Retrofit 进行网络请求的时候，我们都会写上这么两行代码 subscribeOn 和 observeOn，其实就是让网络请求发生在子线程，而在合适的时机切换到主线程更新 UI 或者 其他一些必须在主线程的操作。</p>
+<p>这个时候问题就来了，在快手的代码中多是如下操作:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Singleton</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">XXXAPiService</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">sendXXXRequest</span><span class="o">(</span><span class="n">xxx</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="k">new</span> <span class="n">ResponseFunction</span><span class="o">&lt;&gt;())</span>
+      <span class="o">.</span><span class="na">doOnNext</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">subscribe</span><span class="o">()</span>
+</code></pre></div><p>然后就没了。
+起初我并没有在意这个问题，直到代码提交进 dev 分支之后才发现，当天晚上慌的很，因为我没有做线程切换。所以 doOnNext 和 subscribe 要么是在主线程，要么是在子线程，子线程就绝对 crash，我操纵了 UI。主线程也一样，在主线程进行了网络请求。</p>
+<h3 id="疑惑">疑惑</h3>
+<p>我赶紧掏出测试机，测了一波，打印了 subscribe 所在线程，居然发现没问题，满头问号？？？<br>
+按照之前的理解，是没有问题的，我没有进行网络线程切换，Android 中，则一定是在主线程中间进行了网络请求才对啊？
+于是看了看了 Retrofit + RxJava 的代码，主要就是 <code>CallAdapter</code> 的代码。发现在创建 <code>RxJava2CallAdapterFactory</code> 时，其实会传入一个 scheduler 的，这个<code>后面会调用 subscribeOn</code>。</p>
+<h3 id="更疑惑了">更疑惑了</h3>
+<p>都知道，如果<code>只设置 subscribeOn 而没有设置 observeOn</code>，那么会发生啥？就是后续操作你以为在<code>主线程</code>中的，全在<code>子线程</code>中（前面已经说了原因）,那么我的 doOnNext，岂不是···在子线程···，那么必定 crash 才对啊？？？<br>
+感觉打了个 log，发现我的 doOnNext 在主线程···彻底迷了</p>
+<h3 id="解惑">解惑</h3>
+<p>因为代码明天要提测了，所以我慌得不行，虽然没有 crash，但是搞不明白原因，一直很不踏实。最后没办法了，只好 debug 一步步看！这才发现了玄机···
+我只看了 retrofit-rxjava 库里的 <code>RxJava2CallAdapterFactory</code> 代码，谁知道快手自己<code>继承了一波 callAdapter.Factory</code>，来了个 CustomAdapterFactory···瞬间崩溃···然后代码都在里面，每次 buildObservable 的时候，都会调用 observeOn 和 subscribeOn 方法来切换线程，不需要你在外部指定。<br>
+所以前面的疑惑通通解决了</p>
+<h2 id="后怕">后怕</h2>
+<p>所以这次我的 doOnNext 纯粹是歪打正着，也正是因为内部封装的库函数帮忙做了线程切换，才会让我避免出现了线程问题而crash。</p>
+<p>但是，我并不感激他们，而且对写这几行代码的人或者做新人入职文档的人表示谴责。</p>
+<p>原因:</p>
+<ul>
+<li>
+<p>这种的代码<code>不便于理解</code><br>
+因为我刚入职，做的第一个需求，稍微急了点，代码基本处于依葫芦画瓢的写法，用之前别人写好的各种类。<br>
+当我发现网络请求不做线程切换的时候其实是很懵逼的，会想到可能内部封装了一层，但是找代码的过程是漫长的，这种东西难道不应该写在新人文档里么？</p>
+</li>
+<li>
+<p>给人<code>错误的使用习惯</code><br>
+可以看到，很多人的代码都是在前人的代码上 copy 出来的，他们都不做线程切换，久而久之，是不是有的人就以为不用做线程切换了呢？？？我觉得肯定会有，人都是惰性思维的，他们可能都没有想这么多。</p>
+</li>
+<li>
+<p>如果 observeOn 就想在子线程中呢？<br>
+当然这么说有点抬杠了，网络请求中的 observeOn 应该都在子线程中~~<br>
+可是万一有这种奇怪的需求，那岂不是要在外层显示的写上一个 observeOn 却没有 subscribeOn，这让<code>代码更迷惑他人</code>。</p>
+</li>
+</ul>
+<h2 id="好的代码是什么样子">好的代码是什么样子？</h2>
+<p>好的代码不是要炫技，不是把 RxJava 的操作符在一个请求中用光，不是说加几个依赖注入，设计一下架构，这就是牛逼了。<br>
+做应用开发，迭代如此之快，人员流动也很大，<code>代码的易读性尤其重要</code>，虽然我的代码很烂，但是我都争取让我写的逻辑，我自己可以画出个流程图来，然后配上注释，让别人看得懂。<br>
+<code>不是不推崇新技术</code>，我觉得 RxJava 挺好的，依赖注入这种 spring 用烂了的东西也很成熟，但是不要自己想当然开发，要<code>遵守基本原则</code>，不然代码真的一团糟，很难懂啊！！！！</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-02-18</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Java/">Java</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2019-11-20-Promise/" class="prev" rel="prev" title="Promise"><i class="fas fa-angle-left fa-fw"></i>Promise</a>
+            <a href="/posts/2020-03-20-%E4%BB%A3%E7%A0%81%E4%B8%8D%E8%A7%84%E8%8C%83%E7%9A%84%E5%85%B8%E5%9E%8B%E7%A4%BA%E4%BE%8B/" class="next" rel="next" title="代码不规范的典型示例">代码不规范的典型示例<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2020-02-18T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"RxJava doOnNext 歪打正着"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

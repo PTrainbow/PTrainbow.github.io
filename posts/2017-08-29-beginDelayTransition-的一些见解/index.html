@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>beginDelayedTransition 的一些源码分析 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="beginDelayedTransition 的一些源码分析" />
+<meta property="og:description" content="Transition 动画很多时候效果都十分好，但是我苦于只会使用别人写好的一些例子，而实际使用的时候各种 bug 不知道怎么解决。
+就在写了这篇文章后还是有很多不理解，比如使用 RecyclerView 的时候有时候在返回的时候突然就 crash 掉了
+之前看到了一个 GitHub 上的一个开源库 DropDownView
+他就使用了 beginDelayedTransition 这个方法实现了一个 dropdown 的效果，所以就学习下相关的知识，也希望可以完全吸收他的控件代码！" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2017-08-29-beginDelayTransition-%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%81%E8%A7%A3/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-08-29T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2017-08-29T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="beginDelayedTransition 的一些源码分析"/>
+<meta name="twitter:description" content="Transition 动画很多时候效果都十分好，但是我苦于只会使用别人写好的一些例子，而实际使用的时候各种 bug 不知道怎么解决。
+就在写了这篇文章后还是有很多不理解，比如使用 RecyclerView 的时候有时候在返回的时候突然就 crash 掉了
+之前看到了一个 GitHub 上的一个开源库 DropDownView
+他就使用了 beginDelayedTransition 这个方法实现了一个 dropdown 的效果，所以就学习下相关的知识，也希望可以完全吸收他的控件代码！"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2017-08-29-beginDelayTransition-%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%81%E8%A7%A3/" /><link rel="prev" href="http://PTrain666.github.io/posts/2017-08-29-%E5%85%A8%E5%B1%8F-Dialog/" /><link rel="next" href="http://PTrain666.github.io/posts/2017-08-31-%E4%BB%8A%E5%B9%B4%E7%9A%84%E5%B0%8F%E8%AE%A1%E5%88%92/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "beginDelayedTransition 的一些源码分析",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2017-08-29-beginDelayTransition-%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%81%E8%A7%A3\/"
+        },"genre": "posts","keywords": "Android动画","wordcount":  4185 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/2017-08-29-beginDelayTransition-%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%81%E8%A7%A3\/","datePublished": "2017-08-29T00:00:00+00:00","dateModified": "2017-08-29T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">beginDelayedTransition 的一些源码分析</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-08-29">2017-08-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4185 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#transitonmanagerbegindelayedtransition分析">TransitonManager.beginDelayedTransition分析</a></li>
+    <li><a href="#1-scenechangesetup方法">1-sceneChangeSetup方法</a>
+      <ul>
+        <li><a href="#11-transitioncapturevalues源码">1.1-transition.captureValues源码</a></li>
+        <li><a href="#12-capturehierarchy源码">1.2-captureHierarchy源码</a></li>
+        <li><a href="#13-transitionvalues和transitionvaluesmaps源码">1.3-TransitionValues和TransitionValuesMaps源码</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-scenesetcurrentscenesceneroot-null">2-Scene.setCurrentScene(sceneRoot, null)</a></li>
+    <li><a href="#3-scenechangeruntransition方法">3-sceneChangeRunTransition方法</a>
+      <ul>
+        <li><a href="#31-multilistener的onpredraw">3.1-MultiListener的OnPreDraw</a></li>
+        <li><a href="#32-mtransitionplaytransition源码">3.2-mTransition.playTransition源码</a></li>
+        <li><a href="#33-crateanimators">3.3-crateAnimators</a></li>
+        <li><a href="#34-runanimators">3.4-runAnimators</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#借鉴">借鉴</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Transition 动画很多时候效果都十分好，但是我苦于只会使用别人写好的一些例子，而实际使用的时候各种 bug 不知道怎么解决。</p>
+<p>就在写了这篇文章后还是有很多不理解，比如使用 RecyclerView 的时候有时候在返回的时候突然就 crash 掉了</p>
+<p>之前看到了一个 GitHub 上的一个开源库 <a href="https://github.com/AnthonyFermin/DropDownView" target="_blank" rel="noopener noreffer">DropDownView</a></p>
+<p>他就使用了 beginDelayedTransition 这个方法实现了一个 dropdown 的效果，所以就学习下相关的知识，也希望可以完全吸收他的控件代码！</p>
+<h2 id="transitonmanagerbegindelayedtransition分析">TransitonManager.beginDelayedTransition分析</h2>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">beginDelayedTransition</span><span class="o">(</span><span class="kd">final</span> <span class="n">ViewGroup</span> <span class="n">sceneRoot</span><span class="o">,</span> <span class="n">Transition</span> <span class="n">transition</span><span class="o">)</span> <span class="o">{</span>
+       <span class="c1">//sceneRoot已经被layout而且之前没有被加入到transition中，这里面记录了所有的要做transition的布局
+</span><span class="c1"></span>       <span class="k">if</span> <span class="o">(!</span><span class="n">sPendingTransitions</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">sceneRoot</span><span class="o">.</span><span class="na">isLaidOut</span><span class="o">())</span> <span class="o">{</span>
+           <span class="k">if</span> <span class="o">(</span><span class="n">Transition</span><span class="o">.</span><span class="na">DBG</span><span class="o">)</span> <span class="o">{</span>
+               <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">LOG_TAG</span><span class="o">,</span> <span class="s">&#34;beginDelayedTransition: root, transition = &#34;</span> <span class="o">+</span>
+                       <span class="n">sceneRoot</span> <span class="o">+</span> <span class="s">&#34;, &#34;</span> <span class="o">+</span> <span class="n">transition</span><span class="o">);</span>
+           <span class="o">}</span>
+           <span class="c1">//加入这个list中,private static ArrayList&lt;ViewGroup&gt; sPendingTransitions = new ArrayList&lt;ViewGroup&gt;();
+</span><span class="c1"></span>           <span class="n">sPendingTransitions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">);</span>
+           <span class="k">if</span> <span class="o">(</span><span class="n">transition</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+             <span class="c1">//没有特定设置transition,就是一个默认实现的, private static Transition sDefaultTransition = new AutoTransition();
+</span><span class="c1"></span>               <span class="n">transition</span> <span class="o">=</span> <span class="n">sDefaultTransition</span><span class="o">;</span>
+           <span class="o">}</span>
+           <span class="kd">final</span> <span class="n">Transition</span> <span class="n">transitionClone</span> <span class="o">=</span> <span class="n">transition</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+           <span class="c1">//见1
+</span><span class="c1"></span>           <span class="n">sceneChangeSetup</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">,</span> <span class="n">transitionClone</span><span class="o">);</span>
+           <span class="c1">//见2
+</span><span class="c1"></span>           <span class="n">Scene</span><span class="o">.</span><span class="na">setCurrentScene</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+           <span class="c1">//见3
+</span><span class="c1"></span>           <span class="n">sceneChangeRunTransition</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">,</span> <span class="n">transitionClone</span><span class="o">);</span>
+       <span class="o">}</span>
+   <span class="o">}</span>
+</code></pre></div><h2 id="1-scenechangesetup方法">1-sceneChangeSetup方法</h2>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sceneChangeSetup</span><span class="o">(</span><span class="n">ViewGroup</span> <span class="n">sceneRoot</span><span class="o">,</span> <span class="n">Transition</span> <span class="n">transition</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="c1">// Capture current values
+</span><span class="c1"></span>    <span class="c1">//这句我看就是拿到现在这个sceneRoot正在进行的transition动画，有的话就pause了，没有就加入到一个叫做sRunningTranstions的ArrayMap里面,它记录了正在运行的Transitions
+</span><span class="c1"></span>    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Transition</span><span class="o">&gt;</span> <span class="n">runningTransitions</span> <span class="o">=</span> <span class="n">getRunningTransitions</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">runningTransitions</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">runningTransitions</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Transition</span> <span class="n">runningTransition</span> <span class="o">:</span> <span class="n">runningTransitions</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">runningTransition</span><span class="o">.</span><span class="na">pause</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="c1">//如果传进来的transition不是null，而是我们人为设置的transition
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">transition</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">//计算transition动画所需要的值
+</span><span class="c1"></span>      <span class="c1">//见1.1
+</span><span class="c1"></span>        <span class="n">transition</span><span class="o">.</span><span class="na">captureValues</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Notify previous scene that it is being exited
+</span><span class="c1"></span>    <span class="n">Scene</span> <span class="n">previousScene</span> <span class="o">=</span> <span class="n">Scene</span><span class="o">.</span><span class="na">getCurrentScene</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">previousScene</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">previousScene</span><span class="o">.</span><span class="na">exit</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><h3 id="11-transitioncapturevalues源码">1.1-transition.captureValues源码</h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">  <span class="c1">//代码很长省略了很多
+</span><span class="c1"></span>  <span class="kt">void</span> <span class="nf">captureValues</span><span class="o">(</span><span class="n">ViewGroup</span> <span class="n">sceneRoot</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">start</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//根据这个start值是true还是false清空相应的Values值,这些Values值究竟是干什么的，见1.3
+</span><span class="c1"></span>    <span class="n">clearValues</span><span class="o">(</span><span class="n">start</span><span class="o">);</span>
+    <span class="c1">//这里mTargetIds是要通过addTarget才有的值，源码注释如下，mTargetNames和各种mTargetXX同理，主要是用于单独的view的一些操作
+</span><span class="c1"></span>    <span class="cm">/**
+</span><span class="cm">  * Adds the id of a target view that this Transition is interested in
+</span><span class="cm">  * animating. By default, there are no targetIds, and a Transition will
+</span><span class="cm">  * listen for changes on every view in the hierarchy below the sceneRoot
+</span><span class="cm">  * of the Scene being transitioned into. Setting targetIds constrains
+</span><span class="cm">  * the Transition to only listen for, and act on, views with these IDs.
+</span><span class="cm">  * Views with different IDs, or no IDs whatsoever, will be ignored.
+</span><span class="cm">  *
+</span><span class="cm">  * &lt;p&gt;Note that using ids to specify targets implies that ids should be unique
+</span><span class="cm">  * within the view hierarchy underneath the scene root.&lt;/p&gt;
+</span><span class="cm">  *
+</span><span class="cm">  * @see View#getId()
+</span><span class="cm">  * @param targetId The id of a target view, must be a positive number.
+</span><span class="cm">  * @return The Transition to which the targetId is added.
+</span><span class="cm">  * Returning the same object makes it easier to chain calls during
+</span><span class="cm">  * construction, such as
+</span><span class="cm">  * &lt;code&gt;transitionSet.addTransitions(new Fade()).addTarget(someId);&lt;/code&gt;
+</span><span class="cm">  */</span>
+    <span class="k">if</span> <span class="o">((</span><span class="n">mTargetIds</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span> <span class="o">||</span> <span class="n">mTargets</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span>
+            <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">mTargetNames</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">mTargetNames</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span>
+            <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">mTargetTypes</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">mTargetTypes</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="c1">//省略若干
+</span><span class="c1"></span>            <span class="c1">//代码是处理一些指定view的处理，默认是走不到这里面的
+</span><span class="c1"></span>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">//贼重要开始全靠他来遍历sceneRoot来计算需要的Values，见1.2
+</span><span class="c1"></span>        <span class="n">captureHierarchy</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">,</span> <span class="n">start</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(!</span><span class="n">start</span> <span class="o">&amp;&amp;</span> <span class="n">mNameOverrides</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//省略若干
+</span><span class="c1"></span>    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div><h3 id="12-capturehierarchy源码">1.2-captureHierarchy源码</h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">captureHierarchy</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">start</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">view</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="na">getId</span><span class="o">();</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">mTargetIdExcludes</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mTargetIdExcludes</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">id</span><span class="o">))</span> <span class="o">{</span>
+          <span class="k">return</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">mTargetExcludes</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mTargetExcludes</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">view</span><span class="o">))</span> <span class="o">{</span>
+          <span class="k">return</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">mTargetTypeExcludes</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">view</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kt">int</span> <span class="n">numTypes</span> <span class="o">=</span> <span class="n">mTargetTypeExcludes</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numTypes</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+              <span class="k">if</span> <span class="o">(</span><span class="n">mTargetTypeExcludes</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">isInstance</span><span class="o">(</span><span class="n">view</span><span class="o">))</span> <span class="o">{</span>
+                  <span class="k">return</span><span class="o">;</span>
+              <span class="o">}</span>
+          <span class="o">}</span>
+      <span class="o">}</span>
+      <span class="c1">//这里开始计算值
+</span><span class="c1"></span>      <span class="k">if</span> <span class="o">(</span><span class="n">view</span><span class="o">.</span><span class="na">getParent</span><span class="o">()</span> <span class="k">instanceof</span> <span class="n">ViewGroup</span><span class="o">)</span> <span class="o">{</span>
+          <span class="c1">//这就是Values类很重要，同见1.3
+</span><span class="c1"></span>          <span class="n">TransitionValues</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TransitionValues</span><span class="o">();</span>
+          <span class="n">values</span><span class="o">.</span><span class="na">view</span> <span class="o">=</span> <span class="n">view</span><span class="o">;</span>
+          <span class="c1">//根据start判断是开始动画的场景要计算的值还是结束时的值
+</span><span class="c1"></span>          <span class="k">if</span> <span class="o">(</span><span class="n">start</span><span class="o">)</span> <span class="o">{</span>
+              <span class="c1">//这个方法和captureEndValues基本一致
+</span><span class="c1"></span>              <span class="c1">//这个方法是抽象方法，根据我们传入的transition的类别而各有实现
+</span><span class="c1"></span>              <span class="c1">//比如Fade就有相应的方法，主要就是放入TransitionValues中的values这个ArrayMap中
+</span><span class="c1"></span>              <span class="n">captureStartValues</span><span class="o">(</span><span class="n">values</span><span class="o">);</span>
+          <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+              <span class="n">captureEndValues</span><span class="o">(</span><span class="n">values</span><span class="o">);</span>
+          <span class="o">}</span>
+          <span class="c1">//也是加入到values的一个属性中，这个targetedTransitions是个list，记录了这个view的所有transiton
+</span><span class="c1"></span>          <span class="n">values</span><span class="o">.</span><span class="na">targetedTransitions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+          <span class="c1">// 这个东西也是计算值用的，内部调用了TransitionPropagation的captureValues方法，这个方法也是抽象方法
+</span><span class="c1"></span>          <span class="c1">//比如Explode这个场景动画就用到了这个类的一个实现类VisibilityPropagation的子类CircularPropagation
+</span><span class="c1"></span>          <span class="c1">//实现了一种时差的效果
+</span><span class="c1"></span>          <span class="n">capturePropagationValues</span><span class="o">(</span><span class="n">values</span><span class="o">);</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">start</span><span class="o">)</span> <span class="o">{</span>
+              <span class="c1">//整合Values到map中
+</span><span class="c1"></span>              <span class="n">addViewValues</span><span class="o">(</span><span class="n">mStartValues</span><span class="o">,</span> <span class="n">view</span><span class="o">,</span> <span class="n">values</span><span class="o">);</span>
+          <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+              <span class="n">addViewValues</span><span class="o">(</span><span class="n">mEndValues</span><span class="o">,</span> <span class="n">view</span><span class="o">,</span> <span class="n">values</span><span class="o">);</span>
+          <span class="o">}</span>
+      <span class="o">}</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">view</span> <span class="k">instanceof</span> <span class="n">ViewGroup</span><span class="o">)</span> <span class="o">{</span>
+          <span class="c1">// Don&#39;t traverse child hierarchy if there are any child-excludes on this view
+</span><span class="c1"></span>          <span class="k">if</span> <span class="o">(</span><span class="n">mTargetIdChildExcludes</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mTargetIdChildExcludes</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">id</span><span class="o">))</span> <span class="o">{</span>
+              <span class="k">return</span><span class="o">;</span>
+          <span class="o">}</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">mTargetChildExcludes</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mTargetChildExcludes</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">view</span><span class="o">))</span> <span class="o">{</span>
+              <span class="k">return</span><span class="o">;</span>
+          <span class="o">}</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">mTargetTypeChildExcludes</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+              <span class="kt">int</span> <span class="n">numTypes</span> <span class="o">=</span> <span class="n">mTargetTypeChildExcludes</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+              <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numTypes</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+                  <span class="k">if</span> <span class="o">(</span><span class="n">mTargetTypeChildExcludes</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">isInstance</span><span class="o">(</span><span class="n">view</span><span class="o">))</span> <span class="o">{</span>
+                      <span class="k">return</span><span class="o">;</span>
+                  <span class="o">}</span>
+              <span class="o">}</span>
+          <span class="o">}</span>
+          <span class="c1">//如果是ViewGroup就会遍历子View
+</span><span class="c1"></span>          <span class="n">ViewGroup</span> <span class="n">parent</span> <span class="o">=</span> <span class="o">(</span><span class="n">ViewGroup</span><span class="o">)</span> <span class="n">view</span><span class="o">;</span>
+          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">parent</span><span class="o">.</span><span class="na">getChildCount</span><span class="o">();</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+              <span class="n">captureHierarchy</span><span class="o">(</span><span class="n">parent</span><span class="o">.</span><span class="na">getChildAt</span><span class="o">(</span><span class="n">i</span><span class="o">),</span> <span class="n">start</span><span class="o">);</span>
+          <span class="o">}</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div><h3 id="13-transitionvalues和transitionvaluesmaps源码">1.3-TransitionValues和TransitionValuesMaps源码</h3>
+<ul>
+<li>TransitionValues</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">  * The View with these values   在captureHierarchy中就赋值了
+</span><span class="cm">  */</span>
+ <span class="kd">public</span> <span class="n">View</span> <span class="n">view</span><span class="o">;</span>
+
+ <span class="cm">/**
+</span><span class="cm">  * The set of values tracked by transitions for this scene 通过captureStartValues或者endvalues算出
+</span><span class="cm">  */</span>
+ <span class="kd">public</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+
+ <span class="cm">/**
+</span><span class="cm">  * The Transitions that targeted this view. 这个就是View的所有被设置的transiton动画
+</span><span class="cm">  */</span>
+ <span class="kd">final</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Transition</span><span class="o">&gt;</span> <span class="n">targetedTransitions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Transition</span><span class="o">&gt;();</span>
+</code></pre></div><ul>
+<li>TransitionValuesMaps</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">TransitionValuesMaps</span> <span class="o">{</span>
+  <span class="n">ArrayMap</span><span class="o">&lt;</span><span class="n">View</span><span class="o">,</span> <span class="n">TransitionValues</span><span class="o">&gt;</span> <span class="n">viewValues</span> <span class="o">=</span>
+          <span class="k">new</span> <span class="n">ArrayMap</span><span class="o">&lt;</span><span class="n">View</span><span class="o">,</span> <span class="n">TransitionValues</span><span class="o">&gt;();</span>
+  <span class="n">SparseArray</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;</span> <span class="n">idValues</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SparseArray</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;();</span>
+  <span class="n">LongSparseArray</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;</span> <span class="n">itemIdValues</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LongSparseArray</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;();</span>
+  <span class="n">ArrayMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">View</span><span class="o">&gt;</span> <span class="n">nameValues</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">View</span><span class="o">&gt;();</span>
+<span class="o">}</span>
+</code></pre></div><h2 id="2-scenesetcurrentscenesceneroot-null">2-Scene.setCurrentScene(sceneRoot, null)</h2>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">  <span class="c1">//就是保存了Scence吧
+</span><span class="c1"></span> <span class="n">view</span><span class="o">.</span><span class="na">setTagInternal</span><span class="o">(</span><span class="n">com</span><span class="o">.</span><span class="na">android</span><span class="o">.</span><span class="na">internal</span><span class="o">.</span><span class="na">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">current_scene</span><span class="o">,</span> <span class="n">scene</span><span class="o">);</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTagInternal</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">tag</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">if</span> <span class="o">((</span><span class="n">key</span> <span class="o">&gt;&gt;&gt;</span> <span class="n">24</span><span class="o">)</span> <span class="o">!=</span> <span class="n">0x1</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;The key must be a framework-specific &#34;</span>
+                 <span class="o">+</span> <span class="s">&#34;resource id.&#34;</span><span class="o">);</span>
+     <span class="o">}</span>
+
+     <span class="n">setKeyedTag</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">tag</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div><h2 id="3-scenechangeruntransition方法">3-sceneChangeRunTransition方法</h2>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sceneChangeRunTransition</span><span class="o">(</span><span class="kd">final</span> <span class="n">ViewGroup</span> <span class="n">sceneRoot</span><span class="o">,</span>
+       <span class="kd">final</span> <span class="n">Transition</span> <span class="n">transition</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">if</span> <span class="o">(</span><span class="n">transition</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">sceneRoot</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+     <span class="cm">/**
+</span><span class="cm">      * 创建了MultiListener，这个listener实现了OnPreDrawListener，之后也被sceneRoot绑定在了一起
+</span><span class="cm">      * 那么当sceneRoot将要被绘制的时候，会先调用到MultiListener中去，MultiListener中的OnPreDraw方法很长见3.1
+</span><span class="cm">      */</span>
+       <span class="n">MultiListener</span> <span class="n">listener</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MultiListener</span><span class="o">(</span><span class="n">transition</span><span class="o">,</span> <span class="n">sceneRoot</span><span class="o">);</span>
+       <span class="n">sceneRoot</span><span class="o">.</span><span class="na">addOnAttachStateChangeListener</span><span class="o">(</span><span class="n">listener</span><span class="o">);</span>
+       <span class="n">sceneRoot</span><span class="o">.</span><span class="na">getViewTreeObserver</span><span class="o">().</span><span class="na">addOnPreDrawListener</span><span class="o">(</span><span class="n">listener</span><span class="o">);</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><h3 id="31-multilistener的onpredraw">3.1-MultiListener的OnPreDraw</h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onPreDraw</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">removeListeners</span><span class="o">();</span>
+
+        <span class="c1">// Don&#39;t start the transition if it&#39;s no longer pending.
+</span><span class="c1"></span>        <span class="c1">//就是判断还在不再等待序列里面，不在就直接返回了，在的话就删除因为要执行这个transtion了
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(!</span><span class="n">sPendingTransitions</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">mSceneRoot</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// Add to running list, handle end to remove it
+</span><span class="c1"></span>        <span class="c1">//如注释所说
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">ArrayMap</span><span class="o">&lt;</span><span class="n">ViewGroup</span><span class="o">,</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Transition</span><span class="o">&gt;&gt;</span> <span class="n">runningTransitions</span> <span class="o">=</span>
+                <span class="n">getRunningTransitions</span><span class="o">();</span>
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Transition</span><span class="o">&gt;</span> <span class="n">currentTransitions</span> <span class="o">=</span> <span class="n">runningTransitions</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">mSceneRoot</span><span class="o">);</span>
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Transition</span><span class="o">&gt;</span> <span class="n">previousRunningTransitions</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">currentTransitions</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">currentTransitions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Transition</span><span class="o">&gt;();</span>
+            <span class="n">runningTransitions</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">mSceneRoot</span><span class="o">,</span> <span class="n">currentTransitions</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">currentTransitions</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">previousRunningTransitions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Transition</span><span class="o">&gt;(</span><span class="n">currentTransitions</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">currentTransitions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">mTransition</span><span class="o">);</span>
+        <span class="n">mTransition</span><span class="o">.</span><span class="na">addListener</span><span class="o">(</span><span class="k">new</span> <span class="n">Transition</span><span class="o">.</span><span class="na">TransitionListenerAdapter</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onTransitionEnd</span><span class="o">(</span><span class="n">Transition</span> <span class="n">transition</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Transition</span><span class="o">&gt;</span> <span class="n">currentTransitions</span> <span class="o">=</span>
+                        <span class="n">runningTransitions</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">mSceneRoot</span><span class="o">);</span>
+                <span class="n">currentTransitions</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">transition</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+        <span class="c1">//这里注意到是false了，计算了一些结束时scene的值
+</span><span class="c1"></span>        <span class="n">mTransition</span><span class="o">.</span><span class="na">captureValues</span><span class="o">(</span><span class="n">mSceneRoot</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">previousRunningTransitions</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">Transition</span> <span class="n">runningTransition</span> <span class="o">:</span> <span class="n">previousRunningTransitions</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">runningTransition</span><span class="o">.</span><span class="na">resume</span><span class="o">(</span><span class="n">mSceneRoot</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="c1">//真正构建动画见3.2
+</span><span class="c1"></span>        <span class="n">mTransition</span><span class="o">.</span><span class="na">playTransition</span><span class="o">(</span><span class="n">mSceneRoot</span><span class="o">);</span>
+
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><h3 id="32-mtransitionplaytransition源码">3.2-mTransition.playTransition源码</h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">void</span> <span class="nf">playTransition</span><span class="o">(</span><span class="n">ViewGroup</span> <span class="n">sceneRoot</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">mStartValuesList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">TransitionValues</span><span class="o">&gt;();</span>
+     <span class="n">mEndValuesList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">TransitionValues</span><span class="o">&gt;();</span>
+     <span class="c1">//这里是将这两个List通过之前存在TransitionValuesMaps中的值来赋值
+</span><span class="c1"></span>     <span class="c1">//然后根据instance、name、id、itemid来判断是否是一组开始和结束的值,是就加入相应List中并且从Map中删除
+</span><span class="c1"></span>     <span class="c1">//那么生下来的都是不匹配的，我看到源代码中最后还是会调用addUnmatched(unmatchedStart, unmatchedEnd)，然后还是把这些没match的也加入了相应的list中去了
+</span><span class="c1"></span>     <span class="n">matchStartAndEnd</span><span class="o">(</span><span class="n">mStartValues</span><span class="o">,</span> <span class="n">mEndValues</span><span class="o">);</span>
+
+     <span class="n">ArrayMap</span><span class="o">&lt;</span><span class="n">Animator</span><span class="o">,</span> <span class="n">AnimationInfo</span><span class="o">&gt;</span> <span class="n">runningAnimators</span> <span class="o">=</span> <span class="n">getRunningAnimators</span><span class="o">();</span>
+     <span class="kt">int</span> <span class="n">numOldAnims</span> <span class="o">=</span> <span class="n">runningAnimators</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+     <span class="n">WindowId</span> <span class="n">windowId</span> <span class="o">=</span> <span class="n">sceneRoot</span><span class="o">.</span><span class="na">getWindowId</span><span class="o">();</span>
+     <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">numOldAnims</span> <span class="o">-</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+         <span class="n">Animator</span> <span class="n">anim</span> <span class="o">=</span> <span class="n">runningAnimators</span><span class="o">.</span><span class="na">keyAt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+         <span class="k">if</span> <span class="o">(</span><span class="n">anim</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+             <span class="n">AnimationInfo</span> <span class="n">oldInfo</span> <span class="o">=</span> <span class="n">runningAnimators</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">anim</span><span class="o">);</span>
+             <span class="k">if</span> <span class="o">(</span><span class="n">oldInfo</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">oldInfo</span><span class="o">.</span><span class="na">view</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">oldInfo</span><span class="o">.</span><span class="na">windowId</span> <span class="o">==</span> <span class="n">windowId</span><span class="o">)</span> <span class="o">{</span>
+                 <span class="n">TransitionValues</span> <span class="n">oldValues</span> <span class="o">=</span> <span class="n">oldInfo</span><span class="o">.</span><span class="na">values</span><span class="o">;</span>
+                 <span class="n">View</span> <span class="n">oldView</span> <span class="o">=</span> <span class="n">oldInfo</span><span class="o">.</span><span class="na">view</span><span class="o">;</span>
+                 <span class="n">TransitionValues</span> <span class="n">startValues</span> <span class="o">=</span> <span class="n">getTransitionValues</span><span class="o">(</span><span class="n">oldView</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+                 <span class="n">TransitionValues</span> <span class="n">endValues</span> <span class="o">=</span> <span class="n">getMatchedTransitionValues</span><span class="o">(</span><span class="n">oldView</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+                 <span class="k">if</span> <span class="o">(</span><span class="n">startValues</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">endValues</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                     <span class="n">endValues</span> <span class="o">=</span> <span class="n">mEndValues</span><span class="o">.</span><span class="na">viewValues</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">oldView</span><span class="o">);</span>
+                 <span class="o">}</span>
+                 <span class="kt">boolean</span> <span class="n">cancel</span> <span class="o">=</span> <span class="o">(</span><span class="n">startValues</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">endValues</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
+                         <span class="n">oldInfo</span><span class="o">.</span><span class="na">transition</span><span class="o">.</span><span class="na">isTransitionRequired</span><span class="o">(</span><span class="n">oldValues</span><span class="o">,</span> <span class="n">endValues</span><span class="o">);</span>
+                 <span class="k">if</span> <span class="o">(</span><span class="n">cancel</span><span class="o">)</span> <span class="o">{</span>
+                     <span class="k">if</span> <span class="o">(</span><span class="n">anim</span><span class="o">.</span><span class="na">isRunning</span><span class="o">()</span> <span class="o">||</span> <span class="n">anim</span><span class="o">.</span><span class="na">isStarted</span><span class="o">())</span> <span class="o">{</span>
+                         <span class="k">if</span> <span class="o">(</span><span class="n">DBG</span><span class="o">)</span> <span class="o">{</span>
+                             <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">LOG_TAG</span><span class="o">,</span> <span class="s">&#34;Canceling anim &#34;</span> <span class="o">+</span> <span class="n">anim</span><span class="o">);</span>
+                         <span class="o">}</span>
+                         <span class="n">anim</span><span class="o">.</span><span class="na">cancel</span><span class="o">();</span>
+                     <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                         <span class="k">if</span> <span class="o">(</span><span class="n">DBG</span><span class="o">)</span> <span class="o">{</span>
+                             <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">LOG_TAG</span><span class="o">,</span> <span class="s">&#34;removing anim from info list: &#34;</span> <span class="o">+</span> <span class="n">anim</span><span class="o">);</span>
+                         <span class="o">}</span>
+                         <span class="n">runningAnimators</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">anim</span><span class="o">);</span>
+                     <span class="o">}</span>
+                 <span class="o">}</span>
+             <span class="o">}</span>
+         <span class="o">}</span>
+     <span class="o">}</span>
+
+     <span class="c1">//创建动画mStartValues和mEndValues还是之前的那个TransitionValuesMaps，mStartValuesList和mEndValuesList是刚刚求得的
+</span><span class="c1"></span>     <span class="c1">//见3.3
+</span><span class="c1"></span>     <span class="n">createAnimators</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">,</span> <span class="n">mStartValues</span><span class="o">,</span> <span class="n">mEndValues</span><span class="o">,</span> <span class="n">mStartValuesList</span><span class="o">,</span> <span class="n">mEndValuesList</span><span class="o">);</span>
+     <span class="c1">//见3.4
+</span><span class="c1"></span>     <span class="n">runAnimators</span><span class="o">();</span>
+ <span class="o">}</span>
+</code></pre></div><h3 id="33-crateanimators">3.3-crateAnimators</h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">createAnimators</span><span class="o">(</span><span class="n">ViewGroup</span> <span class="n">sceneRoot</span><span class="o">,</span> <span class="n">TransitionValuesMaps</span> <span class="n">startValues</span><span class="o">,</span>
+          <span class="n">TransitionValuesMaps</span> <span class="n">endValues</span><span class="o">,</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">TransitionValues</span><span class="o">&gt;</span> <span class="n">startValuesList</span><span class="o">,</span>
+          <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">TransitionValues</span><span class="o">&gt;</span> <span class="n">endValuesList</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">DBG</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">LOG_TAG</span><span class="o">,</span> <span class="s">&#34;createAnimators() for &#34;</span> <span class="o">+</span> <span class="k">this</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="n">ArrayMap</span><span class="o">&lt;</span><span class="n">Animator</span><span class="o">,</span> <span class="n">AnimationInfo</span><span class="o">&gt;</span> <span class="n">runningAnimators</span> <span class="o">=</span> <span class="n">getRunningAnimators</span><span class="o">();</span>
+      <span class="kt">long</span> <span class="n">minStartDelay</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+      <span class="kt">int</span> <span class="n">minAnimator</span> <span class="o">=</span> <span class="n">mAnimators</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+      <span class="n">SparseLongArray</span> <span class="n">startDelays</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SparseLongArray</span><span class="o">();</span>
+      <span class="kt">int</span> <span class="n">startValuesListCount</span> <span class="o">=</span> <span class="n">startValuesList</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+      <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">startValuesListCount</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">TransitionValues</span> <span class="n">start</span> <span class="o">=</span> <span class="n">startValuesList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+          <span class="n">TransitionValues</span> <span class="n">end</span> <span class="o">=</span> <span class="n">endValuesList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+
+          <span class="c1">//省略了一些无关紧要的代码，根据start和end值判断isChanged
+</span><span class="c1"></span>          <span class="k">if</span> <span class="o">(</span><span class="n">isChanged</span><span class="o">)</span> <span class="o">{</span>
+              <span class="c1">//省略了一些代码
+</span><span class="c1"></span>              <span class="c1">// TODO: what to do about targetIds and itemIds?
+</span><span class="c1"></span>              <span class="c1">//createAnimator默认是一个空实现return null
+</span><span class="c1"></span>              <span class="c1">//我们去一个场景的transition动画Fade中去查找，发现也没有这个方法
+</span><span class="c1"></span>              <span class="c1">//去寻找Fade的弗雷Visibility发现了它重写了createAnimator的方法，然后其中返回的是一个onAppear的Animator，这个Animator是Fade自己重写了Visivbility的
+</span><span class="c1"></span>              <span class="c1">//ObjectAnimator anim = ObjectAnimator.ofFloat(view, &#34;transitionAlpha&#34;, endAlpha);就是这个，最后返回的也是这个
+</span><span class="c1"></span>              <span class="n">Animator</span> <span class="n">animator</span> <span class="o">=</span> <span class="n">createAnimator</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="n">end</span><span class="o">);</span>
+              <span class="k">if</span> <span class="o">(</span><span class="n">animator</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                  <span class="c1">// Save animation info for future cancellation purposes
+</span><span class="c1"></span>                  <span class="c1">//如注释所说，是把这些信息都存在了runningAnimators里面了
+</span><span class="c1"></span>                  <span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                  <span class="n">TransitionValues</span> <span class="n">infoValues</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                  <span class="k">if</span> <span class="o">(</span><span class="n">end</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                      <span class="n">view</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="na">view</span><span class="o">;</span>
+                      <span class="c1">//根据不同类会有实现，就是属性值的Name数组，比如Fade就会有PROPNAME_VISIBILITY,PROPNAME_PARENT两个
+</span><span class="c1"></span>                      <span class="n">String</span><span class="o">[]</span> <span class="n">properties</span> <span class="o">=</span> <span class="n">getTransitionProperties</span><span class="o">();</span>
+                      <span class="k">if</span> <span class="o">(</span><span class="n">view</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">properties</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">properties</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                          <span class="n">infoValues</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TransitionValues</span><span class="o">();</span>
+                          <span class="n">infoValues</span><span class="o">.</span><span class="na">view</span> <span class="o">=</span> <span class="n">view</span><span class="o">;</span>
+                          <span class="n">TransitionValues</span> <span class="n">newValues</span> <span class="o">=</span> <span class="n">endValues</span><span class="o">.</span><span class="na">viewValues</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">view</span><span class="o">);</span>
+                          <span class="c1">//把值取出来给infoValues
+</span><span class="c1"></span>                          <span class="k">if</span> <span class="o">(</span><span class="n">newValues</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                              <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">properties</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+                                  <span class="n">infoValues</span><span class="o">.</span><span class="na">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">properties</span><span class="o">[</span><span class="n">j</span><span class="o">],</span>
+                                          <span class="n">newValues</span><span class="o">.</span><span class="na">values</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">properties</span><span class="o">[</span><span class="n">j</span><span class="o">]));</span>
+                              <span class="o">}</span>
+                          <span class="o">}</span>
+                          <span class="kt">int</span> <span class="n">numExistingAnims</span> <span class="o">=</span> <span class="n">runningAnimators</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+                          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">numExistingAnims</span><span class="o">;</span> <span class="o">++</span><span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+                              <span class="n">Animator</span> <span class="n">anim</span> <span class="o">=</span> <span class="n">runningAnimators</span><span class="o">.</span><span class="na">keyAt</span><span class="o">(</span><span class="n">j</span><span class="o">);</span>
+                              <span class="n">AnimationInfo</span> <span class="n">info</span> <span class="o">=</span> <span class="n">runningAnimators</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">anim</span><span class="o">);</span>
+                              <span class="k">if</span> <span class="o">(</span><span class="n">info</span><span class="o">.</span><span class="na">values</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">info</span><span class="o">.</span><span class="na">view</span> <span class="o">==</span> <span class="n">view</span> <span class="o">&amp;&amp;</span>
+                                      <span class="o">((</span><span class="n">info</span><span class="o">.</span><span class="na">name</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">getName</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">||</span>
+                                              <span class="n">info</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">getName</span><span class="o">())))</span> <span class="o">{</span>
+                                  <span class="k">if</span> <span class="o">(</span><span class="n">info</span><span class="o">.</span><span class="na">values</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">infoValues</span><span class="o">))</span> <span class="o">{</span>
+                                      <span class="c1">// Favor the old animator
+</span><span class="c1"></span>                                      <span class="c1">//通过比对values发现都是一样的
+</span><span class="c1"></span>                                      <span class="c1">//如注释所说，支持了旧的animator，我们create出来的变成了null
+</span><span class="c1"></span>                                      <span class="n">animator</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                                      <span class="k">break</span><span class="o">;</span>
+                                  <span class="o">}</span>
+                              <span class="o">}</span>
+                          <span class="o">}</span>
+                      <span class="o">}</span>
+                  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                      <span class="n">view</span> <span class="o">=</span> <span class="o">(</span><span class="n">start</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">start</span><span class="o">.</span><span class="na">view</span> <span class="o">:</span> <span class="kc">null</span><span class="o">;</span>
+                  <span class="o">}</span>
+                  <span class="k">if</span> <span class="o">(</span><span class="n">animator</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                      <span class="c1">//animator不是null,Propagation用于计算delay
+</span><span class="c1"></span>                      <span class="k">if</span> <span class="o">(</span><span class="n">mPropagation</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                          <span class="kt">long</span> <span class="n">delay</span> <span class="o">=</span> <span class="n">mPropagation</span>
+                                  <span class="o">.</span><span class="na">getStartDelay</span><span class="o">(</span><span class="n">sceneRoot</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="n">end</span><span class="o">);</span>
+                          <span class="n">startDelays</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">mAnimators</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">delay</span><span class="o">);</span>
+                          <span class="n">minStartDelay</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">delay</span><span class="o">,</span> <span class="n">minStartDelay</span><span class="o">);</span>
+                      <span class="o">}</span>
+                      <span class="n">AnimationInfo</span> <span class="n">info</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AnimationInfo</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">getName</span><span class="o">(),</span> <span class="k">this</span><span class="o">,</span>
+                              <span class="n">sceneRoot</span><span class="o">.</span><span class="na">getWindowId</span><span class="o">(),</span> <span class="n">infoValues</span><span class="o">);</span>
+                      <span class="n">runningAnimators</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">animator</span><span class="o">,</span> <span class="n">info</span><span class="o">);</span>
+                      <span class="c1">//加入到mAnimators中一个List,保存Animator用
+</span><span class="c1"></span>                      <span class="n">mAnimators</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">animator</span><span class="o">);</span>
+                  <span class="o">}</span>
+              <span class="o">}</span>
+          <span class="o">}</span>
+      <span class="o">}</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">startDelays</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//之前计算过的startDelays现在可以发挥作用了···
+</span><span class="c1"></span>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">startDelays</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+              <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">startDelays</span><span class="o">.</span><span class="na">keyAt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+              <span class="n">Animator</span> <span class="n">animator</span> <span class="o">=</span> <span class="n">mAnimators</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+              <span class="kt">long</span> <span class="n">delay</span> <span class="o">=</span> <span class="n">startDelays</span><span class="o">.</span><span class="na">valueAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="n">minStartDelay</span> <span class="o">+</span> <span class="n">animator</span><span class="o">.</span><span class="na">getStartDelay</span><span class="o">();</span>
+              <span class="n">animator</span><span class="o">.</span><span class="na">setStartDelay</span><span class="o">(</span><span class="n">delay</span><span class="o">);</span>
+          <span class="o">}</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div><h3 id="34-runanimators">3.4-runAnimators</h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mNumInstances</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mListeners</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mListeners</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">TransitionListener</span><span class="o">&gt;</span> <span class="n">tmpListeners</span> <span class="o">=</span>
+                        <span class="o">(</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">TransitionListener</span><span class="o">&gt;)</span> <span class="n">mListeners</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">numListeners</span> <span class="o">=</span> <span class="n">tmpListeners</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numListeners</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">tmpListeners</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">onTransitionStart</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">mEnded</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">mNumInstances</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">runAnimators</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">DBG</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">LOG_TAG</span><span class="o">,</span> <span class="s">&#34;runAnimators() on &#34;</span> <span class="o">+</span> <span class="k">this</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="c1">//主要是复制了listener的信息，并且执行了onstart回调，这要看这个transition所add的listener有没有实现这个方法了
+</span><span class="c1"></span>      <span class="n">start</span><span class="o">();</span>
+      <span class="n">ArrayMap</span><span class="o">&lt;</span><span class="n">Animator</span><span class="o">,</span> <span class="n">AnimationInfo</span><span class="o">&gt;</span> <span class="n">runningAnimators</span> <span class="o">=</span> <span class="n">getRunningAnimators</span><span class="o">();</span>
+      <span class="c1">// Now start every Animator that was previously created for this transition
+</span><span class="c1"></span>      <span class="c1">//如注释所说
+</span><span class="c1"></span>      <span class="k">for</span> <span class="o">(</span><span class="n">Animator</span> <span class="n">anim</span> <span class="o">:</span> <span class="n">mAnimators</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">DBG</span><span class="o">)</span> <span class="o">{</span>
+              <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">LOG_TAG</span><span class="o">,</span> <span class="s">&#34;  anim: &#34;</span> <span class="o">+</span> <span class="n">anim</span><span class="o">);</span>
+          <span class="o">}</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">runningAnimators</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">anim</span><span class="o">))</span> <span class="o">{</span>
+              <span class="c1">//这里为啥又调用了一次start
+</span><span class="c1"></span>              <span class="n">start</span><span class="o">();</span>
+              <span class="c1">//里面真正开始调用了animator的start方法
+</span><span class="c1"></span>              <span class="n">runAnimator</span><span class="o">(</span><span class="n">anim</span><span class="o">,</span> <span class="n">runningAnimators</span><span class="o">);</span>
+          <span class="o">}</span>
+      <span class="o">}</span>
+      <span class="n">mAnimators</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+      <span class="n">end</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div><h2 id="总结">总结</h2>
+<p>算是跟着源码走了一遭···最后的时候为什么要 start() 两次？这里第一次就是回调 onTransitionStart，其余就是 mNumInstances 的自增</p>
+<p>这个值也只和 end 方法的调用有关，感觉难道是因为可能有各种原因会让 onTransitionEnd 没调用？不是很懂···</p>
+<p>让我自己写一个自定义 transition 还是难度太高了···等我写一个出来也许就了解了···</p>
+<h2 id="借鉴">借鉴</h2>
+<p><a href="http://blog.csdn.net/zwlove5280/article/details/75570864" target="_blank" rel="noopener noreffer">Android Transition Framework 源码分析</a></p>
+<p><a href="http://icedcap.github.io/2016/06/26/%E5%AE%89%E5%8D%93Transition%E6%A1%86%E6%9E%B6/" target="_blank" rel="noopener noreffer">安卓Transition框架</a></p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2017-08-29</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android%E5%8A%A8%E7%94%BB/">Android动画</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2017-08-29-%E5%85%A8%E5%B1%8F-Dialog/" class="prev" rel="prev" title="全屏宽的 Dialog"><i class="fas fa-angle-left fa-fw"></i>全屏宽的 Dialog</a>
+            <a href="/posts/2017-08-31-%E4%BB%8A%E5%B9%B4%E7%9A%84%E5%B0%8F%E8%AE%A1%E5%88%92/" class="next" rel="next" title="今年的小计划">今年的小计划<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2017-08-29T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"beginDelayedTransition 的一些源码分析"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

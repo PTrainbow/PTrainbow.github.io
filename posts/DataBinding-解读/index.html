@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>DataBinding 解读 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="DataBinding 解读" />
+<meta property="og:description" content="前言 Android 的应用层架构，其实一直在缓慢的进步，但是 Android 开发工程师却很少有进步。比如我，直到 2021 年才开始使用 dataBinding。 我初步在 RecyclerView 的 item 中试" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/DataBinding-%E8%A7%A3%E8%AF%BB/" /><meta property="og:image" content="http://PTrain666.github.io/posts/DataBinding-%E8%A7%A3%E8%AF%BB/data-binding.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-11T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-02-11T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/DataBinding-%E8%A7%A3%E8%AF%BB/data-binding.png"/>
+<meta name="twitter:title" content="DataBinding 解读"/>
+<meta name="twitter:description" content="前言 Android 的应用层架构，其实一直在缓慢的进步，但是 Android 开发工程师却很少有进步。比如我，直到 2021 年才开始使用 dataBinding。 我初步在 RecyclerView 的 item 中试"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/DataBinding-%E8%A7%A3%E8%AF%BB/" /><link rel="prev" href="http://PTrain666.github.io/posts/2021-02-07-%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8F%8D%E4%BE%8B/" /><link rel="next" href="http://PTrain666.github.io/posts/%E7%AE%80%E5%8E%86/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "DataBinding 解读",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/DataBinding-%E8%A7%A3%E8%AF%BB\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/DataBinding-%E8%A7%A3%E8%AF%BB\/data-binding.png",
+                            "width":  1552 ,
+                            "height":  732 
+                        }],"genre": "posts","keywords": "Android","wordcount":  3275 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/DataBinding-%E8%A7%A3%E8%AF%BB\/","datePublished": "2021-02-11T00:00:00+00:00","dateModified": "2021-02-11T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">DataBinding 解读</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-02-11">2021-02-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3275 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/DataBinding-%E8%A7%A3%E8%AF%BB/data-binding.png"
+        data-srcset="/posts/DataBinding-%E8%A7%A3%E8%AF%BB/data-binding.png, /posts/DataBinding-%E8%A7%A3%E8%AF%BB/data-binding.png 1.5x, /posts/DataBinding-%E8%A7%A3%E8%AF%BB/data-binding.png 2x"
+        data-sizes="auto"
+        alt="/posts/DataBinding-%E8%A7%A3%E8%AF%BB/data-binding.png"
+        title="/posts/DataBinding-%E8%A7%A3%E8%AF%BB/data-binding.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#环境准备">环境准备</a>
+      <ul>
+        <li><a href="#agpandroid-gradle-plugin">AGP(Android Gradle Plugin)</a></li>
+        <li><a href="#gradle">gradle</a></li>
+      </ul>
+    </li>
+    <li><a href="#大致的使用方式">大致的使用方式</a></li>
+    <li><a href="#几个重要的类">几个重要的类</a></li>
+    <li><a href="#使用可观察对象和字段">使用可观察对象和字段</a></li>
+    <li><a href="#databinding-源码分析">DataBinding 源码分析</a>
+      <ul>
+        <li><a href="#错误的-model-类">错误的 model 类</a></li>
+        <li><a href="#brjava-的-key-如何生成">BR.java 的 key 如何生成?</a></li>
+        <li><a href="#趁热打铁增加-bindable-注解">趁热打铁增加 @Bindable 注解</a></li>
+        <li><a href="#notifypropertychanged-引出的整个链路">notifyPropertyChanged() 引出的整个链路</a></li>
+        <li><a href="#model-类错误的原因">model 类错误的原因</a></li>
+        <li><a href="#onchangenotification-之后做了什么">onChangeNotification 之后做了什么</a></li>
+        <li><a href="#双向绑定">双向绑定</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a>
+      <ul>
+        <li><a href="#几个重要的类遇到问题就去这里找答案">几个重要的类，遇到问题就去这里找答案</a></li>
+        <li><a href="#流程">流程</a></li>
+        <li><a href="#其他但很重要">其他(但很重要)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="前言">前言</h2>
+<p>Android 的应用层架构，其实一直在缓慢的进步，但是 Android 开发工程师却很少有进步。比如我，直到 2021 年才开始使用 dataBinding。</p>
+<p>我初步在 RecyclerView 的 item 中试用了一下，感觉还是挺不错的。</p>
+<h2 id="环境准备">环境准备</h2>
+<h3 id="agpandroid-gradle-plugin">AGP(Android Gradle Plugin)</h3>
+<p>官方说是 1.5.0 以上就好了，肯定都没什么问题。</p>
+<p>说到这里，AGP 都帮我们做了什么？Android 的编译过程其实有很多东西，只不过我目前对于这一方面的了解也很有限。</p>
+<h3 id="gradle">gradle</h3>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">android</span> <span class="o">{</span>
+        <span class="o">...</span>
+        <span class="n">dataBinding</span> <span class="o">{</span>
+            <span class="n">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>通过上述配置，即可打开 dataBinding，AGP 4.0 的话也可以使用 <code>buildFeatures</code>。</p>
+<p>通过 AGP 的支持，<code>编译过程中</code> 帮我们做了很多事情。</p>
+<h2 id="大致的使用方式">大致的使用方式</h2>
+<p>通过在 layout 文件中绑定表达式的方式来实现数据绑定。</p>
+<p>写过后端或者前端的人应该对此再熟悉不过了。</p>
+<p>一个 layout 文件的示例</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="c">&lt;!--notification_no_picture.xml--&gt;</span>
+<span class="nt">&lt;layout</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;data&gt;</span>
+    <span class="nt">&lt;variable</span>
+      <span class="na">name=</span><span class="s">&#34;notification&#34;</span>
+      <span class="na">type=</span><span class="s">&#34;com.ptrain.note.model.Notification&#34;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/data&gt;</span>
+
+  <span class="nt">&lt;TextView</span>
+    <span class="na">android:id=</span><span class="s">&#34;@+id/description&#34;</span>
+    <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+    <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+    <span class="na">android:layout_marginTop=</span><span class="s">&#34;8dp&#34;</span>
+    <span class="na">android:text=</span><span class="s">&#34;@{notification.description}&#34;</span>
+    <span class="na">android:textColor=</span><span class="s">&#34;@color/teal_700&#34;</span>
+    <span class="na">android:textSize=</span><span class="s">&#34;16sp&#34;</span> <span class="nt">/&gt;</span>
+  
+<span class="nt">&lt;/layout&gt;</span>
+</code></pre></div><p>传入 notification 实例， 使用 <code>@{notification.xxx}</code> 取值，也可以使用 <code>@={notification.xxx}</code> 实现双向绑定。</p>
+<p>那么怎么绑定实例呢？</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">XXXBinding</span> <span class="n">binding</span> <span class="o">=</span>  <span class="n">DataBindingUtil</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">layoutId</span><span class="o">,</span> <span class="n">parent</span><span class="o">,</span> <span class="n">attachToParent</span><span class="o">)</span><span class="err">；</span>
+<span class="c1">// 上述实例中就是
+</span><span class="c1">// NotificationOnePictureBinding binding = DataBindingUtil.inflate(context, layoutId, parent, attachToParent)；
+</span><span class="c1"></span><span class="n">binding</span><span class="o">.</span><span class="na">setXXXX</span><span class="o">(</span><span class="n">model</span><span class="o">);</span>
+<span class="n">binding</span><span class="o">.</span><span class="na">executePendingBindings</span><span class="o">();</span>
+<span class="c1">// 上述实例中就是
+</span><span class="c1">// binding.setNotification(notification);
+</span></code></pre></div><blockquote>
+<p>数据类一定要使用可观察对象或者直接使用可观察字段</p>
+</blockquote>
+<h2 id="几个重要的类">几个重要的类</h2>
+<p>为什么短短几行代码就帮我们实现了数据绑定呢(上面例子是单向数据绑定)？</p>
+<p>主要是编译期间，AGP 帮助生成了一些代码，例子中的 <code>NotificationOnePictureBinding.java</code> 和其 <code>setNotification()</code> 方法，都是在编译过程中自己生成的。</p>
+<ol>
+<li>
+<p>XXXBinding.java<br>
+编译时生成，<code>XXXBindingImpl extends XXXBinding</code>，此类是 xml 对应的类，会根据 xml 名字生成对应的类名，比如 <code>notification_no_picture.xml</code> 会生成对应的 <code>NotificationNoPictureBinding.java</code>。类内持有带有 id 的 view 对象和绑定的数据类。</p>
+</li>
+<li>
+<p>XXXBindingImpl.java<br>
+编译时生成，<code>XXXBindingImpl extends XXXBinding</code>，命名逻辑同 XXXBinding.java，大部分的数据绑定的 <code>回调逻辑</code> 都在这个 java 类中。</p>
+</li>
+<li>
+<p>ViewDataBing.java<br>
+此类不是编译生成的，而是 <code>databing-runtime</code> 库中的一个类。<code>ViewDataBing extends BaseObservable</code>，<code>XXXBingding extends ViewDataBinding</code>。这个类很重要。</p>
+</li>
+<li>
+<p>BaseObservable.java<br>
+此类不是编译生成的，同 ViewDataBinding。顾名思义，用于绑定 listener，触发数据刷新 notifyXXX()。</p>
+</li>
+<li>
+<p>BR.java<br>
+编译时生成。为什么叫这个名字我也不是很清楚，可能是缩写？这个类是一张 key 的列表，包含用于数据绑定的资源的 ID。</p>
+</li>
+</ol>
+<h2 id="使用可观察对象和字段">使用可观察对象和字段</h2>
+<p>使用 databinding 时，对于数据类有着 <strong><code>特殊要求</code></strong>。</p>
+<p>要使用可观察的对象、集合、字段，这些无一例外均继承自 BaseObservable，他们如何联动后续会有说明。</p>
+<p>什么是可观察的数据类型？</p>
+<p><a href="https://developer.android.com/topic/libraries/data-binding/observability" target="_blank" rel="noopener noreffer">google文档 https://developer.android.com/topic/libraries/data-binding/observability</a></p>
+<p>当然，也可以直接使用 <code>LiveData</code>，更省事。</p>
+<p>后续文章都是建立在 <code>使用 Java</code> 和 <code>不使用 LiveData</code> 的基础之上。</p>
+<h2 id="databinding-源码分析">DataBinding 源码分析</h2>
+<h3 id="错误的-model-类">错误的 model 类</h3>
+<p>假设数据类如下，继承 BaseObservable。</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Notification</span> <span class="kd">extends</span> <span class="n">BaseObservable</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">description</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div><p>layout 文件如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span class="nt">&lt;layout</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+  <span class="na">xmlns:app=</span><span class="s">&#34;http://schemas.android.com/apk/res-auto&#34;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;data&gt;</span>
+    <span class="nt">&lt;variable</span>
+      <span class="na">name=</span><span class="s">&#34;notification&#34;</span>
+      <span class="na">type=</span><span class="s">&#34;com.ptrain.note.model.Notification&#34;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/data&gt;</span>
+
+  <span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
+    <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+    <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+    <span class="na">android:paddingLeft=</span><span class="s">&#34;8dp&#34;</span>
+    <span class="na">android:paddingRight=</span><span class="s">&#34;8dp&#34;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;TextView</span>
+      <span class="na">android:id=</span><span class="s">&#34;@+id/title&#34;</span>
+      <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+      <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+      <span class="na">android:text=</span><span class="s">&#34;@{notification.title}&#34;</span>
+      <span class="na">android:textColor=</span><span class="s">&#34;@color/black&#34;</span>
+      <span class="na">android:textSize=</span><span class="s">&#34;24sp&#34;</span>
+      <span class="na">app:layout_constraintBottom_toTopOf=</span><span class="s">&#34;@+id/description&#34;</span>
+      <span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">&#34;parent&#34;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;TextView</span>
+      <span class="na">android:id=</span><span class="s">&#34;@+id/description&#34;</span>
+      <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+      <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+      <span class="na">android:text=</span><span class="s">&#34;@{notification.description}&#34;</span>
+      <span class="na">android:textColor=</span><span class="s">&#34;@color/teal_700&#34;</span>
+      <span class="na">android:textSize=</span><span class="s">&#34;16sp&#34;</span>
+      <span class="na">android:layout_marginTop=</span><span class="s">&#34;8dp&#34;</span>
+      <span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">&#34;parent&#34;</span>
+      <span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">&#34;@+id/title&#34;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+<span class="nt">&lt;/layout&gt;</span>
+</code></pre></div><p>修改数据类和 bind 的代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// bind 相关的代码，在 onCreateViewHolder 和 onBindViewHolder 中
+</span><span class="c1"></span><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="n">NotificationOnePictureViewHolder</span> <span class="nf">onCreateViewHolder</span><span class="o">(</span><span class="n">ViewGroup</span> <span class="n">parent</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">NotificationOnePictureBinding</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">DataBindingUtil</span>
+    <span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">parent</span><span class="o">.</span><span class="na">getContext</span><span class="o">()),</span> <span class="n">NotificationType</span><span class="o">.</span><span class="na">ONE_PICTURE</span><span class="o">,</span> <span class="n">parent</span><span class="o">,</span>
+        <span class="kc">false</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">NotificationOnePictureViewHolder</span><span class="o">(</span><span class="n">binding</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// onBindViewHolder 我用的 Adapter 重构了一下，不用在意
+</span><span class="c1"></span><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onBind</span><span class="o">(</span><span class="n">Notification</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 把数据类传递给 binding
+</span><span class="c1"></span>    <span class="n">binding</span><span class="o">.</span><span class="na">setNotification</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+    <span class="n">binding</span><span class="o">.</span><span class="na">executePendingBindings</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// ----------------------------------------------------------
+</span><span class="c1">// 数据初始化和修改相关的代码
+</span><span class="c1">// 省略初始化 notificationList 数据
+</span><span class="c1"></span><span class="n">List</span><span class="o">&lt;</span><span class="n">Notification</span><span class="o">&gt;</span> <span class="n">notificationList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="c1">// 传递给 adapter
+</span><span class="c1"></span><span class="n">adapter</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">notificationList</span><span class="o">);</span>
+<span class="c1">// 随意模拟一下 5s 后修改源数据，不要在意 Handler
+</span><span class="c1"></span><span class="n">Handler</span> <span class="n">handler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Handler</span><span class="o">();</span>
+<span class="n">handler</span><span class="o">.</span><span class="na">postDelayed</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">notificationList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">setTitle</span><span class="o">(</span><span class="s">&#34;i have changed&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">},</span> <span class="n">5000</span><span class="o">);</span>
+</code></pre></div><p>这样能实现数据绑定吗？<code>否</code></p>
+<p>问题在于数据类，虽然继承了 BaseObservable，但是并没有调用 notify()，那么修改一下，如下呢？</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Notification</span> <span class="kd">extends</span> <span class="n">BaseObservable</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">description</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTitle</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">title</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">description</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateTitle</span><span class="o">(</span><span class="n">String</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+    <span class="c1">// 此处改变
+</span><span class="c1"></span>    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateDescription</span><span class="o">(</span><span class="n">String</span> <span class="n">description</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">description</span> <span class="o">=</span> <span class="n">description</span><span class="o">;</span>
+    <span class="c1">// 此处改变
+</span><span class="c1"></span>    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div><p>这样能实现数据绑定吗？<code>否</code></p>
+<p>两个问题<br>
+<strong>BR.java 的 key 如何生成?</strong><br>
+<strong>notifyPropertyChanged() 有什么作用</strong></p>
+<h3 id="brjava-的-key-如何生成">BR.java 的 key 如何生成?</h3>
+<p>在上述代码中，BR.java 只有两个属性 notification 和 _all。</p>
+<p>all 顾名思义就是全部的意思</p>
+<p>notification 是我们在 layout 文件中定义的</p>
+<p>所以结论是，BR 由 layout 文件 data 节点的 name 生成 key？<code>显然不是</code></p>
+<p>前面给的 google 文档中，提到了 <code>@Bindable</code> 注解，我们此处并没有使用，一但给 getter 方法加上 @Bindable 注解，我们就会发现 BR 里的 key 会相应的增加。</p>
+<p>所以结论是，<code>BR.java 中的 key 由 @Bindable 和 layout 文件共同决定</code></p>
+<h3 id="趁热打铁增加-bindable-注解">趁热打铁增加 @Bindable 注解</h3>
+<p>代码修改如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Notification</span> <span class="kd">extends</span> <span class="n">BaseObservable</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">description</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+  
+  <span class="c1">// 此处改变
+</span><span class="c1"></span>  <span class="nd">@Bindable</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTitle</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">title</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="c1">// 此处改变
+</span><span class="c1"></span>  <span class="nd">@Bindable</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">description</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateTitle</span><span class="o">(</span><span class="n">String</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateDescription</span><span class="o">(</span><span class="n">String</span> <span class="n">description</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">description</span> <span class="o">=</span> <span class="n">description</span><span class="o">;</span>
+    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div><p>这样能实现数据绑定吗？<code>否</code></p>
+<p>这就不得不研究一下 notifyPropertyChanged 方法</p>
+<h3 id="notifypropertychanged-引出的整个链路">notifyPropertyChanged() 引出的整个链路</h3>
+<p>因为 Notification extends BaseObservable，BaseObservable 中 notifyPropertyChanged 代码如下</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">notifyPropertyChanged</span><span class="o">(</span><span class="kt">int</span> <span class="n">fieldId</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mCallbacks</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">mCallbacks</span><span class="o">.</span><span class="na">notifyCallbacks</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">fieldId</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div><p>所以是通过 mCallbacks 回调，那么 mCallbacks 何时来的？</p>
+<p>调用栈如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">addOnPropertyChangedCallback:33, BaseObservable (androidx.databinding)
+addListener:1446, ViewDataBinding$WeakPropertyListener (androidx.databinding)
+addListener:1431, ViewDataBinding$WeakPropertyListener (androidx.databinding)
+setTarget:1404, ViewDataBinding$WeakListener (androidx.databinding)
+registerTo:688, ViewDataBinding (androidx.databinding)
+updateRegistration:612, ViewDataBinding (androidx.databinding)
+updateRegistration:627, ViewDataBinding (androidx.databinding)
+setNotification:74, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
+onBind:42, NotificationOnePictureBinder$NotificationOnePictureViewHolder (com.ptrain.note.viewholder)
+</code></pre></div><p>还记得 onBindViewHolder 通过 binding.setNotification 传递 model 实例么？此时通过 setNotification 一系列调用，便注册了 mCallbacks</p>
+<p>updateRegistration() 方法便是对应了 <code>之前</code> 说的 <code>可观察数据类型</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">Observable</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_PROPERTY_LISTENER</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">ObservableList</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_LIST_LISTENER</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">ObservableMap</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_MAP_LISTENER</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateLiveDataRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">LiveData</span><span class="o">&lt;?&gt;</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mInLiveDataRegisterObserver</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_LIVE_DATA_LISTENER</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+        <span class="n">mInLiveDataRegisterObserver</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>我们这里传递的是 Observable(BaseObservable implements Observable)，所以是 CREATE_PROPERTY_LISTENER，属性监听器。</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">addListener</span><span class="o">(</span><span class="n">Observable</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">target</span><span class="o">.</span><span class="na">addOnPropertyChangedCallback</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">addOnPropertyChangedCallback</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">OnPropertyChangedCallback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mCallbacks</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 此处创建 PropertyChangeRegistry
+</span><span class="c1"></span>            <span class="n">mCallbacks</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PropertyChangeRegistry</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">mCallbacks</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">callback</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div><p>WeakPropertyListener.addListener 把自己传了回去，然后 addOnPropertyChangedCallback 创建了 <code>PropertyChangeRegistry extends CallbackRegistry</code></p>
+<p>所以 mCallbacks 中的元素在本例中其实就是 WeakPropertyListener(如果数据类型是其他类型，则对应相应的可观察类型的Listener)</p>
+<p>mCallbacks.notifyCallbacks 会调用到 CallbackRegistry.notifyCallbacks，这个方法没有细看，但是是个递归，通过它的注释知道，用于回调所有的 callback。</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">notifyCallbacks</span><span class="o">(</span><span class="n">T</span> <span class="n">sender</span><span class="o">,</span> <span class="kt">int</span> <span class="n">arg</span><span class="o">,</span> <span class="n">A</span> <span class="n">arg2</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">startIndex</span><span class="o">,</span>
+            <span class="kd">final</span> <span class="kt">int</span> <span class="n">endIndex</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">bits</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">long</span> <span class="n">bitMask</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">startIndex</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">endIndex</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">((</span><span class="n">bits</span> <span class="o">&amp;</span> <span class="n">bitMask</span><span class="o">)</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mNotifier</span><span class="o">.</span><span class="na">onNotifyCallback</span><span class="o">(</span><span class="n">mCallbacks</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">),</span> <span class="n">sender</span><span class="o">,</span> <span class="n">arg</span><span class="o">,</span> <span class="n">arg2</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">bitMask</span> <span class="o">&lt;&lt;=</span> <span class="n">1</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>CallbackRegistry 中的 mNotifier ，由 PropertyChangeRegistry mNotifier 回调到 WeakPropertyListener.onPropertyChanged 中，最终到 <code>XXXBindingImpl.onChangeXXXXX</code> 处理属性变化。</p>
+<p>调用栈如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">onChangeNotification:92, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
+onFieldChange:87, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
+handleFieldChange:549, ViewDataBinding (androidx.databinding)
+access$800:65, ViewDataBinding (androidx.databinding)
+onPropertyChanged:1468, ViewDataBinding$WeakPropertyListener (androidx.databinding)
+onNotifyCallback:30, PropertyChangeRegistry$1 (androidx.databinding)
+onNotifyCallback:26, PropertyChangeRegistry$1 (androidx.databinding)
+notifyCallbacks:201, CallbackRegistry (androidx.databinding)
+notifyFirst64:122, CallbackRegistry (androidx.databinding)
+notifyRemainder:169, CallbackRegistry (androidx.databinding)
+notifyRecurse:145, CallbackRegistry (androidx.databinding)
+notifyCallbacks:91, CallbackRegistry (androidx.databinding)
+notifyPropertyChanged:76, BaseObservable (androidx.databinding)
+setTitle:31, Notification (com.ptrain.note.model)
+</code></pre></div><p>所以 notifyPropertyChanged 作用很简单，处理属性修改后的回调，回调的具体代码实际就在生成的 BindingImpl 中，本例中为：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 编译生成的 XXXBindingImpl.java 中的 onChangeYYY(YYY 是绑定的名称) 方法
+</span><span class="c1"></span><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">onChangeNotification</span><span class="o">(</span><span class="n">com</span><span class="o">.</span><span class="na">ptrain</span><span class="o">.</span><span class="na">note</span><span class="o">.</span><span class="na">model</span><span class="o">.</span><span class="na">Notification</span> <span class="n">Notification</span><span class="o">,</span> <span class="kt">int</span> <span class="n">fieldId</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">fieldId</span> <span class="o">==</span> <span class="n">BR</span><span class="o">.</span><span class="na">_all</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">mDirtyFlags</span> <span class="o">|=</span> <span class="n">0x1L</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">fieldId</span> <span class="o">==</span> <span class="n">BR</span><span class="o">.</span><span class="na">title</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">mDirtyFlags</span> <span class="o">|=</span> <span class="n">0x2L</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">fieldId</span> <span class="o">==</span> <span class="n">BR</span><span class="o">.</span><span class="na">description</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">mDirtyFlags</span> <span class="o">|=</span> <span class="n">0x4L</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div><h3 id="model-类错误的原因">model 类错误的原因</h3>
+<p>通过上面的 onChangeNotification 代码也知道，只有当 fieldId 为 _all、title、description 三者之一时才会触发更新，所以我们的 setter 方法中的 notifyPropertyChanged 需要修改。</p>
+<p>为什么 onChangeNotification 没有处理 BR.notification 的逻辑呢？</p>
+<p>这个我也不清楚，因为此类为编译时生成。</p>
+<p>不过也很 <code>符合逻辑</code>。因为如果要处理 BR.notification 就是 BR._all 的概念了。</p>
+<h3 id="onchangenotification-之后做了什么">onChangeNotification 之后做了什么</h3>
+<p>notifyPropertyChanged 的部分追踪到了 onChangeNotification，那么之后又发生了什么？</p>
+<p>调用 requestRebind() 更新下一帧 UI。</p>
+<p>代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// ViewDataBinding.java
+</span><span class="c1"></span><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">requestRebind</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mContainingBinding</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mContainingBinding</span><span class="o">.</span><span class="na">requestRebind</span><span class="o">();</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">LifecycleOwner</span> <span class="n">owner</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">mLifecycleOwner</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">owner</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Lifecycle</span><span class="o">.</span><span class="na">State</span> <span class="n">state</span> <span class="o">=</span> <span class="n">owner</span><span class="o">.</span><span class="na">getLifecycle</span><span class="o">().</span><span class="na">getCurrentState</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">state</span><span class="o">.</span><span class="na">isAtLeast</span><span class="o">(</span><span class="n">Lifecycle</span><span class="o">.</span><span class="na">State</span><span class="o">.</span><span class="na">STARTED</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span><span class="o">;</span> <span class="c1">// wait until lifecycle owner is started
+</span><span class="c1"></span>            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mPendingRebind</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">mPendingRebind</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">USE_CHOREOGRAPHER</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mChoreographer</span><span class="o">.</span><span class="na">postFrameCallback</span><span class="o">(</span><span class="n">mFrameCallback</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">mUIThreadHandler</span><span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">mRebindRunnable</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>可以看到低版本使用 mUIThreadHandler，高版本注册 FrameCallback，最终都是执行 mRebindRunnable，最终执行</p>
+<p>executePendingBindings() 再到 executeBindings()。</p>
+<p>executeBindings() 通过 dirtyFlags 来更新对用的 View 的数据。</p>
+<p>Android 高版本调用栈如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">executeBindings:115, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
+executeBindingsInternal:473, ViewDataBinding (androidx.databinding)
+executePendingBindings:445, ViewDataBinding (androidx.databinding)
+run:197, ViewDataBinding$7 (androidx.databinding)
+doFrame:291, ViewDataBinding$8 (androidx.databinding)
+run:1310, Choreographer$CallbackRecord (android.view)
+doCallbacks:1123, Choreographer (android.view)
+doFrame:934, Choreographer (android.view)
+run:1298, Choreographer$FrameDisplayEventReceiver (android.view)
+</code></pre></div><p>至此单向绑定就说完了</p>
+<h3 id="双向绑定">双向绑定</h3>
+<p>layout.xml 使用 <code>@={}</code></p>
+<p>双向绑定其实就是在对应的控件生成 listener，回调数据类的 setter 方法，如果你不写就会编译报错。</p>
+<p>生成的代码依然在对应的 BindingImpl.java 中。</p>
+<h2 id="总结">总结</h2>
+<h3 id="几个重要的类遇到问题就去这里找答案">几个重要的类，遇到问题就去这里找答案</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/agp_binding.png"
+        data-srcset="/img/in-post/agp_binding.png, /img/in-post/agp_binding.png 1.5x, /img/in-post/agp_binding.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/agp_binding.png"
+        title="/img/in-post/agp_binding.png" /></p>
+<h3 id="流程">流程</h3>
+<p>因为代码均是编译时生成的，根据数据类型不同或者 layout.xml 文件名不同等等而改变，这里都用 X 来代替了。</p>
+<p>大致分为三个步骤</p>
+<h4 id="1-bindlistener-过程">1. bindListener 过程</h4>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/bind_stack.jpg"
+        data-srcset="/img/in-post/bind_stack.jpg, /img/in-post/bind_stack.jpg 1.5x, /img/in-post/bind_stack.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/bind_stack.jpg"
+        title="/img/in-post/bind_stack.jpg" /></p>
+<p>这个步骤，注册好了属性的监听，埋下了回调逻辑。</p>
+<h4 id="2-notify-过程">2. notify 过程</h4>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/notify.jpg"
+        data-srcset="/img/in-post/notify.jpg, /img/in-post/notify.jpg 1.5x, /img/in-post/notify.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/notify.jpg"
+        title="/img/in-post/notify.jpg" /></p>
+<p>这个步骤，通过触发属性更新，打通了之前埋下的回调逻辑，一直调用到编译生成的 XBindingImpl.java 中的 onFieldChange 和 onChangeNotification。</p>
+<h4 id="3refresh-过程">3.refresh 过程</h4>
+<p>refresh 过程比较简单，在下一帧时调用 ViewDataBinding.mRebindRunnable，一直调用到编译生成的 XBindingImpl.java 中的 executeBindings，来更新 view。</p>
+<h3 id="其他但很重要">其他(但很重要)</h3>
+<p>DataBinding 还有自定义的 Binding Adapter，这个将会让 DataBinding 更加灵活，可以让你随意处理 model 数据内容以适应 view 的要求。</p>
+<p><a href="https://developer.android.com/topic/libraries/data-binding/binding-adapters" target="_blank" rel="noopener noreffer">google文档 https://developer.android.com/topic/libraries/data-binding/binding-adapters</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-02-11</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2021-02-07-%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8F%8D%E4%BE%8B/" class="prev" rel="prev" title="工作中遇到的代码反例"><i class="fas fa-angle-left fa-fw"></i>工作中遇到的代码反例</a>
+            <a href="/posts/%E7%AE%80%E5%8E%86/" class="next" rel="next" title="简历">简历<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-02-11T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"DataBinding 解读"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

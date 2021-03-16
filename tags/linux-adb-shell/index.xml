@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Linux &amp; Adb Shell - 标签 - 北邙山之光的 Blog</title>
+        <link>http://PTrain666.github.io/tags/Linux-Adb-Shell/</link>
+        <description>Linux &amp; Adb Shell - 标签 - 北邙山之光的 Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 21 Sep 2017 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Linux-Adb-Shell/" rel="self" type="application/rss+xml" /><item>
+    <title>Linux 命令</title>
+    <link>http://PTrain666.github.io/posts/2017-09-21-Linux-%E5%91%BD%E4%BB%A4/</link>
+    <pubDate>Thu, 21 Sep 2017 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2017-09-21-Linux-%E5%91%BD%E4%BB%A4/</guid>
+    <description><![CDATA[<h2 id="adb-shell">Adb Shell</h2>
+<p>常用命令</p>
+<ul>
+<li>adb shell 进入Linux shell(可以写的巨特么的长)</li>
+<li>adb pull 将手机文件复制到PC端，这里只能是从可读的区域复制到PC，比如/data/data没有root权限是无法访问的，此时需要先复制到sdcard目录下</li>
+<li>adb push 和adb pull相反</li>
+<li>adb devices 打印连接的设备</li>
+<li>adb shell ps | grep com.xxx(包名)  查看进程</li>
+</ul>]]></description>
+</item></channel>
+</rss>

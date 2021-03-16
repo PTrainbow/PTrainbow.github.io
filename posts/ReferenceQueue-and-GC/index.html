@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>ReferenceQueue and Rumtime.gc() - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="ReferenceQueue and Rumtime.gc()" />
+<meta property="og:description" content="前言 内存泄漏对于日常简单的业务开发而言 很常见也不常见(如果你还是说 Handler 那一套的话，除非你使用 Handler 做 timer，否则 总有一个时间 会释放所谓的内部类" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/ReferenceQueue-and-GC/" /><meta property="og:image" content="http://PTrain666.github.io/posts/ReferenceQueue-and-GC/referenceq.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-12T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-03-12T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/ReferenceQueue-and-GC/referenceq.png"/>
+<meta name="twitter:title" content="ReferenceQueue and Rumtime.gc()"/>
+<meta name="twitter:description" content="前言 内存泄漏对于日常简单的业务开发而言 很常见也不常见(如果你还是说 Handler 那一套的话，除非你使用 Handler 做 timer，否则 总有一个时间 会释放所谓的内部类"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/ReferenceQueue-and-GC/" /><link rel="prev" href="http://PTrain666.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "ReferenceQueue and Rumtime.gc()",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/ReferenceQueue-and-GC\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/ReferenceQueue-and-GC\/referenceq.png",
+                            "width":  2012 ,
+                            "height":  1250 
+                        }],"genre": "posts","keywords": "Android","wordcount":  3625 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/ReferenceQueue-and-GC\/","datePublished": "2021-03-12T00:00:00+00:00","dateModified": "2021-03-12T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">ReferenceQueue and Rumtime.gc()</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-03-12">2021-03-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3625 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/ReferenceQueue-and-GC/referenceq.png"
+        data-srcset="/posts/ReferenceQueue-and-GC/referenceq.png, /posts/ReferenceQueue-and-GC/referenceq.png 1.5x, /posts/ReferenceQueue-and-GC/referenceq.png 2x"
+        data-sizes="auto"
+        alt="/posts/ReferenceQueue-and-GC/referenceq.png"
+        title="/posts/ReferenceQueue-and-GC/referenceq.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#referencequeue-的一些原理解析">ReferenceQueue 的一些原理解析</a>
+      <ul>
+        <li><a href="#reference-和-referencequeue-初步认识">Reference 和 ReferenceQueue 初步认识</a></li>
+        <li><a href="#referencequeue">ReferenceQueue</a></li>
+        <li><a href="#关系图">关系图</a></li>
+        <li><a href="#referencequeueadd-和-enqueuepending-如何联动">ReferenceQueue.add() 和 enqueuePending() 如何联动？</a></li>
+        <li><a href="#流程梳理">流程梳理</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结收获">总结收获</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="前言">前言</h2>
+<p>内存泄漏对于日常简单的业务开发而言 <code>很常见也不常见</code>(如果你还是说 <code>Handler</code> 那一套的话，除非你使用 <code>Handler 做 timer</code>，否则 <code>总有一个时间</code> 会释放所谓的内部类引用的 Activity 等对象)。一般作为业务开发能制造内存泄漏的情景，我遇到的有几种(当然可能存在更多的情况)：</p>
+<ol>
+<li>遇到了 timer 类似场景，有个无限循环的任务引用了一些对象，导致其超出了它正常 <code>生命周期</code></li>
+<li>单例类瞎引用，单例生命周期一般都伴随着进程的生命周期</li>
+<li>JNI Global Reference 不释放，或者调用一些 native 层的库，但是其自身存在内存泄漏(这其实跟业务开发已经无关了)</li>
+<li>RxJava 没有 dispose，因为 RxJava 的调用创建很多内部类，不小心就可能会出问题。</li>
+<li>自己代码逻辑不对，强引用存了一些不该存的对象，这些对象又强引用了带有生命周期的对象，如 Activity 等(一般不会出现，但是业务代码多且乱之后，层层引用，你可能都不知道你自己引用了什么)。</li>
+</ol>
+<p>一般出现了内存泄漏时，靠 <code>肉眼看代码</code> + <code>脑中 debug</code> 是基本不可能的，大多是通过一些 <code>工具</code> 或者靠 <code>测试压测(内存不断上涨)</code> 来发现的。</p>
+<p>LeakCanary 就是 Android 常用的用于检测 Activity、Fragment、View 级别的内存泄漏的工具，但是也不是万能的。如果 LeakCanary 报出调用链我们往往是可以解决的。但是有时候 LeakCanary 是 <code>检测不到</code> 的(与 Activity 等无关，比如列表页数据和 adapter 的问题)，这个时候，只能靠我们 dump 内存，MAT 里一个个看对象数量是否合理了。</p>
+<p>LeakCanary 检测内存泄漏的核心原理其实是 ReferenceQueue，所以这篇文章来看看 ReferenceQueue 的一些知识。</p>
+<h2 id="referencequeue-的一些原理解析">ReferenceQueue 的一些原理解析</h2>
+<h3 id="reference-和-referencequeue-初步认识">Reference 和 ReferenceQueue 初步认识</h3>
+<p>面试 <code>八股问题</code>，你知道 Java 中的几种引用类型吗？</p>
+<p>其实，不知道你有没有注意过，SoftReference、WeakReference、PhantomReference 构造函数都可以传入一个叫做 <code>ReferenceQueue</code> 的对象，他们之间的关系是怎样的呢？</p>
+<p>先分别来认识一下 Reference 和 ReferenceQueue</p>
+<h4 id="reference">Reference</h4>
+<p>经常会看到类似的说法，Reference 在 JVM 中有四种状态，Active、Pending、Enqueued、Inactive。</p>
+<p>一开始我找了半天也没在代码中找到类似字样，后来在 rt.jar 基础类库中的 Reference.java 找到了相应的 <code>注释信息</code>。然而 Android 中使用的应该是 Platform 的 Reference.java，仔细看会发现两个 java 类 <code>不尽相同</code>，也没有注释明确说明这四个状态，所以后面说的都是 Platform 里的代码。</p>
+<h4 id="reference-结构">Reference 结构</h4>
+<p>Reference 是个链表。</p>
+<ol>
+<li>queueNext 指向入队后的下一个引用(什么是入队后？见后续的关系图)</li>
+<li>pendingNext 指向即将入队(unenqueued)的下一个引用</li>
+<li>queue 指向构造函数传入的 ReferenceQueue</li>
+</ol>
+<p>queueNext 和 pendingNext 均是 Reference 类型，queue 为 ReferenceQueue 类型</p>
+<p>具体代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Reference</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="kd">final</span> <span class="n">ReferenceQueue</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">queue</span><span class="o">;</span>
+  <span class="n">Reference</span> <span class="n">queueNext</span><span class="o">;</span>
+  <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">pendingNext</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div><h3 id="referencequeue">ReferenceQueue</h3>
+<p>ReferenceQueue 顾名思义存储 reference 的一个队列(其实还是链表)。</p>
+<p>但是其本身有 <code>两个队列</code>，一个是入队的队列(每个对象独有)，一个是未入队的队列(静态成员，共有)</p>
+<h4 id="referencequeue-结构">ReferenceQueue 结构</h4>
+<ol>
+<li>
+<p>队列一: <code>unenqueued</code>。十分重要，代码如下</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"> <span class="kd">public</span> <span class="kd">static</span> <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">unenqueued</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</code></pre></div><p>因为是静态成员，所以是一个共享变量，多线程操作时需要锁操作，多个 ReferenceQueue 也指向同一个 unenqueued (链表头结点)。</p>
+</li>
+<li>
+<p>队列二：<code>head</code>。其实就是每个 ReferenceQueue 各自 <code>独有</code> 的链表头结点，存储入队的 Reference。</p>
+</li>
+</ol>
+<h4 id="referencequeue-方法">ReferenceQueue 方法</h4>
+<p>有两个关键方法 add() 和 enqueuePending()，代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">unenqueued</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">unenqueued</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// Find the last element in unenqueued.
+</span><span class="c1"></span>            <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">last</span> <span class="o">=</span> <span class="n">unenqueued</span><span class="o">;</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">!=</span> <span class="n">unenqueued</span><span class="o">)</span> <span class="o">{</span>
+              <span class="n">last</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="c1">// Add our list to the end. Update the pendingNext to point back to enqueued.
+</span><span class="c1"></span>            <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">!=</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">last</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">unenqueued</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">notifyAll</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">enqueuePending</span><span class="o">(</span><span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">start</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+    <span class="k">do</span> <span class="o">{</span>
+        <span class="n">ReferenceQueue</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">queue</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">queue</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
+            <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+            <span class="n">list</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="kd">synchronized</span> <span class="o">(</span><span class="n">queue</span><span class="o">.</span><span class="na">lock</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">do</span> <span class="o">{</span>
+                    <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
+                    <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+                    <span class="n">queue</span><span class="o">.</span><span class="na">enqueueLocked</span><span class="o">(</span><span class="n">list</span><span class="o">);</span>
+                    <span class="n">list</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">list</span> <span class="o">!=</span> <span class="n">start</span> <span class="o">&amp;&amp;</span> <span class="n">list</span><span class="o">.</span><span class="na">queue</span> <span class="o">==</span> <span class="n">queue</span><span class="o">);</span>
+                <span class="n">queue</span><span class="o">.</span><span class="na">lock</span><span class="o">.</span><span class="na">notifyAll</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">list</span> <span class="o">!=</span> <span class="n">start</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div><p>enqueuePending() 中会再调用 enqueueLocked()，enqueueLocked() 代码就不贴了，核心就是 referece.queueNext = newReference，让新的 reference 入队或者就做链表头结点。</p>
+<p>add 方法作用是让 reference 进入 unenqueued 队列或者就做链表头结点。</p>
+<h3 id="关系图">关系图</h3>
+<p>为了方便理解，关系图如下</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/referenceq.png"
+        data-srcset="/img/in-post/referenceq.png, /img/in-post/referenceq.png 1.5x, /img/in-post/referenceq.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/referenceq.png"
+        title="/img/in-post/referenceq.png" /></p>
+<p>值得注意的几点：</p>
+<ol>
+<li>
+<p>不同的 ReferenceQueue 的 unenqueued 链表(头结点)是 <code>同一个</code>。见图中 <code>橘红色</code> 和 <code>橘黄色</code> ReferenceQueue 的 unenqueued 节点 <code>均指向灰色Reference(unenqueue 队列头结点)</code></p>
+</li>
+<li>
+<p>ReferenceQueue.add(reference) 方法，会将 reference 加入 unenqueued 链表中，上一个节点的 <code>pendingNext</code> 指向当前入队的节点。且此时 unenqueued 链表中节点的 queueNext 均为 null(因为还没有入队)。见图中 <code>墨绿色指向淡绿色 Reference</code> 部分。</p>
+</li>
+<li>
+<p>ReferenceQueue.enqueuePending(reference) 方法，会将 reference 加入 <code>各自对应</code> 的ReferenceQueue 中(若 head == null，第一个 reference 即为 head)，之后的调用就加在链表尾部，上一个节点的 <code>queueNext</code> 指向当前入队的节点。见图中 <code>灰色、深蓝色、墨绿色 Reference 的 入队过程</code>。</p>
+<p>所谓的 <code>各自对应</code> 是因为 unenqueued 链表中的节点的 queue 并不指向同一个 ReferenceQueue(图中，<code>墨绿色</code> Reference 指向 <code>橘黄色</code> ReferenceQueue，<code>灰色</code> Reference 指向 <code>橘红色</code> ReferenceQueue)，enqueuePending 时会判断当前节点是不是属于这个队列，从而入队。</p>
+</li>
+</ol>
+<p>总结一下就是：</p>
+<p>ReferenceQueue.add(reference) 将 reference 加入共有的 unenqueued 链表，ReferenceQueue.enqueuePending(reference) 将 reference 加入 ReferenceQueue 独有的链表中。</p>
+<h3 id="referencequeueadd-和-enqueuepending-如何联动">ReferenceQueue.add() 和 enqueuePending() 如何联动？</h3>
+<p>其实这也是 ReferenceQueue 可以用于 <code>检测内存泄漏的原因</code> 和 <code>LeakCanary 原理</code>。</p>
+<p>看过 LeakCanary 源码都知道，LeakCanary 就是使用 <code>KeyedWeakReference</code> 其实对于 Activity 可以简单理解为 <code>WeakReference&lt;Activity&gt;</code>，构建 WeakReference 时传入了 ReferenceQueue，并且在 Activity 的 onDestroy() 生命周期后查看队列中是否有对应的引用，如果没有还会执行 Runtime.gc()，最终判断是否泄漏。</p>
+<p>所以原理也很简单，就是当 JVM(ART) 进行垃圾回收时，最终会触发一些操作，使得 ReferenceQueue 中存在了对应的 Reference，其中的过程又是怎样的呢？真实情况就是这样吗？</p>
+<p>下面就看一看 GC 过程</p>
+<h4 id="runtimegc-过程">Runtime.gc() 过程</h4>
+<p>Runtime.gc()，调的是 native gc() 方法，对应 native 方法为 JVM_GC()</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// OpenjdkJvm.cc
+</span><span class="c1"></span><span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="nf">JVM_GC</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">art</span><span class="o">::</span><span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">IsExplicitGcDisabled</span><span class="p">())</span> <span class="p">{</span>
+      <span class="n">LOG</span><span class="p">(</span><span class="n">INFO</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Explicit GC skipped.&#34;</span><span class="p">;</span>
+      <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">art</span><span class="o">::</span><span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetHeap</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">CollectGarbage</span><span class="p">(</span><span class="cm">/* clear_soft_references */</span> <span class="nb">false</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div><p>CollectGarbage() 方法会调用到 CollectClearedReferences()，部分代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// heap.cc
+</span><span class="c1"></span><span class="n">collector</span><span class="o">::</span><span class="n">GcType</span> <span class="n">Heap</span><span class="o">::</span><span class="n">CollectGarbageInternal</span><span class="p">(</span><span class="n">collector</span><span class="o">::</span><span class="n">GcType</span> <span class="n">gc_type</span><span class="p">,</span> <span class="n">GcCause</span> <span class="n">gc_cause</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">clear_soft_references</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 略
+</span><span class="c1"></span>  <span class="n">collector</span><span class="o">-&gt;</span><span class="n">Run</span><span class="p">(</span><span class="n">gc_cause</span><span class="p">,</span> <span class="n">clear_soft_references</span> <span class="o">||</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">IsZygote</span><span class="p">());</span>
+  <span class="n">IncrementFreedEver</span><span class="p">();</span>
+  <span class="n">RequestTrim</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
+  <span class="c1">// Collect cleared references.
+</span><span class="c1"></span>  <span class="n">SelfDeletingTask</span><span class="o">*</span> <span class="n">clear</span> <span class="o">=</span> <span class="n">reference_processor_</span><span class="o">-&gt;</span><span class="n">CollectClearedReferences</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
+  <span class="c1">// Grow the heap so that we know when to perform the next GC.
+</span><span class="c1"></span>  <span class="n">GrowForUtilization</span><span class="p">(</span><span class="n">collector</span><span class="p">,</span> <span class="n">bytes_allocated_before_gc</span><span class="p">);</span>
+  <span class="n">LogGC</span><span class="p">(</span><span class="n">gc_cause</span><span class="p">,</span> <span class="n">collector</span><span class="p">);</span>
+  <span class="n">FinishGC</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">gc_type</span><span class="p">);</span>
+  <span class="c1">// Actually enqueue all cleared references. Do this after the GC has officially finished since
+</span><span class="c1"></span>  <span class="c1">// otherwise we can deadlock.
+</span><span class="c1"></span>  <span class="n">clear</span><span class="o">-&gt;</span><span class="n">Run</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
+  <span class="n">clear</span><span class="o">-&gt;</span><span class="n">Finalize</span><span class="p">();</span>
+  <span class="c1">// Inform DDMS that a GC completed.
+</span><span class="c1"></span>  <span class="n">Dbg</span><span class="o">::</span><span class="n">GcDidFinish</span><span class="p">();</span>
+
+  <span class="c1">// 略
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></div><p>CollectClearedReferences() 其实构建了一个 Task，ClearedReferenceTask，代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">SelfDeletingTask</span><span class="o">*</span> <span class="n">ReferenceProcessor</span><span class="o">::</span><span class="n">CollectClearedReferences</span><span class="p">(</span><span class="n">Thread</span><span class="o">*</span> <span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Locks</span><span class="o">::</span><span class="n">mutator_lock_</span><span class="o">-&gt;</span><span class="n">AssertNotHeld</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
+  <span class="c1">// By default we don&#39;t actually need to do anything. Just return this no-op task to avoid having
+</span><span class="c1"></span>  <span class="c1">// to put in ifs.
+</span><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">SelfDeletingTask</span><span class="o">&gt;</span> <span class="n">result</span><span class="p">(</span><span class="k">new</span> <span class="n">FunctionTask</span><span class="p">([](</span><span class="n">Thread</span><span class="o">*</span><span class="p">)</span> <span class="p">{}));</span>
+  <span class="c1">// When a runtime isn&#39;t started there are no reference queues to care about so ignore.
+</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">cleared_references_</span><span class="p">.</span><span class="n">IsEmpty</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">LIKELY</span><span class="p">(</span><span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">IsStarted</span><span class="p">()))</span> <span class="p">{</span>
+      <span class="n">jobject</span> <span class="n">cleared_references</span><span class="p">;</span>
+      <span class="p">{</span>
+        <span class="n">ReaderMutexLock</span> <span class="nf">mu</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">*</span><span class="n">Locks</span><span class="o">::</span><span class="n">mutator_lock_</span><span class="p">);</span>
+        <span class="n">cleared_references</span> <span class="o">=</span> <span class="n">self</span><span class="o">-&gt;</span><span class="n">GetJniEnv</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetVm</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddGlobalRef</span><span class="p">(</span>
+            <span class="n">self</span><span class="p">,</span> <span class="n">cleared_references_</span><span class="p">.</span><span class="n">GetList</span><span class="p">());</span>
+      <span class="p">}</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">kAsyncReferenceQueueAdd</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// TODO: This can cause RunFinalization to terminate before newly freed objects are
+</span><span class="c1"></span>        <span class="c1">// finalized since they may not be enqueued by the time RunFinalization starts.
+</span><span class="c1"></span>        <span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetHeap</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetTaskProcessor</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddTask</span><span class="p">(</span>
+            <span class="n">self</span><span class="p">,</span> <span class="k">new</span> <span class="n">ClearedReferenceTask</span><span class="p">(</span><span class="n">cleared_references</span><span class="p">));</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">reset</span><span class="p">(</span><span class="k">new</span> <span class="n">ClearedReferenceTask</span><span class="p">(</span><span class="n">cleared_references</span><span class="p">));</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">cleared_references_</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">result</span><span class="p">.</span><span class="n">release</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div><p>最终执行的是 ClearedReferenceTask 的 Run 方法，代码如下:</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">ClearedReferenceTask</span> <span class="o">:</span> <span class="k">public</span> <span class="n">HeapTask</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">explicit</span> <span class="n">ClearedReferenceTask</span><span class="p">(</span><span class="n">jobject</span> <span class="n">cleared_references</span><span class="p">)</span>
+      <span class="o">:</span> <span class="n">HeapTask</span><span class="p">(</span><span class="n">NanoTime</span><span class="p">()),</span> <span class="n">cleared_references_</span><span class="p">(</span><span class="n">cleared_references</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span>
+  <span class="kt">void</span> <span class="nf">Run</span><span class="p">(</span><span class="n">Thread</span><span class="o">*</span> <span class="kr">thread</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">ScopedObjectAccess</span> <span class="n">soa</span><span class="p">(</span><span class="kr">thread</span><span class="p">);</span>
+    <span class="n">jvalue</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">l</span> <span class="o">=</span> <span class="n">cleared_references_</span><span class="p">;</span>
+    <span class="n">InvokeWithJValues</span><span class="p">(</span><span class="n">soa</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="n">WellKnownClasses</span><span class="o">::</span><span class="n">java_lang_ref_ReferenceQueue_add</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+    <span class="n">soa</span><span class="p">.</span><span class="n">Env</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">DeleteGlobalRef</span><span class="p">(</span><span class="n">cleared_references_</span><span class="p">);</span>
+  <span class="p">}</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="k">const</span> <span class="n">jobject</span> <span class="n">cleared_references_</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div><p>InvokeWithJValues(soa, nullptr, WellKnownClasses::java_lang_ref_ReferenceQueue_add, args);</p>
+<p>这行代码一看就很熟悉，ReferenceQueue_add 方法。</p>
+<p>所以，找到了初步关系就是：</p>
+<blockquote>
+<p>ART 在执行垃圾回收时，如果存在需要回收的对象，会调用其所对应的 ReferenceQueue.add() 方法。</p>
+</blockquote>
+<p>ReferenceQueue.add() 方法中会执行  ReferenceQueue.class.notifyAll()</p>
+<p>notify 肯定是 <code>唤醒一个正在等待的线程</code>，那是谁呢？</p>
+<p>这部分的逻辑其实在 Daemons.java 中，Daemons.java 会启动四个线程，其中有两个很熟悉，<code>FinalizerDaemon</code> 和 <code>ReferenceQueueDaemon</code>。</p>
+<p>其中 FinalizerDaemon 会执行重写了 finalize 函数的对象的 finalize() 方法(这个过程是如何实现的可以网上搜一搜)</p>
+<p>ReferenceQueueDaemon 是今天的重点，它是引用队列的守护线程。代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// Daemons.java
+</span><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ReferenceQueueDaemon</span> <span class="kd">extends</span> <span class="n">Daemon</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ReferenceQueueDaemon</span> <span class="n">INSTANCE</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReferenceQueueDaemon</span><span class="o">();</span>
+
+    <span class="n">ReferenceQueueDaemon</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="s">&#34;ReferenceQueueDaemon&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">runInternal</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">isRunning</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">list</span><span class="o">;</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="kd">synchronized</span> <span class="o">(</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">while</span> <span class="o">(</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">unenqueued</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">wait</span><span class="o">();</span>
+                    <span class="o">}</span>
+                    <span class="n">list</span> <span class="o">=</span> <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">unenqueued</span><span class="o">;</span>
+                    <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">unenqueued</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">continue</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">OutOfMemoryError</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">continue</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">enqueuePending</span><span class="o">(</span><span class="n">list</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>还记得 add() 最终执行的 ReferenceQueue.class.notifyAll() 吗？这里 ReferenceQueueDaemon 正在等待被唤醒，之后会执行 ReferenceQueue.enqueuePending(list)，就此打通所有流程。</p>
+<p>ReferenceQueueDaemon 又是怎么启动的？其实是 <code>Daemons.start()</code> 启动的(具体过程见流程梳理)</p>
+<h3 id="流程梳理">流程梳理</h3>
+<h4 id="第一步">第一步</h4>
+<blockquote>
+<p>JVM/ART 启动时，会 <code>启动四个 Daemon 线程</code>，其中包括了 ReferenceQueueDaemon，并且其会因为 unenqueued == null 而 wait() 被挂起。</p>
+</blockquote>
+<p>具体启动流程可以参见 Android ART 虚拟机启动流程，大致为 init 进程启动 zygote 进程，app_main.cpp 中会调用 Runtime::Start()(这个函数比较长)，从而执行到  StartDaemonThreads()，其代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="n">Runtime</span><span class="o">::</span><span class="n">StartDaemonThreads</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">ScopedTrace</span> <span class="nf">trace</span><span class="p">(</span><span class="n">__FUNCTION__</span><span class="p">);</span>
+  <span class="n">VLOG</span><span class="p">(</span><span class="n">startup</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Runtime::StartDaemonThreads entering&#34;</span><span class="p">;</span>
+
+  <span class="n">Thread</span><span class="o">*</span> <span class="n">self</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">::</span><span class="n">Current</span><span class="p">();</span>
+
+  <span class="c1">// Must be in the kNative state for calling native methods.
+</span><span class="c1"></span>  <span class="n">CHECK_EQ</span><span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">GetState</span><span class="p">(),</span> <span class="n">kNative</span><span class="p">);</span>
+
+  <span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span> <span class="o">=</span> <span class="n">self</span><span class="o">-&gt;</span><span class="n">GetJniEnv</span><span class="p">();</span>
+  <span class="n">env</span><span class="o">-&gt;</span><span class="n">CallStaticVoidMethod</span><span class="p">(</span><span class="n">WellKnownClasses</span><span class="o">::</span><span class="n">java_lang_Daemons</span><span class="p">,</span>
+                            <span class="n">WellKnownClasses</span><span class="o">::</span><span class="n">java_lang_Daemons_start</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionCheck</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionDescribe</span><span class="p">();</span>
+    <span class="n">LOG</span><span class="p">(</span><span class="n">FATAL</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Error starting java.lang.Daemons&#34;</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">VLOG</span><span class="p">(</span><span class="n">startup</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Runtime::StartDaemonThreads exiting&#34;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>可以看到 CallStaticVoidMethod(WellKnownClasses::java_lang_Daemons, WellKnownClasses::java_lang_Daemons_start) 被调用，从而调用了 Daemons.start()，启动了四个 Daemon 线程。</p>
+<h4 id="第二步">第二步</h4>
+<blockquote>
+<p>JVM/ART GC 时，会调用 ReferenceQueue 的 ReferenceQueue.add(Reference)，最终 <code>notifyAll 唤醒 ReferenceQueueDaemon 线程</code>，执行 ReferenceQueue.enqueuePending(list) 方法</p>
+</blockquote>
+<p>具体如何调用到 add 方法，见上面的分析。</p>
+<h4 id="第三步">第三步</h4>
+<blockquote>
+<p>ReferenceQueue.enqueuePending(list) 会执行到 ReferenceQueue.enqueueLocked() 方法，从而使得这个即将被回收的对象的 Reference 对象进入其所在的 ReferenceQueue 中(入队后 Reference 已经不再持有原对象)</p>
+</blockquote>
+<p>通过以上三步，我们知道：</p>
+<p>如果一个对象被回收了，比如是 WeakReference 方式，且创建时传入了 ReferenceQueue，那么此 WeakReference 会最终进入到其对应的 ReferenceQueue 中。</p>
+<p>LeakCanary 最本质的原理就是这样，检测 ReferenceQueue 有无此 Reference，有则没有泄露，应该还需要自行 remove。没有的话主动调用 Rumtime.gc() 之后再来观察队列，依然没有则判定存在了内存泄漏。</p>
+<h2 id="总结收获">总结收获</h2>
+<p>整个过程中仍然有许多细节没有深究，但是对于 <code>引用类型</code> 了解更加深刻了。</p>
+<p>阅读源码的过程中，也顺便了解了 FinalizerDaemon 线程，了解了 finalize() 的流程，收获了一些 <code>&quot;平时无用的知识&quot;</code>。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-03-12</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/" class="prev" rel="prev" title="Handler Looper MQ 的几个问题"><i class="fas fa-angle-left fa-fw"></i>Handler Looper MQ 的几个问题</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-03-12T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"ReferenceQueue and Rumtime.gc()"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

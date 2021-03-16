@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Promise - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="Promise" />
+<meta property="og:description" content="如今写了很多门语言之后越来越有感触，事件驱动的设计离不开各种异步调用。比如 Android 中主线程如今已经不允许发送网络请求等等，这时候都需要一些异步回调" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2019-11-20-Promise/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-11-20T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-11-20T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Promise"/>
+<meta name="twitter:description" content="如今写了很多门语言之后越来越有感触，事件驱动的设计离不开各种异步调用。比如 Android 中主线程如今已经不允许发送网络请求等等，这时候都需要一些异步回调"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2019-11-20-Promise/" /><link rel="prev" href="http://PTrain666.github.io/posts/2019-08-15-exports-module.exports%E7%AD%89%E7%AD%89/" /><link rel="next" href="http://PTrain666.github.io/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Promise",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2019-11-20-Promise\/"
+        },"genre": "posts","keywords": "JavaScript","wordcount":  1828 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/2019-11-20-Promise\/","datePublished": "2019-11-20T00:00:00+00:00","dateModified": "2019-11-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Promise</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-11-20">2019-11-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1828 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么需要promise呢">为什么需要Promise呢</a></li>
+    <li><a href="#怎么用">怎么用</a>
+      <ul>
+        <li><a href="#直观上来使用">直观上来使用</a></li>
+        <li><a href="#一开始的疑问">一开始的疑问</a></li>
+        <li><a href="#没什么玄奥的">没什么玄奥的</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>如今写了很多门语言之后越来越有感触，事件驱动的设计离不开各种异步调用。比如 Android 中主线程如今已经不允许发送网络请求等等，这时候都需要一些异步回调。而在前端也是如此，但是前端8成以上的工程师能做的原理性的东西很少。<br>
+首先 JsCore 改不了吧？水平有限！其次，CSS 的解析改不了吧？写各种 loader，各种插件已经很牛逼了，我感觉那些 webpack 相关的东西，至今我也不是很懂，只是会用。所以大部分人都关注在业务开发上。<br>
+而客户端的工程师还有很多其他的事情研究，比如热更新啊、性能优化啊等等。<br>
+我觉得没有好坏之分，但是前端在代码架构上或者一些设计上我觉得更优秀，客户端相比很落后。比如双向绑定，redux 等思想。再比如这个 promise，虽然客户端也有可以处理这种事情的东西，比如 RxJava、RxAndroid 等等，但是感觉没这么直接，RxJava 也要不停 subscribeOn、observeOn 等等，或者你说你写个 compose，但是还是那样，不直观不直接。</p>
+<h2 id="为什么需要promise呢">为什么需要Promise呢</h2>
+<p>事件驱动，不阻塞主线程的情况下，耗时操作只能异步回调回来。过多的嵌套的异步代码，就会产生所谓的<code>回调地狱</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">// 常规 callback 方式
+</span><span class="c1"></span><span class="nx">asyncCall</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">asyncCall2</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">asyncCall3</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">asyncCall4</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div><p>所以急需一个救世英雄，让这段代码变的更通俗易懂，嵌套更少，Promise 横空出世。我觉得即使RxJava，写起来也没有下面那么直观，特别是当一些人乱使用操作符后，整个就变味了，感觉完全可以用 RxJava 封装个直接的 Promise，去掉过多的操作符。</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">// promise 方式
+</span><span class="c1"></span><span class="nb">Promise</span>
+  <span class="p">.</span><span class="nx">all</span><span class="p">([</span><span class="nx">promises</span><span class="p">])</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">resultArray</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+
+  <span class="p">})</span>
+</code></pre></div><p>舒服了！</p>
+<h2 id="怎么用">怎么用</h2>
+<h3 id="直观上来使用">直观上来使用</h3>
+<p>.then 就是异步回调来的结果<br>
+.catch 就是一些异常信息的处理，直接结束流程。</p>
+<p>依葫芦画瓢，若果已经能拿到 Promise 对象，比如现在很多 js 网络库，自动返回一个 Promise 对象。那么你就可以</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nb">Promise</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">resp</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// 后续处理
+</span><span class="c1"></span>      <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">data</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+
+  <span class="p">})</span>
+</code></pre></div><p>如果没有返回 Promise 对象，创造一个也要上</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span><span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">ok</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">resolve</span><span class="p">()</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">reject</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div><p>之后的操作同上</p>
+<p>Promise 也有一些操作符，应该是自带一些函数。all, race等，这些也都很直接，没有什么门槛和副作用函数。</p>
+<h3 id="一开始的疑问">一开始的疑问</h3>
+<ul>
+<li>
+<p>既然 .then 之后返回的是一个 Promise 对象，无限 .then 会咋样呢？<br>
+如果没有异步调用，其实就相当于这些代码在主线程里写的一样</p>
+</li>
+<li>
+<p>.then 里面 return 一个 自己(比如说发网络请求)的 Promise 会怎么样？<br>
+不会咋样，之后继续 .then，就是你 return 的那个异步操作的结果的回调</p>
+</li>
+<li>
+<p>.then 里面 return 一个 自己(比如说发网络请求)的 Promise 且 .then 了会咋样？<br>
+不会咋样··· 之后就是你 .then 之后的回调</p>
+</li>
+</ul>
+<h3 id="没什么玄奥的">没什么玄奥的</h3>
+<p>所以，其实只要返回的是一个 promise 对象一切好说, <code>如果不是一个 Promise 对象就一定要构造一个</code>，因为 .then 的 function 中，如果你有异步操作，而且并不封装成 Promise 对象，那么他并不会等异步回调回来，直接走完同步代码，执行了下一个 .then 方法，就会和预想情况不一样。</p>
+<p>所以核心就是，你究竟什么时候需要异步操作，异步的时候如果在 .then 中，那个方法不光一定<code>返回的是 Promise 对象，且还要是同步的</code>。</p>
+<p>不是很好形容，例子</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">rp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;request-promise&#39;</span><span class="p">);</span>
+<span class="kd">function</span> <span class="nx">getTicket</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">callback</span><span class="p">()</span>
+    <span class="p">},</span> <span class="mi">2000</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">get</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;step 3&#39;</span><span class="p">)</span>
+     <span class="nx">getTicket</span><span class="p">(</span><span class="nx">ticket</span> <span class="p">=&gt;</span> <span class="p">{</span>
+       <span class="k">return</span>  <span class="nx">rp</span><span class="p">(</span><span class="s1">&#39;http://www.baidu.com&#39;</span><span class="p">).</span>
+        <span class="nx">then</span><span class="p">(</span><span class="nx">_</span> <span class="p">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;step 4&#39;</span><span class="p">)</span>
+        <span class="p">})</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">test</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;step 1&#39;</span><span class="p">)</span>
+    <span class="nx">rp</span><span class="p">(</span><span class="s1">&#39;http://www.baidu.com&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">_</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;step 2&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nx">get</span><span class="p">()</span>
+    <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="nx">_</span>  <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;step 5&#39;</span><span class="p">)</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="nx">test</span><span class="p">();</span>
+</code></pre></div><p>上面是个 H5 很常见的情况，就是先去发送一个网络请求，然后请求成功后，发送后续请求，但是后续请求可能依赖端上的一些参数，这些参数需要通过 bridge 异步去拿，比如此处的 getTicket 我故意模拟了一下 2s 时间。然后拿到 ticket，发送后续请求。</p>
+<p>所以理想情况，这个代码，返回应该是 step 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5</p>
+<p>实际情况是：step 1 -&gt; 2 -&gt; 3 -&gt; 5 -&gt; 4</p>
+<p>why?</p>
+<p>其实就是因为 get 方法，虽然 return 了个 Promise, 但是其实没啥用对吧，因为你异步返回个对象有啥意义呢？同步代码已经执行完了！<code>这就是我上面想说的，要同步返回一个 Promise 的意思。</code>可能觉得这谁都明白啊，但是当你嵌套很多层之后，很容易就记不清楚了，所以一定要头脑清晰。</p>
+<p>那么，如果想要能正常运行怎么办呢？<code>此时就需要自己构造 Promise！区别仅仅是 get 函数</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">rp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;request-promise&#39;</span><span class="p">);</span>
+<span class="kd">function</span> <span class="nx">getTicket</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">callback</span><span class="p">()</span>
+    <span class="p">},</span> <span class="mi">2000</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">get</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span><span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;step 3&#39;</span><span class="p">)</span>
+        <span class="nx">getTicket</span><span class="p">(</span><span class="nx">ticket</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="k">return</span>  <span class="nx">rp</span><span class="p">(</span><span class="s1">&#39;http://www.baidu.com&#39;</span><span class="p">).</span>
+           <span class="nx">then</span><span class="p">(</span><span class="nx">_</span> <span class="p">=&gt;</span> <span class="p">{</span>
+               <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;step 4&#39;</span><span class="p">)</span>
+               <span class="nx">resolve</span><span class="p">()</span>
+           <span class="p">})</span>
+       <span class="p">})</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">test</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;step 1&#39;</span><span class="p">)</span>
+    <span class="nx">rp</span><span class="p">(</span><span class="s1">&#39;http://www.baidu.com&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">_</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;step 2&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nx">get</span><span class="p">()</span>
+    <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="nx">_</span>  <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;step 5&#39;</span><span class="p">)</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="nx">test</span><span class="p">();</span>
+</code></pre></div><h2 id="总结">总结</h2>
+<p>对于前端的知识，我觉得没必要过度的追寻原理，比如 Promise 这个原理，如果简单的看，就是封装 callback，观察者呗？其实具体的我也不清楚~~</p>
+<p>但是如果去看它的源码的话，肯定很复杂，我觉得可以去看看人家代码怎么设计的，没必要一行行的去推敲，特别是我这个外行。当我想知道怎么用 Promise 的时候，看到了好多分析原理的文章，一行行源码推敲，而且有时候作者自己也不是很清晰，一笔带过···</p>
+<p>我感觉只要理解了这个思想和原理，用的时候大部分时间不会出错，不用去追究源码，也许这就是 <code>意会</code> 吧！</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2019-11-20</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/JavaScript/">JavaScript</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2019-08-15-exports-module.exports%E7%AD%89%E7%AD%89/" class="prev" rel="prev" title="exports、module.exports等等"><i class="fas fa-angle-left fa-fw"></i>exports、module.exports等等</a>
+            <a href="/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/" class="next" rel="next" title="RxJava doOnNext 歪打正着">RxJava doOnNext 歪打正着<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2019-11-20T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"Promise"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

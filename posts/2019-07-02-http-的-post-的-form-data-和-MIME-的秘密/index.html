@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>http 的 post 的 form-data 和 MIME 的秘密 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="http 的 post 的 form-data 和 MIME 的秘密" />
+<meta property="og:description" content="问题描述 需要上传一张图片到我们的对象存储服务器，对方给了接口协议。 需使用 post 请求，Content-Type 为 multipart/form-data 且 key = filecontent，v" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2019-07-02-http-%E7%9A%84-post-%E7%9A%84-form-data-%E5%92%8C-MIME-%E7%9A%84%E7%A7%98%E5%AF%86/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-07-02T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-07-02T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="http 的 post 的 form-data 和 MIME 的秘密"/>
+<meta name="twitter:description" content="问题描述 需要上传一张图片到我们的对象存储服务器，对方给了接口协议。 需使用 post 请求，Content-Type 为 multipart/form-data 且 key = filecontent，v"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2019-07-02-http-%E7%9A%84-post-%E7%9A%84-form-data-%E5%92%8C-MIME-%E7%9A%84%E7%A7%98%E5%AF%86/" /><link rel="prev" href="http://PTrain666.github.io/posts/2019-06-23-H5-audio-%E6%A0%87%E7%AD%BE/" /><link rel="next" href="http://PTrain666.github.io/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "http 的 post 的 form-data 和 MIME 的秘密",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2019-07-02-http-%E7%9A%84-post-%E7%9A%84-form-data-%E5%92%8C-MIME-%E7%9A%84%E7%A7%98%E5%AF%86\/"
+        },"genre": "posts","keywords": "基础, http","wordcount":  1284 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/2019-07-02-http-%E7%9A%84-post-%E7%9A%84-form-data-%E5%92%8C-MIME-%E7%9A%84%E7%A7%98%E5%AF%86\/","datePublished": "2019-07-02T00:00:00+00:00","dateModified": "2019-07-02T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">http 的 post 的 form-data 和 MIME 的秘密</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-07-02">2019-07-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1284 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#问题描述">问题描述</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#抓包看协议">抓包看协议</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#修正后的代码">修正后的代码</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="问题描述">问题描述</h2>
+<p>需要上传一张图片到我们的对象存储服务器，对方给了接口协议。</p>
+<p>需使用 post 请求，Content-Type 为 multipart/form-data</p>
+<p>且 key = filecontent，value 就是文件内容</p>
+<h4 id="nodejs">nodejs</h4>
+<p>node.js发送请求，就是这么简单</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js">  <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s2">&#34;POST&#34;</span><span class="p">,</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s2">&#34;xxxxxxxxxxxxx&#34;</span><span class="p">,</span>
+    <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&#34;Content-Type&#34;</span><span class="o">:</span> <span class="s2">&#34;multipart/form-data&#34;</span>
+    <span class="p">},</span>
+    <span class="nx">timeout</span><span class="o">:</span> <span class="mi">3000</span><span class="p">,</span>
+    <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span>
+      <span class="c1">// key:filecontent value:stream
+</span><span class="c1"></span>      <span class="s2">&#34;filecontent&#34;</span><span class="o">:</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="nx">zip_file_path</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+  <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">errcode</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;cdn链接:\t&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">download_url</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+</code></pre></div><h4 id="golang">golang</h4>
+<p>当需要在 golang 上发送这个请求的时候，就遇到了各种问题</p>
+<p>往上搜到了各种并不理解的方法，诸如，multipart.createFormFile 等等。不是很理解就算了，抄下来关键是还不对。</p>
+<p>是时候学一波 HTTP 协议了</p>
+<ul>
+<li>golang 如何发送 post 请求,构建 multipart/form-data</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">buf</span> <span class="o">:=</span> <span class="k">new</span><span class="p">(</span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span><span class="p">)</span>
+<span class="nx">w</span> <span class="o">:=</span> <span class="nx">multipart</span><span class="p">.</span><span class="nx">NewWriter</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+<span class="nx">http</span><span class="p">.</span><span class="nx">NewRequest</span><span class="p">(</span><span class="s2">&#34;POST&#34;</span><span class="p">,</span> <span class="nx">GIFT_URL</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
+<span class="nx">contentType</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nx">FormDataContentType</span><span class="p">()</span>
+<span class="nx">req</span><span class="p">.</span><span class="nx">Header</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="s2">&#34;Content-Type&#34;</span><span class="p">,</span> <span class="nx">contentType</span><span class="p">)</span>
+</code></pre></div><p>上面简单列举了一下 net/http 包自带的几个关键方法</p>
+<p><code>如果这样就结束了，那我就不会写这篇文章了！</code></p>
+<p>即使你设置了你的 Content-Type 是 multipart/form-data，即使你 debug 看到你的 body 里面有这个文件的所有数据，但是对方服务器还是<code>不一定</code>能解出来。比如，对方服务器是个对象存储系统，并且对上传的文件类型有严格判断，这样的话，肯定是凉凉的。</p>
+<h2 id="抓包看协议">抓包看协议</h2>
+<p>先来看正确的请求</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/mime_ok.jpg"
+        data-srcset="/img/in-post/mime_ok.jpg, /img/in-post/mime_ok.jpg 1.5x, /img/in-post/mime_ok.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/mime_ok.jpg"
+        title="/img/in-post/mime_ok.jpg" /></p>
+<p>再来看一个出错的golang代码的请求</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/mime_error.jpg"
+        data-srcset="/img/in-post/mime_error.jpg, /img/in-post/mime_error.jpg 1.5x, /img/in-post/mime_error.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/mime_error.jpg"
+        title="/img/in-post/mime_error.jpg" /></p>
+<h4 id="mime">MIME</h4>
+<p>上图中可以看到，HTTP 协议之后，还带上了一个 MIME 协议。当我们的 HTTP 的 Content-Type 设置为 multipart/form-data 时，我们的请求后会跟着 MIME 协议。这是对于 HTTP 协议的扩展，通过搜资料，说是以前 HTTP 不能传送各种文件等等的东西，而 MIME 是邮件协议，对 HTTP 进行了扩展，让 HTTP 也可以传输各种文件等资源。</p>
+<h4 id="看到问题的本质">看到问题的本质</h4>
+<p>那既然抓包发现了 MIME，那么也很清晰的看到了 golang 发出的请求的错误原因，没有指定 MIME 的 Content-Type</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>描述</th>
+<th>典型示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td>表明文件是普通文本，理论上是人类可读</td>
+<td>text/plain, text/html, text/css, text/javascript</td>
+</tr>
+<tr>
+<td><code>image</code></td>
+<td>表明是某种图像。不包括视频，但是动态图（比如动态gif）也使用image类型</td>
+<td>image/gif, image/png, image/jpeg, image/bmp, image/webp, image/x-icon, image/vnd.microsoft.icon</td>
+</tr>
+<tr>
+<td>audio</td>
+<td>表明是某种音频文件</td>
+<td>audio/midi, audio/mpeg, audio/webm, audio/ogg, audio/wav</td>
+</tr>
+<tr>
+<td>video</td>
+<td>表明是某种视频文件</td>
+<td>video/webm, video/ogg</td>
+</tr>
+<tr>
+<td>application</td>
+<td>表明是某种二进制数据</td>
+<td>application/octet-stream, application/pkcs12, application/vnd.mspowerpoint, application/xhtml+xml, application/xml,  application/pdf</td>
+</tr>
+</tbody>
+</table>
+<p>那我们上传图片则 Content-Type 肯定是 image/xxx</p>
+<h4 id="boundary是什么">boundary是什么</h4>
+<p>我们在抓到的包中还会看到有个叫做 boundary 的一串字符串，这个其实是一个分隔符，让我们能正确解析上传的文件</p>
+<p>一个请求的具体信息大致如下</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span> <span class="nx">multipart</span><span class="o">/</span><span class="nx">form</span><span class="o">-</span><span class="nx">data</span><span class="p">;</span> <span class="nx">boundary</span><span class="o">=</span><span class="nx">aBoundaryString</span>
+<span class="p">(</span><span class="nx">other</span> <span class="nx">headers</span> <span class="nx">associated</span> <span class="kd">with</span> <span class="nx">the</span> <span class="nx">multipart</span> <span class="nb">document</span> <span class="nx">as</span> <span class="nx">a</span> <span class="nx">whole</span><span class="p">)</span>
+
+<span class="o">--</span><span class="nx">aBoundaryString</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Disposition</span><span class="o">:</span> <span class="nx">form</span><span class="o">-</span><span class="nx">data</span><span class="p">;</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&#34;myFile&#34;</span><span class="p">;</span> <span class="nx">filename</span><span class="o">=</span><span class="s2">&#34;img.jpg&#34;</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span> <span class="nx">image</span><span class="o">/</span><span class="nx">jpeg</span>
+
+<span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+<span class="o">--</span><span class="nx">aBoundaryString</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Disposition</span><span class="o">:</span> <span class="nx">form</span><span class="o">-</span><span class="nx">data</span><span class="p">;</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&#34;myField&#34;</span>
+
+<span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+<span class="o">--</span><span class="nx">aBoundaryString</span>
+<span class="p">(</span><span class="nx">more</span> <span class="nx">subparts</span><span class="p">)</span>
+<span class="o">--</span><span class="nx">aBoundaryString</span><span class="o">--</span>
+</code></pre></div><p>每个字段/文件都被 <code>boundary</code>（Content-Type中指定）分成单独的段</p>
+<h4 id="content-disposition是什么">Content-Disposition是什么</h4>
+<p>在常规的HTTP应答中，<code>Content-Disposition</code> 消息头指示回复的内容该以何种形式展示，是以内联的形式（即网页或者页面的一部分），还是以附件的形式下载并保存到本地。</p>
+<p>作为 multipart body 中的消息头时，第一个参数总是固定不变的form-data；附加的参数不区分大小写，并且拥有参数值，参数名与参数值用等号(=)连接，参数值用双引号括起来。参数之间用分号(;)分隔，如之前的图。</p>
+<h2 id="修正后的代码">修正后的代码</h2>
+<p>那其实核心原因就是 MIME 的 Content-Type 了，我们的对象存储服务器，只接受一般的图片类型，要加上图片文件的类型。</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">imageData</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nx">DecodeString</span><span class="p">(</span><span class="nx">imageDataStr</span><span class="p">)</span>
+<span class="nx">buf</span> <span class="o">:=</span> <span class="k">new</span><span class="p">(</span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span><span class="p">)</span>
+<span class="nx">w</span> <span class="o">:=</span> <span class="nx">multipart</span><span class="p">.</span><span class="nx">NewWriter</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+<span class="nx">hash</span> <span class="o">:=</span> <span class="nx">md5</span><span class="p">.</span><span class="nx">Sum</span><span class="p">(</span><span class="nx">imageData</span><span class="p">)</span>
+<span class="nx">baseFileName</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Base</span><span class="p">(</span><span class="nx">hex</span><span class="p">.</span><span class="nx">EncodeToString</span><span class="p">(</span><span class="nx">hash</span><span class="p">[</span><span class="o">:</span><span class="p">])</span> <span class="o">+</span> <span class="nx">ext</span><span class="p">)</span>
+<span class="nx">header</span> <span class="o">:=</span> <span class="nx">make</span><span class="p">(</span><span class="nx">textproto</span><span class="p">.</span><span class="nx">MIMEHeader</span><span class="p">)</span>
+<span class="nx">header</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="s2">&#34;Content-Disposition&#34;</span><span class="p">,</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="sb">`form-data; name=&#34;%s&#34;; filename=&#34;%s&#34;`</span><span class="p">,</span>
+		<span class="s2">&#34;filecontent&#34;</span><span class="p">,</span> <span class="nx">baseFileName</span><span class="p">))</span>
+<span class="nx">mimeType</span> <span class="o">:=</span> <span class="nx">mime</span><span class="p">.</span><span class="nx">TypeByExtension</span><span class="p">(</span><span class="nx">ext</span><span class="p">)</span>
+<span class="k">if</span> <span class="nx">mimeType</span> <span class="o">==</span> <span class="s2">&#34;&#34;</span> <span class="p">{</span>
+	<span class="nx">mimeType</span> <span class="o">=</span> <span class="s2">&#34;application/octet-stream&#34;</span>
+<span class="p">}</span>
+<span class="nx">header</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="s2">&#34;Content-Type&#34;</span><span class="p">,</span> <span class="nx">mimeType</span><span class="p">)</span>
+<span class="nx">fw</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nx">CreatePart</span><span class="p">(</span><span class="nx">header</span><span class="p">)</span>
+<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="nx">nil</span> <span class="p">{</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">EchoError</span><span class="p">(</span><span class="nx">wr</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">err</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+	<span class="k">return</span>
+<span class="p">}</span>
+<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Copy</span><span class="p">(</span><span class="nx">fw</span><span class="p">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">NewReader</span><span class="p">(</span><span class="nx">string</span><span class="p">(</span><span class="nx">imageData</span><span class="p">)))</span>
+<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="nx">nil</span> <span class="p">{</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">EchoError</span><span class="p">(</span><span class="nx">wr</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">err</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+	<span class="k">return</span>
+<span class="p">}</span>
+<span class="nx">contentType</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nx">FormDataContentType</span><span class="p">()</span>
+<span class="nx">w</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<span class="nx">req</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">NewRequest</span><span class="p">(</span><span class="s2">&#34;POST&#34;</span><span class="p">,</span> <span class="nx">GIFT_URL</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
+
+</code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2019-07-02</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%9F%BA%E7%A1%80/">基础</a>,&nbsp;<a href="/tags/http/">http</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2019-06-23-H5-audio-%E6%A0%87%E7%AD%BE/" class="prev" rel="prev" title="H5 audio 标签"><i class="fas fa-angle-left fa-fw"></i>H5 audio 标签</a>
+            <a href="/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/" class="next" rel="next" title="OPTIONS 请求">OPTIONS 请求<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2019-07-02T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"http 的 post 的 form-data 和 MIME 的秘密"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
