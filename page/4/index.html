@@ -91,18 +91,6 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-09-10-%E4%BB%BB%E5%8A%A1%E6%A8%A1%E5%9E%8B/">任务模型</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-09-10">2018-09-10</time></span></div><div class="content"><h2 id="现实问题">现实问题</h2>
-<p>特殊的刷新界面需求如下：</p>
-<ol>
-<li>请求后台，返回数据中包含若干个链接 link0、link1···</li>
-<li>访问各个 link 等待结果</li>
-<li>如果时间超过 400ms 或者各个 link 都请求成功，那么才刷新当前界面</li>
-</ol>
-<p>总结一下就是，要么等 400ms，要么各个请求都成功了，才去刷新界面。</p></div><div class="post-footer">
-        <a href="/posts/2018-09-10-%E4%BB%BB%E5%8A%A1%E6%A8%A1%E5%9E%8B/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Java/">Java</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2018-08-29-recyclerview-%E7%9A%84-measure-%E9%97%AE%E9%A2%98/">recyclerview 的 measure 问题</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-08-29">2018-08-29</time></span></div><div class="content"><p>之前写过一篇 recyclerview 的 onMeasure 问题，但是只是看看博客，泛泛而谈，至今也没有看源码</p>
 <p>最近遇到了一个奇怪的问题，一个 wrap_content 的 relativelayout 布局，放到 recyclerview 中变成了 match_parent</p></div><div class="post-footer">
@@ -199,6 +187,18 @@ function 类型代表了一系列参数和返回值相同的类型</p>
 </code></pre></div></div><div class="post-footer">
         <a href="/posts/2018-02-24-RecyclerView-%E7%9A%84-onMeasure/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/">自定义View</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2018-02-02-yoga-%E5%92%8C-flexbox/">yoga 和 flexbox</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-02-02">2018-02-02</time></span></div><div class="content"><h2 id="yoga">Yoga</h2>
+<p><a href="https://facebook.github.io/yoga/" target="_blank" rel="noopener noreffer">https://facebook.github.io/yoga/</a><br>
+facebook 开源的布局框架，支持多种语言</p>
+<h3 id="android-中使用-yoga">Android 中使用 Yoga</h3>
+<p>通过</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">compile</span> <span class="err">&#39;</span><span class="n">com</span><span class="o">.</span><span class="na">facebook</span><span class="o">.</span><span class="na">yoga</span><span class="o">.</span><span class="na">android</span><span class="o">:</span><span class="n">yoga</span><span class="o">-</span><span class="n">layout</span><span class="o">:</span><span class="n">1</span><span class="o">.</span><span class="na">5</span><span class="o">.</span><span class="na">0</span><span class="err">&#39;</span>
+<span class="n">compile</span> <span class="err">&#39;</span><span class="n">com</span><span class="o">.</span><span class="na">facebook</span><span class="o">.</span><span class="na">yoga</span><span class="o">:</span><span class="n">yoga</span><span class="o">:</span><span class="n">1</span><span class="o">.</span><span class="na">5</span><span class="o">.</span><span class="na">0</span><span class="err">&#39;</span>
+</code></pre></div><p>即可使用，反正我是忽略了他那个什么 BUCK，看了半天没看懂规则···</p></div><div class="post-footer">
+        <a href="/posts/2018-02-02-yoga-%E5%92%8C-flexbox/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/JavaScript/">JavaScript</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
@@ -224,10 +224,8 @@ function 类型代表了一系列参数和返回值相同的类型</p>
                         <a href="/page/6/">6</a>
                     </span>
                 </li><li class="page-item ">
-                    <span class="page-link" aria-hidden="true">&hellip;</span>
-                </li><li class="page-item ">
                     <span class="page-link">
-                        <a href="/page/8/">8</a>
+                        <a href="/page/7/">7</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

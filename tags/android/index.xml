@@ -32,13 +32,6 @@
     <guid>http://PTrain666.github.io/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/</guid>
     <description><![CDATA[前言 前几天看到同事在讨论 动态代理 和 类加载器 的一些问题，其实这些技术无论是客户端还是后端都已经用烂掉了。 动态代理 cglib 和 jdk.Proxy 基本是 Java 后端面试的 &ld]]></description>
 </item><item>
-    <title>简历</title>
-    <link>http://PTrain666.github.io/posts/%E7%AE%80%E5%8E%86/</link>
-    <pubDate>Sat, 20 Feb 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E7%AE%80%E5%8E%86/</guid>
-    <description><![CDATA[注意 个人信息 姓名：赵哲宇 学历：南京邮电大学 本科 2017届 博客(笔记)：https://ptrain666.site]]></description>
-</item><item>
     <title>DataBinding 解读</title>
     <link>http://PTrain666.github.io/posts/DataBinding-%E8%A7%A3%E8%AF%BB/</link>
     <pubDate>Thu, 11 Feb 2021 00:00:00 &#43;0000</pubDate>
@@ -73,5 +66,12 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/2020-03-21-SingleTask-%E8%A1%80%E6%A1%88/</guid>
     <description><![CDATA[最近还是在做小包的需求(什么是小包···就是功能和体积的阉割版)，测试提了个 bug，说主站的 APP，打开详情页，回到后台，再重新打开 APP，]]></description>
+</item><item>
+    <title>再来看看 WMS</title>
+    <link>http://PTrain666.github.io/posts/2019-08-08-%E5%86%8D%E6%9D%A5%E7%9C%8B%E7%9C%8B-WMS/</link>
+    <pubDate>Thu, 08 Aug 2019 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2019-08-08-%E5%86%8D%E6%9D%A5%E7%9C%8B%E7%9C%8B-WMS/</guid>
+    <description><![CDATA[这几天想重新研究研究一些 Android Framework 相关的东西，看到了 WindowManagerService(WMS)，产生了一些疑问。 getSystemServ]]></description>
 </item></channel>
 </rss>

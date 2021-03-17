@@ -91,19 +91,6 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2017-09-21-Linux-%E5%91%BD%E4%BB%A4/">Linux 命令</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-09-21">2017-09-21</time></span></div><div class="content"><h2 id="adb-shell">Adb Shell</h2>
-<p>常用命令</p>
-<ul>
-<li>adb shell 进入Linux shell(可以写的巨特么的长)</li>
-<li>adb pull 将手机文件复制到PC端，这里只能是从可读的区域复制到PC，比如/data/data没有root权限是无法访问的，此时需要先复制到sdcard目录下</li>
-<li>adb push 和adb pull相反</li>
-<li>adb devices 打印连接的设备</li>
-<li>adb shell ps | grep com.xxx(包名)  查看进程</li>
-</ul></div><div class="post-footer">
-        <a href="/posts/2017-09-21-Linux-%E5%91%BD%E4%BB%A4/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Linux-Adb-Shell/">Linux &amp; Adb Shell</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2017-09-18-9png-%E7%9A%84%E4%BD%BF%E7%94%A8/">9png 的使用</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-09-18">2017-09-18</time></span></div><div class="content"><h2 id="9png">9.png</h2>
 <p>9png使用在需要图片拉伸的地方，常见的就是对话框</p>
@@ -210,6 +197,15 @@
 <p>他就使用了 beginDelayedTransition 这个方法实现了一个 dropdown 的效果，所以就学习下相关的知识，也希望可以完全吸收他的控件代码！</p></div><div class="post-footer">
         <a href="/posts/2017-08-29-beginDelayTransition-%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%81%E8%A7%A3/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android%E5%8A%A8%E7%94%BB/">Android动画</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2017-08-29-%E5%85%A8%E5%B1%8F-Dialog/">全屏宽的 Dialog</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-08-29">2017-08-29</time></span></div><div class="content"><p>最近看到项目里面有个全屏幕宽的 Dialog，我以前是一直想做一个类似的，于是查了查资料。</p>
+<p>先说一下各种资料搜刮的结果，每个人写的是差不多的，都是给 Dialog 设置了一个 style，然后里面有各种 window 的属性值。我照着抄了一个是可以达到效果的。</p>
+<p>但是，后面发现其实是个伪效果，虽然设置了很多我从来没用过的属性，但是其实真正有用的就两个，一个 NoTitle 一个 windowBackgroud，这两个一个将 title 去掉了（根据你到底需不需要 title 来决定），一个设置了背景色。关键就是这个背景色的问题，默认不设置的时候 Dialog 有默认属性是一个drawable，这个时候在运行代码的时候去getdialog的decorview的padding值的时候是38，所以两边都会有空白区域，而加上这个 windowBackgroud 值即使是@null，再次运行代码就成了0，这个我还不知道到底为啥···</p>
+<p>后来就干脆直接 getDecorView 去 setpadding 就好了，这样即使没有设置 windowbackgroud 属性，也能全屏。</p>
+<p>至于这种方法到底效果如何，我还没有测过，应该是可以的。</p></div><div class="post-footer">
+        <a href="/posts/2017-08-29-%E5%85%A8%E5%B1%8F-Dialog/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
@@ -227,10 +223,6 @@
                 </li><li class="page-item active">
                     <span class="page-link">
                         <a href="/page/7/">7</a>
-                    </span>
-                </li><li class="page-item ">
-                    <span class="page-link">
-                        <a href="/page/8/">8</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">
