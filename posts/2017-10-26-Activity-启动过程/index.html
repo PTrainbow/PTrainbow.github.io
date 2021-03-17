@@ -26,7 +26,7 @@ startActivity 有多个重载，但是最终都会调用到 startActivityForResu
 ActivityThread 中还有一个ApplicationThread extends ApplicationThreadNative，AMS 进程中依靠 ApplicationThreadProxy 与之通信，传递一些生命周期的变化情况。
 Instrumentation 中会调用 execStartActivity ,这个方法里又出现了 ActivityManagerNative.getDefault，这个返回的是一个 AMS 的代理对象，以此可以跨进程与 AMS 通信。"/>
 <meta name="application-name" content="北邙山之光的 Blog">
-<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2017-10-26-Activity-%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" /><link rel="prev" href="http://PTrain666.github.io/posts/2017-10-23-md-%E8%BD%AC-pdf/" /><link rel="next" href="http://PTrain666.github.io/posts/2017-10-31-%E4%B8%80%E4%BA%9B%E6%94%B6%E8%8E%B7/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2017-10-26-Activity-%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" /><link rel="prev" href="http://PTrain666.github.io/posts/2017-10-18-%E6%8F%92%E4%BB%B6%E5%8C%96%E5%9F%BA%E7%A1%80-%E7%AE%80%E5%8D%95%E8%B0%83%E8%B5%B7-Activity/" /><link rel="next" href="http://PTrain666.github.io/posts/2017-10-31-%E4%B8%80%E4%BA%9B%E6%94%B6%E8%8E%B7/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -211,7 +211,7 @@ Instrumentation 中会调用 execStartActivity ,这个方法里又出现了 Acti
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/2017-10-23-md-%E8%BD%AC-pdf/" class="prev" rel="prev" title="md 转 pdf"><i class="fas fa-angle-left fa-fw"></i>md 转 pdf</a>
+    <div class="post-nav"><a href="/posts/2017-10-18-%E6%8F%92%E4%BB%B6%E5%8C%96%E5%9F%BA%E7%A1%80-%E7%AE%80%E5%8D%95%E8%B0%83%E8%B5%B7-Activity/" class="prev" rel="prev" title="插件化基础（简单调起 Activity）"><i class="fas fa-angle-left fa-fw"></i>插件化基础（简单调起 Activity）</a>
             <a href="/posts/2017-10-31-%E4%B8%80%E4%BA%9B%E6%94%B6%E8%8E%B7/" class="next" rel="next" title="一些收获">一些收获<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>

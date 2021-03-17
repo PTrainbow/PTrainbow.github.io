@@ -55,13 +55,6 @@
     <guid>http://PTrain666.github.io/posts/2021-02-01-Java-%E6%B3%9B%E5%9E%8B%E7%9A%84%E8%A7%81%E8%A7%A3/</guid>
     <description><![CDATA[前言 写 RecyclerView 的 Adapter 时，感觉到了泛型理解不够深刻，也不够熟练，看了几天的泛型文档 https://docs.oracle.com/javase/tutorial/java/generics/index.html 下面的总结均是对于文档的学习和一些代码示例的运行。 为什么要使用泛型]]></description>
 </item><item>
-    <title>RecyclerView Adapter 的问题</title>
-    <link>http://PTrain666.github.io/posts/2021-01-30-RecyclerView-Adapter-%E7%9A%84%E9%97%AE%E9%A2%98/</link>
-    <pubDate>Sat, 30 Jan 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2021-01-30-RecyclerView-Adapter-%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
-    <description><![CDATA[前言 因为之前一直写 TV 相关的业务，而 TV 业务多半为列表页展示必然使用 RecyclerView，当然我们使用的 RecyclerView 经过了一定的改造，处理了焦点和各种]]></description>
-</item><item>
     <title>Kotlin Coroutines VS Goroutines</title>
     <link>http://PTrain666.github.io/posts/2021-01-24-Kotlin-Coroutines-VS-Goroutines/</link>
     <pubDate>Sun, 24 Jan 2021 00:00:00 &#43;0000</pubDate>
@@ -75,5 +68,12 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/2021-01-22-Kotlin-Scope-Function/</guid>
     <description><![CDATA[前言 经常看公司里的人写的一些基础库(基于 Kotlin)看不太懂，总有各种关键字和函数，不知道他们是在刻意用还是咋地，所以学一波，就从出现次数]]></description>
+</item><item>
+    <title>java 匿名内部类</title>
+    <link>http://PTrain666.github.io/posts/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/</link>
+    <pubDate>Thu, 21 Jan 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/</guid>
+    <description><![CDATA[最近看了一些程序语言的设计，语言的本质等等···接触到了一些神奇的名词，协变与逆变（Covariance and contravariance） 等等]]></description>
 </item></channel>
 </rss>

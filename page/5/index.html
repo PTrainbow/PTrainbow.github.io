@@ -91,33 +91,6 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-01-29-%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD%E4%B9%8B%E5%BC%82%E5%B8%B8%E6%98%BE%E7%A4%BA/">经验教训之异常显示</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-01-29">2018-01-29</time></span></div><div class="content"><p>突然被查出来个问题，卡片异常显示了···</p>
-<p>因为后台穿了个错误的数据，而我这边没有进行容错，直接 gone 掉，所以卡片只显示了个头部，下面的内容 gone 了</p>
-<p>吓尿了~~</p>
-<p>记得前几天填那个转正的目标，线上 bug 小于3次，以为要炸呢···</p>
-<p>不过老大们一致认为是后台问题，不应该这么传过来，而且数据的处理不应该端上来做~~</p></div><div class="post-footer">
-        <a href="/posts/2018-01-29-%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD%E4%B9%8B%E5%BC%82%E5%B8%B8%E6%98%BE%E7%A4%BA/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%9D%82/">杂</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-01-22-GitHub-%E7%9A%84-contributions-%E9%97%AE%E9%A2%98/">GitHub 的 contributions 问题</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-01-22">2018-01-22</time></span></div><div class="content"><p>添加网页统计的时候才注意到一个神奇的事情：<br>
-我不断修改并且提交自己的博客代码，博客成功更新，但是 GitHub 得 contributions 图却没有更新！<br>
-我这强迫症果断受不了，而且这个图一定程度上给我一种自我安慰···如果它一直是空的而不是绿色的，我会很难受···</p></div><div class="post-footer">
-        <a href="/posts/2018-01-22-GitHub-%E7%9A%84-contributions-%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%90%84%E7%A7%8D%E5%9D%91/">各种坑</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-01-21-%E5%9C%86%E8%A7%92%E5%9B%BE%E7%89%87%E7%9A%84%E7%BB%88%E6%9E%81%E5%A5%A5%E4%B9%89/">圆角图片的终极奥义</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-01-21">2018-01-21</time></span></div><div class="content"><p>最近终于可以写UI了，但是感觉 UI 确实有时候挺无聊的，但是 UI 的过程相当复杂，至今还是没怎么摸清。强大的谷歌爸爸帮我们封装了一层又一层，以至于我想写个自定义的圆角图片要吐血了！</p>
-<h2 id="网上流传的代码">网上流传的代码</h2>
-<p>自定义圆角图片，网上一搜全是，但是无一例外全是 demo，只考虑出个样子就行了，不考虑内存、优化等各种问题。</p>
-<p>常见的就两种方式来实现，一种是 xfermode 一种是 bitmapshader</p>
-<p>xfermode 是不好的，浪费内存，它是两个视图的融合，一个原始图片的视图和一个我们圆角的图形视图，然后综合在一起。</p>
-<p>bitmapshader 更好，它可以直接设置在 paint 上，并不用创建新的视图层。</p>
-<p>其实还有一种就是直接 clipPath，但是这个如果是弧线会有锯齿，而且参数中没有 paint 没法抗锯齿。网上各种给 canvas 添加什么抗锯齿参数的方法，经过测试是毫无卵用的···</p></div><div class="post-footer">
-        <a href="/posts/2018-01-21-%E5%9C%86%E8%A7%92%E5%9B%BE%E7%89%87%E7%9A%84%E7%BB%88%E6%9E%81%E5%A5%A5%E4%B9%89/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/">自定义View</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2018-01-08-addView-%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90/">addView 方法解析</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-01-08">2018-01-08</time></span></div><div class="content"><p>addView 之后的调用过程我很不清晰，而且因为不清晰所以不敢随意使用 addView，畏手畏脚</p>
 <p>addView 最终都会调用到</p>
@@ -156,18 +129,9 @@
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2017-12-17-onCreate-%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%AE%BD%E9%AB%98/">onCreate 中获取宽高</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-12-17">2017-12-17</time></span></div><div class="content">View的getWidth() 和 getMeasuredWidth() 有什么区别吗？ getWidth() ```java public final int getWidth() { return mRight - mLeft; } ``` 这个值是 view 在 layout 时候确定的 //setFrame会进行mRight等的</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-12-17">2017-12-17</time></span></div><div class="content">View的getWidth() 和 getMeasuredWidth() 有什么区别吗？ getWidth() public final int getWidth() { return mRight - mLeft; } 这个值是 view 在 layout 时候确定的 //setFrame会进行mRight等的赋值</div><div class="post-footer">
         <a href="/posts/2017-12-17-onCreate-%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%AE%BD%E9%AB%98/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/">自定义View</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2017-12-10-%E5%90%AF%E5%8A%A8%E5%85%B6%E4%BB%96%E5%BA%94%E7%94%A8%E7%9A%84-Activity/">启动其他应用的 Activity</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-12-10">2017-12-10</time></span></div><div class="content"><p>本来都打算写写二叉树了，但是在一个群里突然发现了一个有意思的东西</p>
-<h2 id="一个现象">一个现象</h2>
-<p>我们自己写一个简单的 demo 只有一个 activity，但是将其的 taskAffinity = com.tencent.mm 应该是微信的包名</p>
-<p>我们先打开自己的 demo 是一个空白的界面，然后打开微信，再打开我们的 demo,我们的 demo 就是微信了</p>
-<p>因为 Activity 都是 MainActivity，所以我们会去微信的任务栈里找 MainActivity，找到了就启动了，所以一打开就是微信的界面了。</p></div><div class="post-footer">
-        <a href="/posts/2017-12-10-%E5%90%AF%E5%8A%A8%E5%85%B6%E4%BB%96%E5%BA%94%E7%94%A8%E7%9A%84-Activity/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2017-11-27-MVP-%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%A3%E6%9E%90/">MVP 简单的解析</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-11-27">2017-11-27</time></span></div><div class="content"><p><a href="https://github.com/googlesamples/android-architecture/tree/todo-mvp/" target="_blank" rel="noopener noreffer">google官方例子</a></p>
@@ -247,6 +211,34 @@ UI层，一些View的显示</li>
 </code></pre></div></div><div class="post-footer">
         <a href="/posts/2017-11-10-View-%E7%9A%84-inflate/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/">自定义View</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2017-11-06-%E7%A9%B6%E7%AB%9F%E4%BB%80%E4%B9%88%E6%89%8D%E6%98%AF%E6%8A%80%E6%9C%AF%E5%A5%BD/">究竟什么才是技术好？</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-11-06">2017-11-06</time></span></div><div class="content"><p>这些天心情很低沉</p>
+<p>首先，工作上和安卓似乎渐行渐远···回首自己毕业到现在。</p>
+<p>一开始收到 offer 时的激动，一晚上睡不着觉，到现在的厌烦···技术上基本没有什么提升。</p></div><div class="post-footer">
+        <a href="/posts/2017-11-06-%E7%A9%B6%E7%AB%9F%E4%BB%80%E4%B9%88%E6%89%8D%E6%98%AF%E6%8A%80%E6%9C%AF%E5%A5%BD/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%9D%82/">杂</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2017-10-31-%E4%B8%80%E4%BA%9B%E6%94%B6%E8%8E%B7/">一些收获</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-10-31">2017-10-31</time></span></div><div class="content">今天被问了好多问题，好多都不太清晰！记清楚！ Fragment 和 View有什么不同？ 其实现在感觉是完全可以相同的，因为 Fragment 就是 View 的一个 Container，生命</div><div class="post-footer">
+        <a href="/posts/2017-10-31-%E4%B8%80%E4%BA%9B%E6%94%B6%E8%8E%B7/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2017-10-26-Activity-%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/">Activity 启动过程</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-10-26">2017-10-26</time></span></div><div class="content"><h2 id="app进程">App进程</h2>
+<p>startActivity 有多个重载，但是最终都会调用到 startActivityForResult 中</p>
+<p>之后就是到了 Instrumentation 中，这个类很关键，Activity 创建时会 attach 一个，并且之后的一些生命周期的回调都依赖它，它是在 ActivityThread 中的。</p>
+<p>ActivityThread 中还有一个ApplicationThread extends ApplicationThreadNative，AMS 进程中依靠 ApplicationThreadProxy 与之通信，传递一些生命周期的变化情况。</p>
+<p>Instrumentation 中会调用 execStartActivity ,这个方法里又出现了 ActivityManagerNative.getDefault，这个返回的是一个 AMS 的代理对象，以此可以跨进程与 AMS 通信。</p></div><div class="post-footer">
+        <a href="/posts/2017-10-26-Activity-%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2017-10-18-%E6%8F%92%E4%BB%B6%E5%8C%96%E5%9F%BA%E7%A1%80-%E7%AE%80%E5%8D%95%E8%B0%83%E8%B5%B7-Activity/">插件化基础（简单调起 Activity）</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-10-18">2017-10-18</time></span></div><div class="content"><p>插件化这个知识我觉得是 Android 开发必修课，但是一直没有了解</p>
+<p>虽然 github 上开源的插件化方案层出不穷，但是因为他们实在太强大，加上我这方面基础不行，不是很能看的懂！！</p>
+<p>这里也希望自己以后可以回过头去再去研究一下 Virtual Apk 这种插件化开源代码。</p></div><div class="post-footer">
+        <a href="/posts/2017-10-18-%E6%8F%92%E4%BB%B6%E5%8C%96%E5%9F%BA%E7%A1%80-%E7%AE%80%E5%8D%95%E8%B0%83%E8%B5%B7-Activity/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%8F%92%E4%BB%B6%E5%8C%96/">插件化</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
@@ -268,10 +260,6 @@ UI层，一些View的显示</li>
                 </li><li class="page-item ">
                     <span class="page-link">
                         <a href="/page/6/">6</a>
-                    </span>
-                </li><li class="page-item ">
-                    <span class="page-link">
-                        <a href="/page/7/">7</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

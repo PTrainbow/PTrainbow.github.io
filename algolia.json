@@ -10,21 +10,6 @@
     },
     {
         "layout": "post",
-        "uri": "/posts/2017-08-29-全屏-Dialog",
-        "content": "Dialog                                                     Dialog       style         window                                                                       NoTitle    windowBackgroud        title               title                                     Dialog         drawable              getdialog decorview padding     38                   windowBackgroud      null          0                        getDecorView   setpadding              windowbackgroud                                          bottomDialog   new Dialog this R style style_dialog     false             true       bottomDialog setCanceledOnTouchOutside false           bottomDialog setCancelable false           dialog     View contentView   LayoutInflater from this  inflate R layout dialogcontentnormal  null   bottomDialog setContentView contentView         decorview padding       bottomDialog getWindow   getDecorView   setPadding 0  0  0  0       dialog           ViewGroup LayoutParams layoutParams   contentView getLayoutParams    layoutParams width         contentView setLayoutParams layoutParams      Dialog                   bottomDialog getWindow   setGravity Gravity BOTTOM       window      bottomDialog getWindow   setWindowAnimations R style BottomDialog_Animation   dialog style  color white true true  null dialog window         anim tranlatedialogin  anim tranlatedialogout translatedialogin xml",
-        "objectID": "posts/2017-08-29-全屏-Dialog",
-        "title": "全屏宽的 Dialog",
-        "date": "2017-08-29",
-        "author": "北邙山之光",
-        "category": "Android",
-        "excerpt_separator": "<!--more-->",
-        "catalog": true,
-        "tags": [
-            "Android"
-        ]
-    },
-    {
-        "layout": "post",
         "uri": "/posts/2017-08-29-beginDelayTransition-的一些见解",
         "content": "Transition                                            bug                                 RecyclerView                 crash            GitHub         DropDownView       beginDelayedTransition           dropdown                                  TransitonManager beginDelayedTransition   public static void beginDelayedTransition final ViewGroup sceneRoot  Transition transition      sceneRoot   layout          transition             transition      sPendingTransitions contains sceneRoot     sceneRoot isLaidOut       Transition DBG    Log d LOG_TAG   beginDelayedTransition  root  transition       sceneRoot          transition           list  private static ArrayList sPendingTransitions   new ArrayList    sPendingTransitions add sceneRoot    transition    null            transition            private static Transition sDefaultTransition   new AutoTransition    transition   sDefaultTransition    final Transition transitionClone   transition clone       1 sceneChangeSetup sceneRoot  transitionClone      2 Scene setCurrentScene sceneRoot  null      3 sceneChangeRunTransition sceneRoot  transitionClone       1 sceneChangeSetup   private static void sceneChangeSetup ViewGroup sceneRoot  Transition transition       Capture current values               sceneRoot     transition       pause            sRunningTranstions ArrayMap            Transitions ArrayList runningTransitions   getRunningTransitions   get sceneRoot    runningTransitions    null    runningTransitions size     0     Transition runningTransition   runningTransitions    runningTransition pause sceneRoot               transition  null          transition  transition    null        transition           1 1 transition captureValues sceneRoot  true        Notify previous scene exited Scene previousScene   Scene getCurrentScene sceneRoot    previousScene    null    previousScene exit        1 1 transition captureValues               void captureValues ViewGroup sceneRoot  boolean start          start  true  false     Values    Values          1 3 clearValues start       mTargetIds    addTarget            mTargetNames   mTargetXX           view          Adds id target view Transition interested animating  default  no targetIds  Transition will listen changes every view hierarchy below sceneRoot Scene transitioned into  Setting targetIds constrains Transition listen for  act on  views IDs  Views different IDs  no IDs whatsoever  will ignored    Note using ids specify targets implies ids unique within view hierarchy underneath scene root     see View getId    param targetId id target view  positive number   return Transition targetId added  Returning object makes easier chain calls during construction  transitionSet addTransitions new Fade    addTarget someId        mTargetIds size     0    mTargets size     0      mTargetNames    null    mTargetNames isEmpty        mTargetTypes    null    mTargetTypes isEmpty                         view                 else                sceneRoot      Values  1 2 captureHierarchy sceneRoot  start       start    mNameOverrides    null               1 2 captureHierarchy   private void captureHierarchy View view  boolean start     view    null    return    int id   view getId     mTargetIdExcludes    null    mTargetIdExcludes contains id     return     mTargetExcludes    null    mTargetExcludes contains view     return     mTargetTypeExcludes    null    view    null    int numTypes   mTargetTypeExcludes size     int   0  values   new ArrayMap        Transitions targeted view      View       transiton      final ArrayList targetedTransitions   new ArrayList    TransitionValuesMaps class TransitionValuesMaps   ArrayMap viewValues   new ArrayMap    SparseArray idValues   new SparseArray    LongSparseArray itemIdValues   new LongSparseArray    ArrayMap nameValues   new ArrayMap      2 Scene setCurrentScene sceneRoot  null         Scence  view setTagInternal com android internal R id current_scene  scene   public void setTagInternal int key  Object tag      key     24     0x1    throw new IllegalArgumentException  The key framework specific    resource id       setKeyedTag key  tag     3 sceneChangeRunTransition   private static void sceneChangeRunTransition final ViewGroup sceneRoot  final Transition transition     transition    null    sceneRoot    null           MultiListener   listener   OnPreDrawListener     sceneRoot          sceneRoot              MultiListener   MultiListener  OnPreDraw     3 1    MultiListener listener   new MultiListener transition  sceneRoot   sceneRoot addOnAttachStateChangeListener listener   sceneRoot getViewTreeObserver   addOnPreDrawListener listener       3 1 MultiListener OnPreDraw public boolean onPreDraw     removeListeners       Don t start transition it s no longer pending                                         transtion    sPendingTransitions remove mSceneRoot     return true       Add running list  handle end remove         final ArrayMap  runningTransitions   getRunningTransitions    ArrayList currentTransitions   runningTransitions get mSceneRoot   ArrayList previousRunningTransitions   null   currentTransi",
         "objectID": "posts/2017-08-29-beginDelayTransition-的一些见解",
@@ -115,21 +100,6 @@
     },
     {
         "layout": "post",
-        "uri": "/posts/2017-09-11-事件分发的小细节",
-        "content": "dispatchTouchEvent onInterceptTouchEvent onTouchEvent    onInterceptTouchEven t   ViewGroup                               dispatchTouchEvent            dispatchTouchEvent                       onInterceptTouchEvent   onTouchEvent                                                       down                          intercept         mFirstTouchTarget     null    null                                                  onTouchEvent     false                        onTouchEvent               switch case                     false                  false                                     target                                                View    LinearLayout       inflate                       Header        recyclerview   layout      header   margin                                                            recyclerview              View down                           View      down      click              move        recyclerview         recyclerview                                   up                          move           onTouchEvent     return super onTouchEvent       View   onTouchEvent   LinearLayout              false            move                    onTonchEvent     false         View                                       mFirstTouchTarget    null        down     View         mFirstToutTarget                 null    mFirstTouchTarget     null     dispatchTransformedTouchEvent      child     null          onTouchEvent             mFirstTouchTarget    null           onTouchEvent          false                           View   onTouchEvent   return true   return false                      false         activity   true                                                View                        down                          false     Activity            Activity                                                        Activity   dispatchTouchEvent           public boolean dispatchTouchEvent MotionEvent ev     ev getAction      MotionEvent ACTION_DOWN    onUserInteraction       getWindow   superDispatchTouchEvent ev     return true    return onTouchEvent ev             onUserInteraction                 phoneWindow superDispatchTouchEvent       DecorView superDispatchTouchEven   DecorView public boolean superDispatchTouchEvent MotionEvent event      DecorView     Framelayout  ViewGroup dispatchTouchEvent return super dispatchTouchEvent event                 ViewGroup   View                  down       false       move            Activity   dispatchTouchEvent                                 ViewGroup   dispatchTouchEvent        return onTouchEvent                       down                   Activity                    Activity   dispatchTouchEvent        down                                          dispatchTouchEvent           superDispatchTouchEvent       onTouchEvent",
-        "objectID": "posts/2017-09-11-事件分发的小细节",
-        "title": "事件分发的小细节",
-        "date": "2017-09-11",
-        "author": "北邙山之光",
-        "category": "Android事件分发和绘制",
-        "excerpt_separator": "<!--more-->",
-        "catalog": true,
-        "tags": [
-            "Android事件分发和绘制"
-        ]
-    },
-    {
-        "layout": "post",
         "uri": "/posts/2017-09-17-可以旋转的饼图-2",
         "content": "timi                                                                                                          item           index",
         "objectID": "posts/2017-09-17-可以旋转的饼图-2",
@@ -190,36 +160,6 @@
     },
     {
         "layout": "post",
-        "uri": "/posts/2017-10-09-error_unlink_old_xxx",
-        "content": "IDE    stash   pull",
-        "objectID": "posts/2017-10-09-error_unlink_old_xxx",
-        "title": "Git Error",
-        "date": "2017-10-09",
-        "author": "北邙山之光",
-        "category": "各种坑",
-        "excerpt_separator": "<!--more-->",
-        "catalog": true,
-        "tags": [
-            "各种坑"
-        ]
-    },
-    {
-        "layout": "post",
-        "uri": "/posts/2017-10-12-java_cp-命令",
-        "content": "flowdroid          java  cp xxxxxxxxxxxxxx           java  cp    classpath                          jar            jar   window             java  cp c  classes myClass jar d  classes   jar packname mainclassname         main",
-        "objectID": "posts/2017-10-12-java_cp-命令",
-        "title": "java_cp 命令",
-        "date": "2017-10-12",
-        "author": "北邙山之光",
-        "category": "Java",
-        "excerpt_separator": "<!--more-->",
-        "catalog": true,
-        "tags": [
-            "Java"
-        ]
-    },
-    {
-        "layout": "post",
         "uri": "/posts/2017-10-18-插件化基础-简单调起-Activity",
         "content": "Android                   github                                                                      Virtual Apk                               apk        apk                apk                                               Classloader android     pathclassloader   dexclassloader pathclassloader           dexclassloader        dex              BaseDexClassloader          DexClassLoader          ClassLoader              apk               classloader            BaseDexClassLoader    pathlist           pathlist     DexPathList      DexPathList           dexElements                     dex                                               apk               activity                apk   dex     apk   dex                                               Activity                 hook    AMS           activity      Intent    startActivity      Intent           Activiy      manifest                               Activity                Activity                Activity     AMS        hook    AMS    Intent     new    Intent    Intent            Acitivity        Intent       Intent                           Activity            apk          Activity          Acitivity        hook       launchActivity                Handler                handler                     handler             handler   mCallback              handleMessage       activity            intent                apk      DexClassLoader String apkPath   Environment getExternalStorageDirectory   getAbsolutePath     test apk   String cachePath   MainActivity this getCacheDir   getAbsolutePath    DexClassLoader mClassLoader   new DexClassLoader apkPath cachePath cachePath getClassLoader         dex public static void hook DexClassLoader classLoader   PathClassLoader pathClassLoader    PathClassLoader  MyApplication getContext   getClassLoader    try           apk pathlist Object mainPathList   getPathList pathClassLoader        classloder      DexClassLoader          apk pathlist Object mPathList   getPathList classLoader           dex   dex            dexElements  Class clazz   PathList getClass    Field field   clazz getDeclaredField  dexElements    field setAccessible true   return field get PathList     dexElements       dexElements      Class localClass   suzhu getClass   getComponentType             dexElements           Object result   Array newInstance localClass  newarrlength   setField suZhuPathList  suZhuPathList getClass     dexElements   dexElements      Object dexElements   combineArray  getDexElements mainPathList   getDexElements mPathList              dexElements         dexElements Field localField   mainPathList getClass   getDeclaredField  dexElements    localField setAccessible true   localField set mainPathList dexElements     catch  Exception e    e printStackTrace          AMS   hookAMS private void AmsHook   throws ClassNotFoundException  NoSuchFieldException  IllegalAccessException   Class ActivityManagerNative   Class forName  android app ActivityManagerNative    Field gDefaultField   ActivityManagerNative getDeclaredField  gDefault    gDefaultField setAccessible true   Object gDefault   gDefaultField get null   Class Singleton   Class forName  android util Singleton    Field mInstanceField   Singleton getDeclaredField  mInstance    mInstanceField setAccessible true   Object obj   mInstanceField get gDefault   Class IActivityManager   Class forName  android app IActivityManager    Object proxy   Proxy newProxyInstance getClassLoader    new Class   IActivityManager   new ActivityManagerHandler obj    mInstanceField set gDefault  proxy           gDefault         SingleTon IActivityManager       AMP                                            AcitivityManagerHandler      Intent intent  int index   0   int   0    objects length  i       objects i  instanceof Intent    index   i  break      intent    Intent  objects index   Intent newIntent   new Intent    String subPackageName   MyApplication getContext   getPackageName    ComponentName componetName   new ComponentName subPackageName  ZhanKeng class getName     newIntent setComponent componetName   newIntent putExtra  real_intent   intent   objects index    newIntent  Log e  Main    startActivity   hook       Log e  Main    args index  hook       objects index    return method invoke mBase  objects             Intent          ZhanKeng    Acitivity              acitivity         Intent  Handler   hook private void handlerHook   throws Exception   Class ActivityThread   Class forName  android app ActivityThread    Method currentActivityThread   ActivityThread getDeclaredMethod  currentActivityThread    currentActivityThread setAccessible true   Object ActivityThreadInstance   currentActivityThread invoke null   Field mH   ActivityThread getDeclaredField  mH    mH setAccessible true   Handler H    Handler  mH get ActivityThreadInstance   Field mCallBackField   Handler class getDeclaredField  mCallback    mCallBackField setAccessible true   mCallBackField set H  new ActivityThreadHandlerCallBack H               hook   AMS       Intent                              Intent                   Activity                 H ",
         "objectID": "posts/2017-10-18-插件化基础-简单调起-Activity",
@@ -231,36 +171,6 @@
         "catalog": true,
         "tags": [
             "插件化"
-        ]
-    },
-    {
-        "layout": "post",
-        "uri": "/posts/2017-10-20-代码混淆",
-        "content": "mapping                               mapping                    mapping                         proguard pro             keep            mapping                              build gradle     release   minifyEnabled true proguardFile  proguard cfg       proguard                   proguard pro           release                         mapping                                                            keepattributes Exceptions InnerClasses  keep public class com appsdk apifactory model TrackBaseData         gradle                    mark 1    doLast   doFirst       2    task          doFirst   doLast 3     task    doLast           4     task    doFirst           5     task   doFirst       doLast 6     doLast 7 dependsOn             task",
-        "objectID": "posts/2017-10-20-代码混淆",
-        "title": "代码混淆",
-        "date": "2017-10-20",
-        "author": "北邙山之光",
-        "category": "Android",
-        "excerpt_separator": "<!--more-->",
-        "catalog": true,
-        "tags": [
-            "Android"
-        ]
-    },
-    {
-        "layout": "post",
-        "uri": "/posts/2017-10-23-md-转-pdf",
-        "content": "word             markdown               pdf       markdown                          chrome        md                        markdown            chrome                pdf    pdf",
-        "objectID": "posts/2017-10-23-md-转-pdf",
-        "title": "md 转 pdf",
-        "date": "2017-10-23",
-        "author": "北邙山之光",
-        "category": "杂",
-        "excerpt_separator": "<!--more-->",
-        "catalog": true,
-        "tags": [
-            "杂"
         ]
     },
     {
@@ -345,21 +255,6 @@
         "objectID": "posts/2017-11-27-MVP-简单的解析",
         "title": "MVP 简单的解析",
         "date": "2017-11-27",
-        "author": "北邙山之光",
-        "category": "Android",
-        "excerpt_separator": "<!--more-->",
-        "catalog": true,
-        "tags": [
-            "Android"
-        ]
-    },
-    {
-        "layout": "post",
-        "uri": "/posts/2017-12-10-启动其他应用的-Activity",
-        "content": "demo      activity       taskAffinity   com tencent mm                   demo                        demo     demo          Activity    MainActivity                MainActivity                                                              Activity    AMS                                      AMS     Activity            AMS      Activity                      Activity                                         gityuan                           starting window             framework",
-        "objectID": "posts/2017-12-10-启动其他应用的-Activity",
-        "title": "启动其他应用的 Activity",
-        "date": "2017-12-10",
         "author": "北邙山之光",
         "category": "Android",
         "excerpt_separator": "<!--more-->",
@@ -550,21 +445,6 @@
     },
     {
         "layout": "post",
-        "uri": "/posts/2018-06-06-未解-Bug",
-        "content": "Bug mRecycler getViewForPosition                               position      viewholder          view                         viewholder                    tryGetViewHolderForPositionByDeadline        crash             Inconsistency detected         Invalid item position          bug                recyclerview   crash        crash               Bug                                     crash                 recyclerview layout                  measure        measure      mRecycler getViewForPosition     view                                      view       measure              view     measurechild       measure                     measure                                   View v   mRecycler getViewForPosition i       View v   data content    null   data content getView     mRecycler getViewForPosition i             crash    adapter     data        view       view       view     getViewForPosition                getViewForPosition          crash                                       getLeft    view   getLeft                      view     draw              0        getLeft           bug        getLeft    draw              view      draw   draw   draw             bug             onDraw      getLeft",
-        "objectID": "posts/2018-06-06-未解-Bug",
-        "title": "未解 Bug",
-        "date": "2018-06-06",
-        "author": "北邙山之光",
-        "category": "Android",
-        "excerpt_separator": "<!--more-->",
-        "catalog": true,
-        "tags": [
-            "Android"
-        ]
-    },
-    {
-        "layout": "post",
         "uri": "/posts/2018-06-28-Gradle-Plugin-3.0",
         "content": "compile provided   apk                         Android          implementation lib          lib api lib         lib      lib           compil e                                 plugin 3 0   compile     implementation   api              projectA     module     mA      implementation        mA    mB    projectA         mB      api                       implementation",
         "objectID": "posts/2018-06-28-Gradle-Plugin-3.0",
@@ -712,7 +592,7 @@
     {
         "layout": "post",
         "uri": "/posts/2019-07-25-OPTIONS-请求",
-        "content": "H5                       OPTIONS                                               OPTIONS             HTTP REQUEST METHODS              POST                CONNECT DELETE HEAD OPTIONS PATCH POST PUT TRACE                  https   developer mozilla org zh CN docs Web HTTP Methods         POST     CONTENT TYPE              HTTP BODY                         http post form data MIME    OPTIONS       OPTIONS                                  Allow                       HTTP      HTTP 1 1 200 OK Allow  OPTIONS  GET  HEAD  POST Cache Control  max age 604800 Date  Thu  13 Oct 2016 11 45 00 GMT Expires  Thu  20 Oct 2016 11 45 00 GMT Server  EOS  lax004 2813  x ec custom error  1 Content Length  0                              CORS                               CORS HTTP CORS",
+        "content": "H5                       OPTIONS                                               OPTIONS             HTTP REQUEST METHODS              POST                CONNECT DELETE HEAD OPTIONS PATCH POST PUT TRACE                  https   developer mozilla org zh CN docs Web HTTP Methods         POST     CONTENT TYPE              HTTP BODY                         Http   Post   Form Data   MIME     OPTIONS       OPTIONS                                  Allow                       HTTP      HTTP 1 1 200 OK Allow  OPTIONS  GET  HEAD  POST Cache Control  max age 604800 Date  Thu  13 Oct 2016 11 45 00 GMT Expires  Thu  20 Oct 2016 11 45 00 GMT Server  EOS  lax004 2813  x ec custom error  1 Content Length  0                           CORS                    CORS HTTP CORS",
         "objectID": "posts/2019-07-25-OPTIONS-请求",
         "title": "OPTIONS 请求",
         "date": "2019-07-25",
@@ -751,20 +631,6 @@
         "catalog": true,
         "tags": [
             "Android"
-        ]
-    },
-    {
-        "layout": "post",
-        "uri": "/posts/2019-08-15-exports-module.exports等等",
-        "content": "weex     weex    vue js                                                                                   lint      vue                                                      webpack               exports                                       mark   exports module exports export export default",
-        "objectID": "posts/2019-08-15-exports-module.exports等等",
-        "title": "exports、module.exports等等",
-        "date": "2019-08-15",
-        "author": "北邙山之光",
-        "excerpt_separator": "<!--more-->",
-        "catalog": true,
-        "tags": [
-            "JavaScript"
         ]
     },
     {
@@ -924,21 +790,6 @@
         "catalog": true,
         "tags": [
             "kotlin"
-        ]
-    },
-    {
-        "layout": "post",
-        "uri": "/posts/2021-01-30-RecyclerView-Adapter-的问题",
-        "content": "TV         TV                RecyclerView         RecyclerView                                                                TVRecyclerView                   Adapter                       Android           Adapter   RecyclerView                        Adapter                             Adapter                Adapter        Adapter                     Adapter              Adapter         RecyclerView           ViewHolder      ViewType RecyclerView        Adapter         type       ViewHolder                Adapter                     NonNull  Override public RecyclerView ViewHolder onCreateViewHolder  NonNull ViewGroup parent  int viewType          getItemViewType     viewType       ViewHolder             switch viewType    case type1  return new Type1ViewHolder    case type2  return new Type2ViewHolder                Override public void onBindViewHolder  NonNull RecyclerView ViewHolder holder  int position          position          onCreateViewHolder     holder      holder    view                     holder instanceof Type1ViewHolder      else  holder instanceof Type2ViewHolder      else               else                  Override public int getItemViewType int position          postion    List                        List                                                    Model ViewHolder                onCreateViewHolder   onBindViewHolder           type       switch case    if else                            Adapter    switch case   if else      type adapter                                                                                                                                                                                       Adapter         onCreateViewHolder   onBindViewHolder         Adapter             model   ViewHolder                                MultiType github    GenericRecyclerAdapter github             Feed          RecyclerView                                                    ViewHolder   class        ViewType     10         CommonViewHolder       view   data                                              ViewHolder     ViewType                    ViewHolder            Adapter                                    viewType     onCreateViewHolder     viewType                ViewHolder            viewType     ViewHolder      onBindViewHolder     holder               bind       holder   data                                Adapter                         MultiType            Kotlin                          Kotlin                 java                  Golang                                  MultiType   Java      MultiType             Adapter                Object                   List   List            ItemViewBinder java                ViewHolder           Model   public abstract class ItemViewBinder      internal    MultiTypeAdapter adapter  protected abstract  NonNull VH onCreateViewHolder  NonNull LayoutInflater inflater   NonNull ViewGroup parent   protected abstract void onBindViewHolder  NonNull VH holder   NonNull T item               MultiTypePool java public class MultiTypePool implements TypePool         model    private final  NonNull List  classes          binder private final  NonNull List  binders                        MultiTypeAdapter adapter   new MultiTypeAdapter    adapter register Category class  new CategoryItemViewBinder     adapter register Post class  new PostViewBinder     adapter register PostList class  new HorizontalPostsViewBinder     register      class   binder     MultiTypePool     List      classes   binders                  getItemViewType      position    List    object         class     MultiTypePool    classes     index    viewType  onCreateViewHolder      viewType      classes   binders   index     MultiTypePool    binder    binder onCreateViewHolder  onBindViewHolder     position    List    object         class     MultiTypePool    classes     index     MultiTypePool    binder    binder onBindViewHolder                            model         ItemViewBinder   binder                                 Adapter                                     error         Required type   Provided                                     holder   capture   extends ViewHolder   ViewHolder     item   capture     Object       mTypes get position  binder       binder onBindViewHolder            Adapter     holder   ViewHolder        item   Object    List  Java                                                       warning     Raw use parameterized class  ItemViewBinder                                                                   warning  raw type stackoverflow JLS 4 8 Raw Types          Shouldn t use raw type      List names   new ArrayList       warning  raw type  names add  John    names add  Mary    names add Boolean FALSE      not compilation error   Object o   names    String name    String  o  System out println name        throws ClassCastException     java lang Boolean cannot cast java lang String       raw type names    List       Object                  string            bool                         List           Exception          raw type     raw type                   ",
-        "objectID": "posts/2021-01-30-RecyclerView-Adapter-的问题",
-        "title": "RecyclerView Adapter 的问题",
-        "date": "2021-01-30",
-        "author": "北邙山之光",
-        "category": "Java",
-        "excerpt_separator": "<!--more-->",
-        "catalog": true,
-        "tags": [
-            "Java"
         ]
     },
     {

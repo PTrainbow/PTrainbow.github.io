@@ -91,34 +91,9 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-08-29-recyclerview-%E7%9A%84-measure-%E9%97%AE%E9%A2%98/">recyclerview 的 measure 问题</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-08-29">2018-08-29</time></span></div><div class="content"><p>之前写过一篇 recyclerview 的 onMeasure 问题，但是只是看看博客，泛泛而谈，至今也没有看源码</p>
-<p>最近遇到了一个奇怪的问题，一个 wrap_content 的 relativelayout 布局，放到 recyclerview 中变成了 match_parent</p></div><div class="post-footer">
-        <a href="/posts/2018-08-29-recyclerview-%E7%9A%84-measure-%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/">自定义View</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-07-09-function-types/">function types</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-07-09">2018-07-09</time></span></div><div class="content"><h2 id="function-types">function types</h2>
-<blockquote>
-<p>A function type denotes the set of all functions with the same parameter and result types.<br>
-function 类型代表了一系列参数和返回值相同的类型</p>
-</blockquote></div><div class="post-footer">
-        <a href="/posts/2018-07-09-function-types/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/go/">go</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2018-06-28-Gradle-Plugin-3.0/">Gradle Plugin 3.0</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-06-28">2018-06-28</time></span></div><div class="content">变化 注：compile、provided 和 apk 目前仍然可用。 不过，它们将在下一个主要版本的 Android 插件中消失 解释 implementation lib 改变时，只会编译 lib api lib 改变时，会</div><div class="post-footer">
         <a href="/posts/2018-06-28-Gradle-Plugin-3.0/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-06-06-%E6%9C%AA%E8%A7%A3-Bug/">未解 Bug</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-06-06">2018-06-06</time></span></div><div class="content"><h1 id="遇到的bug">遇到的Bug</h1>
-<h2 id="mrecyclergetviewforposition">mRecycler.getViewForPosition</h2>
-<p>这个方法随意调用有很大的问题，阅读源码后发现，其大概是通过 position 和缓存的 viewholder 去获得相应位置的 view，如果没有还会去创建。当然，好像还有是否需要创建 viewholder 的问题。</p>
-<p>这个方法其实就是内部调用了 tryGetViewHolderForPositionByDeadline，而我们好多的 crash 问题都会走过这个方法 &ldquo;Inconsistency detected&hellip;&rdquo; 或者 &ldquo;Invalid item position&hellip;&rdquo;</p>
-<p>我遇到的 bug 是一个很奇怪的现象：快速滑动 recyclerview 时 crash，缓慢滑动不会 crash。这让我很费解，即使现在这个 Bug 不在复现，我还是不清楚原因，也不清楚补救的手段是否真实有效（线上倒是没有crash上报）。</p>
-<p>看之前写的代码发现，在 recyclerview layout 一个子视图的时候，调用了子视图的 measure 方法，子视图 measure 中调用了 mRecycler.getViewForPosition 去获取 view 对象，因为这个子视图依赖其后面的子视图有多大，它相应调整大小，而其后面的 view 还没有进行 measure，所以他通过这种方式，拿到 view 调用了 measurechild 方法，自己 measure 了一遍。个人认为，这种逻辑应该直接放在 measure 中比较合理，但是这串代码是个历史遗留的代码，没有轻易去动。</p></div><div class="post-footer">
-        <a href="/posts/2018-06-06-%E6%9C%AA%E8%A7%A3-Bug/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2018-05-25-go-%E7%9A%84-map/">go 的 map</a>
@@ -199,6 +174,33 @@ facebook 开源的布局框架，支持多种语言</p>
 </code></pre></div><p>即可使用，反正我是忽略了他那个什么 BUCK，看了半天没看懂规则···</p></div><div class="post-footer">
         <a href="/posts/2018-02-02-yoga-%E5%92%8C-flexbox/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/JavaScript/">JavaScript</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2018-01-29-%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD%E4%B9%8B%E5%BC%82%E5%B8%B8%E6%98%BE%E7%A4%BA/">经验教训之异常显示</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-01-29">2018-01-29</time></span></div><div class="content"><p>突然被查出来个问题，卡片异常显示了···</p>
+<p>因为后台穿了个错误的数据，而我这边没有进行容错，直接 gone 掉，所以卡片只显示了个头部，下面的内容 gone 了</p>
+<p>吓尿了~~</p>
+<p>记得前几天填那个转正的目标，线上 bug 小于3次，以为要炸呢···</p>
+<p>不过老大们一致认为是后台问题，不应该这么传过来，而且数据的处理不应该端上来做~~</p></div><div class="post-footer">
+        <a href="/posts/2018-01-29-%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD%E4%B9%8B%E5%BC%82%E5%B8%B8%E6%98%BE%E7%A4%BA/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%9D%82/">杂</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2018-01-22-GitHub-%E7%9A%84-contributions-%E9%97%AE%E9%A2%98/">GitHub 的 contributions 问题</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-01-22">2018-01-22</time></span></div><div class="content"><p>添加网页统计的时候才注意到一个神奇的事情：<br>
+我不断修改并且提交自己的博客代码，博客成功更新，但是 GitHub 得 contributions 图却没有更新！<br>
+我这强迫症果断受不了，而且这个图一定程度上给我一种自我安慰···如果它一直是空的而不是绿色的，我会很难受···</p></div><div class="post-footer">
+        <a href="/posts/2018-01-22-GitHub-%E7%9A%84-contributions-%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%90%84%E7%A7%8D%E5%9D%91/">各种坑</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2018-01-21-%E5%9C%86%E8%A7%92%E5%9B%BE%E7%89%87%E7%9A%84%E7%BB%88%E6%9E%81%E5%A5%A5%E4%B9%89/">圆角图片的终极奥义</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-01-21">2018-01-21</time></span></div><div class="content"><p>最近终于可以写UI了，但是感觉 UI 确实有时候挺无聊的，但是 UI 的过程相当复杂，至今还是没怎么摸清。强大的谷歌爸爸帮我们封装了一层又一层，以至于我想写个自定义的圆角图片要吐血了！</p>
+<h2 id="网上流传的代码">网上流传的代码</h2>
+<p>自定义圆角图片，网上一搜全是，但是无一例外全是 demo，只考虑出个样子就行了，不考虑内存、优化等各种问题。</p>
+<p>常见的就两种方式来实现，一种是 xfermode 一种是 bitmapshader</p>
+<p>xfermode 是不好的，浪费内存，它是两个视图的融合，一个原始图片的视图和一个我们圆角的图形视图，然后综合在一起。</p>
+<p>bitmapshader 更好，它可以直接设置在 paint 上，并不用创建新的视图层。</p>
+<p>其实还有一种就是直接 clipPath，但是这个如果是弧线会有锯齿，而且参数中没有 paint 没法抗锯齿。网上各种给 canvas 添加什么抗锯齿参数的方法，经过测试是毫无卵用的···</p></div><div class="post-footer">
+        <a href="/posts/2018-01-21-%E5%9C%86%E8%A7%92%E5%9B%BE%E7%89%87%E7%9A%84%E7%BB%88%E6%9E%81%E5%A5%A5%E4%B9%89/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/">自定义View</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
@@ -222,10 +224,6 @@ facebook 开源的布局框架，支持多种语言</p>
                 </li><li class="page-item ">
                     <span class="page-link">
                         <a href="/page/6/">6</a>
-                    </span>
-                </li><li class="page-item ">
-                    <span class="page-link">
-                        <a href="/page/7/">7</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">
