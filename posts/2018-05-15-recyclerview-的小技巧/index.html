@@ -8,7 +8,7 @@
         <title>recyclerview 的小技巧 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="recyclerview 的小技巧" />
 <meta property="og:description" content="recyclerview 停留在任意位置 smoothScrollToPosition 具体代码 重写 SmoothScroller，可以改写其滚动时间和距离等等，可以继承 LinearSmoothScroller 实现 protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) { return MILLISECONDS_PER_INCH / displayMetrics.densityDpi; } */ protected int calculateTimeForScrolling(int dx) { // In" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrain666.github.io/posts/2018-05-15-recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2018-05-15-Recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-15T00:00:00&#43;00:00" />
 <meta property="article:modified_time" content="2018-05-15T00:00:00&#43;00:00" />
 
@@ -18,7 +18,7 @@
 <meta name="twitter:title" content="recyclerview 的小技巧"/>
 <meta name="twitter:description" content="recyclerview 停留在任意位置 smoothScrollToPosition 具体代码 重写 SmoothScroller，可以改写其滚动时间和距离等等，可以继承 LinearSmoothScroller 实现 protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) { return MILLISECONDS_PER_INCH / displayMetrics.densityDpi; } */ protected int calculateTimeForScrolling(int dx) { // In"/>
 <meta name="application-name" content="北邙山之光的 Blog">
-<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2018-05-15-recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" /><link rel="prev" href="http://PTrain666.github.io/posts/2018-04-10-go-%E8%AF%AD%E8%A8%80%E6%A8%A1%E6%9D%BF/" /><link rel="next" href="http://PTrain666.github.io/posts/2018-05-25-go-%E7%9A%84-map/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2018-05-15-Recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" /><link rel="prev" href="http://PTrain666.github.io/posts/2018-04-10-Go-Template/" /><link rel="next" href="http://PTrain666.github.io/posts/2018-05-25-Go-Map/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -26,9 +26,9 @@
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "http:\/\/PTrain666.github.io\/posts\/2018-05-15-recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7\/"
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2018-05-15-Recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7\/"
         },"genre": "posts","keywords": "Android","wordcount":  1517 ,
-        "url": "http:\/\/PTrain666.github.io\/posts\/2018-05-15-recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7\/","datePublished": "2018-05-15T00:00:00+00:00","dateModified": "2018-05-15T00:00:00+00:00","publisher": {
+        "url": "http:\/\/PTrain666.github.io\/posts\/2018-05-15-Recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7\/","datePublished": "2018-05-15T00:00:00+00:00","dateModified": "2018-05-15T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
                 "@type": "Person",
@@ -218,8 +218,8 @@ velocitytracker 这个东西用于获取速度,之前没有使用过，根据 de
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/2018-04-10-go-%E8%AF%AD%E8%A8%80%E6%A8%A1%E6%9D%BF/" class="prev" rel="prev" title="go 语言模板"><i class="fas fa-angle-left fa-fw"></i>go 语言模板</a>
-            <a href="/posts/2018-05-25-go-%E7%9A%84-map/" class="next" rel="next" title="go 的 map">go 的 map<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/posts/2018-04-10-Go-Template/" class="prev" rel="prev" title="go 语言模板"><i class="fas fa-angle-left fa-fw"></i>go 语言模板</a>
+            <a href="/posts/2018-05-25-Go-Map/" class="next" rel="next" title="Go Map">Go Map<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.

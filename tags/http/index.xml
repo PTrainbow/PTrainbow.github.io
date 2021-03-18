@@ -18,11 +18,11 @@
     <guid>http://PTrain666.github.io/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/</guid>
     <description><![CDATA[问题描述 第一次跟前端H5对接，结果请求不通，交流才知道，他们先发一个 OPTIONS 请求，然后再发送真实请求，而我这边后台只对 GET 请求做了处理 说出来不怕丢人]]></description>
 </item><item>
-    <title>http 的 post 的 form-data 和 MIME 的秘密</title>
-    <link>http://PTrain666.github.io/posts/2019-07-02-http-%E7%9A%84-post-%E7%9A%84-form-data-%E5%92%8C-MIME-%E7%9A%84%E7%A7%98%E5%AF%86/</link>
+    <title>Http Post FormData</title>
+    <link>http://PTrain666.github.io/posts/2019-07-02-Http-Post-FormData/</link>
     <pubDate>Tue, 02 Jul 2019 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2019-07-02-http-%E7%9A%84-post-%E7%9A%84-form-data-%E5%92%8C-MIME-%E7%9A%84%E7%A7%98%E5%AF%86/</guid>
+    <guid>http://PTrain666.github.io/posts/2019-07-02-Http-Post-FormData/</guid>
     <description><![CDATA[问题描述 需要上传一张图片到我们的对象存储服务器，对方给了接口协议。 需使用 post 请求，Content-Type 为 multipart/form-data 且 key = filecontent，v]]></description>
 </item></channel>
 </rss>

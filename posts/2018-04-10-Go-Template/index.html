@@ -12,7 +12,7 @@ go 语言中的 template 使用{{ }}来作为一个标识符,可以在其中插�
 tpl.Execute(buf, jObj.MustMap(make(map[string]interface{})))
 tpl 就是我们的一个模板类，其中已经读取了我们存在本地的文件，Execute 方法传入了数据。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrain666.github.io/posts/2018-04-10-go-%E8%AF%AD%E8%A8%80%E6%A8%A1%E6%9D%BF/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2018-04-10-Go-Template/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-04-10T00:00:00&#43;00:00" />
 <meta property="article:modified_time" content="2018-04-10T00:00:00&#43;00:00" />
 
@@ -26,7 +26,7 @@ go 语言中的 template 使用{{ }}来作为一个标识符,可以在其中插�
 tpl.Execute(buf, jObj.MustMap(make(map[string]interface{})))
 tpl 就是我们的一个模板类，其中已经读取了我们存在本地的文件，Execute 方法传入了数据。"/>
 <meta name="application-name" content="北邙山之光的 Blog">
-<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2018-04-10-go-%E8%AF%AD%E8%A8%80%E6%A8%A1%E6%9D%BF/" /><link rel="prev" href="http://PTrain666.github.io/posts/2018-02-26-16%E8%BF%9B%E5%88%B6-String-%E8%BD%AC-colorInt/" /><link rel="next" href="http://PTrain666.github.io/posts/2018-05-15-recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2018-04-10-Go-Template/" /><link rel="prev" href="http://PTrain666.github.io/posts/2018-02-26-16%E8%BF%9B%E5%88%B6-String-%E8%BD%AC-ColorInt/" /><link rel="next" href="http://PTrain666.github.io/posts/2018-05-15-Recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -34,9 +34,9 @@ tpl 就是我们的一个模板类，其中已经读取了我们存在本地的�
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "http:\/\/PTrain666.github.io\/posts\/2018-04-10-go-%E8%AF%AD%E8%A8%80%E6%A8%A1%E6%9D%BF\/"
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2018-04-10-Go-Template\/"
         },"genre": "posts","keywords": "go","wordcount":  645 ,
-        "url": "http:\/\/PTrain666.github.io\/posts\/2018-04-10-go-%E8%AF%AD%E8%A8%80%E6%A8%A1%E6%9D%BF\/","datePublished": "2018-04-10T00:00:00+00:00","dateModified": "2018-04-10T00:00:00+00:00","publisher": {
+        "url": "http:\/\/PTrain666.github.io\/posts\/2018-04-10-Go-Template\/","datePublished": "2018-04-10T00:00:00+00:00","dateModified": "2018-04-10T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
                 "@type": "Person",
@@ -214,8 +214,8 @@ ge
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/2018-02-26-16%E8%BF%9B%E5%88%B6-String-%E8%BD%AC-colorInt/" class="prev" rel="prev" title="16进制 String 转 colorInt"><i class="fas fa-angle-left fa-fw"></i>16进制 String 转 colorInt</a>
-            <a href="/posts/2018-05-15-recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" class="next" rel="next" title="recyclerview 的小技巧">recyclerview 的小技巧<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/posts/2018-02-26-16%E8%BF%9B%E5%88%B6-String-%E8%BD%AC-ColorInt/" class="prev" rel="prev" title="16进制 String 转 ColorInt"><i class="fas fa-angle-left fa-fw"></i>16进制 String 转 ColorInt</a>
+            <a href="/posts/2018-05-15-Recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" class="next" rel="next" title="recyclerview 的小技巧">recyclerview 的小技巧<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
