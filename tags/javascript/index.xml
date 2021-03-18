@@ -18,7 +18,7 @@
     <guid>http://PTrain666.github.io/posts/2019-06-23-H5-audio-%E6%A0%87%E7%AD%BE/</guid>
     <description><![CDATA[背景 没错，前端天才终于涉及了真正的前端h5页面！ 需求是优化一个两年前别人写的播放器！ 可是坑死我了··· audio 几个重要的方法 play 加载并播放音频或重新]]></description>
 </item><item>
-    <title>初识 webpack 遇到的坑</title>
+    <title>初识 Webpack 遇到的坑</title>
     <link>http://PTrain666.github.io/posts/2019-06-14-%E5%88%9D%E8%AF%86-Webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</link>
     <pubDate>Fri, 14 Jun 2019 00:00:00 &#43;0000</pubDate>
     <author>作者</author>

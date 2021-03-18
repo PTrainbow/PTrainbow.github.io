@@ -91,7 +91,7 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-01-08-addView-%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90/">addView 方法解析</a>
+        <a href="/posts/2018-01-08-addView-%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90/">addView() 方法解析</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-01-08">2018-01-08</time></span></div><div class="content"><p>addView 之后的调用过程我很不清晰，而且因为不清晰所以不敢随意使用 addView，畏手畏脚</p>
 <p>addView 最终都会调用到</p>
 <div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addView</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="n">LayoutParams</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
@@ -128,7 +128,7 @@
         <a href="/posts/2017-12-26-APK-%E6%89%93%E5%8C%85%E6%B5%81%E7%A8%8B/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2017-12-17-onCreate-%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%AE%BD%E9%AB%98/">onCreate 中获取宽高</a>
+        <a href="/posts/2017-12-17-onCreate-%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%AE%BD%E9%AB%98/">onCreate() 中获取宽高</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-12-17">2017-12-17</time></span></div><div class="content">View的getWidth() 和 getMeasuredWidth() 有什么区别吗？ getWidth() public final int getWidth() { return mRight - mLeft; } 这个值是 view 在 layout 时候确定的 //setFrame会进行mRight等的赋值</div><div class="post-footer">
         <a href="/posts/2017-12-17-onCreate-%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%AE%BD%E9%AB%98/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/">自定义View</a></div></div>
