@@ -35,7 +35,7 @@ tpl 就是我们的一个模板类，其中已经读取了我们存在本地的�
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrain666.github.io\/posts\/2018-04-10-Go-Template\/"
-        },"genre": "posts","keywords": "go","wordcount":  645 ,
+        },"genre": "posts","keywords": "go","wordcount":  593 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/2018-04-10-Go-Template\/","datePublished": "2018-04-10T00:00:00+00:00","dateModified": "2018-04-10T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -113,7 +113,7 @@ tpl 就是我们的一个模板类，其中已经读取了我们存在本地的�
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Go Template</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-04-10">2018-04-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 645 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-04-10">2018-04-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 593 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -134,14 +134,13 @@ tpl 就是我们的一个模板类，其中已经读取了我们存在本地的�
         <li><a href="#读取多个模板">读取多个模板</a></li>
       </ul>
     </li>
-    <li><a href="#题外话">题外话</a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="go-语言-template-总结">go 语言 Template 总结</h2>
 <p>go 语言中的 template 使用{{ }}来作为一个标识符,可以在其中插入相应的 template 支持的代码块。template 是一个模板，他所以来的数据从外部传进来。</p>
 <p>形如:</p>
-<pre><code>tpl.Execute(buf, jObj.MustMap(make(map[string]interface{})))
-</code></pre><p>tpl 就是我们的一个模板类，其中已经读取了我们存在本地的文件，Execute 方法传入了数据。</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">tpl</span><span class="p">.</span><span class="nf">Execute</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">jObj</span><span class="p">.</span><span class="nf">MustMap</span><span class="p">(</span><span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{})))</span>
+</code></pre></div><p>tpl 就是我们的一个模板类，其中已经读取了我们存在本地的文件，Execute 方法传入了数据。</p>
 <p>比如{{.text}} 那么就回去寻找传进来的这个 data，是不是含有 text 这个字段。map 就是对应的 key,struct 就是对应的成员。如果没有这个字段会出现 &lt;no value&gt;</p>
 <h2 id="几个常用的关键字">几个常用的关键字</h2>
 <h3 id="heading">&ldquo;.&rdquo;</h3>
@@ -162,36 +161,34 @@ tpl 就是我们的一个模板类，其中已经读取了我们存在本地的�
 {{ end }}</p>
 <p>这里还有一些默认的函数，如 （len .data.buttons）这个可以获得这个数组的长度</p>
 <h3 id="一些用于比较的关键字">一些用于比较的关键字</h3>
-<pre><code>eq
-	Returns the boolean truth of arg1 == arg2
-ne
-	Returns the boolean truth of arg1 != arg2
-lt
-	Returns the boolean truth of arg1 &lt; arg2
-le
-	Returns the boolean truth of arg1 &lt;= arg2
-gt
-	Returns the boolean truth of arg1 &gt; arg2
-ge
-	Returns the boolean truth of arg1 &gt;= arg2
-</code></pre><p>但是使用起来很诡异，如下</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">eq</span>
+	<span class="nx">Returns</span> <span class="nx">the</span> <span class="nx">boolean</span> <span class="nx">truth</span> <span class="nx">of</span> <span class="nx">arg1</span> <span class="o">==</span> <span class="nx">arg2</span>
+<span class="nx">ne</span>
+	<span class="nx">Returns</span> <span class="nx">the</span> <span class="nx">boolean</span> <span class="nx">truth</span> <span class="nx">of</span> <span class="nx">arg1</span> <span class="o">!=</span> <span class="nx">arg2</span>
+<span class="nx">lt</span>
+	<span class="nx">Returns</span> <span class="nx">the</span> <span class="nx">boolean</span> <span class="nx">truth</span> <span class="nx">of</span> <span class="nx">arg1</span> <span class="p">&lt;</span> <span class="nx">arg2</span>
+<span class="nx">le</span>
+	<span class="nx">Returns</span> <span class="nx">the</span> <span class="nx">boolean</span> <span class="nx">truth</span> <span class="nx">of</span> <span class="nx">arg1</span> <span class="o">&lt;=</span> <span class="nx">arg2</span>
+<span class="nx">gt</span>
+	<span class="nx">Returns</span> <span class="nx">the</span> <span class="nx">boolean</span> <span class="nx">truth</span> <span class="nx">of</span> <span class="nx">arg1</span> <span class="p">&gt;</span> <span class="nx">arg2</span>
+<span class="nx">ge</span>
+	<span class="nx">Returns</span> <span class="nx">the</span> <span class="nx">boolean</span> <span class="nx">truth</span> <span class="nx">of</span> <span class="nx">arg1</span> <span class="o">&gt;=</span> <span class="nx">arg2</span>
+</code></pre></div><p>但是使用起来很诡异，如下</p>
 <p>{{if eq .extension.T &ldquo;banner&rdquo;}}{{end}}</p>
 <p>比较符号要放到前面~~</p>
 <h3 id="插入函数">插入函数</h3>
 <p>虽然 go 的 template 支持了一些基本函数，但是不全，我们可以自定义任意的函数来使用。</p>
-<pre><code>t.Funcs(template.FuncMap{
-		&quot;subtract&quot;: subtract,
-	})
-</code></pre><p>这样就注册了一个函数，只要写一个函数叫做 subtract 就好了</p>
-<pre><code>func subtract(a int, b int) int {
-	return a - b
-}
-</code></pre><p>模板中这样使用 {{ subtract 2 1}} 这个值就是1</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">t</span><span class="p">.</span><span class="nf">Funcs</span><span class="p">(</span><span class="nx">template</span><span class="p">.</span><span class="nx">FuncMap</span><span class="p">{</span>
+		<span class="s">&#34;subtract&#34;</span><span class="p">:</span> <span class="nx">subtract</span><span class="p">,</span>
+	<span class="p">})</span>
+</code></pre></div><p>这样就注册了一个函数，只要写一个函数叫做 subtract 就好了</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">subtract</span><span class="p">(</span><span class="nx">a</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">b</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">a</span> <span class="o">-</span> <span class="nx">b</span>
+<span class="p">}</span>
+</code></pre></div><p>模板中这样使用 {{ subtract 2 1}} 这个值就是1</p>
 <h3 id="读取多个模板">读取多个模板</h3>
-<pre><code>t.ParseGlob(&quot;cfg/xml/*.tpl&quot;)
-</code></pre><p>读取 cfg/xml 下所有 .tpl 结尾的模板文件</p>
-<h2 id="题外话">题外话</h2>
-<p>这几周，每天都2点睡觉，根本不想写东西了，而且时间耗得多，但是没感觉有什么收获···改正改正···</p></div><div class="post-footer" id="post-footer">
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">t</span><span class="p">.</span><span class="nf">ParseGlob</span><span class="p">(</span><span class="s">&#34;cfg/xml/*.tpl&#34;</span><span class="p">)</span>
+</code></pre></div><p>读取 cfg/xml 下所有 .tpl 结尾的模板文件</p></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">

@@ -23,7 +23,7 @@ function 类型代表了一系列参数和返回值相同的类型</p>
     <description><![CDATA[<h2 id="go-语言-template-总结">go 语言 Template 总结</h2>
 <p>go 语言中的 template 使用{{ }}来作为一个标识符,可以在其中插入相应的 template 支持的代码块。template 是一个模板，他所以来的数据从外部传进来。</p>
 <p>形如:</p>
-<pre><code>tpl.Execute(buf, jObj.MustMap(make(map[string]interface{})))
-</code></pre><p>tpl 就是我们的一个模板类，其中已经读取了我们存在本地的文件，Execute 方法传入了数据。</p>]]></description>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">tpl</span><span class="p">.</span><span class="nf">Execute</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">jObj</span><span class="p">.</span><span class="nf">MustMap</span><span class="p">(</span><span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{})))</span>
+</code></pre></div><p>tpl 就是我们的一个模板类，其中已经读取了我们存在本地的文件，Execute 方法传入了数据。</p>]]></description>
 </item></channel>
 </rss>
