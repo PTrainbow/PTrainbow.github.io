@@ -91,78 +91,6 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-06-28-Gradle-Plugin-3.0/">Gradle Plugin 3.0</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-06-28">2018-06-28</time></span></div><div class="content">变化 注：compile、provided 和 apk 目前仍然可用。 不过，它们将在下一个主要版本的 Android 插件中消失 解释 implementation lib 改变时，只会编译 lib api lib 改变时，会</div><div class="post-footer">
-        <a href="/posts/2018-06-28-Gradle-Plugin-3.0/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-05-25-Go-Map/">Go Map</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-05-25">2018-05-25</time></span></div><div class="content">map 是无序的 golang 中的 map 的遍历顺序是不确定，每次遍历的顺序各不相同。 而 Java 中的 map 遍历时，每次遍历的结果的顺序是一致的。 golang 中的 map 也是一种散列表的形式，</div><div class="post-footer">
-        <a href="/posts/2018-05-25-Go-Map/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/go/">go</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-05-15-Recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/">Recyclerview 的小技巧</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-05-15">2018-05-15</time></span></div><div class="content">recyclerview 停留在任意位置 smoothScrollToPosition 具体代码 重写 SmoothScroller，可以改写其滚动时间和距离等等，可以继承 LinearSmoothScroller 实现 protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) { return MILLISECONDS_PER_INCH / displayMetrics.densityDpi; } */ protected int calculateTimeForScrolling(int dx) { // In</div><div class="post-footer">
-        <a href="/posts/2018-05-15-Recyclerview-%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-04-10-Go-Template/">Go Template</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-04-10">2018-04-10</time></span></div><div class="content"><h2 id="go-语言-template-总结">go 语言 Template 总结</h2>
-<p>go 语言中的 template 使用{{ }}来作为一个标识符,可以在其中插入相应的 template 支持的代码块。template 是一个模板，他所以来的数据从外部传进来。</p>
-<p>形如:</p>
-<pre><code>tpl.Execute(buf, jObj.MustMap(make(map[string]interface{})))
-</code></pre><p>tpl 就是我们的一个模板类，其中已经读取了我们存在本地的文件，Execute 方法传入了数据。</p></div><div class="post-footer">
-        <a href="/posts/2018-04-10-Go-Template/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/go/">go</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-02-26-16%E8%BF%9B%E5%88%B6-String-%E8%BD%AC-ColorInt/">16进制 String 转 ColorInt</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-02-26">2018-02-26</time></span></div><div class="content"><h2 id="正确的解决方法">正确的解决方法</h2>
-<p>Color 本身提供了 parseColor 方法</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="nd">@ColorInt</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">parseColor</span><span class="o">(</span><span class="nd">@Size</span><span class="o">(</span><span class="n">min</span><span class="o">=</span><span class="n">1</span><span class="o">)</span> <span class="n">String</span> <span class="n">colorString</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">colorString</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">0</span><span class="o">)</span> <span class="o">==</span> <span class="sc">&#39;#&#39;</span><span class="o">)</span> <span class="o">{</span>
-            <span class="c1">// Use a long to avoid rollovers on #ffXXXXXX
-</span><span class="c1"></span>            <span class="kt">long</span> <span class="n">color</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">colorString</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">1</span><span class="o">),</span> <span class="n">16</span><span class="o">);</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">colorString</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="n">7</span><span class="o">)</span> <span class="o">{</span>
-                <span class="c1">// Set the alpha value
-</span><span class="c1"></span>                <span class="n">color</span> <span class="o">|=</span> <span class="n">0x00000000ff000000</span><span class="o">;</span>
-            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">colorString</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">!=</span> <span class="n">9</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;Unknown color&#34;</span><span class="o">);</span>
-            <span class="o">}</span>
-            <span class="k">return</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span><span class="n">color</span><span class="o">;</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="n">Integer</span> <span class="n">color</span> <span class="o">=</span> <span class="n">sColorNameMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">colorString</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">(</span><span class="n">Locale</span><span class="o">.</span><span class="na">ROOT</span><span class="o">));</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">color</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">return</span> <span class="n">color</span><span class="o">;</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;Unknown color&#34;</span><span class="o">);</span>
-    <span class="o">}</span>
-</code></pre></div><p>我们只要传入一个类似 #FFFFFF 这种字符串，这段代码会帮我们解析对应 Color 的 in t值</p>
-<h2 id="问题">问题</h2>
-<p>之前没找到这个方法的时候，我的思路和这个程序的代码是相同的，区别在于它使用的是 Long.parseLong，而我使用的是 Integer.paseInt。<br>
-确实，Integer.paseInt 正如它的注释所说会有问题，当我们传入类似 FFXXXXXX 时会出现问题。<br>
-问题出现在第一个 bit 位上，java 中 parseInt 是不会支持无符号数的，FXXXXXXX 本身并没有越界</p></div><div class="post-footer">
-        <a href="/posts/2018-02-26-16%E8%BF%9B%E5%88%B6-String-%E8%BD%AC-ColorInt/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-02-24-RecyclerView-%E7%9A%84-onMeasure/">RecyclerView 的 onMeasure</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-02-24">2018-02-24</time></span></div><div class="content"><h2 id="交给-layoutmanager">交给 LayoutManager</h2>
-<p>首先，RecyclerView 的 onMeasure 会通过一个 if 判断，是否交由 LayoutManager 来管理。</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="k">if</span> <span class="o">(</span><span class="n">mLayout</span><span class="o">.</span><span class="na">mAutoMeasure</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">mLayout</span><span class="o">.</span><span class="na">onMeasure</span><span class="o">(</span><span class="n">mRecycler</span><span class="o">,</span> <span class="n">mState</span><span class="o">,</span> <span class="n">widthSpec</span><span class="o">,</span> <span class="n">heightSpec</span><span class="o">);</span>
-  <span class="o">}</span>
-</code></pre></div><p>mAutoMeasure 这个值，在我们经常使用的 LinearLayoutManager 中是 true，所以会走进这个 if 判断</p>
-<p>详见 LinearLayoutManager 的构造函数：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nf">LinearLayoutManager</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kt">int</span> <span class="n">orientation</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">reverseLayout</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">setOrientation</span><span class="o">(</span><span class="n">orientation</span><span class="o">);</span>
-        <span class="n">setReverseLayout</span><span class="o">(</span><span class="n">reverseLayout</span><span class="o">);</span>
-        <span class="n">setAutoMeasureEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-    <span class="o">}</span>
-</code></pre></div></div><div class="post-footer">
-        <a href="/posts/2018-02-24-RecyclerView-%E7%9A%84-onMeasure/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/">自定义View</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2018-02-02-Yoga-%E5%92%8C-Flexbox/">Yoga 和 Flexbox</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-02-02">2018-02-02</time></span></div><div class="content"><h2 id="yoga">Yoga</h2>
 <p><a href="https://facebook.github.io/yoga/" target="_blank" rel="noopener noreffer">https://facebook.github.io/yoga/</a><br>
@@ -174,33 +102,6 @@ facebook 开源的布局框架，支持多种语言</p>
 </code></pre></div><p>即可使用，反正我是忽略了他那个什么 BUCK，看了半天没看懂规则···</p></div><div class="post-footer">
         <a href="/posts/2018-02-02-Yoga-%E5%92%8C-Flexbox/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/JavaScript/">JavaScript</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-01-29-%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD%E4%B9%8B%E5%BC%82%E5%B8%B8%E6%98%BE%E7%A4%BA/">经验教训之异常显示</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-01-29">2018-01-29</time></span></div><div class="content"><p>突然被查出来个问题，卡片异常显示了···</p>
-<p>因为后台穿了个错误的数据，而我这边没有进行容错，直接 gone 掉，所以卡片只显示了个头部，下面的内容 gone 了</p>
-<p>吓尿了~~</p>
-<p>记得前几天填那个转正的目标，线上 bug 小于3次，以为要炸呢···</p>
-<p>不过老大们一致认为是后台问题，不应该这么传过来，而且数据的处理不应该端上来做~~</p></div><div class="post-footer">
-        <a href="/posts/2018-01-29-%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD%E4%B9%8B%E5%BC%82%E5%B8%B8%E6%98%BE%E7%A4%BA/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%9D%82/">杂</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-01-22-GitHub-%E7%9A%84-contributions-%E9%97%AE%E9%A2%98/">GitHub 的 contributions 问题</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-01-22">2018-01-22</time></span></div><div class="content"><p>添加网页统计的时候才注意到一个神奇的事情：<br>
-我不断修改并且提交自己的博客代码，博客成功更新，但是 GitHub 得 contributions 图却没有更新！<br>
-我这强迫症果断受不了，而且这个图一定程度上给我一种自我安慰···如果它一直是空的而不是绿色的，我会很难受···</p></div><div class="post-footer">
-        <a href="/posts/2018-01-22-GitHub-%E7%9A%84-contributions-%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%90%84%E7%A7%8D%E5%9D%91/">各种坑</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2018-01-21-%E5%9C%86%E8%A7%92%E5%9B%BE%E7%89%87%E7%9A%84%E7%BB%88%E6%9E%81%E5%A5%A5%E4%B9%89/">圆角图片的终极奥义</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2018-01-21">2018-01-21</time></span></div><div class="content"><p>最近终于可以写UI了，但是感觉 UI 确实有时候挺无聊的，但是 UI 的过程相当复杂，至今还是没怎么摸清。强大的谷歌爸爸帮我们封装了一层又一层，以至于我想写个自定义的圆角图片要吐血了！</p>
-<h2 id="网上流传的代码">网上流传的代码</h2>
-<p>自定义圆角图片，网上一搜全是，但是无一例外全是 demo，只考虑出个样子就行了，不考虑内存、优化等各种问题。</p>
-<p>常见的就两种方式来实现，一种是 xfermode 一种是 bitmapshader</p>
-<p>xfermode 是不好的，浪费内存，它是两个视图的融合，一个原始图片的视图和一个我们圆角的图形视图，然后综合在一起。</p>
-<p>bitmapshader 更好，它可以直接设置在 paint 上，并不用创建新的视图层。</p>
-<p>其实还有一种就是直接 clipPath，但是这个如果是弧线会有锯齿，而且参数中没有 paint 没法抗锯齿。网上各种给 canvas 添加什么抗锯齿参数的方法，经过测试是毫无卵用的···</p></div><div class="post-footer">
-        <a href="/posts/2018-01-21-%E5%9C%86%E8%A7%92%E5%9B%BE%E7%89%87%E7%9A%84%E7%BB%88%E6%9E%81%E5%A5%A5%E4%B9%89/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/">自定义View</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
@@ -216,14 +117,6 @@ facebook 开源的布局框架，支持多种语言</p>
                 </li><li class="page-item active">
                     <span class="page-link">
                         <a href="/page/4/">4</a>
-                    </span>
-                </li><li class="page-item ">
-                    <span class="page-link">
-                        <a href="/page/5/">5</a>
-                    </span>
-                </li><li class="page-item ">
-                    <span class="page-link">
-                        <a href="/page/6/">6</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

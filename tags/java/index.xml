@@ -31,28 +31,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/</guid>
     <description><![CDATA[来到了快手，代码是真滴乱。RxJava 到处甩，然后又炫技式的使用，冗余各种复杂逻辑，且有些地方使用并不规范，只不过没有出问题。配合自制 MVPs 架构]]></description>
-</item><item>
-    <title>任务模型</title>
-    <link>http://PTrain666.github.io/posts/2018-09-10-%E4%BB%BB%E5%8A%A1%E6%A8%A1%E5%9E%8B/</link>
-    <pubDate>Mon, 10 Sep 2018 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2018-09-10-%E4%BB%BB%E5%8A%A1%E6%A8%A1%E5%9E%8B/</guid>
-    <description><![CDATA[<h2 id="现实问题">现实问题</h2>
-<p>特殊的刷新界面需求如下：</p>
-<ol>
-<li>请求后台，返回数据中包含若干个链接 link0、link1···</li>
-<li>访问各个 link 等待结果</li>
-<li>如果时间超过 400ms 或者各个 link 都请求成功，那么才刷新当前界面</li>
-</ol>
-<p>总结一下就是，要么等 400ms，要么各个请求都成功了，才去刷新界面。</p>]]></description>
-</item><item>
-    <title>ThreadPoolExecutor</title>
-    <link>http://PTrain666.github.io/posts/2017-11-21-ThreadPoolExecutor/</link>
-    <pubDate>Tue, 21 Nov 2017 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2017-11-21-ThreadPoolExecutor/</guid>
-    <description><![CDATA[<h2 id="使用">使用</h2>
-<p>一般我们都会根据相应的参数，创建一些相应特性的线程池</p>
-<p>但是调用就是两个方法，execute 和 submit一个是不带返回值的一个带返回值。</p>]]></description>
 </item></channel>
 </rss>
