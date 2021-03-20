@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>一个简单的 RxJava 例子解读 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="一个简单的 RxJava 例子解读" />
+<meta property="og:description" content="前言 RxJava 是一个经常让人出错的库，有的同事第一次接触完全搞不懂，个人感觉是没抓住核心的理念(其实我个人对于 RxJava 是有偏见的)，抓住核心的理念应该会很" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/" /><meta property="og:image" content="http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/rxjava_all.jpg"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-20T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-03-20T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/rxjava_all.jpg"/>
+<meta name="twitter:title" content="一个简单的 RxJava 例子解读"/>
+<meta name="twitter:description" content="前言 RxJava 是一个经常让人出错的库，有的同事第一次接触完全搞不懂，个人感觉是没抓住核心的理念(其实我个人对于 RxJava 是有偏见的)，抓住核心的理念应该会很"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/" /><link rel="prev" href="http://PTrain666.github.io/posts/ReferenceQueue-and-GC/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "一个简单的 RxJava 例子解读",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB\/rxjava_all.jpg",
+                            "width":  2174 ,
+                            "height":  1078 
+                        }],"genre": "posts","keywords": "Android","wordcount":  4335 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB\/","datePublished": "2021-03-20T00:00:00+00:00","dateModified": "2021-03-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">一个简单的 RxJava 例子解读</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-03-20">2021-03-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4335 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/rxjava_all.jpg"
+        data-srcset="/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/rxjava_all.jpg, /posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/rxjava_all.jpg 1.5x, /posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/rxjava_all.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/rxjava_all.jpg"
+        title="/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/rxjava_all.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#一个简单的例子">一个简单的例子</a>
+      <ul>
+        <li><a href="#observable-的创建">Observable 的创建</a></li>
+        <li><a href="#代码中-subscribe-的解释">代码中 subscribe() 的解释</a></li>
+        <li><a href="#observablesubscribe">Observable.subscribe()</a></li>
+        <li><a href="#observablesubscribeactual">Observable.subscribeActual()</a></li>
+        <li><a href="#observeronnext-串联">Observer.onNext() 串联</a></li>
+        <li><a href="#subscribeon-和-observeon-操作符的不同">subscribeOn 和 observeOn 操作符的不同</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="前言">前言</h2>
+<p>RxJava 是一个经常让人出错的库，有的同事第一次接触完全搞不懂，个人感觉是没抓住核心的理念(其实我个人对于 RxJava 是有偏见的)，抓住核心的理念应该会很好理解，其实就是一个事件流的问题。</p>
+<p>当然 RxJava 有许许多多的操作符，使得其更难被理解，但是日常开发中使用的操作符往往就那几个，遇到不熟悉的操作符再去探究也不迟。</p>
+<p>RxJava 也经常出现在面试题中，我觉得考察操作符的面试官都是耍流氓···</p>
+<p>我这里解析一个简单的例子，让搞不懂 RxJava 的人还有我自己对于 RxJava 有更多的认知，同时顺便也能回答下面这个 <code>面试八股</code> 问题：</p>
+<div class="details admonition question open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>问题<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">subscribeOn 和 observeOn 有什么作用和不同的表现？</div>
+        </div>
+    </div>
+<h2 id="一个简单的例子">一个简单的例子</h2>
+<p>来看一段极其简单、又包含了日常 Android 开发最常用的操作的代码(这里只引入了 RxJava，所以 Schedulers 没有 Android 相关的东西)：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">())</span>
+    <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+    <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">integer</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">integer</span><span class="o">));</span>
+</code></pre></div><p>这里其实还有一个问题</p>
+<div class="details admonition question open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>问题<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Observable.subscribe() 后会有一个返回值 Disposable，需要接收么？为什么？</div>
+        </div>
+    </div>
+<p>上面的代码就是处理一个事件(发送一个数字 1)，并且调用了 subscribeOn 和 observeOn 来做线程切换。</p>
+<p>经常使用 Retrofit 的人会经常写这种代码，因为 Android 的网络请求需要在子线程而 UI 相关的操作又要回到主线程中，所以在 Android 中发网络请求，避不开这两个操作符。</p>
+<p>那么，这其中究竟发生了什么呢？</p>
+<h3 id="observable-的创建">Observable 的创建</h3>
+<p>其实 just、subscribeOn 等都会帮我们重新创建一个 observable 并且持有前一个。</p>
+<p>具体就是：</p>
+<ol>
+<li>just 返回一个 observable1</li>
+<li>observable1.subscribeOn 又会返回一个 observable2(observable1)，observable1 被持有</li>
+<li>observable2.observeOn 同理</li>
+</ol>
+<p>这个时候你脑海中需要有这样一个图(ObservableJust 为事件源头)：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/rxjava_1.jpg"
+        data-srcset="/img/in-post/rxjava_1.jpg, /img/in-post/rxjava_1.jpg 1.5x, /img/in-post/rxjava_1.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/rxjava_1.jpg"
+        title="/img/in-post/rxjava_1.jpg" /></p>
+<p>那么后续无论你使用什么操作符，基本都是类似的道理，只是链路会越来越长。</p>
+<h3 id="代码中-subscribe-的解释">代码中 subscribe() 的解释</h3>
+<p>对于 cold observable，我们需要 subscribe() 来触发事件流。</p>
+<p>对应上面代码中的</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">subscribe</span><span class="o">(</span><span class="n">integer</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">integer</span><span class="o">))</span>
+</code></pre></div><p>这里很简单，只传入了一个 Consumer，什么是 Consumer 呢？很好理解，就是消费事件的，Producer-Consumer 嘛(面试老八股题了，面试官：请实现多种生产者-消费者)。</p>
+<p>subscribe 究竟可以传入哪些类型？这里就不多提了，看一下源码就好了。可以传入一个、多个 Consumer，或者干脆你自己来，即传入一个 Observer。</p>
+<p>其实方法名也已经很好了，就是让你订阅这个事件，那么你就是要传入一个 Observer(观察者)。只不过 RxJava 这里的 API 是反着来的，Observable.subscribe(Observer)</p>
+<h5 id="lambdaobserver">LambdaObserver</h5>
+<p>如果你是一个善于发现问题的人，你会觉得有些不对。我传入的是 Consumer 啊，Consumer 和 Observer 也没有任何关系，怎么就是传入了一个 Observer 类型了？</p>
+<p>如果传入 Consumer 最终会进入这段代码</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"> <span class="kd">public</span> <span class="kd">final</span> <span class="n">Disposable</span> <span class="nf">subscribe</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">onNext</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Throwable</span><span class="o">&gt;</span> <span class="n">onError</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">Action</span> <span class="n">onComplete</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">onNext</span><span class="o">,</span> <span class="s">&#34;onNext is null&#34;</span><span class="o">);</span>
+    <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">onError</span><span class="o">,</span> <span class="s">&#34;onError is null&#34;</span><span class="o">);</span>
+    <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">onComplete</span><span class="o">,</span> <span class="s">&#34;onComplete is null&#34;</span><span class="o">);</span>
+    <span class="n">LambdaObserver</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">ls</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LambdaObserver</span><span class="o">&lt;&gt;(</span><span class="n">onNext</span><span class="o">,</span> <span class="n">onError</span><span class="o">,</span> <span class="n">onComplete</span><span class="o">,</span> <span class="n">Functions</span><span class="o">.</span><span class="na">emptyConsumer</span><span class="o">());</span>
+    <span class="n">subscribe</span><span class="o">(</span><span class="n">ls</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">ls</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div><p>所以，其实你还是传入了一个 Observer 类型，叫做 LambdaObserver，它接收多个 Consumer，onNext、onError、onComplete，回调时调用到对应 Consumer 的 apply() 方法，对应示例代码中的就是 System.out.println(integer)(我只传入了一个 Consumer(onNext)，示例中是 lambda 表达式，还原回去就是 Consumer 的 apply())</p>
+<h3 id="observablesubscribe">Observable.subscribe()</h3>
+<p>当调用 Observable.subscribe(Observer) 后，首先 Observable 会持有 Observer，并会调用自身的 subscribeActual()，代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">observer</span><span class="o">,</span> <span class="s">&#34;observer is null&#34;</span><span class="o">);</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">observer</span> <span class="o">=</span> <span class="n">RxJavaPlugins</span><span class="o">.</span><span class="na">onSubscribe</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">observer</span><span class="o">);</span>
+
+        <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">observer</span><span class="o">,</span> <span class="s">&#34;The RxJavaPlugins.onSubscribe hook returned a null Observer. Please change the handler provided to RxJavaPlugins.setOnObservableSubscribe for invalid null returns. Further reading: https://github.com/ReactiveX/RxJava/wiki/Plugins&#34;</span><span class="o">);</span>
+
+        <span class="n">subscribeActual</span><span class="o">(</span><span class="n">observer</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NullPointerException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// NOPMD
+</span><span class="c1"></span>        <span class="k">throw</span> <span class="n">e</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Exceptions</span><span class="o">.</span><span class="na">throwIfFatal</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="c1">// can&#39;t call onError because no way to know if a Disposable has been set or not
+</span><span class="c1"></span>        <span class="c1">// can&#39;t call onSubscribe because the call might have set a Subscription already
+</span><span class="c1"></span>        <span class="n">RxJavaPlugins</span><span class="o">.</span><span class="na">onError</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+
+        <span class="n">NullPointerException</span> <span class="n">npe</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NullPointerException</span><span class="o">(</span><span class="s">&#34;Actually not, but can&#39;t throw other exceptions due to RS&#34;</span><span class="o">);</span>
+        <span class="n">npe</span><span class="o">.</span><span class="na">initCause</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="k">throw</span> <span class="n">npe</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>可以看到最终调用 subscribeActual(observer) 并把 observer 传入了。</p>
+<p>如果你是一个善于发现问题的人，你会觉得有些不对。</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">observer</span> <span class="o">=</span> <span class="n">RxJavaPlugins</span><span class="o">.</span><span class="na">onSubscribe</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">observer</span><span class="o">);</span>
+</code></pre></div><p>这行代码是干啥的？你不好奇吗？其实是开了个 hook 的口子，和正常流程没关系。</p>
+<p>这个时候，需要头脑清晰，谨记 Observable 的创建那一小节中的图，source 是层层持有的。</p>
+<p>subscribeActual() 由子类重写，各个操作符都不同，但是大体原理相同。示例中是 subscribeOn 和 observeOn 这两个操作符，所以这里就看这两个操作符的 subscribeActual()</p>
+<h3 id="observablesubscribeactual">Observable.subscribeActual()</h3>
+<p>其实这两个操作符的 subscribeActual() 基本相似</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// ObservableSubscribeOn.java -&gt; subscribeOn
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">subscribeActual</span><span class="o">(</span><span class="kd">final</span> <span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="n">SubscribeOnObserver</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">parent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SubscribeOnObserver</span><span class="o">&lt;&gt;(</span><span class="n">observer</span><span class="o">);</span>
+
+    <span class="n">observer</span><span class="o">.</span><span class="na">onSubscribe</span><span class="o">(</span><span class="n">parent</span><span class="o">);</span>
+
+    <span class="n">parent</span><span class="o">.</span><span class="na">setDisposable</span><span class="o">(</span><span class="n">scheduler</span><span class="o">.</span><span class="na">scheduleDirect</span><span class="o">(</span><span class="k">new</span> <span class="n">SubscribeTask</span><span class="o">(</span><span class="n">parent</span><span class="o">)));</span>
+<span class="o">}</span>
+<span class="c1">// ObservableObserveOn.java -&gt; observeOn
+</span><span class="c1"></span><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">subscribeActual</span><span class="o">(</span><span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">scheduler</span> <span class="k">instanceof</span> <span class="n">TrampolineScheduler</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">source</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">observer</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">Scheduler</span><span class="o">.</span><span class="na">Worker</span> <span class="n">w</span> <span class="o">=</span> <span class="n">scheduler</span><span class="o">.</span><span class="na">createWorker</span><span class="o">();</span>
+
+        <span class="n">source</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">ObserveOnObserver</span><span class="o">&lt;&gt;(</span><span class="n">observer</span><span class="o">,</span> <span class="n">w</span><span class="o">,</span> <span class="n">delayError</span><span class="o">,</span> <span class="n">bufferSize</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>先看下面的 observeOn.subscribeActual() 很好理解。</p>
+<h5 id="observeonsubscribeactual">observeOn.subscribeActual()</h5>
+<p>首先 scheduler.createWorker() 和我们传入的 Scheduler 相关，接着就是调用 source.subscribe() 并传入一个新创建的 ObserveOnObserver(就是个 observer)，并且把 subscribeActual(observer) 传入的 observer(这里不是说 ObserveOnObserver 别搞混了) 传进去了。这里的 source 和 传入的 observer 都是谁呢？</p>
+<p>本例中，source 就是 subscribeOn 操作符返回的 observable，observer 就是我们 subscribe 传入的 lambdaObserver(这里没法再解释了，这段逻辑就是示例中的几行代码)</p>
+<p>简单点就是：给 subscribeOn 的 observable 绑定了个 observer(绑了个观察者(消费者))</p>
+<p>其实这里还有一部分 scheduler 的问题，代码中 ObserveOnObserver 构造函数传入了 w(worker) 和 observer。继续看源码，其实就是 observer 执行在了 scheduler 线程中，
+具体的流程是当 ObserveOnObserver.onNext() 被调用时，执行了 schedule()，进而执行了 drainNormal()，进而在 scheduler 的某个线程中执行了 downstream.onNext()，downstream 就是我们之前传入的 LambdaObserver，进而获取到了我们的要接收的事件(也就是一个数字 1)</p>
+<p>源码流程如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// ObserveOnObserver.java
+</span><span class="c1">// ObserveOnObserver 构建传入 LambdaObserver 作为 downstream
+</span><span class="c1"></span><span class="n">ObserveOnObserver</span><span class="o">(</span><span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">actual</span><span class="o">,</span> <span class="n">Scheduler</span><span class="o">.</span><span class="na">Worker</span> <span class="n">worker</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">delayError</span><span class="o">,</span> <span class="kt">int</span> <span class="n">bufferSize</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// downstream
+</span><span class="c1"></span>  <span class="k">this</span><span class="o">.</span><span class="na">downstream</span> <span class="o">=</span> <span class="n">actual</span><span class="o">;</span>
+  <span class="k">this</span><span class="o">.</span><span class="na">worker</span> <span class="o">=</span> <span class="n">worker</span><span class="o">;</span>
+  <span class="k">this</span><span class="o">.</span><span class="na">delayError</span> <span class="o">=</span> <span class="n">delayError</span><span class="o">;</span>
+  <span class="k">this</span><span class="o">.</span><span class="na">bufferSize</span> <span class="o">=</span> <span class="n">bufferSize</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">// ObserveOnObserver.java
+</span><span class="c1">// ObserveOnObserver.onNexr() -&gt; schedule()
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNext</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">done</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="k">if</span> <span class="o">(</span><span class="n">sourceMode</span> <span class="o">!=</span> <span class="n">QueueDisposable</span><span class="o">.</span><span class="na">ASYNC</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">queue</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+  <span class="o">}</span>
+  <span class="n">schedule</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// ObserveOnObserver.java
+</span><span class="c1">// schedule() -&gt; drainNormal()
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">outputFused</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">drainFused</span><span class="o">();</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">drainNormal</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// ObserveOnObserver.java
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">drainNormal</span><span class="o">()</span> <span class="o">{</span>
+
+  <span class="kd">final</span> <span class="n">SimpleQueue</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">queue</span><span class="o">;</span>
+  <span class="kd">final</span> <span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">downstream</span><span class="o">;</span>
+
+  <span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">checkTerminated</span><span class="o">(</span><span class="n">done</span><span class="o">,</span> <span class="n">q</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(),</span> <span class="n">a</span><span class="o">))</span> <span class="o">{</span>
+          <span class="k">return</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
+        <span class="c1">// 略
+</span><span class="c1"></span>        <span class="n">a</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="c1">// 略
+</span><span class="c1"></span>  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>到这里，我们唯一不知道的是 onNext() 又是怎么被调用到的？不过不急，再看看 subscribeOn.subscribeActual()</p>
+<h5 id="subscribeonsubscribeactual">subscribeOn.subscribeActual()</h5>
+<p>subscribeOn 的具体代码就比较奇怪一些，看不到任何 source.subscribe() 的逻辑，这其实很不合理。因为不注册观察者，又怎么收到通知呢？</p>
+<p>其实这里是依靠的 SubscribeTask，scheduleDirect() 会执行我们传入的 task，代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">SubscribeTask</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">SubscribeOnObserver</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">parent</span><span class="o">;</span>
+
+    <span class="n">SubscribeTask</span><span class="o">(</span><span class="n">SubscribeOnObserver</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">parent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">parent</span> <span class="o">=</span> <span class="n">parent</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">source</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">parent</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>source.subscribe() 出现了，这里的 parent 又是谁呢？是 subscribeActual() 时新创建的 SubscribeOnObserver，这个 observer 持有了下游的 observer(observeOn 创建的 observer)，source 就是我们的事件源头 Observable.just() 了。</p>
+<h5 id="阶段小结">阶段小结</h5>
+<p>结合 observable 的创建，现在你应该脑海中有这样一个图</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/rxjava_2.jpg"
+        data-srcset="/img/in-post/rxjava_2.jpg, /img/in-post/rxjava_2.jpg 1.5x, /img/in-post/rxjava_2.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/rxjava_2.jpg"
+        title="/img/in-post/rxjava_2.jpg" /></p>
+<p>这个时候，我们知道 observable 和 observer 都是层层持有的，然后因为操作符是两个切换线程的操作符，且指定的 scheduler 不同，所以也存在了两个线程池。</p>
+<p>但是如何串联起来的呢？ObserveOnObserver.onNext() 又是怎么被调用的呢？</p>
+<h3 id="observeronnext-串联">Observer.onNext() 串联</h3>
+<p>前面已经知道了 subscribeOn 会调用 ObservableJust.subscribe() 方法，因为我们代码里就是 Observable.just(1).subscribeOn()。</p>
+<p>而 Observable.subscribe() 核心流程都在 subscribeActual()，所以需要看看 ObservableJust 的 subscribeActual()。</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">subscribeActual</span><span class="o">(</span><span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">ScalarDisposable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">sd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ScalarDisposable</span><span class="o">&lt;&gt;(</span><span class="n">observer</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+    <span class="n">observer</span><span class="o">.</span><span class="na">onSubscribe</span><span class="o">(</span><span class="n">sd</span><span class="o">);</span>
+    <span class="n">sd</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div><p>可以看到创建了一个 ScalarDisposable()，并调用了 run()，所以看看 run() 的源码</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">get</span><span class="o">()</span> <span class="o">==</span> <span class="n">START</span> <span class="o">&amp;&amp;</span> <span class="n">compareAndSet</span><span class="o">(</span><span class="n">START</span><span class="o">,</span> <span class="n">ON_NEXT</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">observer</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">get</span><span class="o">()</span> <span class="o">==</span> <span class="n">ON_NEXT</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">lazySet</span><span class="o">(</span><span class="n">ON_COMPLETE</span><span class="o">);</span>
+            <span class="n">observer</span><span class="o">.</span><span class="na">onComplete</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>这里调用了 observer.onNext() 传入了一个 value(这个 value 其实就是 Observable.just(value)，所以也就是数字 1)。</p>
+<p>当前处于什么线程呢？</p>
+<p>subscribeOn 的 scheduler 的线程。因为我们是通过 SubscribeTask.run()，进而调用了 ObservableJust.subscribeActual()。</p>
+<p>observer.onNext 又进而调用了 SubscribeOnObserver.onNext() 进而调用了 ObserveOnObserver.onNext()，终于出现了 ObserveOnObserver.onNext()，前面已经知道了 ObserveOnObserver.onNext() 会调用到我们最终的 LambdaObserver 中。所以至此，整个流程都打通了。</p>
+<p>如果你是一个善于发现问题的人，你会觉得有些不对。onCompelete 不是也要调用么？完全没有啊。如果是这两个线程切换操作符的话，在 scheduler 获取不到任务时会发送一个 onCompelete() 进而触发后续流程，其余操作符情况就更加复杂了。</p>
+<p>所以到这里，也只是 RxJava 的冰山一角而已。但是相信，如果你之前不是很明白，现在应该是有一些头绪了。</p>
+<p>所以这个简单的例子的所有流程串联在一起，就是下面这张图：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/rxjava_all.jpg"
+        data-srcset="/img/in-post/rxjava_all.jpg, /img/in-post/rxjava_all.jpg 1.5x, /img/in-post/rxjava_all.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/rxjava_all.jpg"
+        title="/img/in-post/rxjava_all.jpg" /></p>
+<h3 id="subscribeon-和-observeon-操作符的不同">subscribeOn 和 observeOn 操作符的不同</h3>
+<p>这里只是说前面的那个面试问题，基本就是问你切换线程的表现有何不同，影响谁的线程。</p>
+<p>这其实也是 <code>面试八股题</code> 了，其实答案很简单，就是 subscribeOn() 多次调用，事件源头所在的线程是最早的那个(离事件源最近的)，observeOn() 多次调用，最终是最晚的那个生效(离观察者最近的)。subscribeOn 影响被观察者线程，observeOn 影响观察者线程。</p>
+<p>面试官经常会加问，为什么啊？(其实没什么为什么，源码如此，且这样设计也合理)</p>
+<p>我们就强行来看看为什么？</p>
+<div class="details admonition question open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>问题<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>因为 subscribeOn 多次调用后，再执行 subscribe()，只会让 ObservableSubscribeOn(这是个 Observable) 层层持有更靠近事件源的、它前面的一个 observable 并调用其 Observable.subscribe()(准确的说是 subscribeActual())。但是每次 subscribe() 调用后，它都是先在自己的 scheduler 线程中执行了 run()。所以多次调用进入下一个 Observable.subscibe() 时，又切换了线程(这时候还没到事件源)运行，直到传递到事件源的前一个 Observable 时，其 subscribe() 触发了事件源事件，所以事件源执行在最早的 subscribeOn 执行的 scheduler 的线程中。</p>
+<p>observeOn 恰恰相反，发生在回调过程中。前面也知道 subscribe() 也会使得各个 observable 创建 observer，observer 层层回调到最后一个 observer，而我们的 observer.onNext() 或者其他方法都是在 observeOn 执行的 scheduler 的线程中的，最后一个 observer 就是我们的 LambdaObserver，所以是最晚的 observeOn 生效。</p>
+</div>
+        </div>
+    </div>
+<h2 id="总结">总结</h2>
+<p>RxJava 就是这样一个层层嵌套的结构，每一个操作符都会帮你创建一个新的 observable 并内部持有前一个 observable 的引用，直到事件的源头。</p>
+<p>对于常见的 <code>cold observable</code>，当你调用 subscribe(lambda) 并且传入一个 lambdaObserver 后才开始启动整个流程。之后因为有层层的 subscribe() 调用，使之创建了众多 observer，并且当前 observer 会持有下游的 observer。当事件源头执行事件后，层层传递，observer 观察到事件后，调用自己的 onNext() 或者其他方法(操作符具体实现)继续通知下游的 observer(downstream)，直到回调到一开始我们传入的 LambdaObserver。(本文示例只是最简单的情况，各种操作符实现都不同，但是原理基本相同)</p>
+<div class="details admonition warning open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-exclamation-triangle fa-fw"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>说说我对 RxJava 的个人偏见，核心原因就是：它并不是一个很好上手的库。</p>
+<p>进而引发出了几个问题：</p>
+<ol>
+<li>鄙视链👎。似乎总有人觉得我用 RxJava 我牛皮，你不会用你好笨。</li>
+<li>滥用。比如我司 RxJava 满天飞，且还会有很多 <strong>高工</strong> 要造轮子，在这之上又封装了一层网络库，但是隐藏了一些操作符，进而使得很多人养成了错误的习惯。还有很多时候用于 Fragment 之间的通信，配合 MVP，Presenter 再复用，对于工程不了解的人怕是要研究半小时。</li>
+<li>为了用而用。有的时候简单的处理并用不上 RxJava；有的时候一个操作符能解决的事情并不需要两个操作符；有时候自己写完都很难理解，不知道为什么正确和错误，那就不要在继续堆叠操作符了···</li>
+</ol>
+</div>
+        </div>
+    </div>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-03-20</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/ReferenceQueue-and-GC/" class="prev" rel="prev" title="ReferenceQueue and Rumtime.gc()"><i class="fas fa-angle-left fa-fw"></i>ReferenceQueue and Rumtime.gc()</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-03-20T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"一个简单的 RxJava 例子解读"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

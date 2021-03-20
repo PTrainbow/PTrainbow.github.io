@@ -2,11 +2,12 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://PTrain666.github.io/tags/Android/</loc><lastmod>2021-03-12T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://PTrain666.github.io/posts/</loc><lastmod>2021-03-12T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/tags/Android/</loc><lastmod>2021-03-20T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/posts/</loc><lastmod>2021-03-20T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/tags/</loc><lastmod>2021-03-20T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/</loc><lastmod>2021-03-20T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/</loc><lastmod>2021-03-20T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/ReferenceQueue-and-GC/</loc><lastmod>2021-03-12T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://PTrain666.github.io/tags/</loc><lastmod>2021-03-12T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://PTrain666.github.io/</loc><lastmod>2021-03-12T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/</loc><lastmod>2021-03-04T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/MMKV-%E5%92%8C-mmap/</loc><lastmod>2021-02-26T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/</loc><lastmod>2021-02-20T00:00:00&#43;00:00</lastmod></url><url>

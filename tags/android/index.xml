@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 12 Mar 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 20 Mar 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>一个简单的 RxJava 例子解读</title>
+    <link>http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/</link>
+    <pubDate>Sat, 20 Mar 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/</guid>
+    <description><![CDATA[前言 RxJava 是一个经常让人出错的库，有的同事第一次接触完全搞不懂，个人感觉是没抓住核心的理念(其实我个人对于 RxJava 是有偏见的)，抓住核心的理念应该会很]]></description>
+</item><item>
     <title>ReferenceQueue and Rumtime.gc()</title>
     <link>http://PTrain666.github.io/posts/ReferenceQueue-and-GC/</link>
     <pubDate>Fri, 12 Mar 2021 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/2020-03-21-SingleTask-%E8%A1%80%E6%A1%88/</guid>
     <description><![CDATA[最近还是在做小包的需求(什么是小包···就是功能和体积的阉割版)，测试提了个 bug，说主站的 APP，打开详情页，回到后台，再重新打开 APP，]]></description>
-</item><item>
-    <title>再来看看 WMS</title>
-    <link>http://PTrain666.github.io/posts/2019-08-08-%E5%86%8D%E6%9D%A5%E7%9C%8B%E7%9C%8B-WMS/</link>
-    <pubDate>Thu, 08 Aug 2019 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2019-08-08-%E5%86%8D%E6%9D%A5%E7%9C%8B%E7%9C%8B-WMS/</guid>
-    <description><![CDATA[这几天想重新研究研究一些 Android Framework 相关的东西，看到了 WindowManagerService(WMS)，产生了一些疑问。 getSystemServ]]></description>
 </item></channel>
 </rss>
