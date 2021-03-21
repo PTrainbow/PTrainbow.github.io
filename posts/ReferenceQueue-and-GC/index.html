@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrain666.github.io\/posts\/ReferenceQueue-and-GC\/referenceq.png",
                             "width":  2012 ,
                             "height":  1250 
-                        }],"genre": "posts","keywords": "Android","wordcount":  3625 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  3621 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/ReferenceQueue-and-GC\/","datePublished": "2021-03-12T00:00:00+00:00","dateModified": "2021-03-12T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">ReferenceQueue and Rumtime.gc()</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-03-12">2021-03-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3625 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-03-12">2021-03-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3621 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -129,7 +129,7 @@
     <li><a href="#前言">前言</a></li>
     <li><a href="#referencequeue-的一些原理解析">ReferenceQueue 的一些原理解析</a>
       <ul>
-        <li><a href="#reference-和-referencequeue-初步认识">Reference 和 ReferenceQueue 初步认识</a></li>
+        <li><a href="#reference">Reference</a></li>
         <li><a href="#referencequeue">ReferenceQueue</a></li>
         <li><a href="#关系图">关系图</a></li>
         <li><a href="#referencequeueadd-和-enqueuepending-如何联动">ReferenceQueue.add() 和 enqueuePending() 如何联动？</a></li>
@@ -152,11 +152,11 @@
 <p>LeakCanary 就是 Android 常用的用于检测 Activity、Fragment、View 级别的内存泄漏的工具，但是也不是万能的。如果 LeakCanary 报出调用链我们往往是可以解决的。但是有时候 LeakCanary 是 <code>检测不到</code> 的(与 Activity 等无关，比如列表页数据和 adapter 的问题)，这个时候，只能靠我们 dump 内存，MAT 里一个个看对象数量是否合理了。</p>
 <p>LeakCanary 检测内存泄漏的核心原理其实是 ReferenceQueue，所以这篇文章来看看 ReferenceQueue 的一些知识。</p>
 <h2 id="referencequeue-的一些原理解析">ReferenceQueue 的一些原理解析</h2>
-<h3 id="reference-和-referencequeue-初步认识">Reference 和 ReferenceQueue 初步认识</h3>
+<h3 id="reference">Reference</h3>
 <p>面试 <code>八股问题</code>，你知道 Java 中的几种引用类型吗？</p>
 <p>其实，不知道你有没有注意过，SoftReference、WeakReference、PhantomReference 构造函数都可以传入一个叫做 <code>ReferenceQueue</code> 的对象，他们之间的关系是怎样的呢？</p>
 <p>先分别来认识一下 Reference 和 ReferenceQueue</p>
-<h4 id="reference">Reference</h4>
+<h4 id="reference-概览">Reference 概览</h4>
 <p>经常会看到类似的说法，Reference 在 JVM 中有四种状态，Active、Pending、Enqueued、Inactive。</p>
 <p>一开始我找了半天也没在代码中找到类似字样，后来在 rt.jar 基础类库中的 Reference.java 找到了相应的 <code>注释信息</code>。然而 Android 中使用的应该是 Platform 的 Reference.java，仔细看会发现两个 java 类 <code>不尽相同</code>，也没有注释明确说明这四个状态，所以后面说的都是 Platform 里的代码。</p>
 <h4 id="reference-结构">Reference 结构</h4>
