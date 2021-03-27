@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrain666.github.io\/posts\/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF\/multi_platform_base_3.jpg",
                             "width":  1838 ,
                             "height":  794 
-                        }],"genre": "posts","keywords": "Android","wordcount":  3842 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  3798 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF\/","datePublished": "2021-03-27T00:00:00+00:00","dateModified": "2021-03-27T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">给你科普科普跨端</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-03-27">2021-03-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3842 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-03-27">2021-03-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3798 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -156,12 +156,13 @@
 <p>端上开发苦不堪言，动不动出个 Crash(应用崩溃、闪退) 又没法远程修复，只能等 <code>下个版本</code> 往应用市场推新的修复 Bug 的版本。</p>
 <p>但是你推了新版本，用户也 <code>不一定升级</code> 啊。所以，很多公司研究了各种 <code>热修复</code> 框架，特别是 Android 平台上，热修复框架很多，主要是靠 DexClassLoader 来搞。</p>
 <h5 id="h5-的动态化能力">H5 的动态化能力</h5>
-<p>所以，很多活动页经常使用 H5 来做，H5 做的话只要更新下 js、css 等前端各种资源到服务器上，那么就一切 OK 了。而且还能再浏览器上运行，浏览器本身就是一个跨端的 APP，前端研发也不难招，多开心。</p>
+<p>所以，很多活动页经常使用 H5 来做，H5 做的话只要更新下 js、css 等前端各种资源到服务器上，那么就一切 OK 了。而且还能在浏览器上运行，浏览器本身就是一个跨端的 APP，前端研发也不难招，多开心。</p>
 <p>所以直至今日，很多 APP 依然是混合开发，也就是所谓的 Hybrid APP(就是通过各自平台提供的 <code>WebView</code> 来加载一个网页，通过更新网页源码来实现动态化)。</p>
 <p>但是，最早的时候 WebView 问题很大，特别是 Android。而且加载网页嘛，肯定需要时间的，过程中会白屏啊等等。所以很多人围绕着这些做了很多优化，我个人感觉最有用的其实就是一个离线包。同时，每一代的 WebView 也在更新升级。然后一些实力强的公司都自己研制了所谓 <code>浏览器内核</code>，各种黑科技，怎么提升速度啊，各种特性支持啊等等，但是好像都没有开源🐶。</p>
 <h3 id="平时说的-weexrnhippymln-等等算不算跨端">平时说的 Weex、RN、Hippy、MLN 等等，算不算跨端？</h3>
 <p><code>算也不算</code>。这只是跨了 Android 和 iOS，不把我 PC 端当端？</p>
-<p>其实浏览器才是跨端，每个平台上你都可以使用 Chrome(其他浏览器主要是想不想搞)！但是也有自己的问题，因为每家都有自己的浏览器且有不同的内核且分裂越来越大，Chrome(blink)/Safari(webkit)/Firefox(不知道) 等等，特别是对 css 的支持。<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS" target="_blank" rel="noopener noreffer">https://developer.mozilla.org/zh-CN/docs/Web/CSS</a> 这个网址可以看一些浏览器的兼容性。比如 border-width 的兼容性如下：</p>
+<p>其实浏览器才是跨端，每个平台上你都可以使用 Chrome(其他浏览器主要是想不想搞)！但是也有自己的问题，因为每家都有自己的浏览器且有不同的内核且分裂越来越大，Chrome(Blink)/Safari(Webkit)/Firefox(Gecko?) 等等，特别是对 css 的支持。</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS" target="_blank" rel="noopener noreffer">https://developer.mozilla.org/zh-CN/docs/Web/CSS</a> 这个网址可以看一些浏览器的兼容性。比如 border-width 的兼容性如下：</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -233,7 +234,7 @@
         data-sizes="auto"
         alt="/img/in-post/multi_platform_base_2.jpg"
         title="/img/in-post/multi_platform_base_2.jpg" /></p>
-<p>左边这要在内存中维护好这样一个树形结构就好了，传递给客户端时，转为</p>
+<p>左边只要在内存中维护好这样一个树形结构就好了，传递给客户端时，转为</p>
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
     <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
     <span class="nt">&#34;children&#34;</span><span class="p">:[</span>
