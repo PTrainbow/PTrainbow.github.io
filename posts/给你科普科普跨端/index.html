@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>给你科普科普跨端 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="给你科普科普跨端" />
+<meta property="og:description" content="前言 鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从0到1的写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-27T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-03-27T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="给你科普科普跨端"/>
+<meta name="twitter:description" content="前言 鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从0到1的写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/" /><link rel="prev" href="http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "给你科普科普跨端",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF\/"
+        },"genre": "posts","keywords": "Android","wordcount":  3842 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF\/","datePublished": "2021-03-27T00:00:00+00:00","dateModified": "2021-03-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">给你科普科普跨端</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-03-27">2021-03-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3842 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a>
+      <ul>
+        <li><a href="#为什么需要跨端呢">为什么需要跨端呢？</a></li>
+        <li><a href="#平时说的-weexrnhippymln-等等算不算跨端">平时说的 Weex、RN、Hippy、MLN 等等，算不算跨端？</a></li>
+      </ul>
+    </li>
+    <li><a href="#什么是-javascript-engine">什么是 JavaScript Engine</a></li>
+    <li><a href="#weexrn-跨端原理">Weex/RN 跨端原理</a>
+      <ul>
+        <li><a href="#javascript-runtime-是什么">JavaScript Runtime 是什么？</a></li>
+        <li><a href="#怎么就能知道每个视图的位置和属性了">怎么就能知道每个视图的位置和属性了？</a></li>
+        <li><a href="#其他问题">其他问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#结语">结语</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="前言">前言</h2>
+<p>鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从0到1的写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过 Weex，对于跨端研究过一阵，所以来科普一下。</p>
+<p>在科普之前，首先你得知道，为什么需要跨端技术呢？我们平时说的 Weex、React-Native(本文统一简称为 RN) 算不算 <code>跨端技术</code>(单独没说 Flutter) 呢？</p>
+<h3 id="为什么需要跨端呢">为什么需要跨端呢？</h3>
+<h4 id="一套代码多端运行减少了人力成本">一套代码，多端运行，减少了人力成本？</h4>
+<p>其实不是。看似说 Android/iOS 本来要两个人，最终变成一个人了，我这缩减了一半的人力！</p>
+<p>但是前提是，这个人力需要既会 Android、又会 iOS、还得会写 JavaScript，而且还都得比较懂，否则出了问题，怎么修？</p>
+<p>所以想招这么个人，在中国互联网的环境下挺难的。大家都在研究 <code>PPT 架构技术</code>、<code>职场生存论</code>、<code>30岁如何财富自由</code>，哪有空拓展自己的技术栈呢？</p>
+<h4 id="动态化能力这个我认为才是重点">动态化能力(这个我认为才是重点)</h4>
+<p>端上开发苦不堪言，动不动出个 Crash(应用崩溃、闪退) 又没法远程修复，只能等 <code>下个版本</code> 往应用市场推新的修复 Bug 的版本。</p>
+<p>但是你推了新版本，用户也 <code>不一定升级</code> 啊。所以，很多公司研究了各种 <code>热修复</code> 框架，特别是 Android 平台上，热修复框架很多，主要是靠 DexClassLoader 来搞。</p>
+<h5 id="h5-的动态化能力">H5 的动态化能力</h5>
+<p>所以，很多活动页经常使用 H5 来做，H5 做的话只要更新下 js、css 等前端各种资源到服务器上，那么就一切 OK 了。而且还能再浏览器上运行，浏览器本身就是一个跨端的 APP，前端研发也不难招，多开心。</p>
+<p>所以直至今日，很多 APP 依然是混合开发，也就是所谓的 Hybrid APP(就是通过各自平台提供的 <code>WebView</code> 来加载一个网页，通过更新网页源码来实现动态化)。</p>
+<p>但是，最早的时候 WebView 问题很大，特别是 Android。而且加载网页嘛，肯定需要时间的，过程中会白屏啊等等。所以很多人围绕着这些做了很多优化，我个人感觉最有用的其实就是一个离线包。同时，每一代的 WebView 也在更新升级。然后一些实力强的公司都自己研制了所谓 <code>浏览器内核</code>，各种黑科技，怎么提升速度啊，各种特性支持啊等等，但是好像都没有开源🐶。</p>
+<h3 id="平时说的-weexrnhippymln-等等算不算跨端">平时说的 Weex、RN、Hippy、MLN 等等，算不算跨端？</h3>
+<p><code>算也不算</code>。这只是跨了 Android 和 iOS，不把我 PC 端当端？</p>
+<p>其实浏览器才是跨端，每个平台上你都可以使用 Chrome(其他浏览器主要是想不想搞)！但是也有自己的问题，因为每家都有自己的浏览器且有不同的内核且分裂越来越大，Chrome(blink)/Safari(webkit)/Firefox(不知道) 等等，特别是对 css 的支持。<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS" target="_blank" rel="noopener noreffer">https://developer.mozilla.org/zh-CN/docs/Web/CSS</a> 这个网址可以看一些浏览器的兼容性。比如 border-width 的兼容性如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/border-support.jpg"
+        data-srcset="/img/in-post/border-support.jpg, /img/in-post/border-support.jpg 1.5x, /img/in-post/border-support.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/border-support.jpg"
+        title="/img/in-post/border-support.jpg" /></p>
+<p><strong>那么问题来了，为啥不直接用浏览器的渲染技术来做跨端呢？</strong></p>
+<p>其实也不是不可以啊，但是这么做就相当于直接面向 OpenGL 或者其他图形引擎编程了，而且要从底层一路撸到上层，自己搞一套 <code>渲染机制</code>，并且还要封装好各种基本的 <code>UI 组件供</code> 开发者使用，或者留下很多口子，供开发者自定义 UI，是很复杂的。但是其实 <code>Flutter</code> 就是这么干的，所以 Flutter2.0 又开始往桌面端发展了，已经不止于 Android/iOS 了，但是究竟能走多远，这个我也不知道。还有一些人在搞 React-Native-Skia，就用 js 代码来直接调 Skia(2D图形渲染引擎)？(没具体看过)</p>
+<h2 id="什么是-javascript-engine">什么是 JavaScript Engine</h2>
+<p>为什么你写的 JavaScript 代码可以运行呢？靠的就是 <code>JavaScript Engine</code>。</p>
+<p>丢给它一段 js 代码(其实就是一段文本字符串)，它就可以帮你算出结果，处理逻辑。</p>
+<p>常见的 Weex、RN、Hippy 也是依赖于此(MLN 使用的是 Lua)来做逻辑处理的。</p>
+<p>这个时候又会有很多概念</p>
+<p><code>JavaScript Engine</code> 有人也喜欢统说为 <code>JavaScriptCore</code>(为什么这么说我也不知道，可能是因为研究这些比较深入的都是 iOS 开发者，因为苹果的 <code>JavaScript Engine</code> 就叫做 <code>JavaScriptCore</code>，苹果的这个 JavaScriptCore 呢，很多人有喜欢叫 <code>JSCore</code> 或者 <code>JSC</code>)。所以，后来我看到这些个名词，我总要带入语境去感受他是想说 JavaScript Engine，还是想说苹果的 JavaScript Engine —— JavaScriptCore(JSCore/JSC)</p>
+<p>下面来说说 JavaScript Engine 有哪些？</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/js_engine.jpg"
+        data-srcset="/img/in-post/js_engine.jpg, /img/in-post/js_engine.jpg 1.5x, /img/in-post/js_engine.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/js_engine.jpg"
+        title="/img/in-post/js_engine.jpg" /></p>
+<p>没错，有这么多！当然还有 <code>JavaScriptCore</code>(图里没有)。</p>
+<p>其中最后一行是跑分，越多越好。带 JIT 的 V8 以 3w+ 吊打了一切。其中 <code>QuikJS</code> 特别小而且分数也很高，估计也有很多人会用 <code>QuikJS</code> 作为跨端的 JavaScript Engine 吧？<code>Hermes</code> 由 Facebook 搞出来的，似乎是 RN 目前 Android 使用的 JavaScript Engine 代替了之前用的 <code>JavaScriptCore</code>。为什么 RN 一直没有使用 V8？这个我也不清楚···</p>
+<p>不过有很多人在搞 Android 的 V8 工程，Github 上也有一些开源项目。其次就是 iOS 因为不支持 JIT，而且有自己的 JavaScriptCore，所以换不换没有 JIT 的 V8 似乎意义不大。</p>
+<h2 id="weexrn-跨端原理">Weex/RN 跨端原理</h2>
+<p>一个正常的跨端框架 <code>最简单</code> 的情况是这样的(<code>后面会说这其中的问题，并逐步丰富</code>)：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/multi_platform_base.jpg"
+        data-srcset="/img/in-post/multi_platform_base.jpg, /img/in-post/multi_platform_base.jpg 1.5x, /img/in-post/multi_platform_base.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/multi_platform_base.jpg"
+        title="/img/in-post/multi_platform_base.jpg" /></p>
+<ol>
+<li>丢给端上一个 js 文件，端上启 JavaScript Runtime，将 js 文本传给它</li>
+<li>JavaScript Runtime 做好各种解析，在通过既定的消息机制发一个消息给客户端</li>
+<li>客户端拿到消息根据既定的格式解析创建平台的视图(这其中有很多问题和细节，后面说)。</li>
+</ol>
+<p>用一个简单的例子看</p>
+<p>假设我的 js 文件中就是要 <code>展示一个红色的 div 方块</code>。那么首先，端会把这个文本传给 JavaScript Runtime，它解析完后形成一个约定的格式，比如如下的 JSON 格式(里面的值用来描述是一个100*100红色方块，我随便定义的)</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;width&#34;</span><span class="p">:</span><span class="s2">&#34;100&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;height&#34;</span><span class="p">:</span><span class="s2">&#34;100&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;background&#34;</span><span class="p">:</span><span class="s2">&#34;red&#34;</span>
+<span class="p">}</span>
+</code></pre></div><p>通过 JavaScript Runtime 和 端(Android/iOS) 通信，把这个消息传回去。</p>
+<p>端拿到了消息，发现要创建一个 100*100 的叫做 div 的东西，没有 div 啊！这就需要端上提前埋好代码，比如 Android 里有 FrameLayout，那么就有类似的注册代码</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 伪代码
+</span><span class="c1"></span><span class="n">register</span><span class="o">(</span><span class="s">&#34;div&#34;</span><span class="o">,</span> <span class="n">FrameLayout</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</code></pre></div><p>然后端就知道了，oh！我需要创建一个长100宽100的正方形。</p>
+<p><strong>那如果没有这个 div 怎么办？</strong></p>
+<p>首先，这是框架设计提前思考好的，究竟要支持哪些基础组件，比如 image 、text 等等。而且一般这里都会开个口子，让开发者可以自己扩展组件，比如你需要一个横滑列表，没提供怎么办？看看 div 怎么注册的，按照它的过程注册一个列表就好了。这也可以 <code>PPT</code> 吹成：<code>扩展跨端框架</code>，其实 <code>门槛比自定义 View 还要低</code>。</p>
+<h3 id="javascript-runtime-是什么">JavaScript Runtime 是什么？</h3>
+<p>前面说了 JavaScript Engine，这里咋又来了个 Runtime？</p>
+<p>JavaScript Engine 能做什么？<br>
+<code>什么都做不了，只能解析执行 js 代码</code></p>
+<p>那么问题来了，我怎么去 <code>描述</code> 我写的 js 代码代表的 <code>视图</code> 呢？其实不用描述，js 代码只要在 <code>内存中</code> 维护好一个树形结构就好了，就是一个 Object，因为实体在具体的端上，怎么理解呢？</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/multi_platform_base_2.jpg"
+        data-srcset="/img/in-post/multi_platform_base_2.jpg, /img/in-post/multi_platform_base_2.jpg 1.5x, /img/in-post/multi_platform_base_2.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/multi_platform_base_2.jpg"
+        title="/img/in-post/multi_platform_base_2.jpg" /></p>
+<p>左边这要在内存中维护好这样一个树形结构就好了，传递给客户端时，转为</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;children&#34;</span><span class="p">:[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;image&#34;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;children&#34;</span><span class="p">:[]</span>
+        <span class="p">}</span>
+        <span class="err">//</span> <span class="err">等等</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><p>端上拿到消息，创建视图为右图中的结构即可。</p>
+<p>如何维护好这个模型呢？调用什么 js 的方法发送消息呢？怎么给这些个 div 加上 css 来描述它的大小形状呢？等等更复杂的一系列的前端问题，都需要 <code>写代码</code> 来实现。</p>
+<p>所以一般都会有个 <code>core.js</code> 或者 <code>framework.js</code> 类似的一堆 js 代码，就是用来处理这些事情，而这些代码同样依靠 JavaScript Engine 来执行。</p>
+<p>从而所谓的 <code>JavaScript Runtime</code>，我觉得可以单纯的理解为 JavaScript Engine 自身的代码跑起来后的环境，也可以理解为 core.js 等被跨端框架所需要的、包含了各种逻辑的前端代码被加载运行后的环境。</p>
+<h3 id="怎么就能知道每个视图的位置和属性了">怎么就能知道每个视图的位置和属性了？</h3>
+<p>当你用这些跨端框架的时候，你会发现他们只支持 <code>css 子集</code>，而且布局方式基本都是 <code>flexbox(一种布局模型)</code>。</p>
+<p>那么比如你写了一个横着容纳了三个小方块的大方块，你的前端 css 代码肯定要写成，<code>flex-diretion:row</code>，那么抛给端上的消息可能如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;attribute&#34;</span><span class="p">:{</span>
+        <span class="err">//</span> <span class="err">使用布局</span>
+        <span class="nt">&#34;flex-diretion&#34;</span><span class="p">:</span><span class="s2">&#34;row&#34;</span>
+    <span class="p">},</span>
+    <span class="nt">&#34;children&#34;</span><span class="p">:[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><p>端上拿到这个消息，都不知道 flex-direction 是什么。当然，你可以自己写一个解析库来解，但是 Yoga 帮你做了这件事！</p>
+<p>所以 RN 使用的是 Yoga 布局引擎(支持 flexbox，也是 Facebook 搞的)。</p>
+<p>Weex 似乎一开始是用的 Yoga，后来自己写了一套？</p>
+<p>这个地方就出现了一个名词 <code>Layout Engine</code>，它就是帮我们处理各种布局参数的，然后帮我们算好每个视图的坐标，然后端上拿到坐标后设置对应的视图的坐标，一个井井有条的视图便展示了出来。如果你觉得你写的布局解析算法超越了 Yoga 等等，那么你完全可以自己写一套。</p>
+<h3 id="其他问题">其他问题</h3>
+<p>通过上面的一些阅读大概也有概念了，其实跨端，就是不断的两端进行通讯的过程。</p>
+<p>比如从 JavaScript Runtime 处理完各种属性了，要渲染视图了！传了一段 JSON 给端。</p>
+<p>端上手指点了一下这个视图，那也要封装成一个消息传递给 JavaScript Runtime，然后触发你之前写的 js 的监听代码，比如点击后弹一个弹窗，那就又要封装一个调用弹窗方法的消息给端。</p>
+<p>就是这样来来回回。</p>
+<p>所以两边都有自己的消息队列。</p>
+<p>而且当你做动画还想监听动画过程的时候，肯定在短时间内发送了大量消息，这些过程肯定是 <code>需要优化</code> 的。</p>
+<p>并且！据我个人用 Weex 的经验，有的 flexbox 属性两端都不统一(可能是 Weex 的 Bug，毕竟 KPI 项目，都不维护了)</p>
+<p>我记得当时还开玩笑说，用了 Weex 终于领悟了跨端的真谛：</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="k">if</span><span class="p">(</span><span class="nx">platform</span> <span class="o">===</span> <span class="s1">&#39;Andoird&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 差异化逻辑
+</span><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">platform</span> <span class="o">===</span> <span class="s1">&#39;iOS&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 差异化逻辑
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></div><p>跨端的代价就是，你 <code>本以为</code> 真的可以一套代码两端跑，后来发现真的有点做梦了(连 H5 有时候 Andoird/iOS 都不一致，因为用的内核都不是一个)，代码里有不少的 if-else。</p>
+<h2 id="总结">总结</h2>
+<p>所以经过上面的一系列科普，一个跨端框架成了这样：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/multi_platform_base_3.jpg"
+        data-srcset="/img/in-post/multi_platform_base_3.jpg, /img/in-post/multi_platform_base_3.jpg 1.5x, /img/in-post/multi_platform_base_3.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/multi_platform_base_3.jpg"
+        title="/img/in-post/multi_platform_base_3.jpg" /></p>
+<p>这其中一般是需要一个客户端、一个前端、一个懂 JavaScript Engine 会 C/C++ 的来分别开发。</p>
+<p>我虽然没开发过，但是感觉会有很多问题。</p>
+<p>比如 JavaScript Runtime 在另一个进程的话，跨进程通信？</p>
+<p>比如消息通信过于频繁是不是就会有各种连锁反应，掉帧啊、事件响应不及时、动画不流畅啊，怎么优化？</p>
+<h2 id="结语">结语</h2>
+<p>其实我本身一直自诩喜欢研究原理，但是直至今日我也没真的一行行看过跨端框架的源码，我知道的这些也未必是对的，只是之前做过 Weex 的一些工作稍微研究了一下，还是挺惭愧的。</p>
+<p>既然你自称喜欢研究原理，为什么不看呢？</p>
+<p>所以，我以后有时间会一点点看源码，如有错误，随时更新。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-03-27</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/" class="prev" rel="prev" title="一个简单的 RxJava 例子解读"><i class="fas fa-angle-left fa-fw"></i>一个简单的 RxJava 例子解读</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-03-27T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"给你科普科普跨端"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
