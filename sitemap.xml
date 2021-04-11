@@ -2,10 +2,12 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
+            <loc>http://PTrain666.github.io/posts/</loc><lastmod>2021-04-11T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/tags/</loc><lastmod>2021-04-11T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/</loc><lastmod>2021-04-11T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/posts/%E6%96%AD%E6%9B%B4%E4%BA%86/</loc><lastmod>2021-04-11T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/tags/%E6%9D%82/</loc><lastmod>2021-04-11T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/tags/Android/</loc><lastmod>2021-03-27T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://PTrain666.github.io/posts/</loc><lastmod>2021-03-27T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://PTrain666.github.io/tags/</loc><lastmod>2021-03-27T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://PTrain666.github.io/</loc><lastmod>2021-03-27T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/</loc><lastmod>2021-03-27T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/</loc><lastmod>2021-03-20T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/ReferenceQueue-and-GC/</loc><lastmod>2021-03-12T00:00:00&#43;00:00</lastmod></url><url>
