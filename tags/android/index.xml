@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 27 Mar 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 24 May 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>好玩的 Kotlin</title>
+    <link>http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/</link>
+    <pubDate>Mon, 24 May 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/</guid>
+    <description><![CDATA[前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C++ 被我暂时搁置了 最近本来是打算捡起来 C++ 的(也 Hello]]></description>
+</item><item>
     <title>给你科普科普跨端</title>
     <link>http://PTrain666.github.io/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/</link>
     <pubDate>Sat, 27 Mar 2021 00:00:00 &#43;0000</pubDate>
@@ -61,17 +68,10 @@
     <description><![CDATA[很久之前的一篇 Activity 启动流程 当时刚毕业，有很多错误和没有理解，今天重新写一篇比较完整的，源码基于 Android 9.0 1.概览 startActivity 流程，主要涉及 APP 进程和 Activi]]></description>
 </item><item>
     <title>FFmpeg 简易播放器</title>
-    <link>http://PTrain666.github.io/posts/2020-07-31-FFmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/</link>
+    <link>http://PTrain666.github.io/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/</link>
     <pubDate>Fri, 31 Jul 2020 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2020-07-31-FFmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/</guid>
+    <guid>http://PTrain666.github.io/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/</guid>
     <description><![CDATA[1.FFmpeg 和 SDL 下载 可以直接去官网下载源码自己编译或者下载已经编译好的版本 比如我直接用 brew install ffmpeg &ndash;with-sdl2 之后 /usr/local/Cellar 下就会有 ffmpeg 和 sdl2 了 2.开发环境 这里使用的是 MacOS + CLion 随便]]></description>
-</item><item>
-    <title>Android 焦点</title>
-    <link>http://PTrain666.github.io/posts/2020-05-18-Android-%E7%84%A6%E7%82%B9/</link>
-    <pubDate>Mon, 18 May 2020 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2020-05-18-Android-%E7%84%A6%E7%82%B9/</guid>
-    <description><![CDATA[最近在做 Android TV，和手机 APP 不同的是，TV 大都需要依赖遥控器来改变焦点而不是 Touch 事件(除非你的屏幕可以触控~~) Leanback 当时做 TV 项目搜到的资料都是它，但]]></description>
 </item></channel>
 </rss>

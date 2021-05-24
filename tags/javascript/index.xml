@@ -19,17 +19,17 @@
     <description><![CDATA[背景 没错，前端天才终于涉及了真正的前端h5页面！ 需求是优化一个两年前别人写的播放器！ 可是坑死我了··· audio 几个重要的方法 play 加载并播放音频或重新]]></description>
 </item><item>
     <title>初识 Webpack 遇到的坑</title>
-    <link>http://PTrain666.github.io/posts/2019-06-14-%E5%88%9D%E8%AF%86-Webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</link>
+    <link>http://PTrain666.github.io/posts/2019-06-14-%E5%88%9D%E8%AF%86-webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</link>
     <pubDate>Fri, 14 Jun 2019 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2019-06-14-%E5%88%9D%E8%AF%86-Webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</guid>
+    <guid>http://PTrain666.github.io/posts/2019-06-14-%E5%88%9D%E8%AF%86-webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</guid>
     <description><![CDATA[概述 最近在搞 weex 工程，然后想要把我们开发的所有 weex 相关的东西集成到一个工程里面，然后可以实现组件的复用，打 bundle 的时候又需要分开编译 简而言之，就是支]]></description>
 </item><item>
     <title>Yoga 和 Flexbox</title>
-    <link>http://PTrain666.github.io/posts/2018-02-02-Yoga-%E5%92%8C-Flexbox/</link>
+    <link>http://PTrain666.github.io/posts/2018-02-02-yoga-%E5%92%8C-flexbox/</link>
     <pubDate>Fri, 02 Feb 2018 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2018-02-02-Yoga-%E5%92%8C-Flexbox/</guid>
+    <guid>http://PTrain666.github.io/posts/2018-02-02-yoga-%E5%92%8C-flexbox/</guid>
     <description><![CDATA[<h2 id="yoga">Yoga</h2>
 <p><a href="https://facebook.github.io/yoga/" target="_blank" rel="noopener noreffer">https://facebook.github.io/yoga/</a><br>
 facebook 开源的布局框架，支持多种语言</p>
