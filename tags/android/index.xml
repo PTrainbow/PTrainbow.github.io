@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 24 May 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 30 May 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>再看 Kotlin Coroutines</title>
+    <link>http://PTrain666.github.io/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/</link>
+    <pubDate>Sun, 30 May 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/</guid>
+    <description><![CDATA[前言 https://www.youtube.com/watch?v=Mj5P47F6nJg 这个演讲太棒了，演讲人是 Roman Elizarov - Project Lead for the Kotlin Programming Language 按照他的 PPT 我自己总结了一下 Kotlin Coroutines Design Story 首先 kotlin 的协程库 = 线程池 + 任务调度，但是这个调度过程比较复]]></description>
+</item><item>
     <title>好玩的 Kotlin</title>
     <link>http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/</link>
     <pubDate>Mon, 24 May 2021 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
     <description><![CDATA[很久之前的一篇 Activity 启动流程 当时刚毕业，有很多错误和没有理解，今天重新写一篇比较完整的，源码基于 Android 9.0 1.概览 startActivity 流程，主要涉及 APP 进程和 Activi]]></description>
-</item><item>
-    <title>FFmpeg 简易播放器</title>
-    <link>http://PTrain666.github.io/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/</link>
-    <pubDate>Fri, 31 Jul 2020 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/</guid>
-    <description><![CDATA[1.FFmpeg 和 SDL 下载 可以直接去官网下载源码自己编译或者下载已经编译好的版本 比如我直接用 brew install ffmpeg &ndash;with-sdl2 之后 /usr/local/Cellar 下就会有 ffmpeg 和 sdl2 了 2.开发环境 这里使用的是 MacOS + CLion 随便]]></description>
 </item></channel>
 </rss>

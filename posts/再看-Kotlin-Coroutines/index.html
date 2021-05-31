@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>再看 Kotlin Coroutines - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="再看 Kotlin Coroutines" />
+<meta property="og:description" content="前言 https://www.youtube.com/watch?v=Mj5P47F6nJg 这个演讲太棒了，演讲人是 Roman Elizarov - Project Lead for the Kotlin Programming Language 按照他的 PPT 我自己总结了一下 Kotlin Coroutines Design Story 首先 kotlin 的协程库 = 线程池 &#43; 任务调度，但是这个调度过程比较复" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/" /><meta property="og:image" content="http://PTrain666.github.io/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/kotlin-coroutines.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-05-30T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-05-30T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/kotlin-coroutines.png"/>
+<meta name="twitter:title" content="再看 Kotlin Coroutines"/>
+<meta name="twitter:description" content="前言 https://www.youtube.com/watch?v=Mj5P47F6nJg 这个演讲太棒了，演讲人是 Roman Elizarov - Project Lead for the Kotlin Programming Language 按照他的 PPT 我自己总结了一下 Kotlin Coroutines Design Story 首先 kotlin 的协程库 = 线程池 &#43; 任务调度，但是这个调度过程比较复"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/" /><link rel="prev" href="http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "再看 Kotlin Coroutines",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines\/kotlin-coroutines.png",
+                            "width":  800 ,
+                            "height":  320 
+                        }],"genre": "posts","keywords": "Android","wordcount":  3072 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines\/","datePublished": "2021-05-30T00:00:00+00:00","dateModified": "2021-05-30T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">再看 Kotlin Coroutines</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-30">2021-05-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3072 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/kotlin-coroutines.png"
+        data-srcset="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/kotlin-coroutines.png, /posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/kotlin-coroutines.png 1.5x, /posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/kotlin-coroutines.png 2x"
+        data-sizes="auto"
+        alt="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/kotlin-coroutines.png"
+        title="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/kotlin-coroutines.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#kotlin-coroutines-design-story">Kotlin Coroutines Design Story</a>
+      <ul>
+        <li><a href="#inspired-by-asyncawait">Inspired by async/await</a></li>
+        <li><a href="#kotlin-dsl">Kotlin DSL</a></li>
+      </ul>
+    </li>
+    <li><a href="#prototyping-librariesdsl-for-kotlin">Prototyping Libraries(dsl for kotlin)</a>
+      <ul>
+        <li><a href="#scope-and-context-小插曲">Scope and Context 小插曲</a></li>
+      </ul>
+    </li>
+    <li><a href="#cancellation">Cancellation</a>
+      <ul>
+        <li><a href="#lifetime-prototype">Lifetime Prototype</a></li>
+      </ul>
+    </li>
+    <li><a href="#children-coroutines">Children Coroutines</a>
+      <ul>
+        <li><a href="#error-propagation">Error Propagation</a></li>
+        <li><a href="#scope">Scope</a></li>
+      </ul>
+    </li>
+    <li><a href="#structured-concurrency">Structured Concurrency</a></li>
+    <li><a href="#远远不止这些">远远不止这些</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="前言">前言</h2>
+<p><a href="https://www.youtube.com/watch?v=Mj5P47F6nJg" target="_blank" rel="noopener noreffer">https://www.youtube.com/watch?v=Mj5P47F6nJg</a></p>
+<p>这个演讲太棒了，演讲人是 Roman Elizarov - Project Lead for the Kotlin Programming Language</p>
+<p>按照他的 PPT 我自己总结了一下</p>
+<h2 id="kotlin-coroutines-design-story">Kotlin Coroutines Design Story</h2>
+<p>首先 kotlin 的协程库 = 线程池 + 任务调度，但是这个调度过程比较复杂，而且整个过程也并没有直接接管 JVM 或者 操作系统层面的东西，所以也没有 go routines 的神奇的抢占调度。</p>
+<p>然后只有一个关键字 suspend, <a href="https://www.youtube.com/watch?v=YrrUCSi72E8" target="_blank" rel="noopener noreffer">suspend 函数机制</a> (视频讲的如何 resume 回来，演讲人依然是 Roman Elizarov)，并且一再强调 async/await 等其他语言的关键字，在 kotlin 中只是一个基础方法，kotlin 想更通用。</p>
+<h3 id="inspired-by-asyncawait">Inspired by async/await</h3>
+<p>Roman Elizarov 说，kotlin coroutines 的设计原型受到了 C# 的 async/await 的启发</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/inspired_async_c_sharp.jpg"
+        data-srcset="/img/in-post/inspired_async_c_sharp.jpg, /img/in-post/inspired_async_c_sharp.jpg 1.5x, /img/in-post/inspired_async_c_sharp.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/inspired_async_c_sharp.jpg"
+        title="/img/in-post/inspired_async_c_sharp.jpg" /></p>
+<p>并列举了几个其他语言的例子，要么语言天然支持 async/await，要么有相应的广泛使用的 lib 库支持类似的东西</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/inspired_async_other.jpg"
+        data-srcset="/img/in-post/inspired_async_other.jpg, /img/in-post/inspired_async_other.jpg 1.5x, /img/in-post/inspired_async_other.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/inspired_async_other.jpg"
+        title="/img/in-post/inspired_async_other.jpg" /></p>
+<h3 id="kotlin-dsl">Kotlin DSL</h3>
+<p>按照前面说的 async/await 的原型，kotlin coroutines 就可以是类似这种样子(最终当然不是这样子的，为了引出来 suspend)：</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">postItem</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Item</span><span class="p">)</span> <span class="p">=</span> <span class="n">async</span> <span class="p">{</span>
+  <span class="k">val</span> <span class="py">token</span> <span class="p">=</span> <span class="n">await</span><span class="p">(</span><span class="n">requestToken</span><span class="p">())</span>
+  <span class="k">val</span> <span class="py">post</span> <span class="p">=</span> <span class="n">await</span><span class="p">(</span><span class="n">createPost</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div><p>这里他还解释了一下，async 在这里其实就是个函数，不过 kotlin 支持 <code>trailing lambda</code>，函数体移动到了外面</p>
+<blockquote>
+<p>这个 Trailing Lambda 的存在，可以搞出任意的 dsl，因为函数体可以作为参数，加上可以做为扩展函数，并且移动到了大括号后
+如果你是作者，你也可以不叫它 async(kotlin 中确实也不叫 asnyc)</p>
+</blockquote>
+<p>但是，这个 await 显然很 trick，所以在 kotlin 中提出了 suspend 关键字，代码修改成了这样：</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">suspend</span> <span class="k">fun</span> <span class="nf">postItem</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Item</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">val</span> <span class="py">token</span> <span class="p">=</span> <span class="n">requestToken</span><span class="p">()</span>
+  <span class="k">val</span> <span class="py">post</span> <span class="p">=</span> <span class="n">createPost</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>这段代码除了 suspend 没有任何多余的关键字或者让人难理解的地方，代码和普通函数没有任何区别</p>
+<p>并且说，这并不是一个大胆的设计，或者说是不符合习惯的设计</p>
+<p>因为这和 go 很相似，函数还是常规函数，通过一个 go 关键字，就开启了协程(还好以前写过 go，如此看来 go 的哲学还是很牛逼的呀)。</p>
+<h2 id="prototyping-librariesdsl-for-kotlin">Prototyping Libraries(dsl for kotlin)</h2>
+<p>这里又讲了一波 go 的设计，go 牛逼！(破音)</p>
+<p>仿照 go 的开启协程的方式，kotlin 的 dsl 成为了这样：</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">suspend</span> <span class="k">fun</span> <span class="nf">say</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">0.</span><span class="p">.</span><span class="m">4</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">delay</span><span class="p">(</span><span class="m">100</span><span class="p">)</span> <span class="c1">// 这里是因为之前举了个例子，go 的协程中可以 sleep，但是并不是真的 Java 中的 Thread.sleep
+</span><span class="c1"></span>    <span class="n">println</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">=</span> <span class="n">mainBlocking</span><span class="p">{</span>
+  <span class="n">go</span> <span class="p">{</span>
+    <span class="n">say</span><span class="p">(</span><span class="err">“</span><span class="n">hello</span><span class="s2">&#34;)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>实际上呢？上述的 go 和 mainBlocking 函数，在 kotlin 的实现中，对应了 launch 和 runBlocking 这两个函数</p>
+<p>所以，这里来看，很多东西在概念上都是同一个意义，只不过取了不同的名字而已</p>
+<p>Roman Elizarov 说，为了让基础库更好，让大家 happy programming</p>
+<p>kotlin 天然支持 <code>Thread-bound UI programming</code></p>
+<p>举例说，在 Android 经常会做一个耗时任务，然后最终要把结果用于 UI 更新，而 UI 操作只能在主线程</p>
+<p>这里就引出来了 <code>Coroutine Context</code>，context 绑定了协程任务所需要的任何信息，当然也可以通过指定 context 来指定运行时的线程</p>
+<p>看过源码的话就会发现，很多东西都继承自 context，都可以作为 context 的 element，被存起来</p>
+<p>Dispatchers 也是如此。听名字就知道适用于调度任务的，通过 launch(Dispatchers.IO) 传入的 io dispatcher 替换掉了 parent context 中默认的 dispatcher</p>
+<p>写了个例子：</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">runBlocking</span> <span class="p">{</span> <span class="c1">// 隐式存在一个 coroutineScope 对象(就理解为 context) 作为 parent context
+</span><span class="c1"></span>        <span class="n">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="n">IO</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 传入了 dispatcher 替换了 parent 中的 dispatcher 
+</span><span class="c1"></span>            <span class="n">println</span><span class="p">(</span><span class="s2">&#34;thread name = </span><span class="si">${Thread.currentThread().name}</span><span class="s2">&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">delay</span><span class="p">(</span><span class="m">1000</span><span class="p">)</span>
+        <span class="n">println</span><span class="p">(</span><span class="s2">&#34;thread name = </span><span class="si">${Thread.currentThread().name}</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;end&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>后面又说了高阶函数的情况，没咋听懂也没看懂。感觉就还是说 CoroutineContext 是可以层层传递下去的？</p>
+<p>说到这里，<code>Coroutine Scope 和 Coroutine Context 什么关系？</code></p>
+<h3 id="scope-and-context-小插曲">Scope and Context 小插曲</h3>
+<p>其实查看源码你就会发现：</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">public</span> <span class="k">interface</span> <span class="nc">CoroutineScope</span> <span class="p">{</span>
+    <span class="cm">/**
+</span><span class="cm">     * The context of this scope.
+</span><span class="cm">     * Context is encapsulated by the scope and used for implementation of coroutine builders that are extensions on the scope.
+</span><span class="cm">     * Accessing this property in general code is not recommended for any purposes except accessing the [Job] instance for advanced usages.
+</span><span class="cm">     *
+</span><span class="cm">     * By convention, should contain an instance of a [job][Job] to enforce structured concurrency.
+</span><span class="cm">     */</span>
+    <span class="k">public</span> <span class="k">val</span> <span class="py">coroutineContext</span><span class="p">:</span> <span class="n">CoroutineContext</span>
+<span class="p">}</span>
+</code></pre></div><p>CoroutineScope 就是持有了一个 CoroutineContext，那到底为啥有俩？</p>
+<p><a href="https://elizarov.medium.com/coroutine-context-and-scope-c8b255d59055" target="_blank" rel="noopener noreffer">这里是 Roman Elizarov 的文章</a></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/parent_scope.png"
+        data-srcset="/img/in-post/parent_scope.png, /img/in-post/parent_scope.png 1.5x, /img/in-post/parent_scope.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/parent_scope.png"
+        title="/img/in-post/parent_scope.png" /></p>
+<p>文章的开头就说，同样的东西在不同的用途上，通常会有不同的名字。所以说，他们可以理解为同一个东西，只是不同场景下的叫法。</p>
+<p>CoroutineScope 是为了指出协程启动的 scope</p>
+<p>CoroutineContext 提供了额外的、可以覆盖继承自 parent scope 的内容</p>
+<p>比如之前举得切换线程的例子，通过传入 Dispatcher(extends CoroutineContext) 替换了 child scope 运行时所处的线程</p>
+<p>怎么理解呢？</p>
+<p>其实，每当你传入 context 的时候(比如传入 dispatcher)，都会产生一个新的 context，代码如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">public</span> <span class="k">actual</span> <span class="k">fun</span> <span class="nf">CoroutineScope</span><span class="p">.</span><span class="n">newCoroutineContext</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">CoroutineContext</span><span class="p">):</span> <span class="n">CoroutineContext</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">combined</span> <span class="p">=</span> <span class="n">coroutineContext</span> <span class="p">+</span> <span class="n">context</span>
+    <span class="k">val</span> <span class="py">debug</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="n">DEBUG</span><span class="p">)</span> <span class="n">combined</span> <span class="p">+</span> <span class="n">CoroutineId</span><span class="p">(</span><span class="n">COROUTINE_ID</span><span class="p">.</span><span class="n">incrementAndGet</span><span class="p">())</span> <span class="k">else</span> <span class="n">combined</span>
+    <span class="k">return</span> <span class="k">if</span> <span class="p">(</span><span class="n">combined</span> <span class="o">!==</span> <span class="n">Dispatchers</span><span class="p">.</span><span class="n">Default</span> <span class="o">&amp;&amp;</span> <span class="n">combined</span><span class="p">[</span><span class="n">ContinuationInterceptor</span><span class="p">]</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span>
+        <span class="n">debug</span> <span class="p">+</span> <span class="n">Dispatchers</span><span class="p">.</span><span class="n">Default</span> <span class="k">else</span> <span class="n">debug</span>
+<span class="p">}</span>
+</code></pre></div><p><code>coroutineContext + context</code> 这个就很有意思，其实是运算符重载。context 的 plus 方法如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"> <span class="cm">/**
+</span><span class="cm">     * Returns a context containing elements from this context and elements from  other [context].
+</span><span class="cm">     * The elements from this context with the same key as in the other one are dropped.
+</span><span class="cm">     */</span>
+    <span class="k">public</span> <span class="k">operator</span> <span class="k">fun</span> <span class="nf">plus</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">CoroutineContext</span><span class="p">):</span> <span class="n">CoroutineContext</span> <span class="p">=</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">context</span> <span class="o">===</span> <span class="n">EmptyCoroutineContext</span><span class="p">)</span> <span class="k">this</span> <span class="k">else</span> <span class="c1">// fast path -- avoid lambda creation
+</span><span class="c1"></span>            <span class="n">context</span><span class="p">.</span><span class="n">fold</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span> <span class="n">acc</span><span class="p">,</span> <span class="n">element</span> <span class="o">-&gt;</span>
+                <span class="k">val</span> <span class="py">removed</span> <span class="p">=</span> <span class="n">acc</span><span class="p">.</span><span class="n">minusKey</span><span class="p">(</span><span class="n">element</span><span class="p">.</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">removed</span> <span class="o">===</span> <span class="n">EmptyCoroutineContext</span><span class="p">)</span> <span class="n">element</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="c1">// make sure interceptor is always last in the context (and thus is fast to get when present)
+</span><span class="c1"></span>                    <span class="k">val</span> <span class="py">interceptor</span> <span class="p">=</span> <span class="n">removed</span><span class="p">[</span><span class="n">ContinuationInterceptor</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">interceptor</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="n">CombinedContext</span><span class="p">(</span><span class="n">removed</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+                        <span class="k">val</span> <span class="py">left</span> <span class="p">=</span> <span class="n">removed</span><span class="p">.</span><span class="n">minusKey</span><span class="p">(</span><span class="n">ContinuationInterceptor</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">left</span> <span class="o">===</span> <span class="n">EmptyCoroutineContext</span><span class="p">)</span> <span class="n">CombinedContext</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">interceptor</span><span class="p">)</span> <span class="k">else</span>
+                            <span class="n">CombinedContext</span><span class="p">(</span><span class="n">CombinedContext</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">element</span><span class="p">),</span> <span class="n">interceptor</span><span class="p">)</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+</code></pre></div><p>注释中也说了，其实 context 像是一个大 Map，两个 context 的组合就像是两个 map 的组合，相同的 key 会被覆盖</p>
+<h2 id="cancellation">Cancellation</h2>
+<p>Roman Elizarov 又介绍了一些关于协程任务取消的设计</p>
+<p>这里又提了 go。go 可以传入 channel 作为一个 cancellation token，来退出任务，但是他说这样你要自己记得自己怎么处理的</p>
+<p>代码如下(为啥举了个菲波那切数列的例子，感觉和并发没啥关系额，不知道有何深意，没理解)：</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">quit</span> <span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+  <span class="k">for</span> <span class="p">{</span>
+    <span class="k">select</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="nx">c</span> <span class="o">&lt;-</span> <span class="nx">x</span><span class="p">:</span>
+        <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="p">=</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">x</span><span class="o">+</span><span class="nx">y</span>
+      <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">quit</span><span class="p">:</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">quit</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>同时又说了 go 也有 Context，但是只要你需要在某一级子任务使用的话，应该是需要自己一层层传递下去的(这里 gopher 有话说，听说 go 语言有一个哲学是，<code>显式优于隐式</code>)，所以它应该就是想这么设计。</p>
+<p>kotlin 中是 lib 库帮我们传入了 parent scope 的 context(如果有)，并且合并了自己的 context。</p>
+<p>然后说，go 经常处理的是一次请求，从 request 到 response，贯穿整个过程，所以引出了 Lifetime prototype。</p>
+<h3 id="lifetime-prototype">Lifetime Prototype</h3>
+<p>这里介绍了一下协程的生命周期的设计原型</p>
+<p>因为上面说的是有关取消任务，所以这里 Roman Elizarov 举了个例子</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/kotlin_coroutines_lifetime.jpg"
+        data-srcset="/img/in-post/kotlin_coroutines_lifetime.jpg, /img/in-post/kotlin_coroutines_lifetime.jpg 1.5x, /img/in-post/kotlin_coroutines_lifetime.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/kotlin_coroutines_lifetime.jpg"
+        title="/img/in-post/kotlin_coroutines_lifetime.jpg" /></p>
+<p>当然，最终这个所谓的 Lifetime，也就是后来的 kotlin coroutines 里面的 Job 这个类(extends Context)。</p>
+<p>launch 等函数都可以返回一个 Job 对象，从而对于整个任务进行管理。</p>
+<h2 id="children-coroutines">Children Coroutines</h2>
+<p>Roman Elizarov 又举了个小例子</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">job1</span> <span class="p">=</span> <span class="n">launch</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">val</span> <span class="py">job2</span> <span class="p">=</span> <span class="n">launch</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;world&#34;</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="c1">// 常规的取消任务的办法
+</span><span class="c1"></span><span class="k">val</span> <span class="py">jobs</span> <span class="p">=</span> <span class="n">CompositeJob</span><span class="p">()</span>
+<span class="n">jobs</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">job1</span><span class="p">)</span>
+<span class="n">jobs</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">job2</span><span class="p">)</span>
+<span class="n">jobs</span><span class="p">.</span><span class="n">cancel</span><span class="p">()</span>
+</code></pre></div><p>代码里，介绍了取消多个任务的一种办法，但是 Roman Elizarov 觉得这并不是一个好的设计，无故增加了很多个概念、api、代码量等等。(这个好熟悉啊，RxJava CompositiDisposable)</p>
+<p>kotlin coroutine 的 context 是可以传递下去的，context 包含了协程任务的所有东西，launch 可以返回 Job 对象，Job 也是 CoroutineContext 子类</p>
+<p>context 传递下去后，可以说是在 parent context 中启动了协程任务，这就有了关联性。</p>
+<p>所以 kotlin 有了这样的设计：</p>
+<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">job</span> <span class="p">=</span>  <span class="n">launch</span><span class="p">(</span><span class="n">UI</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">launch</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">)</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">launch</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">)</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;world&#34;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">job</span><span class="p">.</span><span class="n">cancel</span><span class="p">()</span>
+</code></pre></div><p>这里 job 的取消，就会取消 UI context 下的任务(scope 这时候还没出现，而且 scope 本身也是 context)</p>
+<h3 id="error-propagation">Error Propagation</h3>
+<p>上述这样设计很好，但是这样问题来了，怎么处理错误状况?</p>
+<p>比如之前的代码中启动的两个协程任务，那么他们都有可能会失败，而且是并发的，所以外层的协程任务只能等待</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/coroutines_error_propagation.jpg"
+        data-srcset="/img/in-post/coroutines_error_propagation.jpg, /img/in-post/coroutines_error_propagation.jpg 1.5x, /img/in-post/coroutines_error_propagation.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/coroutines_error_propagation.jpg"
+        title="/img/in-post/coroutines_error_propagation.jpg" /></p>
+<p>并且给出了一个 Job 的生命周期</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/coroutines_job.jpg"
+        data-srcset="/img/in-post/coroutines_job.jpg, /img/in-post/coroutines_job.jpg 1.5x, /img/in-post/coroutines_job.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/coroutines_job.jpg"
+        title="/img/in-post/coroutines_job.jpg" /></p>
+<h3 id="scope">Scope</h3>
+<p>前面也知道了，如果存在父子关系的两个协程任务，子任务中出现异常，父任务也会结束</p>
+<p>所以 Roman Elizarov 举了个例子</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/coroutines_scope.jpg"
+        data-srcset="/img/in-post/coroutines_scope.jpg, /img/in-post/coroutines_scope.jpg 1.5x, /img/in-post/coroutines_scope.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/coroutines_scope.jpg"
+        title="/img/in-post/coroutines_scope.jpg" /></p>
+<p>所以想要 sayHelloWorld 函数跟着一起抛异常，Scope 就出现了，通过加一个 withScope 返回了一个新的 Job，如果 scope 相同，sayHelloWorld 同样会抛出异常，父任务结束</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/coroutines_scope_2.jpg"
+        data-srcset="/img/in-post/coroutines_scope_2.jpg, /img/in-post/coroutines_scope_2.jpg 1.5x, /img/in-post/coroutines_scope_2.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/coroutines_scope_2.jpg"
+        title="/img/in-post/coroutines_scope_2.jpg" /></p>
+<p>但是这样的写法不好，verbose and error-pone 即 代码冗长且容易出错</p>
+<p>所以呢？最终形成了现在协程库的写法(其实这里也可以看出 scope 是个抽象层的概念，实体就是 context)</p>
+<p>而且 launch 只是个方法，并且是 coroutineScope 的 extension function(扩展方法)，所以没有 scope 无法调用 launch 方法，也避免了容易出错的问题</p>
+<p>同时 suspend 方法，自己会知道自己所处的 scope</p>
+<h2 id="structured-concurrency">Structured Concurrency</h2>
+<p>Roman Elizarov 说搞完了这一套东西，后来发现了<a href="https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/" target="_blank" rel="noopener noreffer">一篇文章</a> 知道了这个称之为 Structured Concurrency</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/structured_concurrency.jpg"
+        data-srcset="/img/in-post/structured_concurrency.jpg, /img/in-post/structured_concurrency.jpg 1.5x, /img/in-post/structured_concurrency.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/structured_concurrency.jpg"
+        title="/img/in-post/structured_concurrency.jpg" /></p>
+<p>同时，多种语言都有相应的实现或者基于一些 lib 库的实现</p>
+<h2 id="远远不止这些">远远不止这些</h2>
+<p>kotlin coroutines 远远不止这些，还有许许多多的细节，并且 scope 上绑了很多扩展函数，比如 async 等等</p>
+<p>而且，其实我自己也没实际工程使用过 kotlin coroutines，只是写了几个 hello world 😆</p>
+<p>也许可能会有一些理解偏差，但是并不是什么大问题。因为框架在脑海里，如果实际使用时发现结果和预想不一致，再去推敲，反而受益更多</p>
+<p>看完这个演讲，感觉自己基础不是很扎实，很多语言方面的理念有些无法理解，但是似乎又有所精进？</p>
+<p>对于 kotlin coroutines 以后有机会的话多多使用，才更有体会</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-05-30</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/" class="prev" rel="prev" title="好玩的 Kotlin"><i class="fas fa-angle-left fa-fw"></i>好玩的 Kotlin</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-05-30T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"再看 Kotlin Coroutines"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
