@@ -6,16 +6,16 @@
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>好玩的 Kotlin - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="好玩的 Kotlin" />
-<meta property="og:description" content="前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C&#43;&#43; 被我暂时搁置了 最近本来是打算捡起来 C&#43;&#43; 的(也 Hello" />
+<meta property="og:description" content="​ 前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C&#43;&#43; 被我暂时搁置了 最近本来是打算捡起来 C&#43;&#43; 的(也" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/" /><meta property="og:image" content="http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-05-24T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-05-24T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2021-05-12T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-05-12T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg"/>
 <meta name="twitter:title" content="好玩的 Kotlin"/>
-<meta name="twitter:description" content="前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C&#43;&#43; 被我暂时搁置了 最近本来是打算捡起来 C&#43;&#43; 的(也 Hello"/>
+<meta name="twitter:description" content="​ 前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C&#43;&#43; 被我暂时搁置了 最近本来是打算捡起来 C&#43;&#43; 的(也"/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/" /><link rel="prev" href="http://PTrain666.github.io/posts/%E6%96%AD%E6%9B%B4%E4%BA%86/" /><link rel="next" href="http://PTrain666.github.io/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
@@ -31,8 +31,8 @@
                             "url": "http:\/\/PTrain666.github.io\/posts\/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin\/gujian.jpg",
                             "width":  1600 ,
                             "height":  1018 
-                        }],"genre": "posts","keywords": "Android","wordcount":  2526 ,
-        "url": "http:\/\/PTrain666.github.io\/posts\/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin\/","datePublished": "2021-05-24T00:00:00+00:00","dateModified": "2021-05-24T00:00:00+00:00","publisher": {
+                        }],"genre": "posts","keywords": "Android","wordcount":  2547 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin\/","datePublished": "2021-05-12T00:00:00+00:00","dateModified": "2021-05-12T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
                 "@type": "Person",
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">好玩的 Kotlin</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-24">2021-05-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2526 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-12">2021-05-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2547 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -134,37 +134,35 @@
         <li><a href="#结果是-compose-没看透">结果是 Compose 没看透</a></li>
       </ul>
     </li>
-    <li><a href="#kotlin-functions-are-first-class">Kotlin Functions Are First-Class</a>
-      <ul>
-        <li><a href="#passing-trailing-lambdas">Passing Trailing Lambdas</a></li>
-        <li><a href="#type-safe-builders">Type-safe Builders</a></li>
-      </ul>
-    </li>
+    <li><a href="#kotlin-functions-are-first-class">Kotlin Functions Are First-Class</a></li>
+    <li><a href="#passing-trailing-lambdas">Passing Trailing Lambdas</a></li>
+    <li><a href="#type-safe-builders">Type-safe Builders</a></li>
     <li><a href="#更多的思考">更多的思考</a></li>
     <li><a href="#总结">总结</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h2 id="前言">前言</h2>
-<p>又好久好久没更新了，主要是最近研究的东西对我来说都比较难，<code>内功不够</code> 的情况下，写不出东西来。</p>
+            </div><div class="content" id="content"><p>​</p>
+<h2 id="前言">前言</h2>
+<p>又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。</p>
 <h3 id="cc-被我暂时搁置了">C/C++ 被我暂时搁置了</h3>
-<p>最近本来是打算捡起来 C++ 的(也 Hello World 了一下 <code>Rust</code>，这个语言感觉对于以前写 Java 的人来说， <code>看起来理解起来都好别扭啊···</code>)。</p>
+<p>最近本来是打算捡起来 C++ 的(也 Hello World 了一下 Rust，这个语言感觉对于以前写 Java 的人来说， 看起来理解起来都好别扭啊···)。</p>
 <p>看了两天，感觉很枯燥，也没有什么练手项目，盲目的学没有什么意义。而且 C++ 的代码风格，人和人又不同，关键字又很多，最终没能沉下心来看完，暂且搁置了。</p>
 <h3 id="看了-jetpack-compose">看了 Jetpack Compose</h3>
 <p>同时，研究了一个星期的 Jetpack Compose，我觉得这个是挺爽的，客户端终于前进到了声明式 UI 了！</p>
 <p>终于不用写 xml，然后再 findViewById，再 setLayoutParams/setVisibility 了，虽然前端把这些都已经玩烂掉了···</p>
 <h3 id="感觉客户端好像全是劣势">感觉客户端好像全是劣势</h3>
 <p>突然感觉客户端淡淡的忧桑：</p>
-<ol>
-<li>开发效率低，代码要发版</li>
-<li>crash 了就只能抱头痛哭，或者发 patch</li>
-<li>不断被前端侵蚀，无论是 Hybrid 还是直接跨端。这也是因为上面两点的效率问题吧，H5 都可以完美搞定。唯一能吐槽 H5 的就是说体验不好。但是，其实你看微信小程序，体验很差么？不觉得。</li>
-</ol>
+<ul>
+<li>1.开发效率低，代码要发版</li>
+<li>2.crash 了就只能抱头痛哭，或者发 patch</li>
+<li>3.不断被前端侵蚀，无论是 Hybrid 还是直接跨端。这也是因为上面两点的效率问题吧，H5 都可以完美搞定。唯一能吐槽 H5 的就是说体验不好。但是，其实你看微信小程序，体验很差么？不觉得。</li>
+</ul>
 <p>快要没饭碗了😭，所以是不是研究一波前端呢？是不是又学的太杂了，一顿乱看，我需要一门绝活···</p>
 <h3 id="结果是-compose-没看透">结果是 Compose 没看透</h3>
 <p>本来想写 Compose 的渲染过程的，但是发现自己理解不够深刻(怕写错)，而且视角不够宏观，没有彻底搞懂这个东西的设计，只是靠 debug 断点在猜测整个渲染流程，所以没敢下笔···</p>
-<p>主要精髓：就是将 View 的参数和描述(改变的方式) <code>转换成了一个函数</code>，然后通过观察数据变化，<code>重新执行这个函数</code>。</p>
-<p>当然，这其中肯定有很多复杂的逻辑，而且许多代码是 <code>编译时生成的</code>，具体的源码一时半会了解不全。</p>
-<p>同时，渲染过程也重写了(也没完全重写，用了一个空壳的 View，硬件加速的情况下，基于 RenderNode 来搞)，也包括事件分发的代码修改等等···</p>
+<p>主要精髓：就是将 View 的参数和描述(改变的方式) 转换成了一个函数，然后通过观察数据变化，重新执行这个函数。</p>
+<p>当然，这其中肯定有很多复杂的逻辑，而且许多代码是 编译时生成的，具体的源码一时半会了解不全。
+同时，渲染过程也重写了(也没完全重写，用了一个空壳的 View，硬件加速的情况下，基于 RenderNode 来搞)，也包括事件分发的代码修改等等···</p>
 <p>总之，内功不够，理解不透，暂时还没发纵览全局，也就下不了笔。</p>
 <p>而且 Kotlin 不太熟，也给我看源码构成了一些小障碍！</p>
 <p>那现在新的 Android 的东西都是基于 Kotlin 来写的，与其研究 C/C++、Vue/React，不如先好好学学 Kotlin，而且我的 Kotlin 功底挺差的。</p>
@@ -173,15 +171,15 @@
 <p>比如，我看到了如下的代码：</p>
 <div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">private</span> <span class="k">fun</span> <span class="nf">GrowthTestLayout</span><span class="p">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">apply</span> <span class="p">{</span>
       <span class="n">space</span><span class="p">()</span>
-
+<span class="err">​</span>
       <span class="n">title</span><span class="p">(</span><span class="s2">&#34;应用信息&#34;</span><span class="p">)</span> <span class="p">{</span>
           <span class="n">inflateAppInfo</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
       <span class="p">}</span>
-
+<span class="err">​</span>
       <span class="n">title</span><span class="p">(</span><span class="s2">&#34;手机信息&#34;</span><span class="p">)</span> <span class="p">{</span>
           <span class="n">inflateMobileInfo</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
       <span class="p">}</span>
-
+<span class="err">​</span>
       <span class="n">title</span><span class="p">(</span><span class="s2">&#34;设备重置&#34;</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">action</span><span class="p">(</span><span class="s2">&#34;设置新机（真机体验） &gt;&gt;&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">context</span><span class="p">.</span><span class="n">startTestNewDeviceActivity</span><span class="p">()</span> <span class="p">}</span>
         <span class="n">action</span><span class="p">(</span><span class="s2">&#34;清除应用数据&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">TestNewDeviceUtils</span><span class="p">.</span><span class="n">showClearDataDialog</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">}</span>
@@ -191,16 +189,15 @@
 </code></pre></div><p>这个就很有意思了，写起来清晰多了，这里是一个 RecyclerView，一个 function 对应一个 item，并且会 inflate 对应的布局文件。当然，同事也为了更通用，声明了 action 等许多函数，这里的 action 就是最终当 onClick 函数传了过去。</p>
 <p>能轻松的做这些，也是因为在 Kotlin 中函数可以作为一等公民了，引用 Kotlin 官方文档的描述(也有中文的，但是感觉翻译的有点诡异)：</p>
 <blockquote>
-<p>Kotlin functions are <code>first-class</code>, which means that they can be stored in variables and data structures, passed as arguments to and returned from other higher-order functions. You can operate with functions in any way that is possible for other non-function values.
-To facilitate this, Kotlin, as a statically typed programming language, uses a family of function types to represent functions and provides a set of specialized language constructs, such as <code>lambda expressions</code>.</p>
+<p>Kotlin functions are first-class, which means that they can be stored in variables and data structures, passed as arguments to and returned from other higher-order functions. You can operate with functions in any way that is possible for other non-function values. To facilitate this, Kotlin, as a statically typed programming language, uses a family of function types to represent functions and provides a set of specialized language constructs, such as lambda expressions.</p>
 </blockquote>
-<h3 id="passing-trailing-lambdas">Passing Trailing Lambdas</h3>
-<p>这个翻译的叫做 传递末尾的 lambda 表达式，很多地方使用到。</p>
-<p>就是如果一个函数的最后一个参数类型是个 <code>函数</code>，那么这个函数可以放到圆括号之外。</p>
-<p>eg:</p>
+<h2 id="passing-trailing-lambdas">Passing Trailing Lambdas</h2>
+<p>这个翻译的叫做 传递末尾的 lambda 表达式，很多地方使用到。
+就是如果一个函数的最后一个参数类型是个 函数，那么这个函数可以放到圆括号之外。
+eg:</p>
 <div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 函数声明
 </span><span class="c1"></span><span class="k">fun</span> <span class="nf">test</span><span class="p">(</span><span class="n">param1</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">param2</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
-
+<span class="err">​</span>
 <span class="p">}</span>
 <span class="c1">// 函数使用
 </span><span class="c1"></span><span class="n">test</span><span class="p">(</span><span class="s2">&#34;param1&#34;</span><span class="p">)</span> <span class="p">{</span>
@@ -209,29 +206,29 @@ To facilitate this, Kotlin, as a statically typed programming language, uses a f
 </code></pre></div><p>如果有且仅有一个参数且是函数类型，圆括号都可以省略。</p>
 <div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 函数声明
 </span><span class="c1"></span><span class="k">fun</span> <span class="nf">test</span><span class="p">(</span><span class="k">param</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
-
+<span class="err">​</span>
 <span class="p">}</span>
 <span class="c1">// 函数使用
 </span><span class="c1"></span><span class="n">test</span><span class="p">{</span>
   <span class="c1">// 函数体
 </span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><p>同时，记住 <code>it：单个参数的隐式名称</code></p>
-<h3 id="type-safe-builders">Type-safe Builders</h3>
-<p>看了半天 Kotlin 文档，发现了 Type-safe Builders 这个章节，发现举例代码很像同事写的代码，原理其实依然是依靠之前说的 <code>functions are first-class</code> 这一点。</p>
-<p>同时 Kotlin 也支持 Extension Functions，就是可以给一个类增加一个额外方法。</p>
-<p>这个我依稀的记得 OC 一直都有这个功能？对于 C 系语言，怎么实现的这个呢？反正在 Kotlin 中这只是个 <code>语法糖</code> 而已。</p>
+</code></pre></div><p>同时，记住 it：单个参数的隐式名称</p>
+<h2 id="type-safe-builders">Type-safe Builders</h2>
+<p>看了半天 Kotlin 文档，发现了 Type-safe Builders 这个章节，发现举例代码很像同事写的代码，原理其实依然是依靠之前说的 functions are first-class 这一点。</p>
+<p>同时 Kotlin 也支持 Extension Functions，就是可以给一个类增加一个额外方法。
+这个我依稀的记得 OC 一直都有这个功能？对于 C 系语言，怎么实现的这个呢？反正在 Kotlin 中这只是个 语法糖 而已。</p>
 <p>Type-safe Builders 章节举例了一些 DSL，比如 HTML 和 Anko 这两个库。</p>
 <p>Anko 也是一开始用于摆脱 XML 的，但是现在发展成啥样了不是很清楚。</p>
-<p>我也练了练手，自己写了个 <code>极其简陋且丑陋</code> 的 DSL，应该是类似 Anko 的，我并没有看它的源码哈：</p>
+<p>我也练了练手，自己写了个 极其简陋且丑陋 的 DSL，应该是类似 Anko 的，我并没有看它的源码哈：</p>
 <div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">row</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span>
-
+<span class="err">​</span>
   <span class="n">layout</span> <span class="p">{</span>
     <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span>
       <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">MATCH_PARENT</span><span class="p">,</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span>
         <span class="p">.</span><span class="n">WRAP_CONTENT</span>
     <span class="p">)</span>
   <span class="p">}</span>
-
+<span class="err">​</span>
   <span class="n">text</span> <span class="p">{</span>
     <span class="n">text</span> <span class="p">=</span> <span class="s2">&#34;hello world 1&#34;</span>
     <span class="n">textSize</span> <span class="p">=</span> <span class="m">16f</span>
@@ -245,28 +242,31 @@ To facilitate this, Kotlin, as a statically typed programming language, uses a f
     <span class="n">orientation</span> <span class="p">=</span> <span class="n">HORIZONTAL</span>
   <span class="p">}</span>
 <span class="p">}</span>
-
+<span class="err">​</span>
 <span class="c1">// 其实就是个 LinearLayout
 </span><span class="c1"></span><span class="k">open</span> <span class="k">class</span> <span class="nc">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">LinearLayout</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">fun</span> <span class="nf">layout</span><span class="p">(</span><span class="n">function</span> <span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">layoutParams</span> <span class="p">=</span> <span class="n">function</span><span class="p">()</span>
   <span class="p">}</span>
 <span class="p">}</span>
-
+<span class="err">​</span>
 <span class="c1">// row 函数
 </span><span class="c1"></span><span class="k">fun</span> <span class="nf">row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">Row</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">):</span><span class="n">Row</span> <span class="p">{</span>
   <span class="k">val</span> <span class="py">row</span> <span class="p">=</span> <span class="n">Row</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
   <span class="n">row</span><span class="p">.</span><span class="n">body</span><span class="p">()</span>
   <span class="k">return</span> <span class="n">row</span>
 <span class="p">}</span>
-</code></pre></div><p>这里第一个参数是 Context，其实 Row extends LinearLayout 所以需要一个 Context 作为参数</p>
-<p>最后一个参数是个 Row 的 Extension Function，同时根据前面说的 Trailing Lambda，函数体可以被放到外面(且 this 是 Row)：</p>
+</code></pre></div><p>这里第一个参数是 Context，其实 Row extends LinearLayout 所以需要一个 Context 作为参数
+最后一个参数是个 Row 的 Extension Function，同时根据前面说的 Trailing Lambda，函数体可以被放到外面(且 this 是 Row)：</p>
 <div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">row</span><span class="p">(</span><span class="n">params1</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// 函数体
 </span><span class="c1"></span>  <span class="c1">// this = Row
 </span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><p>又因为 this 是 Row，又可以给 Row 增加几个方法，比如加一个 text 方法(这里不知道 params 怎么传过去比较好，自己写了一个很挫的办法：还是传 function)：</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 加一个通用的 text 方法
+<span class="err">``</span><span class="nd">`kotlin</span>
+<span class="err">又因为</span> <span class="k">this</span> <span class="err">是</span> <span class="n">Row</span><span class="err">，又可以给</span> <span class="n">Row</span> <span class="err">增加几个方法，比如加一个</span> <span class="n">text</span> <span class="err">方法</span><span class="p">(</span><span class="err">这里不知道</span> <span class="n">params</span> <span class="err">怎么传过去比较好，自己写了一个很挫的办法：还是传</span> <span class="n">function</span><span class="p">)</span><span class="err">：</span>
+
+<span class="err">``</span><span class="nd">`kotlin</span>
+<span class="c1">// 加一个通用的 text 方法
 </span><span class="c1"></span><span class="k">open</span> <span class="k">class</span> <span class="nc">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">LinearLayout</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// 增加一个 text 方法
 </span><span class="c1"></span>  <span class="k">fun</span> <span class="nf">text</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Text</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">):</span> <span class="n">Text</span> <span class="p">{</span>
@@ -276,7 +276,7 @@ To facilitate this, Kotlin, as a statically typed programming language, uses a f
     <span class="k">return</span> <span class="n">textView</span>
   <span class="p">}</span>
 <span class="p">}</span>
-
+<span class="err">​</span>
 <span class="c1">// Row extends ViewGroupDSL extends LinearLayout
 </span><span class="c1">// orientation HORIZONTAL
 </span><span class="c1"></span><span class="k">class</span> <span class="nc">Row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
@@ -284,7 +284,7 @@ To facilitate this, Kotlin, as a statically typed programming language, uses a f
     <span class="n">orientation</span> <span class="p">=</span> <span class="n">HORIZONTAL</span>
   <span class="p">}</span>
 <span class="p">}</span>
-
+<span class="err">​</span>
 <span class="k">class</span> <span class="nc">Text</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">AppCompatTextView</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// 加一个 click 方法
 </span><span class="c1"></span>  <span class="k">fun</span> <span class="nf">click</span><span class="p">(</span><span class="n">onclick</span> <span class="p">:</span> <span class="p">(</span><span class="n">View</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
@@ -296,20 +296,20 @@ To facilitate this, Kotlin, as a statically typed programming language, uses a f
     <span class="n">layoutParams</span> <span class="p">=</span> <span class="n">function</span><span class="p">()</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div><p>于是我就可以这样调用</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">row</span><span class="p">(</span><span class="n">params1</span><span class="p">,</span> <span class="n">params2</span><span class="p">)</span> <span class="p">{</span>
+<span class="err">于是我就可以这样调用</span>
+<span class="n">row</span><span class="p">(</span><span class="n">params1</span><span class="p">,</span> <span class="n">params2</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// row 本身的参数，感觉这么传参数很挫
 </span><span class="c1"></span>  <span class="n">layout</span> <span class="p">{</span>
     <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span><span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">MATCH_PARENT</span><span class="p">,</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span><span class="p">)</span>
   <span class="p">}</span>
-
+<span class="err">​</span>
   <span class="c1">// text 方法
 </span><span class="c1"></span>  <span class="n">text</span> <span class="p">{</span>
     <span class="c1">// this 就是 TextView
 </span><span class="c1"></span>    <span class="n">text</span> <span class="p">=</span> <span class="s2">&#34;hello world 1&#34;</span>
     <span class="n">textSize</span> <span class="p">=</span> <span class="m">20f</span>
     <span class="n">gravity</span> <span class="p">=</span> <span class="n">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
-
+<span class="err">​</span>
     <span class="c1">// text 的 layout params，感觉很挫
 </span><span class="c1"></span>    <span class="n">layout</span> <span class="p">{</span>
       <span class="k">val</span> <span class="py">layoutParams</span> <span class="p">=</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span>
@@ -319,7 +319,7 @@ To facilitate this, Kotlin, as a statically typed programming language, uses a f
       <span class="n">layoutParams</span><span class="p">.</span><span class="n">gravity</span> <span class="p">=</span> <span class="n">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
       <span class="n">layoutParams</span>
     <span class="p">}</span>
-
+<span class="err">​</span>
     <span class="c1">// text 的 click 方法
 </span><span class="c1"></span>    <span class="n">click</span> <span class="p">{</span>
       <span class="n">Toast</span><span class="p">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&#34;hello world&#34;</span><span class="p">,</span> <span class="n">Toast</span><span class="p">.</span><span class="n">LENGTH_SHORT</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
@@ -333,13 +333,13 @@ To facilitate this, Kotlin, as a statically typed programming language, uses a f
 <p>既然可以实现这种布局的 DSL，那么也可以完全抛开 Android 的 ViewGroup，使用基础的 YogaLayout，然后围绕 Yoga 搞一套 DSL，像写前端 Flexbox 布局一样来写 Android 布局代码岂不是更有意思？</p>
 <p>而且因为 Yoga 的计算方式，布局层级基本只有一层，简直完美，也不用处理 Android 各种父布局参数，统一使用 Flexbox 参数。</p>
 <h2 id="总结">总结</h2>
-<p>主要是上手练了一下 Kotlin Function 相关的东西。</p>
-<p>了解了 Trailing Lambda 和 函数作为构建器 的思想。</p>
+<p>主要是上手练了一下 Kotlin Function 相关的东西。
+了解了 Trailing Lambda 和 函数作为构建器 的思想。</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 2021-05-24</span>
+                <span>更新于 2021-05-12</span>
             </div>
             <div class="post-info-license"></div>
         </div>
@@ -375,5 +375,5 @@ To facilitate this, Kotlin, as a statically typed programming language, uses a f
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-05-24T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"好玩的 Kotlin"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-05-12T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"好玩的 Kotlin"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

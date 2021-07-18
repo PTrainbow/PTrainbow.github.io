@@ -3,7 +3,14 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 30 May 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 18 Jul 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>六七月份</title>
+    <link>http://PTrain666.github.io/posts/%E5%85%AD%E4%B8%83%E6%9C%88%E4%BB%BD/</link>
+    <pubDate>Sun, 18 Jul 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E5%85%AD%E4%B8%83%E6%9C%88%E4%BB%BD/</guid>
+    <description><![CDATA[前言 距离上一次的 Coroutines 的文章已经过去了一个半月了(这个文章还有点小尴尬，其实我也只是写了几个小 demo，验证了一些自己的观点罢了，其实也没有实际]]></description>
+</item><item>
     <title>再看 Kotlin Coroutines</title>
     <link>http://PTrain666.github.io/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/</link>
     <pubDate>Sun, 30 May 2021 00:00:00 &#43;0000</pubDate>
@@ -13,10 +20,10 @@
 </item><item>
     <title>好玩的 Kotlin</title>
     <link>http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/</link>
-    <pubDate>Mon, 24 May 2021 00:00:00 &#43;0000</pubDate>
+    <pubDate>Wed, 12 May 2021 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/</guid>
-    <description><![CDATA[前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C++ 被我暂时搁置了 最近本来是打算捡起来 C++ 的(也 Hello]]></description>
+    <description><![CDATA[​ 前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C++ 被我暂时搁置了 最近本来是打算捡起来 C++ 的(也]]></description>
 </item><item>
     <title>断更了</title>
     <link>http://PTrain666.github.io/posts/%E6%96%AD%E6%9B%B4%E4%BA%86/</link>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/</guid>
     <description><![CDATA[前言 前几天看到同事在讨论 动态代理 和 类加载器 的一些问题，其实这些技术无论是客户端还是后端都已经用烂掉了。 动态代理 cglib 和 jdk.Proxy 基本是 Java 后端面试的 &ld]]></description>
-</item><item>
-    <title>DataBinding 解读</title>
-    <link>http://PTrain666.github.io/posts/DataBinding-%E8%A7%A3%E8%AF%BB/</link>
-    <pubDate>Thu, 11 Feb 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/DataBinding-%E8%A7%A3%E8%AF%BB/</guid>
-    <description><![CDATA[前言 Android 的应用层架构，其实一直在缓慢的进步，但是 Android 开发工程师却很少有进步。比如我，直到 2021 年才开始使用 dataBinding。 我初步在 RecyclerView 的 item 中试]]></description>
 </item></channel>
 </rss>
