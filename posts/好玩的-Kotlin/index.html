@@ -9,8 +9,8 @@
 <meta property="og:description" content="​ 前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C&#43;&#43; 被我暂时搁置了 最近本来是打算捡起来 C&#43;&#43; 的(也" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/" /><meta property="og:image" content="http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-05-12T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-05-12T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2021-05-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-05-12T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg"/>
@@ -169,7 +169,7 @@
 <p>好在有一个 Kotlin 大神同事在，偷偷看他写的代码，非常的 Kotlin Style，默默的学了学。</p>
 <h2 id="kotlin-functions-are-first-class">Kotlin Functions Are First-Class</h2>
 <p>比如，我看到了如下的代码：</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">private</span> <span class="k">fun</span> <span class="nf">GrowthTestLayout</span><span class="p">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">apply</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">private</span> <span class="k">fun</span> <span class="nf">GrowthTestLayout</span><span class="p">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">apply</span> <span class="p">{</span>
       <span class="n">space</span><span class="p">()</span>
 <span class="err">​</span>
       <span class="n">title</span><span class="p">(</span><span class="s2">&#34;应用信息&#34;</span><span class="p">)</span> <span class="p">{</span>
@@ -195,7 +195,7 @@
 <p>这个翻译的叫做 传递末尾的 lambda 表达式，很多地方使用到。
 就是如果一个函数的最后一个参数类型是个 函数，那么这个函数可以放到圆括号之外。
 eg:</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 函数声明
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 函数声明
 </span><span class="c1"></span><span class="k">fun</span> <span class="nf">test</span><span class="p">(</span><span class="n">param1</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">param2</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
 <span class="err">​</span>
 <span class="p">}</span>
@@ -204,7 +204,7 @@ eg:</p>
   <span class="c1">// 函数体
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></div><p>如果有且仅有一个参数且是函数类型，圆括号都可以省略。</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 函数声明
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 函数声明
 </span><span class="c1"></span><span class="k">fun</span> <span class="nf">test</span><span class="p">(</span><span class="k">param</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
 <span class="err">​</span>
 <span class="p">}</span>
@@ -220,7 +220,7 @@ eg:</p>
 <p>Type-safe Builders 章节举例了一些 DSL，比如 HTML 和 Anko 这两个库。</p>
 <p>Anko 也是一开始用于摆脱 XML 的，但是现在发展成啥样了不是很清楚。</p>
 <p>我也练了练手，自己写了个 极其简陋且丑陋 的 DSL，应该是类似 Anko 的，我并没有看它的源码哈：</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">row</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">row</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span>
 <span class="err">​</span>
   <span class="n">layout</span> <span class="p">{</span>
     <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span>
@@ -237,7 +237,7 @@ eg:</p>
 <span class="p">}</span>
 </code></pre></div><p>不知道最顶层的 context 怎么处理，所以我干脆传了个 this(Activity) 进去。</p>
 <p>最好玩的地方在于 row 这个函数是怎么定义的</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">init</span> <span class="p">{</span>
     <span class="n">orientation</span> <span class="p">=</span> <span class="n">HORIZONTAL</span>
   <span class="p">}</span>
@@ -258,7 +258,7 @@ eg:</p>
 <span class="p">}</span>
 </code></pre></div><p>这里第一个参数是 Context，其实 Row extends LinearLayout 所以需要一个 Context 作为参数
 最后一个参数是个 Row 的 Extension Function，同时根据前面说的 Trailing Lambda，函数体可以被放到外面(且 this 是 Row)：</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">row</span><span class="p">(</span><span class="n">params1</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">row</span><span class="p">(</span><span class="n">params1</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// 函数体
 </span><span class="c1"></span>  <span class="c1">// this = Row
 </span><span class="c1"></span><span class="p">}</span>
@@ -365,7 +365,7 @@ eg:</p>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

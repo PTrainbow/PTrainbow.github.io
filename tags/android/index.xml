@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 30 May 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 15 Oct 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>一次 CPU 问题的排查</title>
+    <link>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/</link>
+    <pubDate>Fri, 15 Oct 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/</guid>
+    <description><![CDATA[前言 最近来了个新环境，做了第一个需求——直播答题。 这边的风格大致就是：先在能使用的库的基础上快速完成需求，整个开发时间大概在2-3周，客户端]]></description>
+</item><item>
     <title>再看 Kotlin Coroutines</title>
     <link>http://PTrain666.github.io/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/</link>
     <pubDate>Sun, 30 May 2021 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/DataBinding-%E8%A7%A3%E8%AF%BB/</guid>
     <description><![CDATA[前言 Android 的应用层架构，其实一直在缓慢的进步，但是 Android 开发工程师却很少有进步。比如我，直到 2021 年才开始使用 dataBinding。 我初步在 RecyclerView 的 item 中试]]></description>
-</item><item>
-    <title>再来看 Activity 启动流程</title>
-    <link>http://PTrain666.github.io/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link>
-    <pubDate>Mon, 07 Dec 2020 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
-    <description><![CDATA[很久之前的一篇 Activity 启动流程 当时刚毕业，有很多错误和没有理解，今天重新写一篇比较完整的，源码基于 Android 9.0 1.概览 startActivity 流程，主要涉及 APP 进程和 Activi]]></description>
 </item></channel>
 </rss>

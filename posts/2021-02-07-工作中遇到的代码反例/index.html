@@ -9,8 +9,8 @@
 <meta property="og:description" content="前言 最近一直都是 copy 工程师和 scapegoat 工程师 不过也发现了一些些问题，也用来警示自己以后写代码 尽量 考虑全面(人无完人···) 反例1-下次进入 App，回到" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://PTrain666.github.io/posts/2021-02-07-%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8F%8D%E4%BE%8B/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-02-07T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-02-07T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2021-02-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-02-07T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
@@ -146,7 +146,7 @@
         title="/img/in-post/tab-example.jpg" /></p>
 <p>类似知乎App的场景，顶部有一排 tab，每次记录选中的是哪一个 tab，下次进入时展示上次退出时的 tab。</p>
 <p>原本的代码中是这样实现的(伪代码)</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 监听 ViewPager 回调
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 监听 ViewPager 回调
 </span><span class="c1"></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageSelected</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// 1.拿当前 fragment
 </span><span class="c1"></span>    <span class="n">fragment</span> <span class="o">=</span> <span class="n">getCurFragment</span><span class="o">();</span>
@@ -163,7 +163,7 @@
    <span class="c1">// ···各个 tab
 </span><span class="c1"></span><span class="o">}</span>
 </code></pre></div><p>到这里也还好，但是当初始化的时候逻辑就很奇怪了</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
 <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onViewCreated</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// 1.获取之前保存在本地的 channel
 </span><span class="c1"></span>    <span class="n">channel</span> <span class="o">=</span> <span class="n">getChannel</span><span class="o">();</span>
@@ -196,7 +196,7 @@
 <p>还是拿知乎 app 来举例，假设顶部 tab 中有两个 tab 的文字颜色跟其他 tab 不一致，并且滑动的时候还想渐变到对应的颜色，怎么做呢？</p>
 <p>这也恰巧就是我的需求，我要新增一个 tab，tab 文字颜色和其余 tab 不一致。</p>
 <p>当我辛辛苦苦找到处理 tab 文字颜色的代码时，我是崩溃的</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 以下为伪代码
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 以下为伪代码
 </span><span class="c1"></span><span class="n">colors</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]</span> <span class="o">{</span>
     <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color1</span><span class="o">),</span>
     <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color2</span><span class="o">),</span>
@@ -237,7 +237,7 @@ tab 的字体颜色，应该是构造函数的参数更好一些，如果参数�
 <p>tab 构造函数传入一个 int[] 数组来表示各种颜色。<br>
 一个 tab 目前可以多有3个颜色。为啥？首先是选中状态的颜色，其次是未选中状态时，Fragment 的背景可能是黑色可能是白色，对应有两种未选中状态的颜色。取颜色时，通过 tab.getTabTextColor 取到数组，通过定义常量，比如 SELECTED_COLOR = 0，来表示 color 数组的第一个元素是选中态的颜色。</p>
 <p>于是代码变化为：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"> <span class="c1">// 原始写法：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"> <span class="c1">// 原始写法：
 </span><span class="c1"></span> <span class="kt">int</span> <span class="n">colors</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="n">color0</span><span class="o">,</span> <span class="n">color1</span><span class="o">}</span>
  <span class="n">setTextColor</span><span class="o">(</span><span class="n">colors</span><span class="o">[</span><span class="n">0</span><span class="o">],</span> <span class="n">colors</span><span class="o">[</span><span class="n">1</span><span class="o">],</span> <span class="n">progress</span><span class="o">)</span>
 
@@ -293,7 +293,7 @@ tab 的字体颜色，应该是构造函数的参数更好一些，如果参数�
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

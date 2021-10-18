@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>一次 CPU 问题的排查 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="一次 CPU 问题的排查" />
+<meta property="og:description" content="前言 最近来了个新环境，做了第一个需求——直播答题。 这边的风格大致就是：先在能使用的库的基础上快速完成需求，整个开发时间大概在2-3周，客户端" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/" /><meta property="og:image" content="http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/android-profiler.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-15T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-10-15T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/android-profiler.png"/>
+<meta name="twitter:title" content="一次 CPU 问题的排查"/>
+<meta name="twitter:description" content="前言 最近来了个新环境，做了第一个需求——直播答题。 这边的风格大致就是：先在能使用的库的基础上快速完成需求，整个开发时间大概在2-3周，客户端"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/" /><link rel="prev" href="http://PTrain666.github.io/posts/%E5%85%AD%E4%B8%83%E6%9C%88%E4%BB%BD/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "一次 CPU 问题的排查",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5\/android-profiler.png",
+                            "width":  638 ,
+                            "height":  360 
+                        }],"genre": "posts","keywords": "Android","wordcount":  1565 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5\/","datePublished": "2021-10-15T00:00:00+00:00","dateModified": "2021-10-15T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">一次 CPU 问题的排查</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-10-15">2021-10-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1565 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/android-profiler.png"
+        data-srcset="/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/android-profiler.png, /posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/android-profiler.png 1.5x, /posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/android-profiler.png 2x"
+        data-sizes="auto"
+        alt="/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/android-profiler.png"
+        title="/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/android-profiler.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#cpu-过高怎么查">CPU 过高怎么查</a></li>
+    <li><a href="#profiler-分析-cpu">Profiler 分析 CPU</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="前言">前言</h2>
+<p>最近来了个新环境，做了第一个需求——<strong><code>直播答题</code></strong>。</p>
+<p>这边的风格大致就是：先在能使用的库的基础上快速完成需求，整个开发时间大概在2-3周，<code>客户端总共俩人</code>，我主要负责直播间内的业务逻辑。</p>
+<p>直播间还是很简易的，没有礼物啊什么的，只有个弹幕聊天。</p>
+<p>但是因为后端并<code>没有长链接</code>，所以弹幕、直播人数需要<code>轮训</code>来获取，感觉不太妙。</p>
+<p>总之，最后算是<code>很挫</code>的完成了任务吧！</p>
+<p>收获是，了解了一些音视频和直播答题的方案(好的方案需要音视频配合，但是需要他们排期，最后用了一个比较挫，但是能用的方案)，还有就是终于用上了 databinding，但是感觉用的很烂，kotlin 依然还是没在真实开发使用，主要这次有点赶，没敢用，下次一定。</p>
+<p>但是，<code>最终性能测试没有通过</code>。因为有的设备性能很差，加上系统本身有一些基础服务占用 cpu，性能测试要求 app process cpu &lt; 60%, total cpu &lt; 80%</p>
+<p>直播答题的 app 因为有音视频编解码，在最低端的设备上最终 app process cpu 40%, total cpu 80.25%(<code>超标</code>)</p>
+<p>那咋办呢？</p>
+<h2 id="cpu-过高怎么查">CPU 过高怎么查</h2>
+<p>作为一个合格的工程师，当然是打开了 Google -&gt; <code>Android CPU 过高怎么办</code></p>
+<p>基本就是说用 profiler 或者 adb 命令看一下，但是并没有具体的分析。</p>
+<p>我感觉应该分为下面几个步骤：</p>
+<ol>
+<li>
+<p><strong>确定复现场景(哪个页面 cpu 高？ 哪个场景 cpu 高？)</strong><br>
+如果这个找不到，那根本无从查起了，比如我这边就是进入直播间 cpu 占用变高。</p>
+</li>
+<li>
+<p><strong>场景中有哪些消耗 cpu 的场景？控制变量，进一步缩小范围</strong><br>
+比如我的直播间 cpu 过高的话，直播间有 轮训的网络请求、动画、播放器，这三个可能会比较耗费 cpu 的东西，分别注释掉其余两个，看看到底是谁的锅？<br>
+需要有足够的耐心！</p>
+</li>
+<li>
+<p><strong>确定到具体的小方面，profiler 查看具体问题</strong><br>
+我最终通过注释代码，发现大部分 cpu 是播放器的锅，但是播放器使用的是别的部门的，而且应该也是线上用的，想要给他们反馈 bug，肯定要有十足的证据。</p>
+</li>
+</ol>
+<p>通过前面的方法论，我当时基本确定了问题出现的场景：<strong>重新进出直播间，cpu 就会上涨 15% 左右</strong><code>(只上涨一次，只在一批固定低端设备产生问题)</code></p>
+<p>所以，问题也很诡异，一开始反馈给播放器部门，他们尝试复现，结果并没有复现出来。</p>
+<p>可是，这个问题不修复，总觉得好像是我不太行，第一个需求就因为 cpu 被卡了，所以只能用 profiler 来慢慢看了。</p>
+<h2 id="profiler-分析-cpu">Profiler 分析 CPU</h2>
+<p>profiler 的使用就不多说了，android studio 直接使用，attach 到对应进程上就好了。</p>
+<p>当时的 cpu 如下图：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/cpu_problem.png"
+        data-srcset="/img/in-post/cpu_problem.png, /img/in-post/cpu_problem.png 1.5x, /img/in-post/cpu_problem.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/cpu_problem.png"
+        title="/img/in-post/cpu_problem.png" /></p>
+<p>Home 页面有一个可以预览的小的 VideoView</p>
+<p>home(cpu 20%) -&gt; 其他页面(静态页面 cpu 基本0) -&gt; 返回home(cpu 36%)</p>
+<p>具体的分析过程，用了半天左右，怀疑过各种问题</p>
+<ol>
+<li>log 里看到有播放器 error，以为是播放器出错导致(后面发现，似乎这个 error 一直有···，排除)</li>
+<li>播放器部门同学说是不是存在泄漏，所以看了下内存，播放器实例，也是一个引用</li>
+<li>有的小伙伴说是不是因为设备太差 GC 呢？然后图里有个 heaptaskdaemon 确实一直在运行，当时看了老久这方面</li>
+</ol>
+<p>最终只好对比前后的线程数变化，最终发现了一个可疑的线程，然后通过 method tracing 发现了问题，如下图：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/cpu_problem_2.png"
+        data-srcset="/img/in-post/cpu_problem_2.png, /img/in-post/cpu_problem_2.png 1.5x, /img/in-post/cpu_problem_2.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/cpu_problem_2.png"
+        title="/img/in-post/cpu_problem_2.png" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/cpu_problem_3.png"
+        data-srcset="/img/in-post/cpu_problem_3.png, /img/in-post/cpu_problem_3.png 1.5x, /img/in-post/cpu_problem_3.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/cpu_problem_3.png"
+        title="/img/in-post/cpu_problem_3.png" /></p>
+<p>当 CPU 上涨的时候，伴随着这个诡异的 APM_TaskQueue 线程的疯狂运行，甚至比主线程还忙，看起来是个循环才会这样。看名字像是个队列，盲猜是一个神奇逻辑导致队列任务过多，执行任务使用的 while(true) 么？然后也永远执行不完?</p>
+<p>然后 record 一段时间，打开具体的 tracing 看了一下，包名也是来自播放器提供的一个 jar 包内，似乎是做埋点上报的。</p>
+<p>将以上截图发送播放器部门，他们重新出了一个包，说是依赖了这个第三方埋点库，这个库的问题导致的，最终 total cpu = 64%，通过性能测试，问题解决(但是看他们解决的速度，我咋感觉是直接把这个库干掉了？)</p>
+<h2 id="总结">总结</h2>
+<p>cpu 问题现在应该基本遇不到了，只有低端设备才会出现这些问题，都是具体问题具体分析的。</p>
+<p>基本就是围绕着 cpu、内存和帧率来看的，这几个有时候会互相影响。</p>
+<p>我遇到的这个问题很简单，通过 profiler 就能分析的出，android 的其他的诡异问题可是太多了！令人头秃！</p>
+<p>这个项目写完，感觉自己对于 databinding 和 viewmodel 的使用很烂。</p>
+<p>看另一个哥们写的就很简洁、灵动。</p>
+<p>加油呗！</p>
+<p>生日快乐</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-10-15</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E5%85%AD%E4%B8%83%E6%9C%88%E4%BB%BD/" class="prev" rel="prev" title="六七月份"><i class="fas fa-angle-left fa-fw"></i>六七月份</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-10-15T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"一次 CPU 问题的排查"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

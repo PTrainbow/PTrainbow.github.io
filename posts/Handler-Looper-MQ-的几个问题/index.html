@@ -9,8 +9,8 @@
 <meta property="og:description" content="前言 Handler、Looper、MessageQueue 是老生常谈的话题了，你可能会觉得没什么好讲的啊，网上文章也一堆。 这里我有几个问题问" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://PTrain666.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/" /><meta property="og:image" content="http://PTrain666.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/epoll.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-03-04T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-03-04T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2021-03-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-03-04T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://PTrain666.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/epoll.png"/>
@@ -167,7 +167,7 @@
 <p>Handler 有众多传递事件的方法</p>
 <p>诸如： sendMessage()、post() 等等</p>
 <p>不过这些方法最终都汇聚于一个方法 enqueueMessage()</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">enqueueMessage</span><span class="o">(</span><span class="n">MessageQueue</span> <span class="n">queue</span><span class="o">,</span> <span class="n">Message</span> <span class="n">msg</span><span class="o">,</span> <span class="kt">long</span> <span class="n">uptimeMillis</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">enqueueMessage</span><span class="o">(</span><span class="n">MessageQueue</span> <span class="n">queue</span><span class="o">,</span> <span class="n">Message</span> <span class="n">msg</span><span class="o">,</span> <span class="kt">long</span> <span class="n">uptimeMillis</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// this 就是 Handler 对象
 </span><span class="c1"></span>    <span class="n">msg</span><span class="o">.</span><span class="na">target</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">mAsynchronous</span><span class="o">)</span> <span class="o">{</span>
@@ -176,7 +176,7 @@
     <span class="k">return</span> <span class="n">queue</span><span class="o">.</span><span class="na">enqueueMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">,</span> <span class="n">uptimeMillis</span><span class="o">);</span>
 <span class="o">}</span>
 </code></pre></div><p>Handler 的构造函数也有多个</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"> <span class="kd">public</span> <span class="nf">Handler</span><span class="o">(</span><span class="n">Looper</span> <span class="n">looper</span><span class="o">,</span> <span class="n">Callback</span> <span class="n">callback</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">async</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"> <span class="kd">public</span> <span class="nf">Handler</span><span class="o">(</span><span class="n">Looper</span> <span class="n">looper</span><span class="o">,</span> <span class="n">Callback</span> <span class="n">callback</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">async</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">mLooper</span> <span class="o">=</span> <span class="n">looper</span><span class="o">;</span>
     <span class="n">mQueue</span> <span class="o">=</span> <span class="n">looper</span><span class="o">.</span><span class="na">mQueue</span><span class="o">;</span>
     <span class="n">mCallback</span> <span class="o">=</span> <span class="n">callback</span><span class="o">;</span>
@@ -206,7 +206,7 @@
 <h3 id="question-2">Question 2</h3>
 <p>Looper.loop() 众所周知是一个死循环，但是细看代码你会发现一些问题</p>
 <p>loop() 方法部分源码如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
     <span class="n">Message</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="na">next</span><span class="o">();</span> <span class="c1">// might block
 </span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">msg</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
         <span class="c1">// No message indicates that the message queue is quitting.
@@ -217,7 +217,7 @@
 </code></pre></div><p>省略了很多代码，只看这个 queue.next() 方法，发现只要 msg == null 就 return 了，不就退出了？但是不会出现这种情况，后面说原因。</p>
 <h4 id="looperquit">Looper.quit()</h4>
 <p>先看看 quit() 方法，其实它调用的是 MQ.quit() 方法，可以传一个 safe 参数判断是否管理剩余的消息。具体的代码如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">void</span> <span class="nf">quit</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">safe</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kt">void</span> <span class="nf">quit</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">safe</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(!</span><span class="n">mQuitAllowed</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span><span class="s">&#34;Main thread not allowed to quit.&#34;</span><span class="o">);</span>
     <span class="o">}</span>
@@ -242,7 +242,7 @@
 <p>所以，其实即使我们想要 <code>主动</code> 调用 quit() 方法让 Looper 退出，也要看创建 Looper 时的 <code>mQuitAllowed</code> 参数。MainLooper 此处就是 false，所以没法调 quit 方法。</p>
 <h4 id="queuenext-为什么不会是-null">queue.next() 为什么不会是 null</h4>
 <p>先看代码：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Message</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">Message</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
     <span class="kd">final</span> <span class="kt">long</span> <span class="n">ptr</span> <span class="o">=</span> <span class="n">mPtr</span><span class="o">;</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">ptr</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
@@ -279,7 +279,7 @@
 <p>MessageQueue.next() 方法 Question 2 已经看过了。</p>
 <p>之后的 native 调用过程是 nativePollOnce() -&gt; pollOnce() -&gt; pollInner()</p>
 <p>伪代码大概如下(源码太长自己去看)：</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// pollOnce
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// pollOnce
 </span><span class="c1"></span><span class="k">for</span> <span class="p">(;;)</span> <span class="p">{</span>
         <span class="k">while</span> <span class="p">(</span><span class="n">mResponseIndex</span> <span class="o">&lt;</span> <span class="n">mResponses</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
         <span class="k">const</span> <span class="n">Response</span><span class="o">&amp;</span> <span class="n">response</span> <span class="o">=</span> <span class="n">mResponses</span><span class="p">.</span><span class="n">itemAt</span><span class="p">(</span><span class="n">mResponseIndex</span><span class="o">++</span><span class="p">);</span>
@@ -326,7 +326,7 @@
 </code></pre></div><p>可以看到，一进入 pollOnce() 就是一个死循环。但是，是有几个 return 条件的，result 的值通过 pollInner() 返回，pollInner() 才真正调用了 epoll_wait() 使得线程挂起。</p>
 <p>当有事件来时，我们会首先读取监听的 event 事件(pushResponse)，之后在循环所有的事件进行处理，而且只要有对应的事件发生，result 的返回值总不会是 0。</p>
 <p>result 有几种取值</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">enum</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">enum</span> <span class="p">{</span>
     <span class="cm">/**
 </span><span class="cm">        * Result from Looper_pollOnce() and Looper_pollAll():
 </span><span class="cm">        * The poll was awoken using wake() before the timeout expired
@@ -408,7 +408,7 @@ pollOnce() 不会一直跳不出，只要有事件到来，都能跳出死循环
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

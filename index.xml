@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 18 Jul 2021 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 15 Oct 2021 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>一次 CPU 问题的排查</title>
+    <link>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/</link>
+    <pubDate>Fri, 15 Oct 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/</guid>
+    <description><![CDATA[前言 最近来了个新环境，做了第一个需求——直播答题。 这边的风格大致就是：先在能使用的库的基础上快速完成需求，整个开发时间大概在2-3周，客户端]]></description>
+</item><item>
     <title>六七月份</title>
     <link>http://PTrain666.github.io/posts/%E5%85%AD%E4%B8%83%E6%9C%88%E4%BB%BD/</link>
     <pubDate>Sun, 18 Jul 2021 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/MMKV-%E5%92%8C-mmap/</guid>
     <description><![CDATA[前言 最近看了点 MMKV 的代码，其核心就是通过 mmap 来读写文件。当然还有多进程、序列化、扩容重排 key等问题(这些随便找篇文章都有讲)。本文主要通过 mmap 实]]></description>
-</item><item>
-    <title>Bundle Parcel 和 ClassLoader</title>
-    <link>http://PTrain666.github.io/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/</link>
-    <pubDate>Sat, 20 Feb 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/</guid>
-    <description><![CDATA[前言 前几天看到同事在讨论 动态代理 和 类加载器 的一些问题，其实这些技术无论是客户端还是后端都已经用烂掉了。 动态代理 cglib 和 jdk.Proxy 基本是 Java 后端面试的 &ld]]></description>
 </item></channel>
 </rss>

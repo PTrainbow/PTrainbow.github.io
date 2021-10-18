@@ -9,8 +9,8 @@
 <meta property="og:description" content="前言 经常看公司里的人写的一些基础库(基于 Kotlin)看不太懂，总有各种关键字和函数，不知道他们是在刻意用还是咋地，所以学一波，就从出现次数" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://PTrain666.github.io/posts/2021-01-22-Kotlin-Scope-Function/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-01-22T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-01-22T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2021-01-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-22T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
@@ -134,7 +134,7 @@
 <p>所以总共有5个 Scope Function，至于它的作用是什么？我觉得没有什么实质性作用，可能是一些操作放在了一个 function 中，代码更整洁了吧，因为你完全可以不使用他们。</p>
 <h2 id="源码解析">源码解析</h2>
 <p>先看一眼源码</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
 </span><span class="cm"> * Calls the specified function [block] with `this` value as its receiver and returns its result.
 </span><span class="cm"> *
 </span><span class="cm"> * For detailed usage information see the documentation for [scope functions](https://kotlinlang.org/docs/reference/scope-functions.html#run).
@@ -206,7 +206,7 @@
 <h3 id="extension-function">Extension Function</h3>
 <p>同时，也可以看到4个方法是 <code>Extension Functions</code>，这也是 Kotlin 中的概念，所谓的扩展函数(Extension Functions)，就是支持给一个类新增函数。</p>
 <p>比如，可以这样写</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">String</span><span class="p">.</span><span class="n">hello</span><span class="p">(</span><span class="n">world</span> <span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">:</span> <span class="n">String</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">String</span><span class="p">.</span><span class="n">hello</span><span class="p">(</span><span class="n">world</span> <span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">:</span> <span class="n">String</span> <span class="p">{</span>
     <span class="k">return</span> <span class="s2">&#34;hello &#34;</span> <span class="p">+</span> <span class="n">world</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
@@ -265,7 +265,7 @@
 </tbody>
 </table>
 <p>这里发现居然有两个 run，是的，确实还有一个 run 方法，但是我也不知道它存在的意义</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 这个就是很单纯的执行了 lambda 函数返回结果，为啥要提供一个这个方法呢？
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 这个就是很单纯的执行了 lambda 函数返回结果，为啥要提供一个这个方法呢？
 </span><span class="c1"></span><span class="nd">@kotlin</span><span class="p">.</span><span class="k">internal</span><span class="p">.</span><span class="n">InlineOnly</span>
 <span class="k">public</span> <span class="k">inline</span> <span class="k">fun</span> <span class="p">&lt;</span><span class="nc">R</span><span class="p">&gt;</span> <span class="nf">run</span><span class="p">(</span><span class="n">block</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">R</span><span class="p">):</span> <span class="n">R</span> <span class="p">{</span>
     <span class="n">contract</span> <span class="p">{</span>
@@ -304,7 +304,7 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

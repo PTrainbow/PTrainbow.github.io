@@ -9,8 +9,8 @@
 <meta property="og:description" content="最近好多人都在用 kotlin 了，我真实接触并且使用 kotlin 的时候是 2019 年。那个时候也依葫芦画瓢写了一篇《lateinit 和 by lazy 》的文章 但是，当时写代码还是停留" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://PTrain666.github.io/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-12-24T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2020-12-24T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2020-12-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-24T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
@@ -145,7 +145,7 @@
 <p>都说 var 是可变的， val 是不可变的，<code>且均要进行初始化</code> 即使赋值是 null，这个地方就关联了很多诡异的写法。</p>
 <h2 id="类成员变量初始化的各种写法">类成员变量初始化的各种写法</h2>
 <h3 id="最基本的概念">最基本的概念</h3>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
 <span class="n">someObj</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
 
 <span class="k">val</span> <span class="py">finalObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
@@ -153,7 +153,7 @@
 </span><span class="c1"></span>
 </code></pre></div><p>基本概念就是 var 修饰的变量后续 <code>可变</code>，val <code>不可变</code>。先这么记住，后续会存在 <code>打脸</code>。
 你会发现我这里声明的变量都初始化了，不初始化行不行？</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 注意这里的都是类成员变量，不是局部变量
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 注意这里的都是类成员变量，不是局部变量
 </span><span class="c1"></span><span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="c1">// 报错
 </span><span class="c1"></span><span class="k">var</span> <span class="py">someObj2</span><span class="p">:</span> <span class="n">someObject</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// 报错
 </span><span class="c1"></span><span class="k">val</span> <span class="py">finalObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="c1">// 报错
@@ -163,7 +163,7 @@
 <li>
 <p>可空类型</p>
 <p>顾名思义，可能是空的类型。kotlin 在访问一个类的成员变量时，其实是访问的是其 get set 方法，他会去判空。可空类型在kotlin中的写法就是带个问号</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">someObj2</span><span class="p">:</span> <span class="n">someObject</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// 报错
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">someObj2</span><span class="p">:</span> <span class="n">someObject</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// 报错
 </span><span class="c1"></span><span class="k">var</span> <span class="py">someObj3</span><span class="p">:</span> <span class="n">someObject</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// ok
 </span></code></pre></div></li>
 <li>
@@ -173,18 +173,18 @@
 </ul>
 <h3 id="打脸成员变量一定要初始化">打脸成员变量一定要初始化</h3>
 <p>看这段代码</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">lateinit</span> <span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">lateinit</span> <span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span>
 </code></pre></div><p>这里就是声明了一个叫做 someObj 的成员变量，类型是 SomeObject，声明变量时可以在冒号后指定类型，也可以不指定。这都不是重点。重点是，不是说一定要 <code>初始化么</code> ？好了，这里没有初始化，打脸了，但是看到一个关键字，<code>lateinit</code> 来了。</p>
 <p>什么是 <code>lateinit</code> ？这是我 2019 年碰 kotlin 的时候，就了解了的。</p>
 <p>想追原理，自己去看字节码。</p>
 <p>总结一句话就是，我就是想打破 kotlin 的赋值初始化规则，让编译器不要管我有没有初始化了(为什么编译器要管初始化的问题？因为 kotlin 想尽力避免空指针的出现，所以都要初始化)，我自己去负责这个变量的初始化。</p>
 <p>那么问题来了，如果你用 <code>lateinit</code> 声明了一个变量，让编译器放你一马，之后你又没有去管理这个变量的初始化，在之后的代码里没有对它进行任何的赋值操作，那么你自己在运行时使用这个变量的时候，很显然啊，空指针啊！</p>
 <p>那么问题又来了，既然 <code>lateinit</code> 只是说明我这个属性是暂时不初始化的，那我为什么不能直接用 var + null 声明呢？如下</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">somObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="k">null</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">somObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="k">null</span>
 </code></pre></div><p>这样写对吗？铁定不对啊，编译器会给你报错 <code>Null can not be a value of a non-null type SomeObject</code>，为啥？前面基本概念就说了，你这是可空类型，得加问号啊。但是如果你用 lateinit，就不需要加这个烦人的问号。</p>
 <h3 id="使用-var--null-初始化的可空类型的后续问题">使用 var + null 初始化的可空类型的后续问题</h3>
 <p>一旦你的一个成员变量是可空类型，你在后续写代码的时候使用会有各种烦人的问题，比如下面这一坨代码。</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">private</span> <span class="k">fun</span> <span class="nf">getLayoutView</span><span class="p">():</span> <span class="n">View</span><span class="p">?</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">private</span> <span class="k">fun</span> <span class="nf">getLayoutView</span><span class="p">():</span> <span class="n">View</span><span class="p">?</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">mLithoView</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
       <span class="n">mLithoView</span> <span class="p">=</span> <span class="n">LithoView</span><span class="p">(</span><span class="n">rootView</span><span class="p">.</span><span class="n">context</span><span class="p">)</span>
     <span class="p">}</span>
@@ -209,7 +209,7 @@
 <h3 id="为什么他的-kotlin-代码里有-">为什么他的 kotlin 代码里有 ！！</h3>
 <p><code>!!</code> 的作用其实就是告诉编译器，我这个可空类型的变量是非空的！(真打脸)</p>
 <p>但是，这在 android 中是非常常见的。比如我们经常使用的 intent 来传递参数，可是 intent 是可空类型的，那么我们从 intent 里面读出来的参数，如果使用 var 声明，那么肯定也是可空类型的。但是，我们又知道，这个 intent 肯定不是空的，我们会传自己的参数进来，所以我们存在 intent 里面的参数也一定不是空的，我们接收参数的方法，也是接收一个非空参数。这个时候只能如下这样写用 <code>!!</code>，或者 lateinit。</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">config</span><span class="p">:</span> <span class="n">AlbumDetectionConfig</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">config</span><span class="p">:</span> <span class="n">AlbumDetectionConfig</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
 <span class="k">override</span> <span class="k">fun</span> <span class="nf">onStartCommand</span><span class="p">(</span><span class="n">intent</span><span class="p">:</span> <span class="n">Intent</span><span class="p">?,</span> <span class="n">flags</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">startId</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">Int</span> <span class="p">{</span>
     <span class="n">config</span> <span class="p">=</span> <span class="n">intent</span><span class="o">?.</span><span class="n">let</span> <span class="p">{</span>
         <span class="n">IntentUtils</span><span class="p">.</span><span class="n">getSerializableExtra</span><span class="p">&lt;</span><span class="n">AlbumDetectionConfig</span><span class="p">&gt;(</span>
@@ -224,7 +224,7 @@
 <h3 id="打脸-val-和-final">打脸 val 和 final</h3>
 <p>终于搞完了前面一大堆的 var 相关的类成员变量声明的问题，这时候我们一直谨记着 var 可变 val 不可变。</p>
 <p><code>但是你又会看到这样的代码</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">size</span><span class="p">:</span> <span class="n">Int</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">size</span><span class="p">:</span> <span class="n">Int</span>
     <span class="k">get</span><span class="p">()</span> <span class="p">{</span>
       <span class="k">return</span> <span class="n">value</span><span class="o">?.</span><span class="n">size</span><span class="p">()</span> <span class="o">?:</span> <span class="p">-</span><span class="m">1</span>
     <span class="p">}</span>
@@ -262,7 +262,7 @@ android 中也很常见 object: interface {}<br>
 <p>主要来看伴生对象，如果想快速理解的话就是伴生对象在 kotlin 中的感觉就像是 java 中的 static 一样，因为 kotlin 中没有 static 的概念。</p>
 <p>companion object 是通过创建一个单例类来实现的。</p>
 <p>如果你只是在 kotlin 代码中互相调用，是没有感知的，因为 kotlin 中 object 的声明，就代表了可以直接引用。</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">object</span> <span class="nc">A</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">object</span> <span class="nc">A</span> <span class="p">{</span>
     <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;A&#34;</span>
     <span class="k">fun</span> <span class="nf">a</span><span class="p">()</span> <span class="p">{}</span>
 <span class="p">}</span>
@@ -272,7 +272,7 @@ android 中也很常见 object: interface {}<br>
 </span><span class="c1"></span>    <span class="n">A</span><span class="p">.</span><span class="n">a</span><span class="p">()</span> <span class="c1">// ok
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></div><p>这就跟 java 中的静态方法调用写法一致，但是实际 A 是个单例类，当你从 java 代码中调用时会明显发现不对劲。</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
   <span class="n">A</span><span class="o">.</span><span class="na">a</span><span class="o">();</span> <span class="c1">// error
 </span><span class="c1"></span>  <span class="n">A</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">.</span><span class="na">a</span><span class="o">();</span> <span class="c1">// ok
 </span><span class="c1"></span><span class="o">}</span>
@@ -284,7 +284,7 @@ android 中也很常见 object: interface {}<br>
 <h3 id="gettersetter-和-幕后字段">getter/setter 和 幕后字段</h3>
 <p>java 中我们要写 getter 和 setter，kotlin 中对于类型成员变量的方法和改变也是 getter 和 setter。<br>
 但是下面这段在 java 中看似没毛病的代码确是不行的~~</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
   <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
       <span class="k">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
           <span class="k">this</span><span class="p">.</span><span class="n">a</span> <span class="p">=</span> <span class="n">value</span>
@@ -292,7 +292,7 @@ android 中也很常见 object: interface {}<br>
 <span class="p">}</span>
 </code></pre></div><p>运行直接栈溢出</p>
 <p>所以为了解决这个问题出现了 <code>幕后字段</code>，用关键字 <code>field</code> 表示，我基本没用到过，所以刚才的代码要这么写</p>
-<div class="highlight"><pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
   <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
       <span class="k">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
           <span class="k">field</span> <span class="p">=</span> <span class="n">value</span>
@@ -342,7 +342,7 @@ android 中也很常见 object: interface {}<br>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

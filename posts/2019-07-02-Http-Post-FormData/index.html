@@ -9,8 +9,8 @@
 <meta property="og:description" content="问题描述 需要上传一张图片到我们的对象存储服务器，对方给了接口协议。 需使用 post 请求，Content-Type 为 multipart/form-data 且 key = filecontent，v" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://PTrain666.github.io/posts/2019-07-02-Http-Post-FormData/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-07-02T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2019-07-02T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2019-07-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-07-02T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
@@ -134,7 +134,7 @@
 <p>且 key = filecontent，value 就是文件内容</p>
 <h4 id="nodejs">nodejs</h4>
 <p>node.js发送请求，就是这么简单</p>
-<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js">  <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js">  <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">method</span><span class="o">:</span> <span class="s2">&#34;POST&#34;</span><span class="p">,</span>
     <span class="nx">url</span><span class="o">:</span> <span class="s2">&#34;xxxxxxxxxxxxx&#34;</span><span class="p">,</span>
     <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
@@ -165,7 +165,7 @@
 <ul>
 <li>golang 如何发送 post 请求,构建 multipart/form-data</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">buf</span> <span class="o">:=</span> <span class="k">new</span><span class="p">(</span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="nx">buf</span> <span class="o">:=</span> <span class="k">new</span><span class="p">(</span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span><span class="p">)</span>
 <span class="nx">w</span> <span class="o">:=</span> <span class="nx">multipart</span><span class="p">.</span><span class="nx">NewWriter</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
 <span class="nx">http</span><span class="p">.</span><span class="nx">NewRequest</span><span class="p">(</span><span class="s2">&#34;POST&#34;</span><span class="p">,</span> <span class="nx">GIFT_URL</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
 <span class="nx">contentType</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nx">FormDataContentType</span><span class="p">()</span>
@@ -236,7 +236,7 @@
 <h4 id="boundary是什么">boundary是什么</h4>
 <p>我们在抓到的包中还会看到有个叫做 boundary 的一串字符串，这个其实是一个分隔符，让我们能正确解析上传的文件</p>
 <p>一个请求的具体信息大致如下</p>
-<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span> <span class="nx">multipart</span><span class="o">/</span><span class="nx">form</span><span class="o">-</span><span class="nx">data</span><span class="p">;</span> <span class="nx">boundary</span><span class="o">=</span><span class="nx">aBoundaryString</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span> <span class="nx">multipart</span><span class="o">/</span><span class="nx">form</span><span class="o">-</span><span class="nx">data</span><span class="p">;</span> <span class="nx">boundary</span><span class="o">=</span><span class="nx">aBoundaryString</span>
 <span class="p">(</span><span class="nx">other</span> <span class="nx">headers</span> <span class="nx">associated</span> <span class="kd">with</span> <span class="nx">the</span> <span class="nx">multipart</span> <span class="nb">document</span> <span class="nx">as</span> <span class="nx">a</span> <span class="nx">whole</span><span class="p">)</span>
 
 <span class="o">--</span><span class="nx">aBoundaryString</span>
@@ -257,7 +257,7 @@
 <p>作为 multipart body 中的消息头时，第一个参数总是固定不变的form-data；附加的参数不区分大小写，并且拥有参数值，参数名与参数值用等号(=)连接，参数值用双引号括起来。参数之间用分号(;)分隔，如之前的图。</p>
 <h2 id="修正后的代码">修正后的代码</h2>
 <p>那其实核心原因就是 MIME 的 Content-Type 了，我们的对象存储服务器，只接受一般的图片类型，要加上图片文件的类型。</p>
-<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">imageData</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nx">DecodeString</span><span class="p">(</span><span class="nx">imageDataStr</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="nx">imageData</span><span class="p">,</span> <span class="mi">_</span> <span class="o">:=</span> <span class="nx">base64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nx">DecodeString</span><span class="p">(</span><span class="nx">imageDataStr</span><span class="p">)</span>
 <span class="nx">buf</span> <span class="o">:=</span> <span class="k">new</span><span class="p">(</span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span><span class="p">)</span>
 <span class="nx">w</span> <span class="o">:=</span> <span class="nx">multipart</span><span class="p">.</span><span class="nx">NewWriter</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
 <span class="nx">hash</span> <span class="o">:=</span> <span class="nx">md5</span><span class="p">.</span><span class="nx">Sum</span><span class="p">(</span><span class="nx">imageData</span><span class="p">)</span>
@@ -276,7 +276,7 @@
 	<span class="nx">c</span><span class="p">.</span><span class="nx">EchoError</span><span class="p">(</span><span class="nx">wr</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">err</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 	<span class="k">return</span>
 <span class="p">}</span>
-<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Copy</span><span class="p">(</span><span class="nx">fw</span><span class="p">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">NewReader</span><span class="p">(</span><span class="nx">string</span><span class="p">(</span><span class="nx">imageData</span><span class="p">)))</span>
+<span class="mi">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Copy</span><span class="p">(</span><span class="nx">fw</span><span class="p">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">NewReader</span><span class="p">(</span><span class="nx">string</span><span class="p">(</span><span class="nx">imageData</span><span class="p">)))</span>
 <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="nx">nil</span> <span class="p">{</span>
 	<span class="nx">c</span><span class="p">.</span><span class="nx">EchoError</span><span class="p">(</span><span class="nx">wr</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">err</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 	<span class="k">return</span>
@@ -315,7 +315,7 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

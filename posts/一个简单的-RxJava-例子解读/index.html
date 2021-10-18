@@ -9,8 +9,8 @@
 <meta property="og:description" content="前言 RxJava 是一个经常让人出错的库，有的同事第一次接触完全搞不懂，个人感觉是没抓住核心的理念(其实我个人对于 RxJava 是有偏见的)，抓住核心的理念应该会很" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/" /><meta property="og:image" content="http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/rxjava_all.jpg"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-03-20T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-03-20T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2021-03-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-03-20T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://PTrain666.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/rxjava_all.jpg"/>
@@ -155,7 +155,7 @@
     </div>
 <h2 id="一个简单的例子">一个简单的例子</h2>
 <p>来看一段极其简单、又包含了日常 Android 开发最常用的操作的代码(这里只引入了 RxJava，所以 Schedulers 没有 Android 相关的东西)：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
     <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">())</span>
     <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
     <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">integer</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">integer</span><span class="o">));</span>
@@ -192,14 +192,14 @@
 <h3 id="代码中-subscribe-的解释">代码中 subscribe() 的解释</h3>
 <p>对于 cold observable，我们需要 subscribe() 来触发事件流。</p>
 <p>对应上面代码中的</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">subscribe</span><span class="o">(</span><span class="n">integer</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">integer</span><span class="o">))</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">subscribe</span><span class="o">(</span><span class="n">integer</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">integer</span><span class="o">))</span>
 </code></pre></div><p>这里很简单，只传入了一个 Consumer，什么是 Consumer 呢？很好理解，就是消费事件的，Producer-Consumer 嘛(面试老八股题了，面试官：请实现多种生产者-消费者)。</p>
 <p>subscribe 究竟可以传入哪些类型？这里就不多提了，看一下源码就好了。可以传入一个、多个 Consumer，或者干脆你自己来，即传入一个 Observer。</p>
 <p>其实方法名也已经很好了，就是让你订阅这个事件，那么你就是要传入一个 Observer(观察者)。只不过 RxJava 这里的 API 是反着来的，Observable.subscribe(Observer)</p>
 <h5 id="lambdaobserver">LambdaObserver</h5>
 <p>如果你是一个善于发现问题的人，你会觉得有些不对。我传入的是 Consumer 啊，Consumer 和 Observer 也没有任何关系，怎么就是传入了一个 Observer 类型了？</p>
 <p>如果传入 Consumer 最终会进入这段代码</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"> <span class="kd">public</span> <span class="kd">final</span> <span class="n">Disposable</span> <span class="nf">subscribe</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">onNext</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Throwable</span><span class="o">&gt;</span> <span class="n">onError</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">Action</span> <span class="n">onComplete</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"> <span class="kd">public</span> <span class="kd">final</span> <span class="n">Disposable</span> <span class="nf">subscribe</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">onNext</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Throwable</span><span class="o">&gt;</span> <span class="n">onError</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">Action</span> <span class="n">onComplete</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">onNext</span><span class="o">,</span> <span class="s">&#34;onNext is null&#34;</span><span class="o">);</span>
     <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">onError</span><span class="o">,</span> <span class="s">&#34;onError is null&#34;</span><span class="o">);</span>
     <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">onComplete</span><span class="o">,</span> <span class="s">&#34;onComplete is null&#34;</span><span class="o">);</span>
@@ -210,7 +210,7 @@
 </code></pre></div><p>所以，其实你还是传入了一个 Observer 类型，叫做 LambdaObserver，它接收多个 Consumer，onNext、onError、onComplete，回调时调用到对应 Consumer 的 apply() 方法，对应示例代码中的就是 System.out.println(integer)(我只传入了一个 Consumer(onNext)，示例中是 lambda 表达式，还原回去就是 Consumer 的 apply())</p>
 <h3 id="observablesubscribe">Observable.subscribe()</h3>
 <p>当调用 Observable.subscribe(Observer) 后，首先 Observable 会持有 Observer，并会调用自身的 subscribeActual()，代码如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">observer</span><span class="o">,</span> <span class="s">&#34;observer is null&#34;</span><span class="o">);</span>
     <span class="k">try</span> <span class="o">{</span>
         <span class="n">observer</span> <span class="o">=</span> <span class="n">RxJavaPlugins</span><span class="o">.</span><span class="na">onSubscribe</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">observer</span><span class="o">);</span>
@@ -233,13 +233,13 @@
 <span class="o">}</span>
 </code></pre></div><p>可以看到最终调用 subscribeActual(observer) 并把 observer 传入了。</p>
 <p>如果你是一个善于发现问题的人，你会觉得有些不对。</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">observer</span> <span class="o">=</span> <span class="n">RxJavaPlugins</span><span class="o">.</span><span class="na">onSubscribe</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">observer</span><span class="o">);</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">observer</span> <span class="o">=</span> <span class="n">RxJavaPlugins</span><span class="o">.</span><span class="na">onSubscribe</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">observer</span><span class="o">);</span>
 </code></pre></div><p>这行代码是干啥的？你不好奇吗？其实是开了个 hook 的口子，和正常流程没关系。</p>
 <p>这个时候，需要头脑清晰，谨记 Observable 的创建那一小节中的图，source 是层层持有的。</p>
 <p>subscribeActual() 由子类重写，各个操作符都不同，但是大体原理相同。示例中是 subscribeOn 和 observeOn 这两个操作符，所以这里就看这两个操作符的 subscribeActual()</p>
 <h3 id="observablesubscribeactual">Observable.subscribeActual()</h3>
 <p>其实这两个操作符的 subscribeActual() 基本相似</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// ObservableSubscribeOn.java -&gt; subscribeOn
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// ObservableSubscribeOn.java -&gt; subscribeOn
 </span><span class="c1"></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">subscribeActual</span><span class="o">(</span><span class="kd">final</span> <span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
     <span class="kd">final</span> <span class="n">SubscribeOnObserver</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">parent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SubscribeOnObserver</span><span class="o">&lt;&gt;(</span><span class="n">observer</span><span class="o">);</span>
 
@@ -265,7 +265,7 @@
 <p>其实这里还有一部分 scheduler 的问题，代码中 ObserveOnObserver 构造函数传入了 w(worker) 和 observer。继续看源码，其实就是 observer 执行在了 scheduler 线程中，
 具体的流程是当 ObserveOnObserver.onNext() 被调用时，执行了 schedule()，进而执行了 drainNormal()，进而在 scheduler 的某个线程中执行了 downstream.onNext()，downstream 就是我们之前传入的 LambdaObserver，进而获取到了我们的要接收的事件(也就是一个数字 1)</p>
 <p>源码流程如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// ObserveOnObserver.java
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// ObserveOnObserver.java
 </span><span class="c1">// ObserveOnObserver 构建传入 LambdaObserver 作为 downstream
 </span><span class="c1"></span><span class="n">ObserveOnObserver</span><span class="o">(</span><span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">actual</span><span class="o">,</span> <span class="n">Scheduler</span><span class="o">.</span><span class="na">Worker</span> <span class="n">worker</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">delayError</span><span class="o">,</span> <span class="kt">int</span> <span class="n">bufferSize</span><span class="o">)</span> <span class="o">{</span>
   <span class="c1">// downstream
@@ -319,7 +319,7 @@
 <h5 id="subscribeonsubscribeactual">subscribeOn.subscribeActual()</h5>
 <p>subscribeOn 的具体代码就比较奇怪一些，看不到任何 source.subscribe() 的逻辑，这其实很不合理。因为不注册观察者，又怎么收到通知呢？</p>
 <p>其实这里是依靠的 SubscribeTask，scheduleDirect() 会执行我们传入的 task，代码如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">SubscribeTask</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">SubscribeTask</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
     <span class="kd">private</span> <span class="kd">final</span> <span class="n">SubscribeOnObserver</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">parent</span><span class="o">;</span>
 
     <span class="n">SubscribeTask</span><span class="o">(</span><span class="n">SubscribeOnObserver</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">parent</span><span class="o">)</span> <span class="o">{</span>
@@ -347,13 +347,13 @@
 <h3 id="observeronnext-串联">Observer.onNext() 串联</h3>
 <p>前面已经知道了 subscribeOn 会调用 ObservableJust.subscribe() 方法，因为我们代码里就是 Observable.just(1).subscribeOn()。</p>
 <p>而 Observable.subscribe() 核心流程都在 subscribeActual()，所以需要看看 ObservableJust 的 subscribeActual()。</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">subscribeActual</span><span class="o">(</span><span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">subscribeActual</span><span class="o">(</span><span class="n">Observer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">ScalarDisposable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">sd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ScalarDisposable</span><span class="o">&lt;&gt;(</span><span class="n">observer</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
     <span class="n">observer</span><span class="o">.</span><span class="na">onSubscribe</span><span class="o">(</span><span class="n">sd</span><span class="o">);</span>
     <span class="n">sd</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
 <span class="o">}</span>
 </code></pre></div><p>可以看到创建了一个 ScalarDisposable()，并调用了 run()，所以看看 run() 的源码</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">get</span><span class="o">()</span> <span class="o">==</span> <span class="n">START</span> <span class="o">&amp;&amp;</span> <span class="n">compareAndSet</span><span class="o">(</span><span class="n">START</span><span class="o">,</span> <span class="n">ON_NEXT</span><span class="o">))</span> <span class="o">{</span>
         <span class="n">observer</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">get</span><span class="o">()</span> <span class="o">==</span> <span class="n">ON_NEXT</span><span class="o">)</span> <span class="o">{</span>
@@ -440,7 +440,7 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
