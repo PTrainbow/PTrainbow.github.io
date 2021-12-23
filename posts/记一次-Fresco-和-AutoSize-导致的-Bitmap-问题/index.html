@@ -133,7 +133,13 @@
         <li><a href="#bitmap">Bitmap</a></li>
         <li><a href="#drawable">Drawable</a></li>
         <li><a href="#小结">小结</a></li>
-        <li><a href="#解析原因">解析原因</a></li>
+      </ul>
+    </li>
+    <li><a href="#解析原因">解析原因</a>
+      <ul>
+        <li><a href="#bitmapshader-会使得边缘像素重复">BitmapShader 会使得边缘像素重复</a></li>
+        <li><a href="#bitmapdrawble-的-density-被-autosize-修改">BitmapDrawble 的 Density 被 AutoSize 修改</a></li>
+        <li><a href="#bucketsbitmappool-创建-bitmap-没有管-density">BucketsBitmapPool 创建 Bitmap 没有管 Density</a></li>
       </ul>
     </li>
   </ul>
@@ -275,10 +281,10 @@ RGB_565 和 RGB_8888 啥区别啊？</p>
 </code></pre></div><h3 id="小结">小结</h3>
 <p>Bitmap 本身的 density 变化，会影响到 BitmapDrawable 的 DstRect 进而影响到绘制的范围。</p>
 <p>普通 ImageView 的 ScaleType 和 Fresco 的 actualImageScaleType 会影响到 canvas.concat(matrix) 进而影响到绘制的范围。</p>
-<h3 id="解析原因">解析原因</h3>
-<h4 id="bitmapshader-会使得边缘像素重复">BitmapShader 会使得边缘像素重复</h4>
+<h2 id="解析原因">解析原因</h2>
+<h3 id="bitmapshader-会使得边缘像素重复">BitmapShader 会使得边缘像素重复</h3>
 <p>Fresco 中的 RoundedBitmapDrawable 通过 BitmapShader 实现，TileMode.CLAMP 在铺不满 view 的情况下，会重复边缘像素。</p>
-<h4 id="bitmapdrawble-的-density-被-autosize-修改">BitmapDrawble 的 Density 被 AutoSize 修改</h4>
+<h3 id="bitmapdrawble-的-density-被-autosize-修改">BitmapDrawble 的 Density 被 AutoSize 修改</h3>
 <p>RoundedBitmapDrawable 创建的代码如下：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nf">RoundedBitmapDrawable</span><span class="o">(</span><span class="n">Resources</span> <span class="n">res</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Paint</span> <span class="n">paint</span><span class="o">)</span> <span class="o">{</span>
     <span class="kd">super</span><span class="o">(</span><span class="k">new</span> <span class="n">BitmapDrawable</span><span class="o">(</span><span class="n">res</span><span class="o">,</span> <span class="n">bitmap</span><span class="o">));</span>
@@ -294,7 +300,7 @@ RGB_565 和 RGB_8888 啥区别啊？</p>
 <p>而 AutoSize 这个库，默认会修改 density</p>
 <p>比如，我的一加 A6000 density 本来是 420，依赖 AutoSize 后变为了 480。</p>
 <p>所以，此时 BitmapDrawble 的 density(mTargetDensity) = 480，进而 computeBitmapSize 其实已经出现问题。</p>
-<h4 id="bucketsbitmappool-创建-bitmap-没有管-density">BucketsBitmapPool 创建 Bitmap 没有管 Density</h4>
+<h3 id="bucketsbitmappool-创建-bitmap-没有管-density">BucketsBitmapPool 创建 Bitmap 没有管 Density</h3>
 <p>然后，有意思的来了，Bitmap 初始化默认的 density 是多少呢？</p>
 <p>Fresco 中通过 BucketsBitmapPool 调用 Bitmap.createBitmap 实现的，一路追下去就到了 native 方法中，然后你会发现调用到了这里：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="n">jobject</span> <span class="nf">createBitmap</span><span class="p">(</span><span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span><span class="p">,</span> <span class="n">Bitmap</span><span class="o">*</span> <span class="n">bitmap</span><span class="p">,</span>
