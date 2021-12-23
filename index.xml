@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 15 Oct 2021 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 23 Dec 2021 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>记一次 Fresco 和 AutoSize 导致的 Bitmap 问题</title>
+    <link>http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/</link>
+    <pubDate>Thu, 23 Dec 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/</guid>
+    <description><![CDATA[​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，并没有设置 ScaleType 或者设置错了 ScaleTyp]]></description>
+</item><item>
     <title>一次 CPU 问题的排查</title>
     <link>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/</link>
     <pubDate>Fri, 15 Oct 2021 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/</guid>
     <description><![CDATA[前言 Handler、Looper、MessageQueue 是老生常谈的话题了，你可能会觉得没什么好讲的啊，网上文章也一堆。 这里我有几个问题问]]></description>
-</item><item>
-    <title>MMKV 和 mmap</title>
-    <link>http://PTrain666.github.io/posts/MMKV-%E5%92%8C-mmap/</link>
-    <pubDate>Fri, 26 Feb 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/MMKV-%E5%92%8C-mmap/</guid>
-    <description><![CDATA[前言 最近看了点 MMKV 的代码，其核心就是通过 mmap 来读写文件。当然还有多进程、序列化、扩容重排 key等问题(这些随便找篇文章都有讲)。本文主要通过 mmap 实]]></description>
 </item></channel>
 </rss>

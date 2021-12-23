@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 15 Oct 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 23 Dec 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>记一次 Fresco 和 AutoSize 导致的 Bitmap 问题</title>
+    <link>http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/</link>
+    <pubDate>Thu, 23 Dec 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/</guid>
+    <description><![CDATA[​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，并没有设置 ScaleType 或者设置错了 ScaleTyp]]></description>
+</item><item>
     <title>一次 CPU 问题的排查</title>
     <link>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/</link>
     <pubDate>Fri, 15 Oct 2021 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/</guid>
     <description><![CDATA[前言 前几天看到同事在讨论 动态代理 和 类加载器 的一些问题，其实这些技术无论是客户端还是后端都已经用烂掉了。 动态代理 cglib 和 jdk.Proxy 基本是 Java 后端面试的 &ld]]></description>
-</item><item>
-    <title>DataBinding 解读</title>
-    <link>http://PTrain666.github.io/posts/DataBinding-%E8%A7%A3%E8%AF%BB/</link>
-    <pubDate>Thu, 11 Feb 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/DataBinding-%E8%A7%A3%E8%AF%BB/</guid>
-    <description><![CDATA[前言 Android 的应用层架构，其实一直在缓慢的进步，但是 Android 开发工程师却很少有进步。比如我，直到 2021 年才开始使用 dataBinding。 我初步在 RecyclerView 的 item 中试]]></description>
 </item></channel>
 </rss>

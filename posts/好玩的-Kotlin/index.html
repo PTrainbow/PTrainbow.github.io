@@ -262,10 +262,10 @@ eg:</p>
   <span class="c1">// 函数体
 </span><span class="c1"></span>  <span class="c1">// this = Row
 </span><span class="c1"></span><span class="p">}</span>
-<span class="err">``</span><span class="nd">`kotlin</span>
-<span class="err">又因为</span> <span class="k">this</span> <span class="err">是</span> <span class="n">Row</span><span class="err">，又可以给</span> <span class="n">Row</span> <span class="err">增加几个方法，比如加一个</span> <span class="n">text</span> <span class="err">方法</span><span class="p">(</span><span class="err">这里不知道</span> <span class="n">params</span> <span class="err">怎么传过去比较好，自己写了一个很挫的办法：还是传</span> <span class="n">function</span><span class="p">)</span><span class="err">：</span>
+<span class="err">``</span><span class="n">`kotlin</span>
+<span class="n">又因为</span> <span class="k">this</span> <span class="n">是</span> <span class="n">Row</span><span class="err">，</span><span class="n">又可以给</span> <span class="n">Row</span> <span class="n">增加几个方法</span><span class="err">，</span><span class="n">比如加一个</span> <span class="n">text</span> <span class="n">方法</span><span class="p">(</span><span class="n">这里不知道</span> <span class="n">params</span> <span class="n">怎么传过去比较好</span><span class="err">，</span><span class="n">自己写了一个很挫的办法</span><span class="err">：</span><span class="n">还是传</span> <span class="n">function</span><span class="p">)</span><span class="err">：</span>
 
-<span class="err">``</span><span class="nd">`kotlin</span>
+<span class="err">``</span><span class="n">`kotlin</span>
 <span class="c1">// 加一个通用的 text 方法
 </span><span class="c1"></span><span class="k">open</span> <span class="k">class</span> <span class="nc">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">LinearLayout</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// 增加一个 text 方法
@@ -296,7 +296,7 @@ eg:</p>
     <span class="n">layoutParams</span> <span class="p">=</span> <span class="n">function</span><span class="p">()</span>
   <span class="p">}</span>
 <span class="p">}</span>
-<span class="err">于是我就可以这样调用</span>
+<span class="n">于是我就可以这样调用</span>
 <span class="n">row</span><span class="p">(</span><span class="n">params1</span><span class="p">,</span> <span class="n">params2</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// row 本身的参数，感觉这么传参数很挫
 </span><span class="c1"></span>  <span class="n">layout</span> <span class="p">{</span>
@@ -365,7 +365,7 @@ eg:</p>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

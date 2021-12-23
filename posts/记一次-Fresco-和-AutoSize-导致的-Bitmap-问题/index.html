@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>记一次 Fresco 和 AutoSize 导致的 Bitmap 问题 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="记一次 Fresco 和 AutoSize 导致的 Bitmap 问题" />
+<meta property="og:description" content="​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，并没有设置 ScaleType 或者设置错了 ScaleTyp" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/" /><meta property="og:image" content="http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-12-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-12-23T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg"/>
+<meta name="twitter:title" content="记一次 Fresco 和 AutoSize 导致的 Bitmap 问题"/>
+<meta name="twitter:description" content="​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，并没有设置 ScaleType 或者设置错了 ScaleTyp"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/" /><link rel="prev" href="http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "记一次 Fresco 和 AutoSize 导致的 Bitmap 问题",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98\/fresco-autosize.jpg",
+                            "width":  1510 ,
+                            "height":  652 
+                        }],"genre": "posts","keywords": "Android","wordcount":  2732 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98\/","datePublished": "2021-12-23T00:00:00+00:00","dateModified": "2021-12-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/cv/"> 简历 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/cv/" title="">简历</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">记一次 Fresco 和 AutoSize 导致的 Bitmap 问题</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-12-23">2021-12-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2732 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg"
+        data-srcset="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg, /posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg 1.5x, /posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg"
+        title="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#fresco-圆角">Fresco 圆角</a></li>
+    <li><a href="#图片是如何展示的">图片是如何展示的</a>
+      <ul>
+        <li><a href="#bitmap">Bitmap</a></li>
+        <li><a href="#drawable">Drawable</a></li>
+        <li><a href="#小结">小结</a></li>
+        <li><a href="#解析原因">解析原因</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>​</p>
+<h2 id="前言">前言</h2>
+<p>不知道大家使用 Fresco 时，有没有遇到过这种情况呢？</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/fresco-vs-autosize/round_corner.png"
+        data-srcset="/img/in-post/fresco-vs-autosize/round_corner.png, /img/in-post/fresco-vs-autosize/round_corner.png 1.5x, /img/in-post/fresco-vs-autosize/round_corner.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/fresco-vs-autosize/round_corner.png"
+        title="/img/in-post/fresco-vs-autosize/round_corner.png" /></p>
+<p>一些文章上是说，导致的原因是在设置了 <code>圆角</code> 的情况下，并没有设置 ScaleType 或者设置错了 ScaleType。</p>
+<p>总之，最终的 ScaleType 要保证图片铺满 SimpleDraweeView，不然就是上图情况。</p>
+<p>文档如下：
+<a href="https://www.fresco-cn.org/docs/rounded-corners-and-circles.html" target="_blank" rel="noopener noreffer">圆角的两种模式</a>(看最后的说明部分)</p>
+<p>那如果你是 ScaleType 设置错误了的话，通过设置 ScaleType = &ldquo;CenterCrop&rdquo; 之类的能铺满 View 的方法就应该可以拯救你了。(<code>后面的就是废话了，不用看啦！</code>)</p>
+<p>如果你也设置了 ScaleType，仍然有这种问题的话，不妨看看工程里是不是引入了 AndroidAutoSize 这个库。</p>
+<p>我当时查问题，也是受益于这个 <a href="https://github.com/JessYanCoding/AndroidAutoSize/issues/209" target="_blank" rel="noopener noreffer">issue</a>，发现这个问题的大哥你真棒！</p>
+<p><strong>那么为什么 AndroidAutoSize 会影响到图片加载呢？</strong></p>
+<p><strong>总结一句话就是： AndroidAutoSize 影响到了 density</strong></p>
+<p>density 为啥会影响 Bitmap 呢？</p>
+<p>先看看 Fresco 圆角怎么实现的吧！</p>
+<h2 id="fresco-圆角">Fresco 圆角</h2>
+<p>Fresco 的圆角，普通图片非 ColorDrawable 的情况下，都是依靠 RoundedBitmapDrawable 来实现。</p>
+<p>再底层其实都是依靠 <code>BitmapShader + Path</code> 了，来看看 RoundedBitmapDrawable.updatePaint() 的代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">updatePaint</span><span class="o">()</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">mLastBitmap</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">mLastBitmap</span><span class="o">.</span><span class="na">get</span><span class="o">()</span> <span class="o">!=</span> <span class="n">mBitmap</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mLastBitmap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WeakReference</span><span class="o">&lt;&gt;(</span><span class="n">mBitmap</span><span class="o">);</span>
+    <span class="n">mPaint</span><span class="o">.</span><span class="na">setShader</span><span class="o">(</span><span class="k">new</span> <span class="n">BitmapShader</span><span class="o">(</span><span class="n">mBitmap</span><span class="o">,</span> <span class="n">Shader</span><span class="o">.</span><span class="na">TileMode</span><span class="o">.</span><span class="na">CLAMP</span><span class="o">,</span> <span class="n">Shader</span><span class="o">.</span><span class="na">TileMode</span><span class="o">.</span><span class="na">CLAMP</span><span class="o">));</span>
+    <span class="n">mIsShaderTransformDirty</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">mIsShaderTransformDirty</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mPaint</span><span class="o">.</span><span class="na">getShader</span><span class="o">().</span><span class="na">setLocalMatrix</span><span class="o">(</span><span class="n">mTransform</span><span class="o">);</span>
+    <span class="n">mIsShaderTransformDirty</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="n">mPaint</span><span class="o">.</span><span class="na">setFilterBitmap</span><span class="o">(</span><span class="n">getPaintFilterBitmap</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div><p>可以看到使用了 BitmapShader，TileMode CLAMP。</p>
+<blockquote>
+<p>CLAMP<br>
+Replicate the edge color if the shader draws outside of its original bounds.<br>
+如果着色器绘制在边界之外，则复制边缘颜色。</p>
+</blockquote>
+<p>所以说，如果 Bitmap 的大小不够铺满整个 View，那就会出现之前图中的情况了。</p>
+<p>可是设置了 CenterCrop 属性，那大小应该可以覆盖整个 View 才对，那为啥结果是没有呢？</p>
+<h2 id="图片是如何展示的">图片是如何展示的</h2>
+<p>一个图片转为 Bitmap 到底怎么呈现到 ImageView 上的呢？</p>
+<p>这破问题，之前面试腾讯的时候每次都问，还有各种一系列问题，如：</p>
+<p>同一个手机，同一张图片在 xxhdpi 和 xhdpi，加载到内存里一样吗？<br>
+计算下分别多大啊？<br>
+如果 ImageView 宽高不同呢？<br>
+RGB_565 和 RGB_8888 啥区别啊？</p>
+<p>我个人感觉这种问题其实大家都知道，大家心里都存在这么个概念，心里有数，碰到问题解决问题即可，非要当面试题算，纯属耍流氓···</p>
+<p>既然今天遇到了，那就看看呗，相当于顺便复习了</p>
+<h3 id="bitmap">Bitmap</h3>
+<p>Bitmap 就是一张图片的数据源，当我们从网络上下载一张图片时，图片从流中解码成 Bitmap。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="n">inputStream</span><span class="o">)</span>
+</code></pre></div><p>如果图片原始大小是 100x100 像素，但是我的 View 宽高是 50x50 像素，显然我不需要 100x100 这么大的图片。</p>
+<p>这就有了常说的 <code>BitmapFactory.Options</code>，通过 <code>inJustDecodeBounds</code> 获取宽高，再用 <code>inSampleSize</code> 缩小对应比例。</p>
+<p>古老的 Android 书里似乎还会教这个，不过现在都是图片加载框架帮你搞定了。</p>
+<p>Bitmap 高本版早已分配在 native 内存中，可以去追追代码。</p>
+<h4 id="mutable-和-reconfigure">Mutable 和 Reconfigure</h4>
+<p>可能你一直没有在意过，Bitmap 有个 mutable 属性。在 Bitmap.createBitmap 方法中，mutable 默认是 true。其实，这个属性可以用于复用 Bitmap 底层申请的内存。</p>
+<p>怎么复用呢？</p>
+<p>这就是 Bitmap 的 reconfigure 方法了，这也是个基本没人知道的方法。通过它，可以修改 Bitmap Config，包括 width，height 和 像素格式。所以，Fresco 中有个 BucketsBitmapPool，它的 alloc 方法，默认申请的大小是 width = 1，像素格式为 RGB_565 格式的 Bitmap，但是并不影响后续使用，reconfigure 一下就可以了。</p>
+<h4 id="density">density</h4>
+<p>Bitmap 还有个属性叫做 density，这个应该也鲜为人知。</p>
+<p>density 的作用，我目前只看到了 BitmapDrawable 中有使用。图片展示都是依赖于BitmapDrawable 的 draw 方法。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// 省略
+</span><span class="c1"></span>  <span class="n">updateDstRectAndInsetsIfDirty</span><span class="o">();</span>
+  <span class="c1">// 省略
+</span><span class="c1"></span>  <span class="n">canvas</span><span class="o">.</span><span class="na">drawBitmap</span><span class="o">(</span><span class="n">bitmap</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">mDstRect</span><span class="o">,</span> <span class="n">paint</span><span class="o">);</span>
+  <span class="c1">// 省略
+</span><span class="c1"></span><span class="o">}</span>
+</code></pre></div><p>那代码中的 mDstRect 哪里来的呢？</p>
+<p>其实是 updateDstRectAndInsetsIfDirty() 方法会更新 mDstRect</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"> <span class="n">Gravity</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">mBitmapState</span><span class="o">.</span><span class="na">mGravity</span><span class="o">,</span> <span class="n">mBitmapWidth</span><span class="o">,</span> <span class="n">mBitmapHeight</span><span class="o">,</span>
+                        <span class="n">bounds</span><span class="o">,</span> <span class="n">mDstRect</span><span class="o">,</span> <span class="n">layoutDirection</span><span class="o">);</span>
+</code></pre></div><p>而每当我们 setBitmap 时，最终都会触发一个 BitmapDrawable.computeBitmapSize() 的方法，更新 mBitmap 的宽高属性</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">computeBitmapSize</span><span class="o">()</span> <span class="o">{</span>
+  <span class="kd">final</span> <span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">mBitmapState</span><span class="o">.</span><span class="na">mBitmap</span><span class="o">;</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">bitmap</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">mBitmapWidth</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getScaledWidth</span><span class="o">(</span><span class="n">mTargetDensity</span><span class="o">);</span>
+      <span class="n">mBitmapHeight</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getScaledHeight</span><span class="o">(</span><span class="n">mTargetDensity</span><span class="o">);</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="n">mBitmapWidth</span> <span class="o">=</span> <span class="n">mBitmapHeight</span> <span class="o">=</span> <span class="o">-</span><span class="n">1</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>所以说，Bitmap 的 density 会影响到 canvas 最终绘制的 mDstRect，进而影响到图片的展示。</p>
+<p>默认情况下，Bitmap 就是系统的 density，系统的 density 不会有啥变化，所以不会有任何影响。</p>
+<h3 id="drawable">Drawable</h3>
+<p>前面已经说了一堆 BitmapDrawable 了，Drawable 就是 Android 抽象出来的一种处理绘制过程的抽象类。在 Fresco 中，这个被用烂了。</p>
+<p>Fresco 中其实全靠 GenericDraweeHierarchy，GenericDraweeHierarchy 中有各种层级的 Drawable，注释如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">Example</span> <span class="n">hierarchy</span> <span class="n">with</span> <span class="n">a</span> <span class="n">placeholder</span><span class="o">,</span> <span class="n">retry</span><span class="o">,</span> <span class="n">failure</span> <span class="n">and</span> <span class="n">the</span> <span class="n">actual</span> <span class="n">image</span><span class="o">:</span>
+    <span class="n">o</span> <span class="nf">RootDrawable</span> <span class="o">(</span><span class="n">top</span> <span class="n">level</span> <span class="n">drawable</span><span class="o">)</span>
+    <span class="o">|</span>
+    <span class="o">+--</span><span class="n">o</span> <span class="n">FadeDrawable</span>
+       <span class="o">|</span>
+       <span class="o">+--</span><span class="n">o</span> <span class="nf">ScaleTypeDrawable</span> <span class="o">(</span><span class="n">placeholder</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
+       <span class="o">|</span>  <span class="o">|</span>
+       <span class="o">|</span>  <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">placeholder</span> <span class="n">image</span><span class="o">)</span>
+       <span class="o">|</span>
+       <span class="o">+--</span><span class="n">o</span> <span class="nf">ScaleTypeDrawable</span> <span class="o">(</span><span class="n">actual</span> <span class="n">image</span> <span class="n">branch</span><span class="o">)</span>
+       <span class="o">|</span>  <span class="o">|</span>
+       <span class="o">|</span>  <span class="o">+--</span><span class="n">o</span> <span class="nf">ForwardingDrawable</span> <span class="o">(</span><span class="n">actual</span> <span class="n">image</span> <span class="n">wrapper</span><span class="o">)</span>
+       <span class="o">|</span>     <span class="o">|</span>
+       <span class="o">|</span>     <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">actual</span> <span class="n">image</span><span class="o">)</span>
+       <span class="o">|</span>
+       <span class="o">+--</span><span class="n">o</span> <span class="nf">null</span> <span class="o">(</span><span class="n">progress</span> <span class="n">bar</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
+       <span class="o">|</span>
+       <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">retry</span> <span class="n">image</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
+       <span class="o">|</span>
+       <span class="o">+--</span><span class="n">o</span> <span class="nf">ScaleTypeDrawable</span> <span class="o">(</span><span class="n">failure</span> <span class="n">image</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
+          <span class="o">|</span>
+          <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">failure</span> <span class="n">image</span><span class="o">)</span>
+    
+</code></pre></div><p>比如其中的 FadeDrawable 就是渐现的具体实现，ScaleTypeDrawable 就是 ScaleType 的具体实现，每一个 SimpleDraweeView 的展示，都有多层的 Drawable。</p>
+<p>我们常见的 ScaleType 的实现都是通过给 Drawable 设置各种 transform 矩阵(canvas.concat(matrix))来做的，无论是 ImageView 还是 Fresco(SimpleDraweeView)。</p>
+<p>Fresco 中使用 actualImageScaleType，其实最终都在 ScalingUtils 中，比如 CenterCrop 对应为 ScaleTypeCenterCrop 静态内部类，返回一个对应的 outTransform 矩阵。</p>
+<p>总之，最终还是调用到 scaleTypeDrawable 的 draw 方法，concat 一个矩阵</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">configureBoundsIfUnderlyingChanged</span><span class="o">();</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">mDrawMatrix</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">saveCount</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="na">clipRect</span><span class="o">(</span><span class="n">getBounds</span><span class="o">());</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="na">concat</span><span class="o">(</span><span class="n">mDrawMatrix</span><span class="o">);</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="na">restoreToCount</span><span class="o">(</span><span class="n">saveCount</span><span class="o">);</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="c1">// mDrawMatrix == null means our bounds match and we can take fast path
+</span><span class="c1"></span>    <span class="kd">super</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><h3 id="小结">小结</h3>
+<p>Bitmap 本身的 density 变化，会影响到 BitmapDrawable 的 DstRect 进而影响到绘制的范围。</p>
+<p>普通 ImageView 的 ScaleType 和 Fresco 的 actualImageScaleType 会影响到 canvas.concat(matrix) 进而影响到绘制的范围。</p>
+<h3 id="解析原因">解析原因</h3>
+<h4 id="bitmapshader-会使得边缘像素重复">BitmapShader 会使得边缘像素重复</h4>
+<p>Fresco 中的 RoundedBitmapDrawable 通过 BitmapShader 实现，TileMode.CLAMP 在铺不满 view 的情况下，会重复边缘像素。</p>
+<h4 id="bitmapdrawble-的-density-被-autosize-修改">BitmapDrawble 的 Density 被 AutoSize 修改</h4>
+<p>RoundedBitmapDrawable 创建的代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nf">RoundedBitmapDrawable</span><span class="o">(</span><span class="n">Resources</span> <span class="n">res</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Paint</span> <span class="n">paint</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="k">new</span> <span class="n">BitmapDrawable</span><span class="o">(</span><span class="n">res</span><span class="o">,</span> <span class="n">bitmap</span><span class="o">));</span>
+    <span class="n">mBitmap</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">paint</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">mPaint</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">paint</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="n">mPaint</span><span class="o">.</span><span class="na">setFlags</span><span class="o">(</span><span class="n">Paint</span><span class="o">.</span><span class="na">ANTI_ALIAS_FLAG</span><span class="o">);</span>
+    <span class="n">mBorderPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="n">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div><p>RoundedBitmapDrawable 内部创建了 BitmapDrawable，并通过 resource 获取到 density</p>
+<p>而 AutoSize 这个库，默认会修改 density</p>
+<p>比如，我的一加 A6000 density 本来是 420，依赖 AutoSize 后变为了 480。</p>
+<p>所以，此时 BitmapDrawble 的 density(mTargetDensity) = 480，进而 computeBitmapSize 其实已经出现问题。</p>
+<h4 id="bucketsbitmappool-创建-bitmap-没有管-density">BucketsBitmapPool 创建 Bitmap 没有管 Density</h4>
+<p>然后，有意思的来了，Bitmap 初始化默认的 density 是多少呢？</p>
+<p>Fresco 中通过 BucketsBitmapPool 调用 Bitmap.createBitmap 实现的，一路追下去就到了 native 方法中，然后你会发现调用到了这里：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="n">jobject</span> <span class="nf">createBitmap</span><span class="p">(</span><span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span><span class="p">,</span> <span class="n">Bitmap</span><span class="o">*</span> <span class="n">bitmap</span><span class="p">,</span>
+        <span class="kt">int</span> <span class="n">bitmapCreateFlags</span><span class="p">,</span> <span class="n">jbyteArray</span> <span class="n">ninePatchChunk</span><span class="p">,</span> <span class="n">jobject</span> <span class="n">ninePatchInsets</span><span class="p">,</span>
+        <span class="kt">int</span> <span class="n">density</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="n">isMutable</span> <span class="o">=</span> <span class="n">bitmapCreateFlags</span> <span class="o">&amp;</span> <span class="n">kBitmapCreateFlag_Mutable</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">isPremultiplied</span> <span class="o">=</span> <span class="n">bitmapCreateFlags</span> <span class="o">&amp;</span> <span class="n">kBitmapCreateFlag_Premultiplied</span><span class="p">;</span>
+    <span class="c1">// The caller needs to have already set the alpha type properly, so the
+</span><span class="c1"></span>    <span class="c1">// native SkBitmap stays in sync with the Java Bitmap.
+</span><span class="c1"></span>    <span class="n">assert_premultiplied</span><span class="p">(</span><span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">info</span><span class="p">(),</span> <span class="n">isPremultiplied</span><span class="p">);</span>
+    <span class="kt">bool</span> <span class="n">fromMalloc</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">pixelStorageType</span><span class="p">()</span> <span class="o">==</span> <span class="n">PixelStorageType</span><span class="o">::</span><span class="n">Heap</span><span class="p">;</span>
+    <span class="n">BitmapWrapper</span><span class="o">*</span> <span class="n">bitmapWrapper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BitmapWrapper</span><span class="p">(</span><span class="n">bitmap</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isMutable</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">bitmapWrapper</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">().</span><span class="n">setImmutable</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="n">jobject</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">env</span><span class="o">-&gt;</span><span class="n">NewObject</span><span class="p">(</span><span class="n">gBitmap_class</span><span class="p">,</span> <span class="n">gBitmap_constructorMethodID</span><span class="p">,</span>
+            <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">jlong</span><span class="o">&gt;</span><span class="p">(</span><span class="n">bitmapWrapper</span><span class="p">),</span> <span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">(),</span> <span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">(),</span> <span class="n">density</span><span class="p">,</span>
+            <span class="n">isPremultiplied</span><span class="p">,</span> <span class="n">ninePatchChunk</span><span class="p">,</span> <span class="n">ninePatchInsets</span><span class="p">,</span> <span class="n">fromMalloc</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionCheck</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ALOGE</span><span class="p">(</span><span class="s">&#34;*** Uncaught exception returned from Java call!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+        <span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionDescribe</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">obj</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>此处 density 传的值是 -1，因为调用的时候没有传值，Bitmap.h 方法声明中有默认值 -1。</p>
+<p>但是，我的 Bitmap 中的 density 显示 = 420，很神奇。</p>
+<p><strong>这是为什么呢？</strong></p>
+<p>其实都在 env-&gt;NewObject 中，native 层反调了 java 层的 Bitmap 构造函数，&gt;=0 时才生效，-1 时会走进 Bitmap.getDefaultDensity() 的逻辑</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kt">int</span> <span class="nf">getDefaultDensity</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">sDefaultDensity</span> <span class="o">&gt;=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">sDefaultDensity</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">sDefaultDensity</span> <span class="o">=</span> <span class="n">DisplayMetrics</span><span class="o">.</span><span class="na">DENSITY_DEVICE</span><span class="o">;</span>
+    <span class="k">return</span> <span class="n">sDefaultDensity</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">// DisplayMetrics.java
+</span><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">getDeviceDensity</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// qemu.sf.lcd_density can be used to override ro.sf.lcd_density
+</span><span class="c1"></span>    <span class="c1">// when running in the emulator, allowing for dynamic configurations.
+</span><span class="c1"></span>    <span class="c1">// The reason for this is that ro.sf.lcd_density is write-once and is
+</span><span class="c1"></span>    <span class="c1">// set by the init process when it parses build.prop before anything else.
+</span><span class="c1"></span>    <span class="k">return</span> <span class="n">SystemProperties</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">&#34;qemu.sf.lcd_density&#34;</span><span class="o">,</span>
+            <span class="n">SystemProperties</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">&#34;ro.sf.lcd_density&#34;</span><span class="o">,</span> <span class="n">DENSITY_DEFAULT</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div><p>根本不是从 Resource 中获取，直接读取的 SystemProperties，所以两个 density 不一样。</p>
+<p>最终就成了这样，比如 Bitmap 有 100x100 的大小，却要覆盖 120x120 的区间，BitmapShader 帮忙盖满，从而出现了一开始的图中的情况。</p>
+<p>所以修改的方案是：</p>
+<ul>
+<li>能干掉 AutoSize 的话，直接干掉 AutoSize</li>
+<li>不能干掉 AutoSize 的话
+<ul>
+<li>如前面说的 issue 中一样，复写一个 wrappingutils，给 bitmap 赋值 AutoSize 后的 density</li>
+<li>重写 AutoSize 的 strategy，这个库很坑，默认全局开启 AutoSize，重写了以后就可以默认全局不开启，但是这样启用了 AutoSize 的页面仍然还是有问题。</li>
+</ul>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-12-23</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/" class="prev" rel="prev" title="一次 CPU 问题的排查"><i class="fas fa-angle-left fa-fw"></i>一次 CPU 问题的排查</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-12-23T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"记一次 Fresco 和 AutoSize 导致的 Bitmap 问题"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
