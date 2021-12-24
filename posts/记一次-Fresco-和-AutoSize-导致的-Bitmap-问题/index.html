@@ -6,7 +6,7 @@
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>记一次 Fresco 和 AutoSize 导致的 Bitmap 问题 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="记一次 Fresco 和 AutoSize 导致的 Bitmap 问题" />
-<meta property="og:description" content="​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，并没有设置 ScaleType 或者设置错了 ScaleTyp" />
+<meta property="og:description" content="​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，设置错了 ScaleType 导致图片不能铺满整个 View，" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/" /><meta property="og:image" content="http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-12-23T00:00:00+00:00" />
@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg"/>
 <meta name="twitter:title" content="记一次 Fresco 和 AutoSize 导致的 Bitmap 问题"/>
-<meta name="twitter:description" content="​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，并没有设置 ScaleType 或者设置错了 ScaleTyp"/>
+<meta name="twitter:description" content="​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，设置错了 ScaleType 导致图片不能铺满整个 View，"/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/" /><link rel="prev" href="http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrain666.github.io\/posts\/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98\/fresco-autosize.jpg",
                             "width":  1510 ,
                             "height":  652 
-                        }],"genre": "posts","keywords": "Android","wordcount":  2732 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  2750 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98\/","datePublished": "2021-12-23T00:00:00+00:00","dateModified": "2021-12-23T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">记一次 Fresco 和 AutoSize 导致的 Bitmap 问题</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-12-23">2021-12-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2732 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-12-23">2021-12-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2750 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -155,8 +155,7 @@
         data-sizes="auto"
         alt="/img/in-post/fresco-vs-autosize/round_corner.png"
         title="/img/in-post/fresco-vs-autosize/round_corner.png" /></p>
-<p>一些文章上是说，导致的原因是在设置了 <code>圆角</code> 的情况下，并没有设置 ScaleType 或者设置错了 ScaleType。</p>
-<p>总之，最终的 ScaleType 要保证图片铺满 SimpleDraweeView，不然就是上图情况。</p>
+<p>一些文章上是说，导致的原因是在设置了 <code>圆角</code> 的情况下，设置错了 ScaleType 导致图片不能铺满整个 View，进而出现了图中的情况。</p>
 <p>文档如下：
 <a href="https://www.fresco-cn.org/docs/rounded-corners-and-circles.html" target="_blank" rel="noopener noreffer">圆角的两种模式</a>(看最后的说明部分)</p>
 <p>那如果你是 ScaleType 设置错误了的话，通过设置 ScaleType = &ldquo;CenterCrop&rdquo; 之类的能铺满 View 的方法就应该可以拯救你了。(<code>后面的就是废话了，不用看啦！</code>)</p>
@@ -165,6 +164,7 @@
 <p><strong>那么为什么 AndroidAutoSize 会影响到图片加载呢？</strong></p>
 <p><strong>总结一句话就是： AndroidAutoSize 影响到了 density</strong></p>
 <p>density 为啥会影响 Bitmap 呢？</p>
+<p>这就得从各种最基本的知识出发了！</p>
 <p>先看看 Fresco 圆角怎么实现的吧！</p>
 <h2 id="fresco-圆角">Fresco 圆角</h2>
 <p>Fresco 的圆角，普通图片非 ColorDrawable 的情况下，都是依靠 RoundedBitmapDrawable 来实现。</p>
@@ -302,7 +302,7 @@ RGB_565 和 RGB_8888 啥区别啊？</p>
 <p>所以，此时 BitmapDrawble 的 density(mTargetDensity) = 480，进而 computeBitmapSize 其实已经出现问题。</p>
 <h3 id="bucketsbitmappool-创建-bitmap-没有管-density">BucketsBitmapPool 创建 Bitmap 没有管 Density</h3>
 <p>然后，有意思的来了，Bitmap 初始化默认的 density 是多少呢？</p>
-<p>Fresco 中通过 BucketsBitmapPool 调用 Bitmap.createBitmap 实现的，一路追下去就到了 native 方法中，然后你会发现调用到了这里：</p>
+<p>Fresco 中通过 BucketsBitmapPool 调用 Bitmap.createBitmap 实现的，一路追下去就到了 native 方法中，nativeCreateBimap  其实 register 的时候叫做 Bitmap_creator ，追相关的方法，你就会发现调用到了这里：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="n">jobject</span> <span class="nf">createBitmap</span><span class="p">(</span><span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span><span class="p">,</span> <span class="n">Bitmap</span><span class="o">*</span> <span class="n">bitmap</span><span class="p">,</span>
         <span class="kt">int</span> <span class="n">bitmapCreateFlags</span><span class="p">,</span> <span class="n">jbyteArray</span> <span class="n">ninePatchChunk</span><span class="p">,</span> <span class="n">jobject</span> <span class="n">ninePatchInsets</span><span class="p">,</span>
         <span class="kt">int</span> <span class="n">density</span><span class="p">)</span> <span class="p">{</span>

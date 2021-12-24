@@ -11,7 +11,7 @@
     <pubDate>Thu, 23 Dec 2021 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/</guid>
-    <description><![CDATA[​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，并没有设置 ScaleType 或者设置错了 ScaleTyp]]></description>
+    <description><![CDATA[​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，设置错了 ScaleType 导致图片不能铺满整个 View，]]></description>
 </item><item>
     <title>一次 CPU 问题的排查</title>
     <link>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/</link>
