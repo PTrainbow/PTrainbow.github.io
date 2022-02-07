@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>不太优雅的治理 MMKV FD 的方式 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="不太优雅的治理 MMKV FD 的方式" />
+<meta property="og:description" content="​ 前言 最近看了很多 fd 的问题，在一些机型上 fd 数量超过 1024 便会抛出 OOM。 mmkv 正常是没什么问题的，但是如果使用了过多实例，也是会占用一部分的 fd。 mmkv" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/" /><meta property="og:image" content="http://PTrain666.github.io/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-12-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-12-23T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg"/>
+<meta name="twitter:title" content="不太优雅的治理 MMKV FD 的方式"/>
+<meta name="twitter:description" content="​ 前言 最近看了很多 fd 的问题，在一些机型上 fd 数量超过 1024 便会抛出 OOM。 mmkv 正常是没什么问题的，但是如果使用了过多实例，也是会占用一部分的 fd。 mmkv"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/" /><link rel="prev" href="http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "不太优雅的治理 MMKV FD 的方式",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F\/mmkv.jpg",
+                            "width":  2492 ,
+                            "height":  1384 
+                        }],"genre": "posts","keywords": "Android","wordcount":  1392 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F\/","datePublished": "2021-12-23T00:00:00+00:00","dateModified": "2021-12-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">不太优雅的治理 MMKV FD 的方式</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-12-23">2021-12-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1392 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg"
+        data-srcset="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg, /posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg 1.5x, /posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg"
+        title="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#最优解">最优解</a></li>
+    <li><a href="#次优解">次优解</a>
+      <ul>
+        <li><a href="#phantomreference">PhantomReference</a></li>
+        <li><a href="#referencequeue">ReferenceQueue</a></li>
+        <li><a href="#具体实现">具体实现</a></li>
+      </ul>
+    </li>
+    <li><a href="#其他解">其他解</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>​</p>
+<h2 id="前言">前言</h2>
+<p>最近看了很多 fd 的问题，在一些机型上 fd 数量超过 1024 便会抛出 OOM。</p>
+<p>mmkv 正常是没什么问题的，但是如果使用了过多实例，也是会占用一部分的 fd。</p>
+<p>mmkv 每一个实例会持有两个 fd(如果你没有释放过的话)，在一个大工程里，很有可能同时存在 30+ 的 mmkv 实例，也就是 60+ 的 fd，因为每个业务可能都想有自己的 mmkv 实例(文件)，甚至同一个业务下的子逻辑也想有自己的 mmkv 实例，加上 java 程序员从不考虑资源释放问题(me too)，这也进一步加剧了 fd 不够用···最终 OOM</p>
+<p>当然即使 60 多个 fd，相对于 1024 还很遥远，这里只是 <code>提供一个可以回收 mmkv fd 的办法</code>。</p>
+<h2 id="最优解">最优解</h2>
+<p>最优解肯定是 <code>手动释放资源</code></p>
+<p>但是，工程里 mmkv 可能调用的地方有成百上千处，而且有的 mmkv 实例是需要或者最好是一直存在的，有的是不需要的，很难修改，还要去读业务逻辑。</p>
+<p>一开始本来打算使用 <code>finalize</code> 的方式，按照 FileInputStream 之类的写法 close fd，但是 finalize 方法首先在分配对象时就存在消耗，而且是否执行还不会保证，同时还会使对象死而复生，影响 gc，且高版本已经无法使用此方法了~~</p>
+<p>所以，最终采用 <code>虚引用 + 单线程(referencequeue consumer)</code> 来实现，不过线程的优先级我设置的比较低。</p>
+<p>最后，再次强调，<strong>手动释放才是最靠谱的</strong></p>
+<h2 id="次优解">次优解</h2>
+<p>使用 PhantomReference</p>
+<h3 id="phantomreference">PhantomReference</h3>
+<p>java 中的几种引用类型，八股面试常备。</p>
+<p>StrongReference 就不说了，SoftReference 用来做缓存也在各种框架中见到了很多了，WeakReference Android 常用来防止内存泄露，也可以做特定缓存。</p>
+<p>就剩下 PhantomReference 了，它能干什么呢？它可以帮你 <code>监听对象的回收</code></p>
+<p>但是有两个注意点：</p>
+<ol>
+<li>phantomReference.get() 永远为 null。</li>
+<li>一定要强引用这个 phantomReference</li>
+</ol>
+<h3 id="referencequeue">ReferenceQueue</h3>
+<p>有关 referencequeue 之前有分析过，而且网上也有各式文章。它跟 gc 和 daemon 线程相关，通过 lock 来休眠和唤醒，具体细节可以去看相应文章。</p>
+<h3 id="具体实现">具体实现</h3>
+<p>这里就拿想要释放 mmkv 来说，mmkv.close 方法会最终调用到析构函数，最终 close(fd) &amp; munmap 回收资源。</p>
+<p>如果不调用 close 方法的话，mmkv 的 native 层本身也会帮我们做一层缓存。所以，在 Java 层去缓存 mmkv 的意义并不是很大。</p>
+<p>这里提供的方法，需要对 mmkv 进行一层包装，假设叫做 MMKVWrapper，而且又因为 mmkv 底层本身已经有缓存，多个 MMKVWrapper 对应的可能是同一个 mmkv 实例，所以我们根据 <code>mmkvId</code> 和 <code>引用计数</code> 来判断是否需要回收</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MMKVResourceRecycler</span> <span class="o">{</span>
+  <span class="c1">// 死循环，读取 referencequeue
+</span><span class="c1"></span>  <span class="kd">private</span> <span class="n">Thread</span> <span class="n">mCleanerThread</span><span class="o">;</span>
+  <span class="c1">// 引用计数
+</span><span class="c1"></span>  <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">MMKVCounter</span><span class="o">&gt;</span> <span class="n">mMMKVCounterMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;();</span>
+  <span class="c1">// 强引用 MMKVKVReference(PhantomReference)
+</span><span class="c1"></span>  <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">MMKVKVReference</span><span class="o">&gt;</span> <span class="n">mReferenceMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;();</span>
+  <span class="c1">// referencequeue
+</span><span class="c1"></span>  <span class="kd">private</span> <span class="n">ReferenceQueue</span><span class="o">&lt;</span><span class="n">MMKVWrapper</span><span class="o">&gt;</span> <span class="n">mReferenceQueue</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReferenceQueue</span><span class="o">&lt;&gt;();</span>
+
+
+  <span class="c1">// 创建 MMKVWrapper 时，需要调用一下 observe，创建对应虚引用和更新引用计数
+</span><span class="c1"></span>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">observeMMKV</span><span class="o">(</span><span class="n">MMKVWrapper</span> <span class="n">wrapper</span><span class="o">,</span> <span class="n">MMKV</span> <span class="n">mmkv</span><span class="o">,</span> <span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mmkv</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">key</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">MMKVKVReference</span> <span class="n">reference</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MMKVKVReference</span><span class="o">(</span><span class="n">wrapper</span><span class="o">,</span> <span class="n">mReferenceQueue</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
+        <span class="n">mReferenceMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">reference</span><span class="o">.</span><span class="na">hashCode</span><span class="o">(),</span> <span class="n">reference</span><span class="o">);</span>
+        <span class="n">MMKVCounter</span> <span class="n">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MMKVCounter</span><span class="o">(</span><span class="n">mmkv</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mMMKVCounterMap</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">key</span><span class="o">))</span> <span class="o">{</span>
+            <span class="c1">// 计数 + 1
+</span><span class="c1"></span>            <span class="n">mMMKVCounterMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">).</span><span class="na">refCounter</span><span class="o">.</span><span class="na">incrementAndGet</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">mMMKVCounterMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">counter</span><span class="o">);</span>
+        <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">initCleanerThread</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">mCleanerThread</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">TAG</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">MMKVKVReference</span> <span class="n">reference</span> <span class="o">=</span> <span class="o">(</span><span class="n">MMKVKVReference</span><span class="o">)</span> <span class="n">mReferenceQueue</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+                    <span class="c1">// 删除强引用
+</span><span class="c1"></span>                    <span class="n">mReferenceMap</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">reference</span><span class="o">.</span><span class="na">hashCode</span><span class="o">());</span>
+                    <span class="n">String</span> <span class="n">key</span> <span class="o">=</span> <span class="n">reference</span><span class="o">.</span><span class="na">getKey</span><span class="o">();</span>
+                    <span class="n">MMKVCounter</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">mMMKVCounterMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+                    <span class="c1">// 计数 -1
+</span><span class="c1"></span>                    <span class="k">if</span> <span class="o">(</span><span class="n">counter</span><span class="o">.</span><span class="na">refCounter</span><span class="o">.</span><span class="na">decrementAndGet</span><span class="o">()</span> <span class="o">&lt;=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="c1">// close 或者其他 自定义逻辑
+</span><span class="c1"></span>                    <span class="o">}</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span>
+
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">};</span>
+    <span class="n">mCleanerThread</span><span class="o">.</span><span class="na">setDaemon</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+    <span class="n">mCleanerThread</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MMKVCounter</span> <span class="o">{</span>
+    <span class="c1">// 引用计数
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="n">AtomicInteger</span> <span class="n">refCounter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AtomicInteger</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="n">MMKV</span> <span class="n">mmkv</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">MMKVCounter</span><span class="o">(</span><span class="n">MMKV</span> <span class="n">mmkv</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mmkv</span> <span class="o">=</span> <span class="n">mmkv</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mmkv</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mmkv</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="n">mmkv</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">refCounter</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MMKVKVReference</span> <span class="kd">extends</span> <span class="n">PhantomReference</span><span class="o">&lt;</span><span class="n">MMKVWrapper</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">mId</span><span class="o">;</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * Creates a new phantom reference that refers to the given object and
+</span><span class="cm">     * is registered with the given queue.
+</span><span class="cm">     *
+</span><span class="cm">     * &lt;p&gt; It is possible to create a phantom reference with a &lt;tt&gt;null&lt;/tt&gt;
+</span><span class="cm">     * queue, but such a reference is completely useless: Its &lt;tt&gt;get&lt;/tt&gt;
+</span><span class="cm">     * method will always return null and, since it does not have a queue, it
+</span><span class="cm">     * will never be enqueued.
+</span><span class="cm">     *
+</span><span class="cm">     * @param referent the object the new phantom reference will refer to
+</span><span class="cm">     * @param q        the queue with which the reference is to be registered,
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="nf">MMKVKVReference</span><span class="o">(</span><span class="n">MMKVWrapper</span> <span class="n">referent</span><span class="o">,</span> <span class="n">ReferenceQueue</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">MMKVWrapper</span><span class="o">&gt;</span> <span class="n">q</span><span class="o">,</span> <span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">referent</span><span class="o">,</span> <span class="n">q</span><span class="o">);</span>
+        <span class="n">mId</span> <span class="o">=</span> <span class="n">key</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getKey</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">mId</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>主体代码如上所示</p>
+<p>主要就是依靠一个 cleaner 线程，通过读取 referencequeue 获取到对应 reference 对象(记得后续删除调强引用)，然后通过 id 将对应的 counter 计数 -1，如果已经 &lt;= 0，则无人引用，可以执行对应的 close 逻辑。</p>
+<p>同时，在创建 MMKVWrapper 时，记得 observe 一下，创建对应的 PhantomReference 和 Counter</p>
+<h2 id="其他解">其他解</h2>
+<p>可以直接设置 fd 的上限更大，从而避免因为 fd 数量限制导致的 OOM。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-12-23</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/" class="prev" rel="prev" title="记一次 Fresco 和 AutoSize 导致的 Bitmap 问题"><i class="fas fa-angle-left fa-fw"></i>记一次 Fresco 和 AutoSize 导致的 Bitmap 问题</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-12-23T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"不太优雅的治理 MMKV FD 的方式"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

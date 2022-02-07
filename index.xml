@@ -6,6 +6,13 @@
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 23 Dec 2021 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>不太优雅的治理 MMKV FD 的方式</title>
+    <link>http://PTrain666.github.io/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/</link>
+    <pubDate>Thu, 23 Dec 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/</guid>
+    <description><![CDATA[​ 前言 最近看了很多 fd 的问题，在一些机型上 fd 数量超过 1024 便会抛出 OOM。 mmkv 正常是没什么问题的，但是如果使用了过多实例，也是会占用一部分的 fd。 mmkv]]></description>
+</item><item>
     <title>记一次 Fresco 和 AutoSize 导致的 Bitmap 问题</title>
     <link>http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/</link>
     <pubDate>Thu, 23 Dec 2021 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/ReferenceQueue-and-GC/</guid>
     <description><![CDATA[前言 内存泄漏对于日常简单的业务开发而言 很常见也不常见(如果你还是说 Handler 那一套的话，除非你使用 Handler 做 timer，否则 总有一个时间 会释放所谓的内部类]]></description>
-</item><item>
-    <title>Handler Looper MQ 的几个问题</title>
-    <link>http://PTrain666.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/</link>
-    <pubDate>Thu, 04 Mar 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/</guid>
-    <description><![CDATA[前言 Handler、Looper、MessageQueue 是老生常谈的话题了，你可能会觉得没什么好讲的啊，网上文章也一堆。 这里我有几个问题问]]></description>
 </item></channel>
 </rss>
