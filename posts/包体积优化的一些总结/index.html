@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>包体积优化的一些总结 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="包体积优化的一些总结" />
+<meta property="og:description" content="​ 前言 最近一直在搞包体积的优化，有点点心得 并且在优化的过程中发现了原有工程的各种问题，这里总结一下。 包体积优化的一些手段 这里先不讨论代码和依" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" /><meta property="og:image" content="http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-03-10T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg"/>
+<meta name="twitter:title" content="包体积优化的一些总结"/>
+<meta name="twitter:description" content="​ 前言 最近一直在搞包体积的优化，有点点心得 并且在优化的过程中发现了原有工程的各种问题，这里总结一下。 包体积优化的一些手段 这里先不讨论代码和依"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" /><link rel="prev" href="http://PTrain666.github.io/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "包体积优化的一些总结",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93\/apk_size.jpg",
+                            "width":  1950 ,
+                            "height":  666 
+                        }],"genre": "posts","keywords": "Android","wordcount":  1479 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93\/","datePublished": "2022-03-10T00:00:00+00:00","dateModified": "2022-03-10T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">包体积优化的一些总结</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-10">2022-03-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1479 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg"
+        data-srcset="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg, /posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg 1.5x, /posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg"
+        title="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#包体积优化的一些手段">包体积优化的一些手段</a>
+      <ul>
+        <li><a href="#dex">dex</a></li>
+        <li><a href="#resource">resource</a></li>
+        <li><a href="#native-so">native so</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>​</p>
+<h2 id="前言">前言</h2>
+<p>最近一直在搞包体积的优化，有点点心得</p>
+<p>并且在优化的过程中发现了原有工程的各种问题，这里总结一下。</p>
+<h2 id="包体积优化的一些手段">包体积优化的一些手段</h2>
+<p>这里先不讨论代码和依赖删减的部分，如果这些东西可以直接删除，那无疑是最快、最明显的方法</p>
+<p>不过我也可以提供一个删减代码的经验：</p>
+<ul>
+<li><code>一定要理清业务流程和依赖，切断引用链即可，R8 自动会帮我们删减无用代码。</code></li>
+<li><code>少量多次的 commit，给自己一点容错空间~~</code></li>
+</ul>
+<p>盲目的删减代码，只会带来无限的依赖报错，陷入泥潭。有时候可能只是一个方法的引用，把它注释掉就一切就都已经 OK 了。积累大量代码修改 commit 一次，后面出现问题想 revert 会很痛苦，因为有很多牵连的依赖问题。</p>
+<p>再看回 Android APK 文件，APK 文件由多个部分组成</p>
+<p>和包体积密切相关(体积比较大的)有几个部分：dex、native so lib、resource(asserts等)</p>
+<p>那么优化的手段就是围绕着这三部分展开</p>
+<h3 id="dex">dex</h3>
+<p>dex 就是我们的各种源码部分的体积。可以使用 <code>apk analyzer</code> <code>classshark</code> 具体问题具体分析</p>
+<ol>
+<li>
+<p>kotlin<br>
+如果你的工程中使用了 kotlin，那么你的 dex 无疑是会变大的。<br>
+且同样的代码下，<code>高本版 kotlin 本身占用更小体积</code>。（1.6.x 和 1.36.x 差距几百K）<br>
+同时，如果依赖了 <code>kotlin-reflect</code> 还会有 1M 左右的 class(不是 dex)额外体积。如果不需要的话，建议删除</p>
+</li>
+<li>
+<p>aar dependency<br>
+可以通过 apk analyzer 分析 dex 中各个包名下的 class 体积分布，找到体积较大的部分。再通过 dependency 分析是由那部分引用到的？是否需要？从而做删减。</p>
+</li>
+<li>
+<p>proguard 规则<br>
+release 一定要开启 <code>minify</code>（这个应该没人不知道吧···)<br>
+<code>没有特殊要求的话</code>，可以打开 <code>R8 optimize</code>(proguard 中不要写 -dontoptimize)</p>
+<blockquote>
+<p>这里遇到过一个好玩的事情 —— R8 optimize 被卡主。当时有一个打点 model 类，这个类高达 30w 行代码，包含了所有的打点。R8 每次处理到这里就会死掉~~</p>
+</blockquote>
+<p>还有 <code>keep 规则</code> 问题，这个对于 dex 体积影响很明显。因为类名方法名参数等都被替换为极其简短的字母。<code>keep 规则一定不要特别的宽泛！！！！</code>，不要照抄别人的 proguard，使用 getdefaultproguardfile，在 proguard-rules 里添加自己的额外规则就好了</p>
+<blockquote>
+<p>这里也遇到过一个好玩的事情<br>
+-keep @kotlin.Metadata class * { *; }<br>
+这个规则直接 keep 住所有的 kotlin 代码，删除后，<code>代码体积缩减20%</code></p>
+</blockquote>
+</li>
+<li>
+<p>R文件删除<br>
+R文件在 dex 中也是有不少体积的，项目越大体积也越大，可以使用 <code>booster 或者 bytex</code> 删掉 R文件。<br>
+R8 对于代码层面优化力度是挺大的，fullmode 没有尝试过，也不太确定 bytex 的其他一些包体积优化的插件是否有效(且 bytex 还为支持 agp7.0)，有兴趣可以自己试一下</p>
+</li>
+<li>
+<p>似乎也有 dex 合并压缩的方案，没用过</p>
+</li>
+</ol>
+<h3 id="resource">resource</h3>
+<p>Android 资源不仅会增加 <code>res</code> 的大小，还会增大 <code>resource.arsc</code> 的大小，所以资源的删减有时候对于包体积的收益是很明显的。</p>
+<ol>
+<li>
+<p>常规的替换、压缩、删减资源(比如 png -&gt; webp，asserts删减) 等等就不说了<br>
+大部分图片转换为 webp 会带了不小的体积收益</p>
+</li>
+<li>
+<p><strong>resguard</strong><br>
+目前看起来 R8 虽然也带有资源优化，但是远比不上 resguard 的功能。  resguard 会自动帮你剔除冗余资源，帮你对资源路径做混淆处理。会很明显的作用于 resource.arsc 的大小。<br>
+而且最终使用 7zip 压缩，包体积进一步缩减。<br>
+<code>resource.arsc 还可以进一步压缩（API 30 以上被禁止了)</code><br>
+但是，resguard 的 7zip 似乎对于要上 google play 的包有影响，而且并不支持 agp7.0，但是也有个人仓库对于 7.0 做了支持。</p>
+</li>
+<li>
+<p>resConfig<br>
+如果没有过多要求，可以只保留 <code>zh</code> 和 <code>xxhdpi</code> 的资源目录</p>
+</li>
+<li>
+<p>aar 中的 resource<br>
+特别注意如果工程中有类似 design-module(就是各种资源文件汇聚在一个的单独 module 甚至带了点代码)。可以尝试直接源码精简依赖，<code>可能</code>会有很大收益。</p>
+</li>
+</ol>
+<p>R文件的部分归结到 dex 中</p>
+<h3 id="native-so">native so</h3>
+<p>这部分没有特别多的办法，基本就是： 保留一种架构so 和 删减原有so。</p>
+<p>当然，也有人为了进一步缩减包体积(对体积极其敏感的情况下)，将 <code>多个so进一步打包压缩成一个小文件的方案</code>，但是这样也会带来解压的问题，主要看个人需求。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-03-10</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/" class="prev" rel="prev" title="不太优雅的治理 MMKV FD 的方式"><i class="fas fa-angle-left fa-fw"></i>不太优雅的治理 MMKV FD 的方式</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-03-10T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"包体积优化的一些总结"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
