@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>FFmpeg 简易播放器 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="FFmpeg 简易播放器" />
+<meta property="og:description" content="1.FFmpeg 和 SDL 下载 可以直接去官网下载源码自己编译或者下载已经编译好的版本 比如我直接用 brew install ffmpeg &ndash;with-sdl2 之后 /usr/local/Cellar 下就会有 ffmpeg 和 sdl2 了 2.开发环境 这里使用的是 MacOS &#43; CLion 随便" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/" /><meta property="og:image" content="http://PTrain666.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-07-31T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-07-31T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/logo.png"/>
+
+<meta name="twitter:title" content="FFmpeg 简易播放器"/>
+<meta name="twitter:description" content="1.FFmpeg 和 SDL 下载 可以直接去官网下载源码自己编译或者下载已经编译好的版本 比如我直接用 brew install ffmpeg &ndash;with-sdl2 之后 /usr/local/Cellar 下就会有 ffmpeg 和 sdl2 了 2.开发环境 这里使用的是 MacOS &#43; CLion 随便"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/" /><link rel="prev" href="http://PTrain666.github.io/posts/2020-05-18-Android-%E7%84%A6%E7%82%B9/" /><link rel="next" href="http://PTrain666.github.io/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "FFmpeg 简易播放器",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8\/"
+        },"genre": "posts","keywords": "Android","wordcount":  1263 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8\/","datePublished": "2020-07-31T00:00:00+00:00","dateModified": "2020-07-31T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">FFmpeg 简易播放器</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-07-31">2020-07-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1263 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1ffmpeg-和-sdl-下载">1.FFmpeg 和 SDL 下载</a></li>
+        <li><a href="#2开发环境">2.开发环境</a></li>
+        <li><a href="#3ffmpeg-和-sdl-的几个函数">3.FFmpeg 和 SDL 的几个函数</a></li>
+        <li><a href="#4一个完整的播放器流程">4.一个完整的播放器流程</a></li>
+        <li><a href="#5简易播放器源码">5.简易播放器源码</a></li>
+        <li><a href="#6参考资料">6.参考资料</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="1ffmpeg-和-sdl-下载">1.FFmpeg 和 SDL 下载</h3>
+<p>可以直接去官网下载源码自己编译或者下载已经编译好的版本</p>
+<p>比如我直接用</p>
+<blockquote>
+<p>brew install ffmpeg &ndash;with-sdl2</p>
+</blockquote>
+<p>之后 /usr/local/Cellar  下就会有 ffmpeg 和 sdl2 了</p>
+<h3 id="2开发环境">2.开发环境</h3>
+<p>这里使用的是 MacOS + CLion</p>
+<p>随便新建一个空工程就好，写好 CMakeLists 就好</p>
+<h4 id="21-cmakelists-学习">2.1 CMakeLists 学习</h4>
+<ul>
+<li>
+<p>include_directories()</p>
+<blockquote>
+<p>Add the given directories to those the compiler uses to search for include files. Relative paths are interpreted as relative to the current source directory.</p>
+</blockquote>
+<p>头文件搜索路径</p>
+</li>
+<li>
+<p>link_directories()</p>
+<blockquote>
+<p>Add directories in which the linker will look for libraries.</p>
+</blockquote>
+<p>链接库搜索路径</p>
+</li>
+<li>
+<p>target_link_libraries()</p>
+<blockquote>
+<p>Specify libraries or flags to use when linking a given target and/or its dependents</p>
+</blockquote>
+<p>指定链接时需要的链接库</p>
+</li>
+<li>
+<p>add_executable()</p>
+<blockquote>
+<p>Add an executable to the project using the specified source files.</p>
+</blockquote>
+<p>通过指定的代码文件生成一个可执行文件</p>
+</li>
+</ul>
+<h4 id="22-cmakelists-关键部分">2.2 CMakeLists 关键部分</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake">  <span class="nb">include_directories</span><span class="p">(</span><span class="s">/usr/local/Cellar/ffmpeg/4.2.2_3/include/</span> <span class="s">/usr/local/Cellar/sdl2/2.0.12_1/include/</span><span class="p">)</span><span class="err">
+</span><span class="err"></span>  <span class="nb">link_directories</span><span class="p">(</span><span class="s">/usr/local/Cellar/ffmpeg/4.2.2_3/lib/</span> <span class="s">/usr/local/Cellar/sdl2/2.0.12_1/lib/</span><span class="p">)</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="nb">add_executable</span><span class="p">(</span><span class="s">simple_player</span> <span class="s">simple_player.c</span><span class="p">)</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="nb">target_link_libraries</span><span class="p">(</span>
+          <span class="s">simple_player</span>
+          <span class="s">avcodec</span>
+          <span class="s">avdevice</span>
+          <span class="s">avfilter</span>
+          <span class="s">avformat</span>
+          <span class="s">avresample</span>
+          <span class="s">avutil</span>
+          <span class="s">postproc</span>
+          <span class="s">swresample</span>
+          <span class="s">swscale</span>
+          <span class="s">sdl2</span>
+  <span class="p">)</span><span class="err">
+</span></code></pre></div><h4 id="23-设置参数">2.3 设置参数</h4>
+<p>播放器接受一个文件路径作为参数，可以命令行启动或者设置 Run Configurations</p>
+<h3 id="3ffmpeg-和-sdl-的几个函数">3.FFmpeg 和 SDL 的几个函数</h3>
+<p>只是拎出来几个用到了的，具体参数含义自行阅读 API 文档</p>
+<h4 id="31-ffmpeg">3.1 FFmpeg</h4>
+<ul>
+<li>
+<p>3.1.1 avformat_open_input(AVFormatContext **ps, const char *url, ff_const59 AVInputFormat *fmt, AVDictionary **options);</p>
+<blockquote>
+<p>Open an input stream and read the header. The codecs are not opened. The stream must be closed with avformat_close_input().</p>
+</blockquote>
+<p>就是用来读取音频文件的信息的</p>
+<p>avformat_close_input 同理</p>
+</li>
+<li>
+<p>3.1.2 av_dump_format(AVFormatContext *ic, int index,  const char *url, int is_output);<br>
+打印输入、输出流的各种信息，如码率等</p>
+</li>
+<li>
+<p>3.1.3 vcodec_alloc_context3(const AVCodec *codec);<br>
+申请 AVCodecContext 空间。需要传递一个编码器，也可以不传，但不会包含编码器。如果不传，那么后面 avcodec_open2() 则需要传递一个</p>
+</li>
+<li>
+<p>3.1.4 avcodec_parameters_to_context(AVCodecContext *codec, const AVCodecParameters *par);<br>
+该函数用于将流里面的参数，也就是 AVStream 里面的参数直接复制到 AVCodecContext 的上下文当中</p>
+</li>
+<li>
+<p>3.1.5 avcodec_find_decoder(enum AVCodecID id);<br>
+寻找解码器</p>
+</li>
+<li>
+<p>3.1.6 avcodec_open2(AVCodecContext *avctx, const AVCodec *codec, AVDictionary **options);<br>
+该函数用于初始化一个视音频编解码器的 AVCodecContext</p>
+</li>
+<li>
+<p>3.1.7 sws_getContext(int srcW, int srcH, enum AVPixelFormat srcFormat, int dstW, int dstH, enum AVPixelFormat dstFormat, int flags, SwsFilter *srcFilter, SwsFilter *dstFilter, const double *param);</p>
+<blockquote>
+<p>Allocate and return an SwsContext. You need it to perform scaling/conversion operations using sws_scale().</p>
+</blockquote>
+<p>图像处理的 context</p>
+</li>
+<li>
+<p>3.1.8 av_frame_alloc()<br>
+分配一个 AVFrame 的内存空间</p>
+</li>
+<li>
+<p>3.1.9 av_image_get_buffer_size(enum AVPixelFormat pix_fmt, int width, int height, int align);<br>
+此函数的功能是按照指定的宽、高、像素格式来分析图像内存</p>
+</li>
+<li>
+<p>3.1.10 av_image_fill_arrays(uint8_t *dst_data[4], int dst_linesize[4], const uint8_t *src, enum AVPixelFormat pix_fmt, int width, int height, int align);<br>
+将 buffer 和 AVFrame 关联</p>
+</li>
+<li>
+<p>3.1.11 av_read_frame(AVFormatContext *s, AVPacket *pkt);<br>
+读取码流中的音频若干帧或者视频一帧</p>
+</li>
+<li>
+<p>3.1.12 avcodec_send_packet(AVCodecContext *avctx, const AVPacket *avpkt);<br>
+将码流中的数据放入队列中</p>
+</li>
+<li>
+<p>3.1.13 avcodec_receive_frame(AVCodecContext *avctx, AVFrame *frame);<br>
+获取解码的输出数据</p>
+</li>
+</ul>
+<h4 id="32-sdl">3.2 SDL</h4>
+<ul>
+<li>3.2.1 初始化
+<ul>
+<li>SDL_Init(): 初始化SDL</li>
+<li>SDL_CreateWindow(): 创建窗口（Window）</li>
+<li>SDL_CreateRenderer(): 基于窗口创建渲染器（Render）</li>
+<li>SDL_CreateTexture(): 创建纹理（Texture）</li>
+</ul>
+</li>
+<li>3.2.2 循环渲染数据
+<ul>
+<li>SDL_UpdateTexture(): 设置纹理的数据</li>
+<li>SDL_RenderCopy(): 纹理复制给渲染器</li>
+<li>SDL_RenderPresent(): 显示</li>
+</ul>
+</li>
+</ul>
+<h3 id="4一个完整的播放器流程">4.一个完整的播放器流程</h3>
+<p>这里是一个完善的流程图(借鉴来的)，但是我们只需要一个简易的播放器，省略音频部分和音视频同步的部分</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/video_player_flow.jpg"
+        data-srcset="/img/in-post/video_player_flow.jpg, /img/in-post/video_player_flow.jpg 1.5x, /img/in-post/video_player_flow.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/video_player_flow.jpg"
+        title="/img/in-post/video_player_flow.jpg" /></p>
+<h3 id="5简易播放器源码">5.简易播放器源码</h3>
+<p>我一开始入门的目的，就是想看看怎么能写出一个播放器，大家入门肯定都跟我一样，这里放一个没有声音的简易版本播放器，网上也能搜到很多类似的代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;libavformat/avformat.h&gt;  </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;libavcodec/avcodec.h&gt;  </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;libswscale/swscale.h&gt;  </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;libavutil/imgutils.h&gt;  </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;SDL2/SDL.h&gt;  </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;SDL2/SDL_thread.h&gt;  </span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_stream_idx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">vf_path</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="n">AVFormatContext</span> <span class="o">*</span><span class="n">fmt_ctx</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">AVCodecContext</span> <span class="o">*</span><span class="n">codec_ctx</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">AVCodec</span> <span class="o">*</span><span class="n">codec</span><span class="p">;</span>
+    <span class="n">AVFrame</span> <span class="o">*</span><span class="n">frame</span><span class="p">;</span>
+    <span class="n">AVPacket</span> <span class="n">packet</span><span class="p">;</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">avformat_open_input</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="n">vf_path</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Open video file %s failed </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">vf_path</span><span class="p">);</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">avformat_find_stream_info</span><span class="p">(</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="n">av_dump_format</span><span class="p">(</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vf_path</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fmt_ctx</span><span class="o">-&gt;</span><span class="n">nb_streams</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">fmt_ctx</span><span class="o">-&gt;</span><span class="n">streams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">codecpar</span><span class="o">-&gt;</span><span class="n">codec_type</span> <span class="o">==</span> <span class="n">AVMEDIA_TYPE_VIDEO</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">v_stream_idx</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">v_stream_idx</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Cannot find video stream</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">codec_ctx</span> <span class="o">=</span> <span class="n">avcodec_alloc_context3</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">avcodec_parameters_to_context</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="n">fmt_ctx</span><span class="o">-&gt;</span><span class="n">streams</span><span class="p">[</span><span class="n">v_stream_idx</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">codecpar</span><span class="p">);</span>
+    <span class="n">codec</span> <span class="o">=</span> <span class="n">avcodec_find_decoder</span><span class="p">(</span><span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">codec_id</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">codec</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Unsupported codec for video file</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">avcodec_open2</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="n">codec</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Can not open codec</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">SDL_Init</span><span class="p">(</span><span class="n">SDL_INIT_VIDEO</span> <span class="o">|</span> <span class="n">SDL_INIT_AUDIO</span> <span class="o">|</span> <span class="n">SDL_INIT_TIMER</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Could not init SDL due to %s&#34;</span><span class="p">,</span> <span class="n">SDL_GetError</span><span class="p">());</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">SDL_Window</span> <span class="o">*</span><span class="n">window</span><span class="p">;</span>
+    <span class="n">SDL_Renderer</span> <span class="o">*</span><span class="n">renderer</span><span class="p">;</span>
+    <span class="n">SDL_Texture</span> <span class="o">*</span><span class="n">texture</span><span class="p">;</span>
+    <span class="n">SDL_Event</span> <span class="n">event</span><span class="p">;</span>
+    <span class="n">SDL_Rect</span> <span class="n">r</span><span class="p">;</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">SDL_CreateWindow</span><span class="p">(</span><span class="s">&#34;SDL_CreateTexture&#34;</span><span class="p">,</span> <span class="n">SDL_WINDOWPOS_UNDEFINED</span><span class="p">,</span>
+                              <span class="n">SDL_WINDOWPOS_UNDEFINED</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span>
+                              <span class="n">SDL_WINDOW_RESIZABLE</span><span class="p">);</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">;</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">h</span> <span class="o">=</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">;</span>
+
+    <span class="n">renderer</span> <span class="o">=</span> <span class="n">SDL_CreateRenderer</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">texture</span> <span class="o">=</span> <span class="n">SDL_CreateTexture</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="n">SDL_PIXELFORMAT_YV12</span><span class="p">,</span> <span class="n">SDL_TEXTUREACCESS_STREAMING</span><span class="p">,</span>
+                                <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">);</span>
+
+    <span class="k">struct</span> <span class="n">SwsContext</span> <span class="o">*</span><span class="n">sws_ctx</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">sws_ctx</span> <span class="o">=</span> <span class="n">sws_getContext</span><span class="p">(</span><span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">pix_fmt</span><span class="p">,</span>
+                             <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span> <span class="n">AV_PIX_FMT_YUV420P</span><span class="p">,</span> <span class="n">SWS_BILINEAR</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">av_frame_alloc</span><span class="p">();</span>
+
+    <span class="kt">int</span> <span class="n">ret1</span><span class="p">,</span> <span class="n">ret2</span><span class="p">;</span>
+    <span class="n">AVFrame</span> <span class="o">*</span><span class="n">pict</span><span class="p">;</span>
+    <span class="n">pict</span> <span class="o">=</span> <span class="n">av_frame_alloc</span><span class="p">();</span>
+
+
+    <span class="kt">int</span> <span class="n">numBytes</span><span class="p">;</span>
+    <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">buffer</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">numBytes</span> <span class="o">=</span> <span class="n">av_image_get_buffer_size</span><span class="p">(</span><span class="n">AV_PIX_FMT_YUV420P</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span> <span class="n">av_malloc</span><span class="p">(</span><span class="n">numBytes</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">));</span>
+    <span class="c1">// required, or bad dst image pointers
+</span><span class="c1"></span>    <span class="n">av_image_fill_arrays</span><span class="p">(</span><span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">AV_PIX_FMT_YUV420P</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span>
+                         <span class="mi">1</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SDL_PollEvent</span><span class="p">(</span><span class="o">&amp;</span><span class="n">event</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">SDL_QUIT</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">av_read_frame</span><span class="p">(</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">packet</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">packet</span><span class="p">.</span><span class="n">stream_index</span> <span class="o">==</span> <span class="n">v_stream_idx</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">ret1</span> <span class="o">=</span> <span class="n">avcodec_send_packet</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">packet</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ret1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">ret2</span> <span class="o">=</span> <span class="n">avcodec_receive_frame</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="n">frame</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ret2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">sws_scale</span><span class="p">(</span><span class="n">sws_ctx</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="k">const</span> <span class="o">*</span><span class="k">const</span> <span class="o">*</span><span class="p">)</span> <span class="n">frame</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span>
+                      <span class="n">frame</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span>
+                      <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">);</span>
+            <span class="n">SDL_UpdateYUVTexture</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">r</span><span class="p">,</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                 <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                 <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+            <span class="n">SDL_RenderClear</span><span class="p">(</span><span class="n">renderer</span><span class="p">);</span>
+            <span class="n">SDL_RenderCopy</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="n">texture</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+            <span class="n">SDL_RenderPresent</span><span class="p">(</span><span class="n">renderer</span><span class="p">);</span>
+            <span class="n">SDL_Delay</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">av_packet_unref</span><span class="p">(</span><span class="o">&amp;</span><span class="n">packet</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">SDL_DestroyRenderer</span><span class="p">(</span><span class="n">renderer</span><span class="p">);</span>
+    <span class="n">SDL_Quit</span><span class="p">();</span>
+    <span class="n">av_frame_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">frame</span><span class="p">);</span>
+    <span class="n">avcodec_close</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">);</span>
+    <span class="n">avcodec_free_context</span><span class="p">(</span><span class="o">&amp;</span><span class="n">codec_ctx</span><span class="p">);</span>
+    <span class="nl">end</span><span class="p">:</span>
+    <span class="n">avformat_close_input</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fmt_ctx</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Shutdown</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><h3 id="6参考资料">6.参考资料</h3>
+<p>[1] 雷霄骅 <a href="https://blog.csdn.net/leixiaohua1020/" target="_blank" rel="noopener noreffer">https://blog.csdn.net/leixiaohua1020/</a><br>
+[2] <a href="https://www.cnblogs.com/yongdaimi/p/9804699.html" target="_blank" rel="noopener noreffer">https://www.cnblogs.com/yongdaimi/p/9804699.html</a><br>
+[3] <a href="https://www.cnblogs.com/leisure_chn/p/10235926.html" target="_blank" rel="noopener noreffer">https://www.cnblogs.com/leisure_chn/p/10235926.html</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-07-31</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2020-05-18-Android-%E7%84%A6%E7%82%B9/" class="prev" rel="prev" title="Android 焦点"><i class="fas fa-angle-left fa-fw"></i>Android 焦点</a>
+            <a href="/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" class="next" rel="next" title="再来看 Activity 启动流程">再来看 Activity 启动流程<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2020-07-31T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"FFmpeg 简易播放器"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

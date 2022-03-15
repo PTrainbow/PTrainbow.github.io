@@ -1,0 +1,35 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Java - 标签 - 北邙山之光的 Blog</title>
+        <link>http://PTrain666.github.io/tags/Java/</link>
+        <description>Java - 标签 - 北邙山之光的 Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 07 Feb 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Java/" rel="self" type="application/rss+xml" /><item>
+    <title>工作中遇到的代码反例</title>
+    <link>http://PTrain666.github.io/posts/2021-02-07-%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8F%8D%E4%BE%8B/</link>
+    <pubDate>Sun, 07 Feb 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2021-02-07-%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8F%8D%E4%BE%8B/</guid>
+    <description><![CDATA[前言 最近一直都是 copy 工程师和 scapegoat 工程师 不过也发现了一些些问题，也用来警示自己以后写代码 尽量 考虑全面(人无完人···) 反例1-下次进入 App，回到]]></description>
+</item><item>
+    <title>Java 泛型的见解</title>
+    <link>http://PTrain666.github.io/posts/2021-02-01-Java-%E6%B3%9B%E5%9E%8B%E7%9A%84%E8%A7%81%E8%A7%A3/</link>
+    <pubDate>Mon, 01 Feb 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2021-02-01-Java-%E6%B3%9B%E5%9E%8B%E7%9A%84%E8%A7%81%E8%A7%A3/</guid>
+    <description><![CDATA[前言 写 RecyclerView 的 Adapter 时，感觉到了泛型理解不够深刻，也不够熟练，看了几天的泛型文档 https://docs.oracle.com/javase/tutorial/java/generics/index.html 下面的总结均是对于文档的学习和一些代码示例的运行。 为什么要使用泛型]]></description>
+</item><item>
+    <title>Java 匿名内部类</title>
+    <link>http://PTrain666.github.io/posts/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/</link>
+    <pubDate>Thu, 21 Jan 2021 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/</guid>
+    <description><![CDATA[最近看了一些程序语言的设计，语言的本质等等···接触到了一些神奇的名词，协变与逆变（Covariance and contravariance） 等等]]></description>
+</item><item>
+    <title>RxJava doOnNext 歪打正着</title>
+    <link>http://PTrain666.github.io/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/</link>
+    <pubDate>Tue, 18 Feb 2020 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/</guid>
+    <description><![CDATA[来到了快手，代码是真滴乱。RxJava 到处甩，然后又炫技式的使用，冗余各种复杂逻辑，且有些地方使用并不规范，只不过没有出问题。配合自制 MVPs 架构]]></description>
+</item></channel>
+</rss>
