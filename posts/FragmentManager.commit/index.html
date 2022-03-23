@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>fragmentManager.commit 的一些潜在问题 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="fragmentManager.commit 的一些潜在问题" />
+<meta property="og:description" content="​ 前言 最近被 shadow 和 跨进程的 router 搞得头疼，感觉这俩框架跨进程部分写的略微有点混乱。 如果是纯用反射传 className，那就跨进程传字符串，然后再分" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/FragmentManager.commit/" /><meta property="og:image" content="http://PTrain666.github.io/posts/FragmentManager.commit/fragment.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-03-10T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/FragmentManager.commit/fragment.png"/>
+<meta name="twitter:title" content="fragmentManager.commit 的一些潜在问题"/>
+<meta name="twitter:description" content="​ 前言 最近被 shadow 和 跨进程的 router 搞得头疼，感觉这俩框架跨进程部分写的略微有点混乱。 如果是纯用反射传 className，那就跨进程传字符串，然后再分"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/FragmentManager.commit/" /><link rel="prev" href="http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "fragmentManager.commit 的一些潜在问题",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/FragmentManager.commit\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/FragmentManager.commit\/fragment.png",
+                            "width":  2240 ,
+                            "height":  1260 
+                        }],"genre": "posts","keywords": "Android","wordcount":  721 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/FragmentManager.commit\/","datePublished": "2022-03-10T00:00:00+00:00","dateModified": "2022-03-10T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">fragmentManager.commit 的一些潜在问题</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-10">2022-03-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 721 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/FragmentManager.commit/fragment.png"
+        data-srcset="/posts/FragmentManager.commit/fragment.png, /posts/FragmentManager.commit/fragment.png 1.5x, /posts/FragmentManager.commit/fragment.png 2x"
+        data-sizes="auto"
+        alt="/posts/FragmentManager.commit/fragment.png"
+        title="/posts/FragmentManager.commit/fragment.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#结论">结论</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>​</p>
+<h2 id="前言">前言</h2>
+<p>最近被 shadow 和 跨进程的 router 搞得头疼，感觉这俩框架跨进程部分写的略微有点混乱。</p>
+<p>如果是纯用反射传 className，那就跨进程传字符串，然后再分发咯 = handleMessage 呗，应该写的比较聚合才对。</p>
+<p>前几天测试反馈了一个 bug，在 Android 5.0/6.0 的机器上会出现跨进程路由无法跳转的问题，且在 6.0 上，不杀进程回桌面，再打开就又能跳转了。</p>
+<p>听听，神奇不？如果是你遇到了这个 bug，你会首先想到什么呢？</p>
+<p>当时手上没有手机可以复现，对于跨进程的路由跳转的代码也没有进行了解，所以今天才开始解这个 bug</p>
+<blockquote>
+<p><strong>吐槽1</strong><br>
+经常遇到负责一个模块的人，对这个模块一概不知。答复就是：我不清楚，你看主工程怎么写的~~<br>
+文档也没，代码一团乱麻，这些人往往还是主力···可悲可叹</p>
+</blockquote>
+<blockquote>
+<p><strong>吐槽2</strong><br>
+大家现在总想搞点黑科技，但是基础知识好差，似乎 mach-o/elf/pe 这些都不太清楚，互联网的面试玄学吧，程序员有啥门槛···</p>
+</blockquote>
+<h2 id="结论">结论</h2>
+<p>已经很晚了···码不动字了</p>
+<p>一路跟着路由框架 debug，加上插件双进程···来回断点···</p>
+<p>最终发现了这么一段代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">attach</span><span class="o">(</span><span class="n">Activity</span> <span class="n">activity</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">,</span> <span class="kt">int</span> <span class="n">requestCode</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">this</span><span class="o">.</span><span class="na">intent</span> <span class="o">=</span> <span class="n">intent</span><span class="o">;</span>
+   <span class="k">this</span><span class="o">.</span><span class="na">requestCode</span> <span class="o">=</span> <span class="n">requestCode</span><span class="o">;</span>
+   <span class="n">FragmentManager</span> <span class="n">fragmentManager</span> <span class="o">=</span> <span class="o">((</span><span class="n">FragmentActivity</span><span class="o">)</span><span class="n">activity</span><span class="o">).</span><span class="na">getSupportFragmentManager</span><span class="o">();</span>
+   <span class="n">FragmentTransaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">fragmentManager</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">();</span>
+   <span class="n">transaction</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">TAG</span><span class="o">);</span>
+   <span class="n">transaction</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div><p>这里他们使用一个 fragment 反过来触发 activity 的生命周期，手动调用一下 add commit，在 fragment 的 onCreate 方法中，再调用 activityCompatProxy 的 onCreate 方法，其余生命周期都是一样的分发过程。</p>
+<p>为什么这么写，没有细看，可能有一些实现困难的地方</p>
+<p>但是这里有一个很明显的问题，<code>commit 并不一定会成功哦!</code></p>
+<p>commit 方法会调用到 enqeueuAction 会 checkStateLoss 哦，<code>如果 mStateSaved = true，会抛异常哦</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">checkStateLoss</span><span class="o">()</span> <span class="o">{</span>
+   <span class="k">if</span> <span class="o">(</span><span class="n">mStateSaved</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+               <span class="s">&#34;Can not perform this action after onSaveInstanceState&#34;</span><span class="o">);</span>
+   <span class="o">}</span>
+   <span class="k">if</span> <span class="o">(</span><span class="n">mNoTransactionsBecause</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+               <span class="s">&#34;Can not perform this action inside of &#34;</span> <span class="o">+</span> <span class="n">mNoTransactionsBecause</span><span class="o">);</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>这个 mStateSaved 就是和 onSaveInstanceState 相关联的了</p>
+<blockquote>
+<p>If called, this method will occur after onStop() for applications targeting platforms starting with <code>Build.VERSION_CODES.P</code>. For applications targeting earlier platform versions this method will occur before onStop() and there are no guarantees about whether it will occur before or after onPause().</p>
+</blockquote>
+<p>所以说，这个问题应该在 android 9 以前都可能会发生~~</p>
+<p>目前解决办法只能是将 commit 替换为 commitAllowingStateLoss 了</p>
+<p>下班下班···</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-03-10</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" class="prev" rel="prev" title="包体积优化的一些总结"><i class="fas fa-angle-left fa-fw"></i>包体积优化的一些总结</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-03-10T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"fragmentManager.commit 的一些潜在问题"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
