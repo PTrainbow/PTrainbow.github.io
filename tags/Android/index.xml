@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 14 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 23 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>AGP BuildTools 之间的关系</title>
+    <link>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</link>
+    <pubDate>Thu, 23 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</guid>
+    <description><![CDATA[​发现一个有趣的问题： 今天同事突然问我：“你看这个什么情况，我没使用 resGuard 相关的资源混淆的东西啊，打出来的包为什么资源被混淆了？” 因为他们在做 AGP7.0]]></description>
+</item><item>
     <title>xv6 macOS 运行环境</title>
     <link>http://PTrain666.github.io/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/</link>
     <pubDate>Tue, 14 Jun 2022 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/</guid>
     <description><![CDATA[前言 https://www.youtube.com/watch?v=Mj5P47F6nJg 这个演讲太棒了，演讲人是 Roman Elizarov - Project Lead for the Kotlin Programming Language 按照他的 PPT 我自己总结了一下 Kotlin Coroutines Design Story 首先 kotlin 的协程库 = 线程池 + 任务调度，但是这个调度过程比较复]]></description>
-</item><item>
-    <title>好玩的 Kotlin</title>
-    <link>http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/</link>
-    <pubDate>Wed, 12 May 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/</guid>
-    <description><![CDATA[​ 前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C++ 被我暂时搁置了 最近本来是打算捡起来 C++ 的(也]]></description>
 </item></channel>
 </rss>
