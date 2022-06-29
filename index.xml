@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 23 Jun 2022 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 29 Jun 2022 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>dex 和 mmap</title>
+    <link>http://PTrain666.github.io/posts/dex-%E5%92%8C-mmap/</link>
+    <pubDate>Wed, 29 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/dex-%E5%92%8C-mmap/</guid>
+    <description><![CDATA[​ 背景 最近依葫芦画瓢搞了一个 dex2oat 的优化实验，用于冷启动场景 全量编译的情况下，劣化 400ms，部分编译的情况下有大概 100ms(数据在逐渐缩小)]]></description>
+</item><item>
     <title>AGP BuildTools 之间的关系</title>
     <link>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</link>
     <pubDate>Thu, 23 Jun 2022 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/</guid>
     <description><![CDATA[前言 最近来了个新环境，做了第一个需求——直播答题。 这边的风格大致就是：先在能使用的库的基础上快速完成需求，整个开发时间大概在2-3周，客户端]]></description>
-</item><item>
-    <title>六七月份</title>
-    <link>http://PTrain666.github.io/posts/%E5%85%AD%E4%B8%83%E6%9C%88%E4%BB%BD/</link>
-    <pubDate>Sun, 18 Jul 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E5%85%AD%E4%B8%83%E6%9C%88%E4%BB%BD/</guid>
-    <description><![CDATA[前言 距离上一次的 Coroutines 的文章已经过去了一个半月了(这个文章还有点小尴尬，其实我也只是写了几个小 demo，验证了一些自己的观点罢了，其实也没有实际]]></description>
 </item></channel>
 </rss>
