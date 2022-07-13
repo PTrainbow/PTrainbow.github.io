@@ -3,14 +3,35 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 30 Jun 2022 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 13 Jul 2022 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
-    <title>第五年</title>
-    <link>http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93-copy/</link>
+    <title>一周一首唐诗宋词(二)</title>
+    <link>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%80-copy/</link>
+    <pubDate>Wed, 13 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%80-copy/</guid>
+    <description><![CDATA[《临江仙·送钱穆父》 苏轼 〔宋代〕 一别都门三改火，天涯踏尽红尘。依然一笑作春温。无波真古井，有节是秋筠。 惆怅孤帆连夜发，送行淡月微云。尊前不用]]></description>
+</item><item>
+    <title>一周一首唐诗宋词(一)</title>
+    <link>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%80/</link>
+    <pubDate>Mon, 04 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%80/</guid>
+    <description><![CDATA[​《鹧鸪天·林断山明竹隐墙》 宋代·苏轼 林断山明竹隐墙。乱蝉衰草小池塘。 翻空白鸟时时见，照水红蕖细细香。 村舍外，古城旁。杖藜徐步转斜阳。 殷勤昨]]></description>
+</item><item>
+    <title>Accelerate C&#43;&#43; Chapter01</title>
+    <link>http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/</link>
     <pubDate>Thu, 30 Jun 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93-copy/</guid>
+    <guid>http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/</guid>
+    <description><![CDATA[Exercises Exercise 1-1 Are the following definitions valid? Why or why not? const std::string hello = &#34;Hello&#34;; const std::string message = hello + &#34;, world&#34; + &#34;!&#34;; 编译正确。std::string 重写了 + 操作符 Exercise 1-2 Are the following definitions valid? Why or why not? const std::string exclam = &#34;!&#34;; const std::string message =]]></description>
+</item><item>
+    <title>第五年</title>
+    <link>http://PTrain666.github.io/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/</link>
+    <pubDate>Thu, 30 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/</guid>
     <description><![CDATA[又是一年 6.30，毕业五年了！ 自己也变成了“老白兔” “前辈” 了，也越来越不会让工作占据生活。 更佛、更淡定、也更坚定，也掌握了一种躺平的哲学。]]></description>
 </item><item>
     <title>dex 和 mmap</title>
@@ -54,26 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/FragmentManager.commit/</guid>
     <description><![CDATA[​ 前言 最近被 shadow 和 跨进程的 router 搞得头疼，感觉这俩框架跨进程部分写的略微有点混乱。 如果是纯用反射传 className，那就跨进程传字符串，然后再分]]></description>
-</item><item>
-    <title>包体积优化的一些总结</title>
-    <link>http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/</link>
-    <pubDate>Thu, 10 Mar 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/</guid>
-    <description><![CDATA[​ 前言 最近一直在搞包体积的优化，有点点心得 并且在优化的过程中发现了原有工程的各种问题，这里总结一下。 包体积优化的一些手段 这里先不讨论代码和依]]></description>
-</item><item>
-    <title>不太优雅的治理 MMKV FD 的方式</title>
-    <link>http://PTrain666.github.io/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/</link>
-    <pubDate>Thu, 23 Dec 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/</guid>
-    <description><![CDATA[​ 前言 最近看了很多 fd 的问题，在一些机型上 fd 数量超过 1024 便会抛出 OOM。 mmkv 正常是没什么问题的，但是如果使用了过多实例，也是会占用一部分的 fd。 mmkv]]></description>
-</item><item>
-    <title>记一次 Fresco 和 AutoSize 导致的 Bitmap 问题</title>
-    <link>http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/</link>
-    <pubDate>Thu, 23 Dec 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/</guid>
-    <description><![CDATA[​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，设置错了 ScaleType 导致图片不能铺满整个 View，]]></description>
 </item></channel>
 </rss>

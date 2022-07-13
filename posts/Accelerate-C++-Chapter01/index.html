@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Accelerate C&#43;&#43; Chapter01 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="Accelerate C&#43;&#43; Chapter01" />
+<meta property="og:description" content="Exercises Exercise 1-1 Are the following definitions valid? Why or why not? const std::string hello = &#34;Hello&#34;; const std::string message = hello &#43; &#34;, world&#34; &#43; &#34;!&#34;; 编译正确。std::string 重写了 &#43; 操作符 Exercise 1-2 Are the following definitions valid? Why or why not? const std::string exclam = &#34;!&#34;; const std::string message =" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/" /><meta property="og:image" content="http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-30T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-06-30T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png"/>
+<meta name="twitter:title" content="Accelerate C&#43;&#43; Chapter01"/>
+<meta name="twitter:description" content="Exercises Exercise 1-1 Are the following definitions valid? Why or why not? const std::string hello = &#34;Hello&#34;; const std::string message = hello &#43; &#34;, world&#34; &#43; &#34;!&#34;; 编译正确。std::string 重写了 &#43; 操作符 Exercise 1-2 Are the following definitions valid? Why or why not? const std::string exclam = &#34;!&#34;; const std::string message ="/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/" /><link rel="prev" href="http://PTrain666.github.io/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/" /><link rel="next" href="http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%80/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Accelerate C++ Chapter01",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/Accelerate-C\u002b\u002b-Chapter01\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/Accelerate-C\u002b\u002b-Chapter01\/c\u002b\u002b.png",
+                            "width":  512 ,
+                            "height":  512 
+                        }],"genre": "posts","keywords": "C\u002b\u002b","wordcount":  761 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/Accelerate-C\u002b\u002b-Chapter01\/","datePublished": "2022-06-30T00:00:00+00:00","dateModified": "2022-06-30T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Accelerate C&#43;&#43; Chapter01</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-30">2022-06-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 761 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png"
+        data-srcset="/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png, /posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png 1.5x, /posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png 2x"
+        data-sizes="auto"
+        alt="/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png"
+        title="/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#exercise-1-1">Exercise 1-1</a></li>
+    <li><a href="#exercise-1-2">Exercise 1-2</a></li>
+    <li><a href="#exercise-1-3">Exercise 1-3.</a></li>
+    <li><a href="#exercise-1-4">Exercise 1-4</a></li>
+    <li><a href="#exercise-1-5">Exercise 1-5</a></li>
+    <li><a href="#exercise-1-6">Exercise 1-6</a></li>
+    <li><a href="#额外补充">额外补充</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Exercises</p>
+<h2 id="exercise-1-1">Exercise 1-1</h2>
+<blockquote>
+<p>Are the following definitions valid? Why or why not?</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">hello</span> <span class="o">=</span> <span class="s">&#34;Hello&#34;</span><span class="p">;</span>  
+<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">message</span> <span class="o">=</span> <span class="n">hello</span> <span class="o">+</span> <span class="s">&#34;, world&#34;</span> <span class="o">+</span> <span class="s">&#34;!&#34;</span><span class="p">;</span> 
+</code></pre></div><p>编译正确。std::string 重写了 + 操作符</p>
+<h2 id="exercise-1-2">Exercise 1-2</h2>
+<blockquote>
+<p>Are the following definitions valid? Why or why not?</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">exclam</span> <span class="o">=</span> <span class="s">&#34;!&#34;</span><span class="p">;</span>  
+<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">message</span> <span class="o">=</span> <span class="s">&#34;Hello&#34;</span> <span class="o">+</span> <span class="s">&#34;, world&#34;</span> <span class="o">+</span> <span class="n">exclam</span><span class="p">;</span>  
+</code></pre></div><p>编译报错。因为 “Hello” 为 const char *，并没有重载操作符，所以编译报错。</p>
+<h2 id="exercise-1-3">Exercise 1-3.</h2>
+<blockquote>
+<p>Is the following program valid? If so, what does it do? If not, why not?</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="p">{</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&#34;a string&#34;</span><span class="p">;</span> 
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 
+  <span class="p">}</span>
+  
+  <span class="p">{</span> 
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&#34;another string&#34;</span><span class="p">;</span> 
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> 
+<span class="p">}</span>
+</code></pre></div><p>编译正确。作用域没问题</p>
+<h2 id="exercise-1-4">Exercise 1-4</h2>
+<blockquote>
+<p>What about this one? What if we change }} to };} in the third line from the end?</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="p">{</span>
+        <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&#34;a string&#34;</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="p">{</span>
+            <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&#34;another string&#34;</span><span class="p">;</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>编译正确。作用域没问题</p>
+<h2 id="exercise-1-5">Exercise 1-5</h2>
+<blockquote>
+<p>Is this program valid? If so, what does it do? If not, say why not, and rewrite it to be valid.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt; </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&#34;a string&#34;</span><span class="p">;</span>
+        <span class="p">{</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">x</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="s">&#34;, really&#34;</span><span class="p">;</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>编译报错。x 超出作用域范围</p>
+<h2 id="exercise-1-6">Exercise 1-6</h2>
+<blockquote>
+<p>What does the following program do if, when it asks you for input, you type two names (for example, Samuel Beckett)? Predict the behavior before running the program, then try it.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt; </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;What is your name? &#34;</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">;</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">name</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Hello, &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">name</span>
+              <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&#34;And what is yours? &#34;</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">name</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Hello, &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">name</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&#34;; nice to meet you too!&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>如果连续输入两个值，整个程序直接结束</p>
+<p>因为 cin 碰到空格或者换行符都会终止。</p>
+<p>传入两个值，刚好两次 cin 读取，程序结束。</p>
+<h2 id="额外补充">额外补充</h2>
+<p>感觉 chapter01 也忒简单了···</p>
+<p>学习一下 const 关键字吧</p>
+<p>源自 CPlusPlusThings <a href="https://github.com/Light-City/CPlusPlusThings" target="_blank" rel="noopener noreffer">https://github.com/Light-City/CPlusPlusThings</a></p>
+<p>总结一下：</p>
+<ol>
+<li>
+<p>const 用于定义常量，不可修改</p>
+</li>
+<li>
+<p>const 和 指针<br>
+const char* a = &ldquo;test&rdquo;;<br>
+char* const a = &ldquo;test&rdquo;;</p>
+<p>如果 const 位于 <code>*</code> 的左侧，则 const 就是用来修饰指针所指向的变量，即指针指向为常量;<br>
+如果 const 位于 <code>*</code> 的右侧，const 就是修饰指针本身，即指针本身是常量。<br>
+const 优先作用于左边，左边没有信息，才会作用于右边</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++">  <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="c1">//  指针 p1 本身是常量指针，指针本身的值不可以修改，但是指针指向的内存区域的值随意修改
+</span><span class="c1"></span>  <span class="kt">int</span> <span class="o">*</span><span class="k">const</span> <span class="n">p1</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>
+  <span class="c1">// p1 = &amp;b; // error
+</span><span class="c1"></span>  <span class="o">*</span><span class="n">p1</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">// ok
+</span><span class="c1"></span>  <span class="c1">// 指针 p2 指向的内容为常量，指针本身的值可以修改，指针指向的内容区域的值不可修改
+</span><span class="c1"></span>  <span class="k">const</span> <span class="kt">int</span> <span class="o">*</span><span class="n">p2</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>
+  <span class="n">p2</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">;</span> <span class="c1">// ok
+</span><span class="c1"></span>  <span class="c1">// *p2 = 3; // error
+</span></code></pre></div><ol start="3">
+<li>函数中的 const<br>
+一般作用于参数限制。如传参数递引用时，害怕被修改，通过增加 const 保证不被修改</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-06-30</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/C&#43;&#43;/">C&#43;&#43;</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/" class="prev" rel="prev" title="第五年"><i class="fas fa-angle-left fa-fw"></i>第五年</a>
+            <a href="/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%80/" class="next" rel="next" title="一周一首唐诗宋词(一)">一周一首唐诗宋词(一)<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-06-30T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"Accelerate C++ Chapter01"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
