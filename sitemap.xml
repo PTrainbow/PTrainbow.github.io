@@ -2,17 +2,18 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://PTrain666.github.io/posts/</loc><lastmod>2022-07-13T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://PTrain666.github.io/tags/</loc><lastmod>2022-07-13T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/tags/Android/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/posts/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/posts/pthread-%E7%9B%91%E5%90%AC/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/tags/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod></url><url>
+            <loc>http://PTrain666.github.io/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%80-copy/</loc><lastmod>2022-07-13T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://PTrain666.github.io/</loc><lastmod>2022-07-13T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/tags/%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D/</loc><lastmod>2022-07-13T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%80/</loc><lastmod>2022-07-04T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/</loc><lastmod>2022-06-30T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/tags/C&#43;&#43;/</loc><lastmod>2022-06-30T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/tags/%E6%9D%82/</loc><lastmod>2022-06-30T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/</loc><lastmod>2022-06-30T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://PTrain666.github.io/tags/Android/</loc><lastmod>2022-06-29T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/dex-%E5%92%8C-mmap/</loc><lastmod>2022-06-29T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</loc><lastmod>2022-06-23T00:00:00&#43;00:00</lastmod></url><url>
             <loc>http://PTrain666.github.io/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/</loc><lastmod>2022-06-14T00:00:00&#43;00:00</lastmod></url><url>

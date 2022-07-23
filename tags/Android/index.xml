@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 29 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 23 Jul 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>pthread 监听</title>
+    <link>http://PTrain666.github.io/posts/pthread-%E7%9B%91%E5%90%AC/</link>
+    <pubDate>Sat, 23 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/pthread-%E7%9B%91%E5%90%AC/</guid>
+    <description><![CDATA[简介 所谓的 native thread，其实就是只我们使用 c/c++ 做开发时，使用的 POSIX 标准的 pthread pthread 函数在 libc 中，而 Android 中使用的是 bionic libc(不是 GNU libc) pthread 常见方法 pthread_create pthread_join pthread_detach pthread_exit pthread_getattr_np]]></description>
+</item><item>
     <title>dex 和 mmap</title>
     <link>http://PTrain666.github.io/posts/dex-%E5%92%8C-mmap/</link>
     <pubDate>Wed, 29 Jun 2022 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/</guid>
     <description><![CDATA[​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，设置错了 ScaleType 导致图片不能铺满整个 View，]]></description>
-</item><item>
-    <title>一次 CPU 问题的排查</title>
-    <link>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/</link>
-    <pubDate>Fri, 15 Oct 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/</guid>
-    <description><![CDATA[前言 最近来了个新环境，做了第一个需求——直播答题。 这边的风格大致就是：先在能使用的库的基础上快速完成需求，整个开发时间大概在2-3周，客户端]]></description>
 </item></channel>
 </rss>

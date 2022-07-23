@@ -27,7 +27,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrain666.github.io\/cv\/"
-        },"genre": "page","wordcount":  1068 ,
+        },"genre": "page","wordcount":  1040 ,
         "url": "http:\/\/PTrain666.github.io\/cv\/","datePublished": "2021-02-03T00:00:00+00:00","dateModified": "2021-02-03T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -111,36 +111,37 @@
 <h3 id="专业技能">专业技能</h3>
 <ol>
 <li>熟悉 Android 编译流程，了解部分 AGP Task</li>
-<li>熟悉冷启动性能优化和包体积优化手段</li>
+<li>熟悉 Android 性能优化和包体积优化手段</li>
 <li>熟悉 Android 消息机制，Handler、Looper、MessageQueue 及其底层原理</li>
 <li>熟悉 Android 事件分发机制 和 View 绘制流程</li>
 <li>有跨端开发经验，对于跨端原理⽐较了解，同时有跨技术栈经验，前后端都能写</li>
 <li>Java 语⾔基础⽐较扎实，同时了解 ART 虚拟机相关知识</li>
 <li>了解⼀些 Framework 层知识 和 Linux Kernel 知识</li>
-<li>熟练使⽤ Git 和 Android Studio 等⽇常开发⼯具</li>
 </ol>
 <h3 id="工作经历">工作经历</h3>
 <h4 id="小红书应用架构组-202112---至今">小红书(应用架构组) 2021.12 - 至今</h4>
 <ul>
-<li>OOM 治理
+<li>OOM 治理<br>
+主要负责 fd 泄露检测
 <ul>
 <li>MMKV fd 自动回收方案</li>
-<li>提升 fd 的软限制</li>
+<li>native thread leak 检测</li>
 <li>matrix fd 监控</li>
 </ul>
 </li>
-<li>冷启动优化
+<li>冷启动优化<br>
+主要目标是检测出一些启动路径中的耗时任务
 <ul>
 <li>dex2oat 优化</li>
 <li>btrace 接入和找到冷启动耗时链路，如初次的 R 文件加载，Gson 解析问题，异步懒加载等</li>
 <li>trace diff 对比方法耗时变化</li>
 </ul>
 </li>
-<li>包体积治理
+<li>包体积治理<br>
+解决了小红书一段时间以来代码因为 proguard 配置导致的未混淆问题
 <ul>
 <li>proguard 配置优化</li>
 <li>AndResGuard 和 R 文件优化</li>
-<li>c++_stl shared 模式</li>
 </ul>
 </li>
 </ul>
@@ -161,9 +162,7 @@
 <ul>
 <li>删减快⼿模块代码和优化资源⽂件等，缩减包体积</li>
 <li>基于 Leanback 开发通⽤的、适配焦点且⽀持换⾏等各种焦点操作的 Feed 流列表控件</li>
-<li>适配各⼤电视⼚商的芯⽚信息获取⽅法</li>
 <li>解决了⼿机版存在的各种潜在的内存泄漏问题，特别是列表⻚ cache 问题和播放器的 global jni reference 的问题</li>
-<li>承担直播相关的业务开发</li>
 </ul>
 </li>
 </ul>
@@ -175,9 +174,7 @@
 快⼿⼩包是 10M ⼤⼩的阉割版快⼿，⽤于信息流投放，⽤户快速下载体验快⼿功能。</li>
 <li>⼯作内容
 <ul>
-<li>UI 升级，靠⻬快⼿⼿机版</li>
 <li>包体积优化，包括 png 转为 webp，引⼊字节码插件，缩减代码体积</li>
-<li>尽量分割模块，提升代码维护性</li>
 <li>承接春节活动</li>
 </ul>
 </li>
@@ -190,7 +187,6 @@
 快⼿主APP，主要负责⼀些增⻓相关的业务需求。</li>
 <li>⼯作内容
 <ul>
-<li>兴趣标签业务开发</li>
 <li>快 Bubble 动态弹窗(WebView)</li>
 <li>关注弹窗</li>
 </ul>
