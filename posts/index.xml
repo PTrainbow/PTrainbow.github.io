@@ -3,7 +3,14 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 03 Aug 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 05 Aug 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>JNI HOOK</title>
+    <link>http://PTrain666.github.io/posts/JNI-Hook/</link>
+    <pubDate>Fri, 05 Aug 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/JNI-Hook/</guid>
+    <description><![CDATA[简介 JNI hook 是指: hook JNIEnv 提供的众多方法 正常来说，是没有这方面的需求的。但是，对于低版本的 Android 存在一些 JNI Local Reference 的溢出，超过 512 个便会触发 crash 所以，最好有一种]]></description>
+</item><item>
     <title>？周一首唐诗宋词(四)</title>
     <link>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E5%9B%9B-copy/</link>
     <pubDate>Wed, 03 Aug 2022 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/dex-%E5%92%8C-mmap/</guid>
     <description><![CDATA[​ 背景 最近依葫芦画瓢搞了一个 dex2oat 的优化实验，用于冷启动场景 全量编译的情况下，劣化 400ms，部分编译的情况下有大概 100ms(数据在逐渐缩小)]]></description>
-</item><item>
-    <title>AGP BuildTools 之间的关系</title>
-    <link>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</link>
-    <pubDate>Thu, 23 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</guid>
-    <description><![CDATA[​发现一个有趣的问题： 今天同事突然问我：“你看这个什么情况，我没使用 resGuard 相关的资源混淆的东西啊，打出来的包为什么资源被混淆了？” 因为他们在做 AGP7.0]]></description>
 </item></channel>
 </rss>
