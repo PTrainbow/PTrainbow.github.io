@@ -6,7 +6,7 @@
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>包体积优化的一些总结 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="包体积优化的一些总结" />
-<meta property="og:description" content="​ 前言 最近一直在搞包体积的优化，有点点心得 并且在优化的过程中发现了原有工程的各种问题，这里总结一下。 包体积优化的一些手段 这里先不讨论代码和依" />
+<meta property="og:description" content="​ 前言 最近一直在搞包体积的优化，有点点心得 并且在优化的过程中发现了原有工程的各种问题，这里总结一下。 包体积优化的一些手段 Dex 优化 R8 和 ProGuard 配置优化" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" /><meta property="og:image" content="http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-03-10T00:00:00+00:00" />
@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg"/>
 <meta name="twitter:title" content="包体积优化的一些总结"/>
-<meta name="twitter:description" content="​ 前言 最近一直在搞包体积的优化，有点点心得 并且在优化的过程中发现了原有工程的各种问题，这里总结一下。 包体积优化的一些手段 这里先不讨论代码和依"/>
+<meta name="twitter:description" content="​ 前言 最近一直在搞包体积的优化，有点点心得 并且在优化的过程中发现了原有工程的各种问题，这里总结一下。 包体积优化的一些手段 Dex 优化 R8 和 ProGuard 配置优化"/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" /><link rel="prev" href="http://PTrain666.github.io/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/" /><link rel="next" href="http://PTrain666.github.io/posts/FragmentManager.commit/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrain666.github.io\/posts\/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93\/apk_size.jpg",
                             "width":  1950 ,
                             "height":  666 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1479 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  1276 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93\/","datePublished": "2022-03-10T00:00:00+00:00","dateModified": "2022-03-10T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">包体积优化的一些总结</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-10">2022-03-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1479 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-10">2022-03-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1276 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -129,9 +129,9 @@
     <li><a href="#前言">前言</a></li>
     <li><a href="#包体积优化的一些手段">包体积优化的一些手段</a>
       <ul>
-        <li><a href="#dex">dex</a></li>
-        <li><a href="#resource">resource</a></li>
-        <li><a href="#native-so">native so</a></li>
+        <li><a href="#dex-优化">Dex 优化</a></li>
+        <li><a href="#resource-优化">Resource 优化</a></li>
+        <li><a href="#native-so-优化">Native So 优化</a></li>
       </ul>
     </li>
   </ul>
@@ -141,79 +141,149 @@
 <p>最近一直在搞包体积的优化，有点点心得</p>
 <p>并且在优化的过程中发现了原有工程的各种问题，这里总结一下。</p>
 <h2 id="包体积优化的一些手段">包体积优化的一些手段</h2>
-<p>这里先不讨论代码和依赖删减的部分，如果这些东西可以直接删除，那无疑是最快、最明显的方法</p>
-<p>不过我也可以提供一个删减代码的经验：</p>
-<ul>
-<li><code>一定要理清业务流程和依赖，切断引用链即可，R8 自动会帮我们删减无用代码。</code></li>
-<li><code>少量多次的 commit，给自己一点容错空间~~</code></li>
-</ul>
-<p>盲目的删减代码，只会带来无限的依赖报错，陷入泥潭。有时候可能只是一个方法的引用，把它注释掉就一切就都已经 OK 了。积累大量代码修改 commit 一次，后面出现问题想 revert 会很痛苦，因为有很多牵连的依赖问题。</p>
-<p>再看回 Android APK 文件，APK 文件由多个部分组成</p>
-<p>和包体积密切相关(体积比较大的)有几个部分：dex、native so lib、resource(asserts等)</p>
-<p>那么优化的手段就是围绕着这三部分展开</p>
-<h3 id="dex">dex</h3>
-<p>dex 就是我们的各种源码部分的体积。可以使用 <code>apk analyzer</code> <code>classshark</code> 具体问题具体分析</p>
+<h3 id="dex-优化">Dex 优化</h3>
+<h4 id="r8--和--proguard-配置优化">R8  和  ProGuard 配置优化</h4>
 <ol>
-<li>
-<p>kotlin<br>
-如果你的工程中使用了 kotlin，那么你的 dex 无疑是会变大的。<br>
-且同样的代码下，<code>高本版 kotlin 本身占用更小体积</code>。（1.6.x 和 1.36.x 差距几百K）<br>
-同时，如果依赖了 <code>kotlin-reflect</code> 还会有 1M 左右的 class(不是 dex)额外体积。如果不需要的话，建议删除</p>
+<li>R8 目前已经是默认的编译优化工具，只需要 minifyEnable = true
+<ol>
+<li>基础功能
+<ol>
+<li>code shrink  删减</li>
+<li>obfuscation 混淆</li>
+<li>optimization  优化</li>
+</ol>
 </li>
-<li>
-<p>aar dependency<br>
-可以通过 apk analyzer 分析 dex 中各个包名下的 class 体积分布，找到体积较大的部分。再通过 dependency 分析是由那部分引用到的？是否需要？从而做删减。</p>
+<li>R8 fullMode 模式
+<ol>
+<li>包体积还可以继续缩减</li>
+<li>遇到的问题  [R8 fullMode Constructor 问题]
+<ol>
+<li>Gson 解析问题</li>
+<li>kotlin data class</li>
+</ol>
 </li>
-<li>
-<p>proguard 规则<br>
-release 一定要开启 <code>minify</code>（这个应该没人不知道吧···)<br>
-<code>没有特殊要求的话</code>，可以打开 <code>R8 optimize</code>(proguard 中不要写 -dontoptimize)</p>
-<blockquote>
-<p>这里遇到过一个好玩的事情 —— R8 optimize 被卡主。当时有一个打点 model 类，这个类高达 30w 行代码，包含了所有的打点。R8 每次处理到这里就会死掉~~</p>
-</blockquote>
-<p>还有 <code>keep 规则</code> 问题，这个对于 dex 体积影响很明显。因为类名方法名参数等都被替换为极其简短的字母。<code>keep 规则一定不要特别的宽泛！！！！</code>，不要照抄别人的 proguard，使用 getdefaultproguardfile，在 proguard-rules 里添加自己的额外规则就好了</p>
-<blockquote>
-<p>这里也遇到过一个好玩的事情<br>
--keep @kotlin.Metadata class * { *; }<br>
-这个规则直接 keep 住所有的 kotlin 代码，删除后，<code>代码体积缩减20%</code></p>
-</blockquote>
-</li>
-<li>
-<p>R文件删除<br>
-R文件在 dex 中也是有不少体积的，项目越大体积也越大，可以使用 <code>booster 或者 bytex</code> 删掉 R文件。<br>
-R8 对于代码层面优化力度是挺大的，fullmode 没有尝试过，也不太确定 bytex 的其他一些包体积优化的插件是否有效(且 bytex 还为支持 agp7.0)，有兴趣可以自己试一下</p>
-</li>
-<li>
-<p>似乎也有 dex 合并压缩的方案，没用过</p>
+<li>解决办法
+<ol>
+<li>-keepclasseswithmembers class * {
+<!-- raw HTML omitted -->(&hellip;);
+@com.google.gson.annotations.SerializedName <!-- raw HTML omitted -->;
+}</li>
+</ol>
 </li>
 </ol>
-<h3 id="resource">resource</h3>
-<p>Android 资源不仅会增加 <code>res</code> 的大小，还会增大 <code>resource.arsc</code> 的大小，所以资源的删减有时候对于包体积的收益是很明显的。</p>
-<ol>
-<li>
-<p>常规的替换、压缩、删减资源(比如 png -&gt; webp，asserts删减) 等等就不说了<br>
-大部分图片转换为 webp 会带了不小的体积收益</p>
-</li>
-<li>
-<p><strong>resguard</strong><br>
-目前看起来 R8 虽然也带有资源优化，但是远比不上 resguard 的功能。  resguard 会自动帮你剔除冗余资源，帮你对资源路径做混淆处理。会很明显的作用于 resource.arsc 的大小。<br>
-而且最终使用 7zip 压缩，包体积进一步缩减。<br>
-<code>resource.arsc 还可以进一步压缩（API 30 以上被禁止了)</code><br>
-但是，resguard 的 7zip 似乎对于要上 google play 的包有影响，而且并不支持 agp7.0，但是也有个人仓库对于 7.0 做了支持。</p>
-</li>
-<li>
-<p>resConfig<br>
-如果没有过多要求，可以只保留 <code>zh</code> 和 <code>xxhdpi</code> 的资源目录</p>
-</li>
-<li>
-<p>aar 中的 resource<br>
-特别注意如果工程中有类似 design-module(就是各种资源文件汇聚在一个的单独 module 甚至带了点代码)。可以尝试直接源码精简依赖，<code>可能</code>会有很大收益。</p>
 </li>
 </ol>
-<p>R文件的部分归结到 dex 中</p>
-<h3 id="native-so">native so</h3>
-<p>这部分没有特别多的办法，基本就是： 保留一种架构so 和 删减原有so。</p>
-<p>当然，也有人为了进一步缩减包体积(对体积极其敏感的情况下)，将 <code>多个so进一步打包压缩成一个小文件的方案</code>，但是这样也会带来解压的问题，主要看个人需求。</p>
+</li>
+<li>ProGuard 配置优化<br>
+proGuard 描述了代码混淆和删减的规则，代码删减直接缩减 dex 体积，代码混淆会使类名、方法名、变量名更短从而缩减 dex 体积。<br>
+目前 proGuard 配置存在的一些问题：
+<ol>
+<li>重复<br>
+-keepclassmembers class <strong>.entities.</strong> { <em>; }<br>
+-keepclassmembers class com.xingin.xhs.model.entities.</em>* { *;}<br>
+// 范围很大<br>
+-keep @Kotlin.Metadata class * { *; }</li>
+<li>删除 kotlin metadata 注解
+<ol>
+<li>kotlin metadata keep 规则导致所有 kotlin 代码被 keep</li>
+<li>引发了一些负负反而得正的潜在问题(Gson 解析)</li>
+</ol>
+</li>
+<li>删除 kotlin Intrinsics</li>
+<li>优化 optimize 并没有开启
+<ol>
+<li>-dontoptimize：删除这条 keep 规则，才会开启 R8 的代码优化</li>
+<li>optimize 的副作用：插件化打包的内联问题</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>隐性存在的反射大家没有在意<br>
+需要 Gson 解析的类的成员变量被混淆了，到底对于解析有没有影响？
+<ol>
+<li>Gson 的解析，默认依赖反射，除非有注解</li>
+<li>反射效率和启动耗事问题</li>
+</ol>
+</li>
+</ol>
+<h4 id="rclass-优化">R.class 优化</h4>
+<p>R.class 内的值，可以直接内联</p>
+<p>注意的问题：</p>
+<ol>
+<li>R$xxx.class 反射会失败
+<ol>
+<li>ConstraintLayout  id 问题 (ConstraintHelper)
+<ol>
+<li>[Image: image.png]</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>getIdentifier() 会被影响么？
+<ol>
+<li>resources.getIdentifier(&ldquo;status_bar_height&rdquo;, &ldquo;dimen&rdquo;, &ldquo;android&rdquo;)</li>
+<li>不会影响，依赖 resources.arsc</li>
+</ol>
+</li>
+</ol>
+<p>booster、bytex、AGP 4.1.0 + 移除 R keep 均可以实现 R.class 删除</p>
+<h4 id="debuginfo-复用">DebugInfo 复用</h4>
+<p>DebugInfo 原理可以看之前的文章</p>
+<h4 id="插件化">插件化</h4>
+<p>业务代码可以作为插件单独下发</p>
+<h3 id="resource-优化">Resource 优化</h3>
+<h4 id="andresguard-优化">AndResGuard 优化</h4>
+<p>微信的资源打包方案，可以对资源路径进行混淆，merge 重复资源并且压缩资源
+AGP 4.2.0 以后，也可以实现资源混淆</p>
+<ol>
+<li>资源混淆
+更短的路径和资源名称</li>
+<li>资源压缩
+apk 其实是标准的 zip 格式。<br>
+zipEntry 分为 Stored(不压缩) 和 Deflate<br>
+安卓资源打包时，默认会保持很多种类的资源不压缩，如 arsc 文件、png 文件等等<br>
+<a href="https://cs.android.com/android/platform/superproject/&#43;/master:frameworks/base/tools/aapt2/cmd/Link.cpp" target="_blank" rel="noopener noreffer">https://cs.android.com/android/platform/superproject/+/master:frameworks/base/tools/aapt2/cmd/Link.cpp</a><br>
+<a href="https://cs.android.com/android/platform/superproject/&#43;/master:frameworks/base/tools/aapt/Package.cpp" target="_blank" rel="noopener noreffer">https://cs.android.com/android/platform/superproject/+/master:frameworks/base/tools/aapt/Package.cpp</a><br>
+而 resguard 重新打包压缩时，修改了这个规则，可以通过配置实现对应资源的压缩，可以使用 zip 命令查看 entry 的状态，会发现 resguard 处理之后大部分的 entry 变为 Deflate(这其实可能会为后续的运行时性能的劣化，埋下伏笔)</li>
+<li>影响 getIdentifier() 方法调用，有大量资源 keep，需要进一步整理</li>
+</ol>
+<h4 id="resource-和-resourcesarsc-优化">Resource 和 Resources.arsc 优化</h4>
+<p>资源数量的缩减，会影响到 资源本身的大小 和 resources.arsc 的大小，还有 META-INF/MANIFEST.MF 的大小(因为会计算每个资源 hash 值)</p>
+<p>针对 resources.arsc 的单独优化有很多，但都需要修改 arsc 文件，目前可以简单采用以下方式优化：</p>
+<ol>
+<li>更优的 resconfig，小包和极小包上有使用
+<ol>
+<li>可以配置分辨率和多语言支持情况 ，减少资源文件，减少 resources.arsc 大小</li>
+</ol>
+</li>
+<li>shrinkResource
+<ol>
+<li>默认的 safeMode 的策略 —— 模糊匹配，不删除资源</li>
+<li>strictMode 更激进的策略
+<ol>
+<li>keep.xml</li>
+<li>影响 getIdentifier()，会有运行时 crash</li>
+</ol>
+</li>
+<li>最新的 AGP 中提供了新版本的 Shrinker，似乎在解决上述问题，并且进一步优化 resource.arsc 文件</li>
+</ol>
+</li>
+<li>图片 png → webp 和 各类资源压缩</li>
+</ol>
+<h3 id="native-so-优化">Native So 优化</h3>
+<h4 id="优先--c_shared-和-更优的编译参数">优先  c++_shared 和 更优的编译参数</h4>
+<p>如果编译时选择 c++_static，那么 so 中会包含一些 c++_stl 代码，多个 so 其实就存在了多份相同代码</p>
+<p>可以选择 c++_shared，共享一份代码</p>
+<p>编译、链接参数优化<br>
+<a href="https://www.algolia.com/blog/engineering/android-ndk-how-to-reduce-libs-size/" target="_blank" rel="noopener noreffer">https://www.algolia.com/blog/engineering/android-ndk-how-to-reduce-libs-size/</a></p>
+<p>需不需要 strip？<br>
+AGP 中存在 strip task，所以 aar 中可以不 strip，视情况而定</p>
+<h4 id="so-合并压缩不推荐">so 合并压缩(不推荐)</h4>
+<p>将多个 so 合并压缩为一个文件<br>
+收益十分可观，但是这样一定程度上影响启动速度</p>
+<h4 id="插件化--和--so-动态下发">插件化  和  so 动态下发</h4>
+<p>插件化功能，天然包含 so 的动态下发功能。
+但是，同时也需要考虑各种异常情况的兜底(下载失败、解压出错、依赖缺失等等)</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
