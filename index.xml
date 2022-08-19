@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 11 Aug 2022 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 19 Aug 2022 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>X周一首唐诗宋词(5)</title>
+    <link>http://PTrain666.github.io/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/</link>
+    <pubDate>Fri, 19 Aug 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/</guid>
+    <description><![CDATA[今天依然是苏轼老师的词！ 《鹧鸪天·林断山明竹隐墙》 宋·苏轼 林断山明竹隐墙。乱蝉衰草小池塘。 翻空白鸟时时见，照水红蕖细细香。 村舍外，古城旁。杖]]></description>
+</item><item>
     <title>NDK 导致的包体积问题</title>
     <link>http://PTrain666.github.io/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/</link>
     <pubDate>Thu, 11 Aug 2022 00:00:00 &#43;0000</pubDate>
@@ -21,10 +28,10 @@
     <description><![CDATA[简介 JNI hook 是指: hook JNIEnv 提供的众多方法 正常来说，是没有这方面的需求的。但是，对于低版本的 Android 存在一些 JNI Local Reference 的溢出，超过 512 个便会触发 crash 所以，最好有一种]]></description>
 </item><item>
     <title>？周一首唐诗宋词(四)</title>
-    <link>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E5%9B%9B-copy/</link>
+    <link>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E5%9B%9B/</link>
     <pubDate>Wed, 03 Aug 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E5%9B%9B-copy/</guid>
+    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E5%9B%9B/</guid>
     <description><![CDATA[今天独立灰度搞出来了个小事故，本地 debug 包没问题，可能 release 包或者是机型问题？今天还没来得及去复现。 出了事故，虚线倒是没说什么，但是同事却有点“反应]]></description>
 </item><item>
     <title>《诛仙》前期主线</title>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/</guid>
     <description><![CDATA[Exercises Exercise 1-1 Are the following definitions valid? Why or why not? const std::string hello = &#34;Hello&#34;; const std::string message = hello + &#34;, world&#34; + &#34;!&#34;; 编译正确。std::string 重写了 + 操作符 Exercise 1-2 Are the following definitions valid? Why or why not? const std::string exclam = &#34;!&#34;; const std::string message =]]></description>
-</item><item>
-    <title>第五年</title>
-    <link>http://PTrain666.github.io/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/</link>
-    <pubDate>Thu, 30 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/</guid>
-    <description><![CDATA[又是一年 6.30，毕业五年了！ 自己也变成了“老白兔” “前辈” 了，也越来越不会让工作占据生活。 更佛、更淡定、也更坚定，也掌握了一种躺平的哲学。]]></description>
 </item></channel>
 </rss>
