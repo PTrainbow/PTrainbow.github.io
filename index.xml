@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 19 Aug 2022 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 20 Aug 2022 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>dl_iterate_phdr 的 ANR 问题</title>
+    <link>http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</link>
+    <pubDate>Sat, 20 Aug 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</guid>
+    <description><![CDATA[最近一直在 hook 一些底层方法，写 c/c++。 可能目前写的 c/c++ 代码还会存在经不起推敲的情况，不过一些基本注意点已经知道了。 xhook/bhook 的作者是同一个人，bho]]></description>
+</item><item>
     <title>X周一首唐诗宋词(5)</title>
     <link>http://PTrain666.github.io/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/</link>
     <pubDate>Fri, 19 Aug 2022 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%80/</guid>
     <description><![CDATA[​《鹧鸪天·林断山明竹隐墙》 宋代·苏轼 林断山明竹隐墙。乱蝉衰草小池塘。 翻空白鸟时时见，照水红蕖细细香。 村舍外，古城旁。杖藜徐步转斜阳。 殷勤昨]]></description>
-</item><item>
-    <title>Accelerate C&#43;&#43; Chapter01</title>
-    <link>http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/</link>
-    <pubDate>Thu, 30 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/</guid>
-    <description><![CDATA[Exercises Exercise 1-1 Are the following definitions valid? Why or why not? const std::string hello = &#34;Hello&#34;; const std::string message = hello + &#34;, world&#34; + &#34;!&#34;; 编译正确。std::string 重写了 + 操作符 Exercise 1-2 Are the following definitions valid? Why or why not? const std::string exclam = &#34;!&#34;; const std::string message =]]></description>
 </item></channel>
 </rss>

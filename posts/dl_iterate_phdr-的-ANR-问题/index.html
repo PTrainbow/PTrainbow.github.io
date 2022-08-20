@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>dl_iterate_phdr 的 ANR 问题 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="dl_iterate_phdr 的 ANR 问题" />
+<meta property="og:description" content="最近一直在 hook 一些底层方法，写 c/c&#43;&#43;。 可能目前写的 c/c&#43;&#43; 代码还会存在经不起推敲的情况，不过一些基本注意点已经知道了。 xhook/bhook 的作者是同一个人，bho" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/" /><meta property="og:image" content="http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/plthook.jpeg"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-08-20T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/plthook.jpeg"/>
+<meta name="twitter:title" content="dl_iterate_phdr 的 ANR 问题"/>
+<meta name="twitter:description" content="最近一直在 hook 一些底层方法，写 c/c&#43;&#43;。 可能目前写的 c/c&#43;&#43; 代码还会存在经不起推敲的情况，不过一些基本注意点已经知道了。 xhook/bhook 的作者是同一个人，bho"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/" /><link rel="prev" href="http://PTrain666.github.io/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "dl_iterate_phdr 的 ANR 问题",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98\/plthook.jpeg",
+                            "width":  720 ,
+                            "height":  436 
+                        }],"genre": "posts","keywords": "Android","wordcount":  1272 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98\/","datePublished": "2022-08-20T00:00:00+00:00","dateModified": "2022-08-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">dl_iterate_phdr 的 ANR 问题</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-20">2022-08-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1272 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/plthook.jpeg"
+        data-srcset="/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/plthook.jpeg, /posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/plthook.jpeg 1.5x, /posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/plthook.jpeg 2x"
+        data-sizes="auto"
+        alt="/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/plthook.jpeg"
+        title="/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/plthook.jpeg" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#dl_iterate_phdr-带锁导致-anr">dl_iterate_phdr 带锁导致 ANR</a></li>
+    <li><a href="#如何修复">如何修复</a></li>
+    <li><a href="#如何实现缓存">如何实现缓存</a></li>
+    <li><a href="#不知道说什么">不知道说什么</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>最近一直在 hook 一些底层方法，写 c/c++。</p>
+<p>可能目前写的 c/c++ 代码还会存在经不起推敲的情况，不过一些基本注意点已经知道了。</p>
+<p>xhook/bhook 的作者是同一个人，bhook 有一个很重要的额外功能，就是可以自动监听后续加载的 so，通过 hook dlopen 来触发 refresh。</p>
+<p>每次 refresh 后，都会使用 dl_iterate_phdr 来重新获取一遍所有的 so 的地址，然后执行替换。</p>
+<p>问题就在这里，如果读取so、替换函数指针的过程，多次读取了 proc/self/maps，那么就会触发 ANR(bhook 有没有多次的读取，没有仔细看)。</p>
+<p>目前工程有集成 bhook，但是我修改的 lib 中还是使用的 xhook，所以直接使用的 xhook + xdl(依然是 xhook 的作者)实现类似 bhook 的功能。</p>
+<p>最终发现 <code>dl_iterate_phdr</code> 方法其实是一个<code>危险的方法</code>，会触发 ANR。</p>
+<h2 id="dl_iterate_phdr-带锁导致-anr">dl_iterate_phdr 带锁导致 ANR</h2>
+<p>起初 ANR 发生时，并没有往 dl_iterate_phdr 的锁问题上想。</p>
+<p>因为 ANR 上报的信息中，显示主线程并没有持有任何锁，但是有大量的 IOW 状态。</p>
+<p>而 xhook 在调用 elf_hook 的时候，总会重新读取 /proc/self/maps，
+而 xdl 中，一开始会通过 dl_iterate_phdr 的 callback 执行到 elf_hook，那么众多 so 和 众多需要 hook 的方法，两者相乘就会触发成百上千次的 IO，那就可能会卡顿。</p>
+<p>所以，以为是在主线程进行了 IO。可是查了半天发现整个 hook 的初始化过程都运行在子线程，子线程的 IO 怎么会直接 ANR 呢？难道是线程优先级太高，机器太垃圾？卡住了？将子线程的优先级降到最低后，依然 ANR，所以肯定不单单是 IO 的问题。</p>
+<p>再后来，发现 dl_iterate_phdr 运行过程是 <code>全局加锁的</code>，所以说，只要 dl_iterate_phdr 没有执行完，想动用 linker，都会是一个阻塞的状态(不知道这里的表述是否正确，也不知道 dl_mutex 的范围是有多广，反正 activity 的跳转等等，是完全被阻塞住的)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">__loader_dl_iterate_phdr</span><span class="p">(</span><span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">cb</span><span class="p">)(</span><span class="n">dl_phdr_info</span><span class="o">*</span> <span class="n">info</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">data</span><span class="p">),</span> <span class="kt">void</span><span class="o">*</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">ScopedPthreadMutexLocker</span> <span class="n">locker</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_dl_mutex</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">do_dl_iterate_phdr</span><span class="p">(</span><span class="n">cb</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div><h2 id="如何修复">如何修复</h2>
+<p>那么其实已经知道了问题的所在，那么解决也就有对应的办法</p>
+<p>首先，无论是移动到哪个线程去执行 dl_iterate_phdr 都是没用的</p>
+<p>那么我们只能尽量 <code>缩短 dl_iterate_phdr 方法的耗时</code></p>
+<p>dl_iterate_phdr 在 xdl 的源码中，频繁的读取 /proc/self/maps(次数 = hook so 数量 * hook 的方法数)，如果我们可以 <code>降低这个读取的频次</code>，那就可以了！</p>
+<p>所以，可以加一层缓存，当 so 加载完毕以后，只需要读取一次缓存即可。如果后续有 so 再加载，那么需要重新刷新一下缓存。</p>
+<p>我们只需要在启动过程中，尽量靠后初始化 hook，让大部分的 hook 过程都依赖于第一次的缓存，那么整个启动过程就会很快，后续的一些懒加载的 so，只会各自触发一次缓存刷新，这个过程也很快，这样几乎 99% 解决问题。</p>
+<h2 id="如何实现缓存">如何实现缓存</h2>
+<p>可以去查阅 matrix 的 xhook 改进版</p>
+<blockquote>
+<p>Introduce maps and use it for replacing parsing maps multiple times.<br>
+8877ece7 tomystang <a href="mailto:tomystang@tencent.com" rel="">tomystang@tencent.com</a> on</p>
+</blockquote>
+<h2 id="不知道说什么">不知道说什么</h2>
+<p>解决了这个问题，没感到很开心</p>
+<p>解决了这个问题有什么用？牛逼？只是抄了 matrix 的实现而已。</p>
+<p>我觉得我不如去学学阿谀奉承之流</p>
+<p>已经没啥纯粹的技术人了，大家的话术都是那么的牛逼，互相抬高，互相称赞，实际呢？一滩烂泥</p>
+<p>技术确实没什么用，互联网也并不是硬科技，所以其实我现在认为的技术也并不是技术，手熟尔。</p>
+<p>没有继续读书确实有点遗憾，编译器、图形学、操作系统只能靠pdf电子书，来从外层了解一些皮毛了，不知道有生之年，自己能否从事这些我认为挺纯粹的技术工作呢？</p>
+<p>唯一庆幸的就是，我现在还对自己遇到的问题抱有好奇，并且会竭尽所能刨根问底，而不是 try-catch。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-08-20</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/" class="prev" rel="prev" title="X周一首唐诗宋词(5)"><i class="fas fa-angle-left fa-fw"></i>X周一首唐诗宋词(5)</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-08-20T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"dl_iterate_phdr 的 ANR 问题"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

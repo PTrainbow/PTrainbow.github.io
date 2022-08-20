@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 11 Aug 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 20 Aug 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>dl_iterate_phdr 的 ANR 问题</title>
+    <link>http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</link>
+    <pubDate>Sat, 20 Aug 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</guid>
+    <description><![CDATA[最近一直在 hook 一些底层方法，写 c/c++。 可能目前写的 c/c++ 代码还会存在经不起推敲的情况，不过一些基本注意点已经知道了。 xhook/bhook 的作者是同一个人，bho]]></description>
+</item><item>
     <title>NDK 导致的包体积问题</title>
     <link>http://PTrain666.github.io/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/</link>
     <pubDate>Thu, 11 Aug 2022 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/FragmentManager.commit/</guid>
     <description><![CDATA[​ 前言 最近被 shadow 和 跨进程的 router 搞得头疼，感觉这俩框架跨进程部分写的略微有点混乱。 如果是纯用反射传 className，那就跨进程传字符串，然后再分]]></description>
-</item><item>
-    <title>包体积优化的一些总结</title>
-    <link>http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/</link>
-    <pubDate>Thu, 10 Mar 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/</guid>
-    <description><![CDATA[​ 前言 最近一直在搞包体积的优化，有点点心得 并且在优化的过程中发现了原有工程的各种问题，这里总结一下。 包体积优化的一些手段 Dex 优化 R8 和 ProGuard 配置优化]]></description>
 </item></channel>
 </rss>
