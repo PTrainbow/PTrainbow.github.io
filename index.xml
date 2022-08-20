@@ -11,7 +11,7 @@
     <pubDate>Sat, 20 Aug 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</guid>
-    <description><![CDATA[最近一直在 hook 一些底层方法，写 c/c++。 可能目前写的 c/c++ 代码还会存在经不起推敲的情况，不过一些基本注意点已经知道了。 xhook/bhook 的作者是同一个人，bho]]></description>
+    <description><![CDATA[最近一直在修改一个库，这个库是基于字节开源的 memory-leak-detector 修改的 由于近期增加了一系列的 hook，hook 方法众多，且几乎全量 hook 了所有 so，导致启动时会有]]></description>
 </item><item>
     <title>X周一首唐诗宋词(5)</title>
     <link>http://PTrain666.github.io/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/</link>
