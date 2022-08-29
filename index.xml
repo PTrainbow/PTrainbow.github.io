@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 20 Aug 2022 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 25 Aug 2022 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>朋友圈关闭</title>
+    <link>http://PTrain666.github.io/posts/2022-08-29-%E6%9C%8B%E5%8F%8B%E5%9C%88%E5%85%B3%E9%97%AD/</link>
+    <pubDate>Thu, 25 Aug 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/2022-08-29-%E6%9C%8B%E5%8F%8B%E5%9C%88%E5%85%B3%E9%97%AD/</guid>
+    <description><![CDATA[之前搞了个公众号，本来是打算当做自己的笔记和树洞吐槽用的，但是总有几篇自己觉得还挺得意的技术文章，然后就分享到朋友圈了，然后就被虚线关注了。]]></description>
+</item><item>
     <title>dl_iterate_phdr 的 ANR 问题</title>
     <link>http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</link>
     <pubDate>Sat, 20 Aug 2022 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%BA%8C/</guid>
     <description><![CDATA[《临江仙·送钱穆父》 苏轼 〔宋代〕 一别都门三改火，天涯踏尽红尘。依然一笑作春温。无波真古井，有节是秋筠。 惆怅孤帆连夜发，送行淡月微云。尊前不用]]></description>
-</item><item>
-    <title>一周一首唐诗宋词(一)</title>
-    <link>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%80/</link>
-    <pubDate>Mon, 04 Jul 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%80/</guid>
-    <description><![CDATA[​《鹧鸪天·林断山明竹隐墙》 宋代·苏轼 林断山明竹隐墙。乱蝉衰草小池塘。 翻空白鸟时时见，照水红蕖细细香。 村舍外，古城旁。杖藜徐步转斜阳。 殷勤昨]]></description>
 </item></channel>
 </rss>
