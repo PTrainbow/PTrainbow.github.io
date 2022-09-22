@@ -17,7 +17,7 @@
 <meta name="twitter:title" content="dl_iterate_phdr 的 ANR 问题"/>
 <meta name="twitter:description" content="最近一直在修改一个库，这个库是基于字节开源的 memory-leak-detector 修改的 由于近期增加了一系列的 hook，hook 方法众多，且几乎全量 hook 了所有 so，导致启动时会有"/>
 <meta name="application-name" content="北邙山之光的 Blog">
-<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/" /><link rel="prev" href="http://PTrain666.github.io/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/" /><link rel="next" href="http://PTrain666.github.io/posts/2022-08-29-%E6%9C%8B%E5%8F%8B%E5%9C%88%E5%85%B3%E9%97%AD/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/" /><link rel="prev" href="http://PTrain666.github.io/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrain666.github.io\/posts\/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98\/plthook.jpeg",
                             "width":  720 ,
                             "height":  436 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1239 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  966 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98\/","datePublished": "2022-08-20T00:00:00+00:00","dateModified": "2022-08-20T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,8 +109,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">dl_iterate_phdr 的 ANR 问题</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-20">2022-08-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1239 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-20">2022-08-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 966 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -134,7 +134,6 @@
     </li>
     <li><a href="#如何解决">如何解决</a></li>
     <li><a href="#实现">实现</a></li>
-    <li><a href="#不知道说什么">不知道说什么</a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><p>最近一直在修改一个库，这个库是基于字节开源的 memory-leak-detector 修改的</p>
@@ -203,14 +202,6 @@
 <p>Introduce maps and use it for replacing parsing maps multiple times.<br>
 8877ece7 tomystang <a href="mailto:tomystang@tencent.com" rel="">tomystang@tencent.com</a></p>
 </blockquote>
-<h2 id="不知道说什么">不知道说什么</h2>
-<p>解决了这个问题，没感到很开心</p>
-<p>解决了这个问题有什么用？牛逼？只是抄了 matrix 的实现而已。</p>
-<p>我觉得我不如去学学阿谀奉承之流</p>
-<p>已经没啥纯粹的技术人了，大家的话术都是那么的牛逼，互相抬高，互相称赞，实际呢？一滩烂泥</p>
-<p>技术确实没什么用，互联网也并不是硬科技，所以其实我现在认为的技术也并不是技术，手熟尔。</p>
-<p>没有继续读书确实有点遗憾，编译器、图形学、操作系统只能靠pdf电子书，来从外层了解一些皮毛了，不知道有生之年，自己能否从事这些我认为挺纯粹的技术工作呢？</p>
-<p>唯一庆幸的就是，我现在还对自己遇到的问题抱有好奇，并且会竭尽所能刨根问底，而不是 try-catch。</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -234,8 +225,7 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/" class="prev" rel="prev" title="X周一首唐诗宋词(5)"><i class="fas fa-angle-left fa-fw"></i>X周一首唐诗宋词(5)</a>
-            <a href="/posts/2022-08-29-%E6%9C%8B%E5%8F%8B%E5%9C%88%E5%85%B3%E9%97%AD/" class="next" rel="next" title="朋友圈关闭">朋友圈关闭<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/" class="prev" rel="prev" title="X周一首唐诗宋词(5)"><i class="fas fa-angle-left fa-fw"></i>X周一首唐诗宋词(5)</a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.

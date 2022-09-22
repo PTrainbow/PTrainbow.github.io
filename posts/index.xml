@@ -3,14 +3,7 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 25 Aug 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
-    <title>朋友圈关闭</title>
-    <link>http://PTrain666.github.io/posts/2022-08-29-%E6%9C%8B%E5%8F%8B%E5%9C%88%E5%85%B3%E9%97%AD/</link>
-    <pubDate>Thu, 25 Aug 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2022-08-29-%E6%9C%8B%E5%8F%8B%E5%9C%88%E5%85%B3%E9%97%AD/</guid>
-    <description><![CDATA[之前搞了个公众号，本来是打算当做自己的笔记和树洞吐槽用的，但是总有几篇自己觉得还挺得意的技术文章，然后就分享到朋友圈了，然后就被虚线关注了。]]></description>
-</item><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 20 Aug 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
     <title>dl_iterate_phdr 的 ANR 问题</title>
     <link>http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</link>
     <pubDate>Sat, 20 Aug 2022 00:00:00 &#43;0000</pubDate>
@@ -39,13 +32,6 @@
     <guid>http://PTrain666.github.io/posts/JNI-Hook/</guid>
     <description><![CDATA[简介 JNI hook 是指: hook JNIEnv 提供的众多方法 正常来说，是没有这方面的需求的。但是，对于低版本的 Android 存在一些 JNI Local Reference 的溢出，超过 512 个便会触发 crash 所以，最好有一种]]></description>
 </item><item>
-    <title>？周一首唐诗宋词(四)</title>
-    <link>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E5%9B%9B/</link>
-    <pubDate>Wed, 03 Aug 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E5%9B%9B/</guid>
-    <description><![CDATA[今天独立灰度搞出来了个小事故，本地 debug 包没问题，可能 release 包或者是机型问题？今天还没来得及去复现。 出了事故，虚线倒是没说什么，但是同事却有点“反应]]></description>
-</item><item>
     <title>《诛仙》前期主线</title>
     <link>http://PTrain666.github.io/posts/%E8%AF%9B%E4%BB%99%E5%89%8D%E6%9C%9F%E4%B8%BB%E7%BA%BF/</link>
     <pubDate>Sun, 31 Jul 2022 00:00:00 &#43;0000</pubDate>
@@ -60,18 +46,32 @@
     <guid>http://PTrain666.github.io/posts/pthread-%E7%9B%91%E5%90%AC/</guid>
     <description><![CDATA[简介 所谓的 native thread，其实就是只我们使用 c/c++ 做开发时，使用的 POSIX 标准的 pthread pthread 函数在 libc 中，而 Android 中使用的是 bionic libc(不是 GNU libc) pthread 常见方法 pthread_create pthread_join pthread_detach pthread_exit pthread_getattr_np]]></description>
 </item><item>
-    <title>？周一首唐诗宋词(三)</title>
-    <link>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%89/</link>
-    <pubDate>Wed, 20 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <title>Accelerate C&#43;&#43; Chapter01</title>
+    <link>http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/</link>
+    <pubDate>Thu, 30 Jun 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%B8%89/</guid>
-    <description><![CDATA[之前发一周一首唐诗宋词，只是为了陶冶一下情操，单纯的复制一首自己感觉挺喜欢的诗词，然后自己背一背，看看作词人的时代背景。 为什么会突然搞这些呢]]></description>
+    <guid>http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/</guid>
+    <description><![CDATA[Exercises Exercise 1-1 Are the following definitions valid? Why or why not? const std::string hello = &#34;Hello&#34;; const std::string message = hello + &#34;, world&#34; + &#34;!&#34;; 编译正确。std::string 重写了 + 操作符 Exercise 1-2 Are the following definitions valid? Why or why not? const std::string exclam = &#34;!&#34;; const std::string message =]]></description>
 </item><item>
-    <title>一周一首唐诗宋词(二)</title>
-    <link>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%BA%8C/</link>
-    <pubDate>Wed, 13 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <title>第五年</title>
+    <link>http://PTrain666.github.io/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/</link>
+    <pubDate>Thu, 30 Jun 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D%E4%BA%8C/</guid>
-    <description><![CDATA[《临江仙·送钱穆父》 苏轼 〔宋代〕 一别都门三改火，天涯踏尽红尘。依然一笑作春温。无波真古井，有节是秋筠。 惆怅孤帆连夜发，送行淡月微云。尊前不用]]></description>
+    <guid>http://PTrain666.github.io/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/</guid>
+    <description><![CDATA[又是一年 6.30，毕业五年了！ 自己也变成了“老白兔” “前辈” 了，也越来越不会让工作占据生活。 更佛、更淡定、也更坚定，也掌握了一种躺平的哲学。]]></description>
+</item><item>
+    <title>dex 和 mmap</title>
+    <link>http://PTrain666.github.io/posts/dex-%E5%92%8C-mmap/</link>
+    <pubDate>Wed, 29 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/dex-%E5%92%8C-mmap/</guid>
+    <description><![CDATA[​ 背景 最近依葫芦画瓢搞了一个 dex2oat 的优化实验，用于冷启动场景 全量编译的情况下，劣化 400ms，部分编译的情况下有大概 100ms(数据在逐渐缩小)]]></description>
+</item><item>
+    <title>AGP BuildTools 之间的关系</title>
+    <link>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</link>
+    <pubDate>Thu, 23 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</guid>
+    <description><![CDATA[​发现一个有趣的问题： 今天同事突然问我：“你看这个什么情况，我没使用 resGuard 相关的资源混淆的东西啊，打出来的包为什么资源被混淆了？” 因为他们在做 AGP7.0]]></description>
 </item></channel>
 </rss>
