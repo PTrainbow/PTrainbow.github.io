@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 25 Aug 2022 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 22 Sep 2022 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>macOS 打包机大小写问题，导致的 crash</title>
+    <link>http://PTrain666.github.io/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/</link>
+    <pubDate>Thu, 22 Sep 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/</guid>
+    <description><![CDATA[今天遇到了个神奇的问题！ 测试反馈某一个渠道包，运行时 crash，其他渠道包都没问题 因为我们的渠道包的代码本质上是一样的，出现一个包有问题，其]]></description>
+</item><item>
     <title>dl_iterate_phdr 的 ANR 问题</title>
     <link>http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</link>
     <pubDate>Sat, 20 Aug 2022 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/dex-%E5%92%8C-mmap/</guid>
     <description><![CDATA[​ 背景 最近依葫芦画瓢搞了一个 dex2oat 的优化实验，用于冷启动场景 全量编译的情况下，劣化 400ms，部分编译的情况下有大概 100ms(数据在逐渐缩小)]]></description>
-</item><item>
-    <title>AGP BuildTools 之间的关系</title>
-    <link>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</link>
-    <pubDate>Thu, 23 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</guid>
-    <description><![CDATA[​发现一个有趣的问题： 今天同事突然问我：“你看这个什么情况，我没使用 resGuard 相关的资源混淆的东西啊，打出来的包为什么资源被混淆了？” 因为他们在做 AGP7.0]]></description>
 </item></channel>
 </rss>
