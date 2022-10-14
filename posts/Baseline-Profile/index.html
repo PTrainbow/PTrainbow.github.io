@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Baseline Profile - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="Baseline Profile" />
+<meta property="og:description" content="​ Baseline Profile Baseline Profile 可以用于 Andorid 8.0 以上系统的性能优化 原理简单来说还是 dex2oat 那一套东西，但是我们可以自己收集热点代码，生成对应的二进制文件，加速执行 想要使用，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/Baseline-Profile/" /><meta property="og:image" content="http://PTrain666.github.io/posts/Baseline-Profile/baselineprofile_workflow.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-14T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/Baseline-Profile/baselineprofile_workflow.png"/>
+<meta name="twitter:title" content="Baseline Profile"/>
+<meta name="twitter:description" content="​ Baseline Profile Baseline Profile 可以用于 Andorid 8.0 以上系统的性能优化 原理简单来说还是 dex2oat 那一套东西，但是我们可以自己收集热点代码，生成对应的二进制文件，加速执行 想要使用，"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/Baseline-Profile/" /><link rel="prev" href="http://PTrain666.github.io/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Baseline Profile",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/Baseline-Profile\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/Baseline-Profile\/baselineprofile_workflow.png",
+                            "width":  5067 ,
+                            "height":  1776 
+                        }],"genre": "posts","keywords": "Android","wordcount":  667 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/Baseline-Profile\/","datePublished": "2022-10-14T00:00:00+00:00","dateModified": "2022-10-14T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Baseline Profile</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-10-14">2022-10-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 667 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/Baseline-Profile/baselineprofile_workflow.png"
+        data-srcset="/posts/Baseline-Profile/baselineprofile_workflow.png, /posts/Baseline-Profile/baselineprofile_workflow.png 1.5x, /posts/Baseline-Profile/baselineprofile_workflow.png 2x"
+        data-sizes="auto"
+        alt="/posts/Baseline-Profile/baselineprofile_workflow.png"
+        title="/posts/Baseline-Profile/baselineprofile_workflow.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#baseline-profile">Baseline Profile</a></li>
+    <li><a href="#疑问">疑问</a></li>
+    <li><a href="#源码">源码</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>​</p>
+<h2 id="baseline-profile">Baseline Profile</h2>
+<p>Baseline Profile 可以用于 Andorid 8.0 以上系统的性能优化</p>
+<p>原理简单来说还是 dex2oat 那一套东西，但是我们可以自己收集热点代码，生成对应的二进制文件，加速执行</p>
+<p>想要使用，查阅 <a href="https://developer.android.com/topic/performance/baselineprofiles/overview" target="_blank" rel="noopener noreffer">https://developer.android.com/topic/performance/baselineprofiles/overview</a> 即可</p>
+<h2 id="疑问">疑问</h2>
+<p>按照上述官方问题的操作以后，我们会得到一个 txt 文件，里面记录了某个我们自己定义的场景的方法，且编译后在 asserts 目录下会多一个 dexopt 目录，内部有两份文件(profile installer 就是将这两份文件拷贝到系统目录下)</p>
+<p>但是，这明显是有一个问题的，那就是混淆问题！</p>
+<p>官方文档特地强调，在生成 txt 文件时，一定要关闭混淆</p>
+<p>那么问题来了，既然关闭了混淆，热点方法全是原始方法名，而 release 包在运行时，肯定是混淆后的名字，那又是如何对应到一起的呢？</p>
+<h2 id="源码">源码</h2>
+<p>靠猜也知道，肯定是编译过程中，生成 profile 文件时做了一些特殊处理，但是没有实锤肯定是不安心的</p>
+<p>终于，在 AGP 源码中，找到了 CompileArtProfileTask</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">diagnostics</span> <span class="p">=</span> <span class="n">Diagnostics</span> <span class="p">{</span>
+            <span class="n">error</span> <span class="o">-&gt;</span> <span class="k">throw</span> <span class="n">RuntimeException</span><span class="p">(</span><span class="s2">&#34;Error parsing baseline-prof.txt : </span><span class="si">$error</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">val</span> <span class="py">humanReadableProfile</span> <span class="p">=</span> <span class="n">HumanReadableProfile</span><span class="p">(</span>
+        <span class="n">parameters</span><span class="p">.</span><span class="n">mergedArtProfile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">,</span>
+        <span class="n">diagnostics</span>
+    <span class="p">)</span> <span class="o">?:</span> <span class="k">throw</span> <span class="n">RuntimeException</span><span class="p">(</span>
+        <span class="s2">&#34;Merged </span><span class="si">${SdkConstants.FN_ART_PROFILE}</span><span class="s2"> cannot be parsed successfully.&#34;</span>
+    <span class="p">)</span>
+
+    <span class="k">val</span> <span class="py">supplier</span> <span class="p">=</span> <span class="n">DexFileNameSupplier</span><span class="p">()</span>
+    <span class="k">val</span> <span class="py">artProfile</span> <span class="p">=</span> <span class="n">ArtProfile</span><span class="p">(</span>
+            <span class="n">humanReadableProfile</span><span class="p">,</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">parameters</span><span class="p">.</span><span class="n">obfuscationMappingFile</span><span class="p">.</span><span class="n">isPresent</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">ObfuscationMap</span><span class="p">(</span><span class="n">parameters</span><span class="p">.</span><span class="n">obfuscationMappingFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">)</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">ObfuscationMap</span><span class="p">.</span><span class="n">Empty</span>
+            <span class="p">},</span>
+            <span class="c1">//need to rename dex files with sequential numbers the same way [DexIncrementalRenameManager] does
+</span><span class="c1"></span>            <span class="n">parameters</span><span class="p">.</span><span class="n">dexFolders</span><span class="p">.</span><span class="n">asFileTree</span><span class="p">.</span><span class="n">files</span><span class="p">.</span><span class="n">sortedWith</span><span class="p">(</span><span class="n">DexFileComparator</span><span class="p">()).</span><span class="n">map</span> <span class="p">{</span>
+                <span class="n">DexFile</span><span class="p">(</span><span class="k">it</span><span class="p">.</span><span class="n">inputStream</span><span class="p">(),</span> <span class="n">supplier</span><span class="p">.</span><span class="k">get</span><span class="p">())</span>
+            <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="c1">// the P compiler is always used, the server side will transcode if necessary.
+</span><span class="c1"></span>    <span class="n">parameters</span><span class="p">.</span><span class="n">binaryArtProfileOutputFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">.</span><span class="n">outputStream</span><span class="p">().</span><span class="n">use</span> <span class="p">{</span>
+        <span class="n">artProfile</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="k">it</span><span class="p">,</span> <span class="n">ArtProfileSerializer</span><span class="p">.</span><span class="n">V0_1_0_P</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="c1">// create the metadata for N and above.
+</span><span class="c1"></span>    <span class="n">parameters</span><span class="p">.</span><span class="n">binaryArtProfileMetadataOutputFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">.</span><span class="n">outputStream</span><span class="p">().</span><span class="n">use</span> <span class="p">{</span>
+        <span class="n">artProfile</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="k">it</span><span class="p">,</span> <span class="n">ArtProfileSerializer</span><span class="p">.</span><span class="n">METADATA_FOR_N</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>可以看到其中使用了 obfuscationMap，进一步查看 ArtProfile 的生成，会发现使用了 deobfuscate 方法，源码如下</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">ArtProfile</span><span class="p">(</span>
+        <span class="n">hrp</span><span class="p">:</span> <span class="n">HumanReadableProfile</span><span class="p">,</span>
+        <span class="n">obf</span><span class="p">:</span> <span class="n">ObfuscationMap</span><span class="p">,</span>
+        <span class="n">dexes</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">DexFile</span><span class="p">&gt;,</span>
+        <span class="n">apkName</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
+<span class="p">):</span> <span class="n">ArtProfile</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">profileData</span> <span class="p">=</span> <span class="n">HashMap</span><span class="p">&lt;</span><span class="n">DexFile</span><span class="p">,</span> <span class="n">DexFileData</span><span class="p">&gt;()</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">iDex</span> <span class="k">in</span> <span class="n">dexes</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">val</span> <span class="py">dex</span> <span class="p">=</span> <span class="n">dexes</span><span class="p">[</span><span class="n">iDex</span><span class="p">]</span>
+        <span class="k">val</span> <span class="py">methods</span> <span class="p">=</span> <span class="n">dex</span><span class="p">.</span><span class="n">methodPool</span>
+        <span class="k">val</span> <span class="py">types</span> <span class="p">=</span> <span class="n">dex</span><span class="p">.</span><span class="n">typePool</span>
+        <span class="k">val</span> <span class="py">classDefs</span> <span class="p">=</span> <span class="n">dex</span><span class="p">.</span><span class="n">classDefPool</span>
+
+        <span class="k">val</span> <span class="py">profileTypeIndexes</span> <span class="p">=</span> <span class="n">mutableSetOf</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">&gt;()</span>
+        <span class="k">val</span> <span class="py">profileClassIndexes</span> <span class="p">=</span> <span class="n">mutableSetOf</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">&gt;()</span>
+        <span class="k">val</span> <span class="py">profileMethods</span> <span class="p">=</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">MethodData</span><span class="p">&gt;()</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">iMethod</span> <span class="k">in</span> <span class="n">methods</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">val</span> <span class="py">method</span> <span class="p">=</span> <span class="n">methods</span><span class="p">[</span><span class="n">iMethod</span><span class="p">]</span>
+            <span class="k">val</span> <span class="py">deobfuscated</span> <span class="p">=</span> <span class="n">obf</span><span class="p">.</span><span class="n">deobfuscate</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+            <span class="k">val</span> <span class="py">flags</span> <span class="p">=</span> <span class="n">hrp</span><span class="p">.</span><span class="n">match</span><span class="p">(</span><span class="n">deobfuscated</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">!=</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">profileMethods</span><span class="p">[</span><span class="n">iMethod</span><span class="p">]</span> <span class="p">=</span> <span class="n">MethodData</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">classIndex</span> <span class="k">in</span> <span class="n">classDefs</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">val</span> <span class="py">typeIndex</span> <span class="p">=</span> <span class="n">classDefs</span><span class="p">[</span><span class="n">classIndex</span><span class="p">]</span>
+            <span class="k">val</span> <span class="py">type</span> <span class="p">=</span> <span class="n">types</span><span class="p">[</span><span class="n">typeIndex</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">obf</span><span class="p">.</span><span class="n">deobfuscate</span><span class="p">(</span><span class="n">type</span><span class="p">).</span><span class="n">any</span> <span class="p">{</span> <span class="n">hrp</span><span class="p">.</span><span class="n">match</span><span class="p">(</span><span class="k">it</span><span class="p">)</span> <span class="o">!=</span> <span class="m">0</span> <span class="p">})</span> <span class="p">{</span>
+                <span class="n">profileTypeIndexes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">typeIndex</span><span class="p">)</span>
+                <span class="n">profileClassIndexes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">classIndex</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">profileTypeIndexes</span><span class="p">.</span><span class="n">isNotEmpty</span><span class="p">()</span> <span class="o">||</span> <span class="n">profileMethods</span><span class="p">.</span><span class="n">isNotEmpty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">profileData</span><span class="p">[</span><span class="n">dex</span><span class="p">]</span> <span class="p">=</span> <span class="n">DexFileData</span><span class="p">(</span>
+                    <span class="n">profileTypeIndexes</span><span class="p">,</span>
+                    <span class="n">profileClassIndexes</span><span class="p">,</span>
+                    <span class="n">profileMethods</span>
+            <span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ArtProfile</span><span class="p">(</span><span class="n">profileData</span><span class="p">,</span> <span class="n">apkName</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>破案，在打包过程中，执行了 CompileArtProfileTask，所以最终生成的 profile 文件中已经是混淆后的相关名称</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-10-14</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/" class="prev" rel="prev" title="macOS 打包机大小写问题，导致的 crash"><i class="fas fa-angle-left fa-fw"></i>macOS 打包机大小写问题，导致的 crash</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-10-14T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"Baseline Profile"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

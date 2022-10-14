@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 22 Sep 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 14 Oct 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>Baseline Profile</title>
+    <link>http://PTrain666.github.io/posts/Baseline-Profile/</link>
+    <pubDate>Fri, 14 Oct 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/Baseline-Profile/</guid>
+    <description><![CDATA[​ Baseline Profile Baseline Profile 可以用于 Andorid 8.0 以上系统的性能优化 原理简单来说还是 dex2oat 那一套东西，但是我们可以自己收集热点代码，生成对应的二进制文件，加速执行 想要使用，]]></description>
+</item><item>
     <title>macOS 打包机大小写问题，导致的 crash</title>
     <link>http://PTrain666.github.io/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/</link>
     <pubDate>Thu, 22 Sep 2022 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-On-%E5%88%B0-Ologn-%E7%9A%84%E7%9C%9F%E5%AE%9E%E4%BD%93%E9%AA%8C/</guid>
     <description><![CDATA[背景 一直对于 O(N) 和 O(logN) 没什么概念，只是知道肯定后者更快。但是快到什么个程度？不知道 直到最近做了一个上万量级的数据查找才有了真实体验 结论就是：两者]]></description>
-</item><item>
-    <title>DebugInfo 复用</title>
-    <link>http://PTrain666.github.io/posts/DebugInfo-%E5%A4%8D%E7%94%A8/</link>
-    <pubDate>Sun, 17 Apr 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/DebugInfo-%E5%A4%8D%E7%94%A8/</guid>
-    <description><![CDATA[apk 包体积这块，因为网络传输速度不断提升和手机存储空间的不断提升，越来越有点不是那么重要了 主要最近一直有这方面的需求，所以研究了一下包体积相关]]></description>
 </item></channel>
 </rss>
