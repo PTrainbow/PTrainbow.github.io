@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 14 Oct 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>JVMTI 的运用</title>
+    <link>http://PTrain666.github.io/posts/jvmti/</link>
+    <pubDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/jvmti/</guid>
+    <description><![CDATA[​ 文档 https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn JVMTI 可以做什么 一些重要的功能包括： 重新定义类。 跟踪对象分配和垃圾回收过程。 遵循对象的引用树，遍历堆中的所有对象。 检查 Java 调用堆栈。 暂停（]]></description>
+</item><item>
     <title>Baseline Profile</title>
     <link>http://PTrain666.github.io/posts/Baseline-Profile/</link>
     <pubDate>Fri, 14 Oct 2022 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/</guid>
     <description><![CDATA[​ 前言 oh，技术真的浮躁，也真的没用~~ 来看个有意思的例子： fastjson2 FASTJSON2是FASTJSON项目的重要升级，目标是为 下一个十年 提供一个]]></description>
-</item><item>
-    <title>一次 O(n) 到 O(logn) 的真实体验</title>
-    <link>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-On-%E5%88%B0-Ologn-%E7%9A%84%E7%9C%9F%E5%AE%9E%E4%BD%93%E9%AA%8C/</link>
-    <pubDate>Wed, 25 May 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E4%B8%80%E6%AC%A1-On-%E5%88%B0-Ologn-%E7%9A%84%E7%9C%9F%E5%AE%9E%E4%BD%93%E9%AA%8C/</guid>
-    <description><![CDATA[背景 一直对于 O(N) 和 O(logN) 没什么概念，只是知道肯定后者更快。但是快到什么个程度？不知道 直到最近做了一个上万量级的数据查找才有了真实体验 结论就是：两者]]></description>
 </item></channel>
 </rss>

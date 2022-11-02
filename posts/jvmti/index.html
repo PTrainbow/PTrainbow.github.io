@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>JVMTI 的运用 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="JVMTI 的运用" />
+<meta property="og:description" content="​ 文档 https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn JVMTI 可以做什么 一些重要的功能包括： 重新定义类。 跟踪对象分配和垃圾回收过程。 遵循对象的引用树，遍历堆中的所有对象。 检查 Java 调用堆栈。 暂停（" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/jvmti/" /><meta property="og:image" content="http://PTrain666.github.io/posts/jvmti/artti.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-11-02T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/jvmti/artti.png"/>
+<meta name="twitter:title" content="JVMTI 的运用"/>
+<meta name="twitter:description" content="​ 文档 https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn JVMTI 可以做什么 一些重要的功能包括： 重新定义类。 跟踪对象分配和垃圾回收过程。 遵循对象的引用树，遍历堆中的所有对象。 检查 Java 调用堆栈。 暂停（"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/jvmti/" /><link rel="prev" href="http://PTrain666.github.io/posts/Baseline-Profile/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "JVMTI 的运用",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/jvmti\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/jvmti\/artti.png",
+                            "width":  515 ,
+                            "height":  554 
+                        }],"genre": "posts","keywords": "Android","wordcount":  1641 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/jvmti\/","datePublished": "2022-11-02T00:00:00+00:00","dateModified": "2022-11-02T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">JVMTI 的运用</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-11-02">2022-11-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1641 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/jvmti/artti.png"
+        data-srcset="/posts/jvmti/artti.png, /posts/jvmti/artti.png 1.5x, /posts/jvmti/artti.png 2x"
+        data-sizes="auto"
+        alt="/posts/jvmti/artti.png"
+        title="/posts/jvmti/artti.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#文档">文档</a></li>
+    <li><a href="#jvmti-可以做什么">JVMTI 可以做什么</a></li>
+    <li><a href="#一个-lock-检测的例子">一个 Lock 检测的例子</a></li>
+    <li><a href="#可视化">可视化</a></li>
+    <li><a href="#release-开启-jvmti-的细节">Release 开启 JVMTI 的细节</a></li>
+    <li><a href="#atrace-文件格式细节">Atrace 文件格式细节</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>​</p>
+<h2 id="文档">文档</h2>
+<p><a href="https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn" target="_blank" rel="noopener noreffer">https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn</a></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/artti.png"
+        data-srcset="/img/in-post/artti.png, /img/in-post/artti.png 1.5x, /img/in-post/artti.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/artti.png"
+        title="/img/in-post/artti.png" /></p>
+<h2 id="jvmti-可以做什么">JVMTI 可以做什么</h2>
+<p>一些重要的功能包括：</p>
+<ol>
+<li>重新定义类。</li>
+<li>跟踪对象分配和垃圾回收过程。</li>
+<li>遵循对象的引用树，遍历堆中的所有对象。</li>
+<li>检查 Java 调用堆栈。</li>
+<li>暂停（和恢复）所有线程。</li>
+</ol>
+<p>其实远远不止，详情查看文档 <a href="https://docs.oracle.com/javase/8/docs/platform/jvmti/jvmti.html#architecture" target="_blank" rel="noopener noreffer">https://docs.oracle.com/javase/8/docs/platform/jvmti/jvmti.html#architecture</a></p>
+<h2 id="一个-lock-检测的例子">一个 Lock 检测的例子</h2>
+<p>大部分借鉴于这两篇文章，当然这个 lib 监听了很多东西，但是其实都是对于 jvmti 的一些方法的运用而已。</p>
+<p><a href="https://github.com/zkwlx/ADI/tree/master/adi_lib" target="_blank" rel="noopener noreffer">https://github.com/zkwlx/ADI/tree/master/adi_lib</a></p>
+<p><a href="https://juejin.cn/post/6942782366993612813" target="_blank" rel="noopener noreffer">https://juejin.cn/post/6942782366993612813</a></p>
+<p>最终的代码和 lib 中的略有不同，不同点在于最终数据的可视化、写入文件格式和 release 开启的 hook 方式</p>
+<p>步骤大致如下：</p>
+<ol>
+<li>
+<p>需要手动调用 Debug.attachJvmtiAgent，传递一个我们使用 jvmti.h 开发的 native so 路径</p>
+<blockquote>
+<p><code>注意</code>：只能再 Debug 模式下开启，且 so 需要 copy 到应用目录下，使用绝对路径加载，否则加载不成功</p>
+</blockquote>
+<p>native 层需要通过 Agent_OnAttach 获取 jvmtiEnv</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="n">Agent_OnAttach</span><span class="p">(</span><span class="n">JavaVM</span> <span class="o">*</span><span class="n">vm</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">options</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">reserved</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">jint</span> <span class="n">result</span> <span class="o">=</span> <span class="n">vm</span><span class="o">-&gt;</span><span class="n">GetEnv</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">sJVMTIEnv</span><span class="p">,</span> <span class="n">JVMTI_VERSION_1_2</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">JNI_OK</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">LOGI</span><span class="p">(</span><span class="s">&#34;create jvmti error!&#34;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">jvmtiCapabilities</span> <span class="n">caps</span><span class="p">;</span>
+    <span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">GetPotentialCapabilities</span><span class="p">(</span><span class="o">&amp;</span><span class="n">caps</span><span class="p">);</span>
+    <span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">AddCapabilities</span><span class="p">(</span><span class="o">&amp;</span><span class="n">caps</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">JNI_OK</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></li>
+<li>
+<p>注册对应回调函数，开启对应的事件监听</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// 注册回调
+</span><span class="c1"></span><span class="n">jvmtiEnv</span><span class="err">→</span><span class="n">SentEventCallbacks</span>
+<span class="c1">// 锁相关回调为 MonitorContendedEnter 和 MonitorContendedEntered
+</span><span class="c1"></span><span class="n">jvmtiEnv</span><span class="err">→</span><span class="n">SetEventNotificationMode</span>
+</code></pre></div><p>最终回调注册相关的代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="n">jvmtiEventCallbacks</span> <span class="n">callbacks</span><span class="p">;</span>
+<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">callbacks</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">callbacks</span><span class="p">));</span>
+<span class="n">callbacks</span><span class="p">.</span><span class="n">MonitorContendedEnter</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">onLockEnter</span><span class="p">;</span>
+<span class="n">callbacks</span><span class="p">.</span><span class="n">MonitorContendedEntered</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">onLockEntered</span><span class="p">;</span>
+<span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">SetEventCallbacks</span><span class="p">(</span><span class="o">&amp;</span><span class="n">callbacks</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">callbacks</span><span class="p">));</span>
+<span class="c1">// 最终的线程参数传递 null，表明监听所有线程
+</span><span class="c1"></span><span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">SetEventNotificationMode</span><span class="p">(</span><span class="n">JVMTI_ENABLE</span><span class="p">,</span> <span class="n">JVMTI_EVENT_MONITOR_CONTENDED_ENTER</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">);</span>
+<span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">SetEventNotificationMode</span><span class="p">(</span><span class="n">JVMTI_ENABLE</span><span class="p">,</span> <span class="n">JVMTI_EVENT_MONITOR_CONTENDED_ENTERED</span><span class="p">,</span>
+                                    <span class="k">nullptr</span><span class="p">);</span>
+</code></pre></div><p>onLockEnter 和 onLockEntered 为我们自己的方法，这样当有 lock 事件发生时，便会回调这两个对应方法</p>
+</li>
+<li>
+<p>通过 jvmti 接口获取各种信息和各类其他信息，如堆栈信息(可以查阅 jvmti interface 文档)<br>
+这里其实没什么好说的，就是看文档，或者看别人怎么写的，用于在 onLockEnter 和 onLockEntered 中，获取线程信息、锁对象信息、调用堆栈等等。<br>
+具体可以看上面提到的开源的 adi_lib</p>
+</li>
+<li>
+<p>自己的逻辑处理<br>
+到了这一步就是 onLockEnter 和 onLockEntered 这两个方法的具体实现了。监听 lock 我这里的思路是，写入 <code>atrace</code> 格式的日志到文件中。这样最终可以通过 perftto 可视化出一个调用堆栈。</p>
+</li>
+<li>
+<p>数据可视化，通过 python 脚本转换为 html，perftto 可以查阅<br>
+这里其实是对于第四步的日志文件的再加工</p>
+</li>
+</ol>
+<h2 id="可视化">可视化</h2>
+<p>使用 atrace 格式写入，再进一步处理既可以得到类似可视化堆栈信息：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/perftto_preview.jpg"
+        data-srcset="/img/in-post/perftto_preview.jpg, /img/in-post/perftto_preview.jpg 1.5x, /img/in-post/perftto_preview.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/perftto_preview.jpg"
+        title="/img/in-post/perftto_preview.jpg" /></p>
+<p>当然，这也会有一个问题：</p>
+<p>多线程情况下，可能一个线程在某短时间持有锁A并且等待锁B，所以可能会有堆栈交叉的问题。</p>
+<p>所以目前最终的脚本是以某个线程为主视角，当这个线程出现了锁等待时，获取这个锁对象被哪个线程持有，而不去获取是否还有其他线程在等待，也不管持有锁的线程的相关信息</p>
+<h2 id="release-开启-jvmti-的细节">Release 开启 JVMTI 的细节</h2>
+<p>在上面提到的文章中，作者找到了整个判定是否可以运行 jvmti 的各个函数签名</p>
+<pre tabindex="0"><code>_ZN3art7Runtime17SetJavaDebuggableEb
+_ZN3art3Dbg14SetJdwpAllowedEb
+</code></pre><p>他使用了 inlinehook 的方式实现，并且表示其实突破 android 高版本的 dlopen 的限制其实就可以了</p>
+<p>因为其原理就是想调用一些 libart.so 的私有函数，去改变一些对于 debug/release 的判断逻辑的值。</p>
+<p>那么如何调用一个 so 的函数呢？肯定是需要 dlopen 和 dlsym 获取到对应的函数入口地址，然后执行对应方法。</p>
+<p>这里可以使用 xdl 实现对应功能。</p>
+<p>核心问题有3个：</p>
+<ol>
+<li>libart.so 的绝对路径<br>
+可以使用 xdl_iterate_phdr 获取</li>
+<li>获取对应两个方法的函数指针<br>
+xdl_open + xdl_sym</li>
+<li>setJavaDebuggable 的 runtime 参数 <br>
+这里没有细看和 java 层的 runtime 之间的关系，如果一致，那么其实可以反调 java 获取，我这里直接找到了对应的方法签名 _ZN3art7Runtime9instance_E，直接调用获取</li>
+</ol>
+<p>代码大致如下(需要依赖 XDL)：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// dl_iterate_callback 中可以通过 dl_phdr_info.name 拿到绝对路径，赋值给 libart 即可
+</span><span class="c1"></span><span class="n">xdl_iterate_phdr</span><span class="p">(</span><span class="n">dl_iterate_callback</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="n">XDL_FULL_PATHNAME</span><span class="p">);</span>
+<span class="kt">void</span> <span class="o">*</span><span class="n">dl</span> <span class="o">=</span> <span class="n">xdl_open</span><span class="p">(</span><span class="n">libart</span><span class="p">,</span> <span class="n">XDL_ALWAYS_FORCE_LOAD</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">dl</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="p">(</span><span class="o">*</span><span class="n">SetJdwpAllowed</span><span class="p">)(</span><span class="kt">bool</span><span class="p">)</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">bool</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">xdl_sym</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span>
+                                                                            <span class="s">&#34;_ZN3art3Dbg14SetJdwpAllowedEb&#34;</span><span class="p">,</span>
+                                                                            <span class="k">nullptr</span><span class="p">));</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">SetJdwpAllowed</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SetJdwpAllowed</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">LOGE</span><span class="p">(</span><span class="s">&#34;SetJdwpAllowed failed!&#34;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">auto</span> <span class="p">(</span><span class="o">*</span><span class="n">setJavaDebuggable</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">,</span> <span class="kt">bool</span><span class="p">)</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">,</span> <span class="kt">bool</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">xdl_sym</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span>
+                                                                            <span class="s">&#34;_ZN3art7Runtime17SetJavaDebuggableEb&#34;</span><span class="p">,</span>
+                                                                            <span class="k">nullptr</span><span class="p">));</span>
+    <span class="kt">void</span> <span class="o">**</span><span class="n">instance_</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="o">**&gt;</span><span class="p">(</span><span class="n">xdl_sym</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span> <span class="s">&#34;_ZN3art7Runtime9instance_E&#34;</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">));</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">setJavaDebuggable</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">setJavaDebuggable</span><span class="p">(</span><span class="o">*</span><span class="n">instance_</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+        <span class="n">LOGE</span><span class="p">(</span><span class="s">&#34;setJavaDebuggable failed!&#34;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">xdl_close</span><span class="p">(</span><span class="n">dl</span><span class="p">);</span>
+<span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+    <span class="n">LOGE</span><span class="p">(</span><span class="s">&#34;open libart.so failed!&#34;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div><p>这样就可以在 release 模式下开启 jvmti 了！</p>
+<h2 id="atrace-文件格式细节">Atrace 文件格式细节</h2>
+<p>如何将我们记录到的锁相关的堆栈信息可视化呢？</p>
+<p>我这里是使用 atrace 格式来展示，上面也有具体的展示图。</p>
+<p>atrace 是一种什么格式呢？</p>
+<p>在 systrace 还是 perfetto 的代码中有如下正则匹配(忘记了从哪里找到的了)：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">s*(.+)-(\d+)\s+\(\s*(\d+|-+)\)\s\[(\d+)\]\s+[dX.][Nnp.][Hhs.][0-9a-f.]\s+(\d+\.\d+):\s+(\S+):\s(.*)$
+</code></pre></div><p>再来看看标准的一个 atrace</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">com.xingin.xhs-9702  ( 9702) [001] ...1 1743497.015596: tracing_mark_write: B|9702|Intrinsics:checkParameterIsNotNull
+com.xingin.xhs-9702  ( 9702) [001] ...1 1743497.015612: tracing_mark_write: E|9702|Intrinsics:checkParameterIsNotNull
+
+</code></pre></div><p>刚好对得上这个正则匹配</p>
+<p>所以我们只需要凑出一个这种格式，然后将获取到的调用栈，展开成 B| funcA, E| funcB 的样式即可</p>
+<p>B 表示一个方法开始，E 表示一个方法结束，中间的六位小数的数值是一个时间数值，[001] &hellip;1 tracing_mark_write 等值原封不动即可</p>
+<p>然后我们只需要找到一个模板 html 文件，将其中间的 atrace 内容替换为我们抓到的 lock 堆栈内容即可</p>
+<p>详见</p>
+<p><a href="https://github.com/PTrain666/perftto_template/blob/main/template.html" target="_blank" rel="noopener noreffer">https://github.com/PTrain666/perftto_template/blob/main/template.html</a></p>
+<p>从 10364行 开始，插入你的标准的 atrace 格式的日志即可</p>
+<p>至于怎么将堆栈转换为 atrace 格式，仁者见仁了，我是通过简单的不到100行的 python 代码就实现了</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-11-02</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/Baseline-Profile/" class="prev" rel="prev" title="Baseline Profile"><i class="fas fa-angle-left fa-fw"></i>Baseline Profile</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-11-02T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"JVMTI 的运用"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 14 Oct 2022 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>JVMTI 的运用</title>
+    <link>http://PTrain666.github.io/posts/jvmti/</link>
+    <pubDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/jvmti/</guid>
+    <description><![CDATA[​ 文档 https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn JVMTI 可以做什么 一些重要的功能包括： 重新定义类。 跟踪对象分配和垃圾回收过程。 遵循对象的引用树，遍历堆中的所有对象。 检查 Java 调用堆栈。 暂停（]]></description>
+</item><item>
     <title>Baseline Profile</title>
     <link>http://PTrain666.github.io/posts/Baseline-Profile/</link>
     <pubDate>Fri, 14 Oct 2022 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/</guid>
     <description><![CDATA[Exercises Exercise 1-1 Are the following definitions valid? Why or why not? const std::string hello = &#34;Hello&#34;; const std::string message = hello + &#34;, world&#34; + &#34;!&#34;; 编译正确。std::string 重写了 + 操作符 Exercise 1-2 Are the following definitions valid? Why or why not? const std::string exclam = &#34;!&#34;; const std::string message =]]></description>
-</item><item>
-    <title>第五年</title>
-    <link>http://PTrain666.github.io/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/</link>
-    <pubDate>Thu, 30 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/</guid>
-    <description><![CDATA[又是一年 6.30，毕业五年了！ 自己也变成了“老白兔” “前辈” 了，也越来越不会让工作占据生活。 更佛、更淡定、也更坚定，也掌握了一种躺平的哲学。]]></description>
 </item></channel>
 </rss>
