@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrain666.github.io\/posts\/jvmti\/artti.png",
                             "width":  515 ,
                             "height":  554 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1641 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  1674 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/jvmti\/","datePublished": "2022-11-02T00:00:00+00:00","dateModified": "2022-11-02T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">JVMTI 的运用</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-11-02">2022-11-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1641 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-11-02">2022-11-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1674 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -268,7 +268,7 @@ xdl_open + xdl_sym</li>
 <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
     <span class="n">LOGE</span><span class="p">(</span><span class="s">&#34;open libart.so failed!&#34;</span><span class="p">);</span>
 <span class="p">}</span>
-</code></pre></div><p>这样就可以在 release 模式下开启 jvmti 了！</p>
+</code></pre></div><p>这样就可以在 release 模式下开启 jvmti 了！但是不要搞到线上去，因为 jvmti 还是有一些性能损耗的！可以用于线下的测试</p>
 <h2 id="atrace-文件格式细节">Atrace 文件格式细节</h2>
 <p>如何将我们记录到的锁相关的堆栈信息可视化呢？</p>
 <p>我这里是使用 atrace 格式来展示，上面也有具体的展示图。</p>
