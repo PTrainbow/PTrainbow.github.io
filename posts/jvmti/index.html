@@ -276,8 +276,8 @@ xdl_open + xdl_sym</li>
 <p>在 systrace 还是 perfetto 的代码中有如下正则匹配(忘记了从哪里找到的了)：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">s*(.+)-(\d+)\s+\(\s*(\d+|-+)\)\s\[(\d+)\]\s+[dX.][Nnp.][Hhs.][0-9a-f.]\s+(\d+\.\d+):\s+(\S+):\s(.*)$
 </code></pre></div><p>再来看看标准的一个 atrace</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">com.xingin.xhs-9702  ( 9702) [001] ...1 1743497.015596: tracing_mark_write: B|9702|Intrinsics:checkParameterIsNotNull
-com.xingin.xhs-9702  ( 9702) [001] ...1 1743497.015612: tracing_mark_write: E|9702|Intrinsics:checkParameterIsNotNull
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">com.xxx.xxx-9702  ( 9702) [001] ...1 1743497.015596: tracing_mark_write: B|9702|Intrinsics:checkParameterIsNotNull
+com.xxx.xxx-9702  ( 9702) [001] ...1 1743497.015612: tracing_mark_write: E|9702|Intrinsics:checkParameterIsNotNull
 
 </code></pre></div><p>刚好对得上这个正则匹配</p>
 <p>所以我们只需要凑出一个这种格式，然后将获取到的调用栈，展开成 B| funcA, E| funcB 的样式即可</p>
