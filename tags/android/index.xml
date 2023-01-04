@@ -3,7 +3,21 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 04 Jan 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>forkdump 触发的神奇 bug</title>
+    <link>http://PTrain666.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</link>
+    <pubDate>Wed, 04 Jan 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</guid>
+    <description><![CDATA[​ 最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起 最近]]></description>
+</item><item>
+    <title>NativeBitmap 实现</title>
+    <link>http://PTrain666.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</link>
+    <pubDate>Sat, 31 Dec 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</guid>
+    <description><![CDATA[​ 前言 最近一直在治理 OOM 问题，OOM 问题分为多种，其中有一种的原因是 java heap 空间不足 这种 OOM 多发生于低版本手机，或者是存在严重的内存泄漏的高版本手机]]></description>
+</item><item>
     <title>JVMTI 的运用</title>
     <link>http://PTrain666.github.io/posts/jvmti/</link>
     <pubDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</pubDate>
@@ -59,19 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/dex-%E5%92%8C-mmap/</guid>
     <description><![CDATA[​ 背景 最近依葫芦画瓢搞了一个 dex2oat 的优化实验，用于冷启动场景 全量编译的情况下，劣化 400ms，部分编译的情况下有大概 100ms(数据在逐渐缩小)]]></description>
-</item><item>
-    <title>AGP BuildTools 之间的关系</title>
-    <link>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</link>
-    <pubDate>Thu, 23 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</guid>
-    <description><![CDATA[​发现一个有趣的问题： 今天同事突然问我：“你看这个什么情况，我没使用 resGuard 相关的资源混淆的东西啊，打出来的包为什么资源被混淆了？” 因为他们在做 AGP7.0]]></description>
-</item><item>
-    <title>xv6 macOS 运行环境</title>
-    <link>http://PTrain666.github.io/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/</link>
-    <pubDate>Tue, 14 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/</guid>
-    <description><![CDATA[​ 前言 oh，技术真的浮躁，也真的没用~~ 来看个有意思的例子： fastjson2 FASTJSON2是FASTJSON项目的重要升级，目标是为 下一个十年 提供一个]]></description>
 </item></channel>
 </rss>

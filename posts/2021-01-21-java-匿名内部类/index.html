@@ -27,7 +27,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrain666.github.io\/posts\/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB\/"
-        },"genre": "posts","keywords": "Java","wordcount":  1024 ,
+        },"genre": "posts","keywords": "Java","wordcount":  1018 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB\/","datePublished": "2021-01-21T00:00:00+00:00","dateModified": "2021-01-21T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -105,7 +105,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Java 匿名内部类</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-01-21">2021-01-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1024 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-01-21">2021-01-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1018 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -128,13 +128,13 @@
 <p>于是，我觉得越来越不会写代码了，有时候不断的会想，为什么是这样的？</p>
 <p>来看看 Java 的匿名内部类吧···</p>
 <h3 id="常见的匿名内部类写法">常见的匿名内部类写法</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">view</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
-        
-    <span class="o">}</span>
-<span class="o">});</span>
-</code></pre></div><p>这是在 Android 中十分常见的写法，这个 new OnClickListener 就是匿名内部类，一开始我也很好奇这个名称，为什么叫 <code>匿名内部类</code>？？？？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">view</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">});</span>
+</span></span></code></pre></div><p>这是在 Android 中十分常见的写法，这个 new OnClickListener 就是匿名内部类，一开始我也很好奇这个名称，为什么叫 <code>匿名内部类</code>？？？？</p>
 <p>不过在我知道具体的原理之后，我觉得这个名字起得真不错~~</p>
 <h3 id="new-关键字">new 关键字</h3>
 <p>一开始接触 Java 的时候，我们就知道，抽象类和接口不能实例化，而 new 关键字就是负责实例化的。好了，矛盾了。</p>
@@ -145,82 +145,81 @@
 <p>其实 Java 的这种问题还都挺好解决的，看它的字节码文件就好了。</p>
 <p>我这里写了两个Java文件</p>
 <p>ITest.java</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ITest</span> <span class="o">{</span>
-    <span class="kt">void</span> <span class="nf">test</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div><p>Test.java</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">ITest</span> <span class="n">t</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ITest</span><span class="o">(){</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>
-
-    <span class="o">}</span>
-<span class="o">};</span>
-</code></pre></div><p>当我编译这两个文件之后，神奇的事情发生了，多了一个 class 文件， Test$1.class</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ITest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">test</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Test.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ITest</span> <span class="n">t</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ITest</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">};</span>
+</span></span></code></pre></div><p>当我编译这两个文件之后，神奇的事情发生了，多了一个 class 文件， Test$1.class</p>
 <p>没错，查看 Test$1.class 的反编文件</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//
-</span><span class="c1">// Source code recreated from a .class file by IntelliJ IDEA
-</span><span class="c1">// (powered by Fernflower decompiler)
-</span><span class="c1">//
-</span><span class="c1"></span><span class="kd">final</span> <span class="kd">class</span> <span class="nc">Test$1</span> <span class="kd">implements</span> <span class="n">ITest</span> <span class="o">{</span>
-    <span class="n">Test$1</span><span class="o">()</span> <span class="o">{</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>查看 Test.class 的反编文件</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//
-</span><span class="c1">// Source code recreated from a .class file by IntelliJ IDEA
-</span><span class="c1">// (powered by Fernflower decompiler)
-</span><span class="c1">//
-</span><span class="c1"></span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="nf">Test</span><span class="o">()</span> <span class="o">{</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">var0</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">ITest</span> <span class="n">var10000</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ITest</span><span class="o">()</span> <span class="o">{</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>
-            <span class="o">}</span>
-        <span class="o">};</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-</code></pre></div><p>发现还是不太对，虽然创建了一个 Test$1 的类，但是 Test.java 并没有调用？
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Source code recreated from a .class file by IntelliJ IDEA
+</span></span></span><span class="line"><span class="cl"><span class="c1">// (powered by Fernflower decompiler)
+</span></span></span><span class="line"><span class="cl"><span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">final</span> <span class="kd">class</span> <span class="nc">Test$1</span> <span class="kd">implements</span> <span class="n">ITest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Test$1</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>查看 Test.class 的反编文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Source code recreated from a .class file by IntelliJ IDEA
+</span></span></span><span class="line"><span class="cl"><span class="c1">// (powered by Fernflower decompiler)
+</span></span></span><span class="line"><span class="cl"><span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Test</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">var0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ITest</span> <span class="n">var10000</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ITest</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">};</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>发现还是不太对，虽然创建了一个 Test$1 的类，但是 Test.java 并没有调用？
 但是后来一想，这也是 class 文件反编译而来，可能存在一些问题，不如直接看字节码咯</p>
 <p>Test.java 字节码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java">  <span class="kd">static</span> <span class="n">INNERCLASS</span> <span class="n">Test$1</span> <span class="kc">null</span> <span class="kc">null</span>
-
-  <span class="c1">// access flags 0x1
-</span><span class="c1"></span>  <span class="kd">public</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;()</span><span class="n">V</span>
-   <span class="n">L0</span>
-    <span class="n">LINENUMBER</span> <span class="n">1</span> <span class="n">L0</span>
-    <span class="n">ALOAD</span> <span class="n">0</span>
-    <span class="n">INVOKESPECIAL</span> <span class="n">java</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">Object</span><span class="o">.&lt;</span><span class="n">init</span><span class="o">&gt;</span> <span class="o">()</span><span class="n">V</span>
-    <span class="n">RETURN</span>
-   <span class="n">L1</span>
-    <span class="n">LOCALVARIABLE</span> <span class="k">this</span> <span class="n">LTest</span><span class="o">;</span> <span class="n">L0</span> <span class="n">L1</span> <span class="n">0</span>
-    <span class="n">MAXSTACK</span> <span class="o">=</span> <span class="n">1</span>
-    <span class="n">MAXLOCALS</span> <span class="o">=</span> <span class="n">1</span>
-
-  <span class="c1">// access flags 0x9
-</span><span class="c1"></span>  <span class="kd">public</span> <span class="kd">static</span> <span class="nf">main</span><span class="o">([</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;)</span><span class="n">V</span>
-   <span class="n">L0</span>
-    <span class="n">LINENUMBER</span> <span class="n">3</span> <span class="n">L0</span>
-    <span class="n">NEW</span> <span class="n">Test$1</span>
-    <span class="n">DUP</span>
-    <span class="n">INVOKESPECIAL</span> <span class="n">Test$1</span><span class="o">.&lt;</span><span class="n">init</span><span class="o">&gt;</span> <span class="o">()</span><span class="n">V</span>
-    <span class="n">ASTORE</span> <span class="n">1</span>
-   <span class="n">L1</span>
-    <span class="n">LINENUMBER</span> <span class="n">10</span> <span class="n">L1</span>
-    <span class="n">RETURN</span>
-   <span class="n">L2</span>
-    <span class="n">LOCALVARIABLE</span> <span class="n">args</span> <span class="o">[</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;</span> <span class="n">L0</span> <span class="n">L2</span> <span class="n">0</span>
-    <span class="n">LOCALVARIABLE</span> <span class="n">t</span> <span class="n">LITest</span><span class="o">;</span> <span class="n">L1</span> <span class="n">L2</span> <span class="n">1</span>
-    <span class="n">MAXSTACK</span> <span class="o">=</span> <span class="n">2</span>
-    <span class="n">MAXLOCALS</span> <span class="o">=</span> <span class="n">2</span>
-<span class="o">}</span>
-</code></pre></div><p>可以看到 main 函数，调用了 NEW Test$1 和 INVOKESPECIAL Test$1.<!-- raw HTML omitted --> ()V。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">  <span class="kd">static</span> <span class="n">INNERCLASS</span> <span class="n">Test$1</span> <span class="kc">null</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// access flags 0x1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kd">public</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;()</span><span class="n">V</span>
+</span></span><span class="line"><span class="cl">   <span class="n">L0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LINENUMBER</span> <span class="n">1</span> <span class="n">L0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ALOAD</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">INVOKESPECIAL</span> <span class="n">java</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">Object</span><span class="o">.&lt;</span><span class="n">init</span><span class="o">&gt;</span> <span class="o">()</span><span class="n">V</span>
+</span></span><span class="line"><span class="cl">    <span class="n">RETURN</span>
+</span></span><span class="line"><span class="cl">   <span class="n">L1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOCALVARIABLE</span> <span class="k">this</span> <span class="n">LTest</span><span class="o">;</span> <span class="n">L0</span> <span class="n">L1</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MAXSTACK</span> <span class="o">=</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MAXLOCALS</span> <span class="o">=</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// access flags 0x9
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kd">public</span> <span class="kd">static</span> <span class="nf">main</span><span class="o">([</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;)</span><span class="n">V</span>
+</span></span><span class="line"><span class="cl">   <span class="n">L0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LINENUMBER</span> <span class="n">3</span> <span class="n">L0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NEW</span> <span class="n">Test$1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DUP</span>
+</span></span><span class="line"><span class="cl">    <span class="n">INVOKESPECIAL</span> <span class="n">Test$1</span><span class="o">.&lt;</span><span class="n">init</span><span class="o">&gt;</span> <span class="o">()</span><span class="n">V</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ASTORE</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">   <span class="n">L1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LINENUMBER</span> <span class="n">10</span> <span class="n">L1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">RETURN</span>
+</span></span><span class="line"><span class="cl">   <span class="n">L2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOCALVARIABLE</span> <span class="n">args</span> <span class="o">[</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;</span> <span class="n">L0</span> <span class="n">L2</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOCALVARIABLE</span> <span class="n">t</span> <span class="n">LITest</span><span class="o">;</span> <span class="n">L1</span> <span class="n">L2</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MAXSTACK</span> <span class="o">=</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MAXLOCALS</span> <span class="o">=</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>可以看到 main 函数，调用了 NEW Test$1 和 INVOKESPECIAL Test$1.<!-- raw HTML omitted --> ()V。</p>
 <p>这里也就知道了，new 抽象类和接口并没有什么神奇的。只不过是在编译过程中，java 编译器，帮我们自动生成一些类，而这些类的名字就是，<code>xxx$x</code>，名字也是编译器来定的，所以写代码的人无需给它命名，所以就取了个<code>匿名内部类</code>的名字(我猜的，不过挺形象)？</p>
 <p>所以，两个问题也解决了。</p>
 <p><strong>问题一</strong>：仁者见仁，在写法上看确实是 new 了，但是追其本源，还是实例化的类文件，看你自己怎么看吧，我觉得还是 <code>不能说</code> new 接口的，</p>
@@ -255,8 +254,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 
