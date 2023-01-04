@@ -27,7 +27,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrain666.github.io\/posts\/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8\/"
-        },"genre": "posts","keywords": "Android","wordcount":  1264 ,
+        },"genre": "posts","keywords": "Android","wordcount":  1263 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8\/","datePublished": "2020-07-31T00:00:00+00:00","dateModified": "2020-07-31T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -105,7 +105,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">FFmpeg 简易播放器</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-07-31">2020-07-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1264 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-07-31">2020-07-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1263 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -169,25 +169,25 @@
 </li>
 </ul>
 <h4 id="22-cmakelists-关键部分">2.2 CMakeLists 关键部分</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl">  <span class="nb">include_directories</span><span class="p">(</span><span class="s">/usr/local/Cellar/ffmpeg/4.2.2_3/include/</span> <span class="s">/usr/local/Cellar/sdl2/2.0.12_1/include/</span><span class="p">)</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="nb">link_directories</span><span class="p">(</span><span class="s">/usr/local/Cellar/ffmpeg/4.2.2_3/lib/</span> <span class="s">/usr/local/Cellar/sdl2/2.0.12_1/lib/</span><span class="p">)</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="nb">add_executable</span><span class="p">(</span><span class="s">simple_player</span> <span class="s">simple_player.c</span><span class="p">)</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="nb">target_link_libraries</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">          <span class="s">simple_player</span>
-</span></span><span class="line"><span class="cl">          <span class="s">avcodec</span>
-</span></span><span class="line"><span class="cl">          <span class="s">avdevice</span>
-</span></span><span class="line"><span class="cl">          <span class="s">avfilter</span>
-</span></span><span class="line"><span class="cl">          <span class="s">avformat</span>
-</span></span><span class="line"><span class="cl">          <span class="s">avresample</span>
-</span></span><span class="line"><span class="cl">          <span class="s">avutil</span>
-</span></span><span class="line"><span class="cl">          <span class="s">postproc</span>
-</span></span><span class="line"><span class="cl">          <span class="s">swresample</span>
-</span></span><span class="line"><span class="cl">          <span class="s">swscale</span>
-</span></span><span class="line"><span class="cl">          <span class="s">sdl2</span>
-</span></span><span class="line"><span class="cl">  <span class="p">)</span><span class="err">
-</span></span></span></code></pre></div><h4 id="23-设置参数">2.3 设置参数</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake">  <span class="nb">include_directories</span><span class="p">(</span><span class="s">/usr/local/Cellar/ffmpeg/4.2.2_3/include/</span> <span class="s">/usr/local/Cellar/sdl2/2.0.12_1/include/</span><span class="p">)</span><span class="err">
+</span><span class="err"></span>  <span class="nb">link_directories</span><span class="p">(</span><span class="s">/usr/local/Cellar/ffmpeg/4.2.2_3/lib/</span> <span class="s">/usr/local/Cellar/sdl2/2.0.12_1/lib/</span><span class="p">)</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="nb">add_executable</span><span class="p">(</span><span class="s">simple_player</span> <span class="s">simple_player.c</span><span class="p">)</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="nb">target_link_libraries</span><span class="p">(</span>
+          <span class="s">simple_player</span>
+          <span class="s">avcodec</span>
+          <span class="s">avdevice</span>
+          <span class="s">avfilter</span>
+          <span class="s">avformat</span>
+          <span class="s">avresample</span>
+          <span class="s">avutil</span>
+          <span class="s">postproc</span>
+          <span class="s">swresample</span>
+          <span class="s">swscale</span>
+          <span class="s">sdl2</span>
+  <span class="p">)</span><span class="err">
+</span></code></pre></div><h4 id="23-设置参数">2.3 设置参数</h4>
 <p>播放器接受一个文件路径作为参数，可以命令行启动或者设置 Run Configurations</p>
 <h3 id="3ffmpeg-和-sdl-的几个函数">3.FFmpeg 和 SDL 的几个函数</h3>
 <p>只是拎出来几个用到了的，具体参数含义自行阅读 API 文档</p>
@@ -283,136 +283,136 @@
         title="/img/in-post/video_player_flow.jpg" /></p>
 <h3 id="5简易播放器源码">5.简易播放器源码</h3>
 <p>我一开始入门的目的，就是想看看怎么能写出一个播放器，大家入门肯定都跟我一样，这里放一个没有声音的简易版本播放器，网上也能搜到很多类似的代码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;libavformat/avformat.h&gt;  </span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;libavcodec/avcodec.h&gt;  </span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;libswscale/swscale.h&gt;  </span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;libavutil/imgutils.h&gt;  </span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;SDL2/SDL.h&gt;  </span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;SDL2/SDL_thread.h&gt;  </span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_stream_idx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="o">*</span><span class="n">vf_path</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="n">AVFormatContext</span> <span class="o">*</span><span class="n">fmt_ctx</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">AVCodecContext</span> <span class="o">*</span><span class="n">codec_ctx</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">AVCodec</span> <span class="o">*</span><span class="n">codec</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">AVFrame</span> <span class="o">*</span><span class="n">frame</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">AVPacket</span> <span class="n">packet</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">ret</span> <span class="o">=</span> <span class="n">avformat_open_input</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="n">vf_path</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Open video file %s failed </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">vf_path</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">avformat_find_stream_info</span><span class="p">(</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">av_dump_format</span><span class="p">(</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vf_path</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fmt_ctx</span><span class="o">-&gt;</span><span class="n">nb_streams</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">fmt_ctx</span><span class="o">-&gt;</span><span class="n">streams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">codecpar</span><span class="o">-&gt;</span><span class="n">codec_type</span> <span class="o">==</span> <span class="n">AVMEDIA_TYPE_VIDEO</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">v_stream_idx</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">v_stream_idx</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Cannot find video stream</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">codec_ctx</span> <span class="o">=</span> <span class="n">avcodec_alloc_context3</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">avcodec_parameters_to_context</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="n">fmt_ctx</span><span class="o">-&gt;</span><span class="n">streams</span><span class="p">[</span><span class="n">v_stream_idx</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">codecpar</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">codec</span> <span class="o">=</span> <span class="n">avcodec_find_decoder</span><span class="p">(</span><span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">codec_id</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">codec</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Unsupported codec for video file</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">avcodec_open2</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="n">codec</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Can not open codec</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">SDL_Init</span><span class="p">(</span><span class="n">SDL_INIT_VIDEO</span> <span class="o">|</span> <span class="n">SDL_INIT_AUDIO</span> <span class="o">|</span> <span class="n">SDL_INIT_TIMER</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Could not init SDL due to %s&#34;</span><span class="p">,</span> <span class="n">SDL_GetError</span><span class="p">());</span>
-</span></span><span class="line"><span class="cl">        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="n">SDL_Window</span> <span class="o">*</span><span class="n">window</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">SDL_Renderer</span> <span class="o">*</span><span class="n">renderer</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">SDL_Texture</span> <span class="o">*</span><span class="n">texture</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">SDL_Event</span> <span class="n">event</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">SDL_Rect</span> <span class="n">r</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">window</span> <span class="o">=</span> <span class="n">SDL_CreateWindow</span><span class="p">(</span><span class="s">&#34;SDL_CreateTexture&#34;</span><span class="p">,</span> <span class="n">SDL_WINDOWPOS_UNDEFINED</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                              <span class="n">SDL_WINDOWPOS_UNDEFINED</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                              <span class="n">SDL_WINDOW_RESIZABLE</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">r</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">r</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">r</span><span class="p">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">r</span><span class="p">.</span><span class="n">h</span> <span class="o">=</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">renderer</span> <span class="o">=</span> <span class="n">SDL_CreateRenderer</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">texture</span> <span class="o">=</span> <span class="n">SDL_CreateTexture</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="n">SDL_PIXELFORMAT_YV12</span><span class="p">,</span> <span class="n">SDL_TEXTUREACCESS_STREAMING</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                                <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">SwsContext</span> <span class="o">*</span><span class="n">sws_ctx</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">sws_ctx</span> <span class="o">=</span> <span class="n">sws_getContext</span><span class="p">(</span><span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">pix_fmt</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                             <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span> <span class="n">AV_PIX_FMT_YUV420P</span><span class="p">,</span> <span class="n">SWS_BILINEAR</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">frame</span> <span class="o">=</span> <span class="n">av_frame_alloc</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">ret1</span><span class="p">,</span> <span class="n">ret2</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">AVFrame</span> <span class="o">*</span><span class="n">pict</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">pict</span> <span class="o">=</span> <span class="n">av_frame_alloc</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">numBytes</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">buffer</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">numBytes</span> <span class="o">=</span> <span class="n">av_image_get_buffer_size</span><span class="p">(</span><span class="n">AV_PIX_FMT_YUV420P</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">buffer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span> <span class="n">av_malloc</span><span class="p">(</span><span class="n">numBytes</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// required, or bad dst image pointers
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">av_image_fill_arrays</span><span class="p">(</span><span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">AV_PIX_FMT_YUV420P</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                         <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">SDL_PollEvent</span><span class="p">(</span><span class="o">&amp;</span><span class="n">event</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">SDL_QUIT</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">ret</span> <span class="o">=</span> <span class="n">av_read_frame</span><span class="p">(</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">packet</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">continue</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">packet</span><span class="p">.</span><span class="n">stream_index</span> <span class="o">==</span> <span class="n">v_stream_idx</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">ret1</span> <span class="o">=</span> <span class="n">avcodec_send_packet</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">packet</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">ret1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="k">continue</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">            <span class="n">ret2</span> <span class="o">=</span> <span class="n">avcodec_receive_frame</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="n">frame</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">ret2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="k">continue</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">            <span class="n">sws_scale</span><span class="p">(</span><span class="n">sws_ctx</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="k">const</span> <span class="o">*</span><span class="k">const</span> <span class="o">*</span><span class="p">)</span> <span class="n">frame</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                      <span class="n">frame</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                      <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="n">SDL_UpdateYUVTexture</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">r</span><span class="p">,</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-</span></span><span class="line"><span class="cl">                                 <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-</span></span><span class="line"><span class="cl">                                 <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
-</span></span><span class="line"><span class="cl">            <span class="n">SDL_RenderClear</span><span class="p">(</span><span class="n">renderer</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="n">SDL_RenderCopy</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="n">texture</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="n">SDL_RenderPresent</span><span class="p">(</span><span class="n">renderer</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="n">SDL_Delay</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="n">av_packet_unref</span><span class="p">(</span><span class="o">&amp;</span><span class="n">packet</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="n">SDL_DestroyRenderer</span><span class="p">(</span><span class="n">renderer</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">SDL_Quit</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="n">av_frame_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">frame</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">avcodec_close</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">avcodec_free_context</span><span class="p">(</span><span class="o">&amp;</span><span class="n">codec_ctx</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="nl">end</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">avformat_close_input</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fmt_ctx</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Shutdown</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="6参考资料">6.参考资料</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;libavformat/avformat.h&gt;  </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;libavcodec/avcodec.h&gt;  </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;libswscale/swscale.h&gt;  </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;libavutil/imgutils.h&gt;  </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;SDL2/SDL.h&gt;  </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;SDL2/SDL_thread.h&gt;  </span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_stream_idx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">vf_path</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="n">AVFormatContext</span> <span class="o">*</span><span class="n">fmt_ctx</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">AVCodecContext</span> <span class="o">*</span><span class="n">codec_ctx</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">AVCodec</span> <span class="o">*</span><span class="n">codec</span><span class="p">;</span>
+    <span class="n">AVFrame</span> <span class="o">*</span><span class="n">frame</span><span class="p">;</span>
+    <span class="n">AVPacket</span> <span class="n">packet</span><span class="p">;</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">avformat_open_input</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="n">vf_path</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Open video file %s failed </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">vf_path</span><span class="p">);</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">avformat_find_stream_info</span><span class="p">(</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="n">av_dump_format</span><span class="p">(</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vf_path</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fmt_ctx</span><span class="o">-&gt;</span><span class="n">nb_streams</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">fmt_ctx</span><span class="o">-&gt;</span><span class="n">streams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">codecpar</span><span class="o">-&gt;</span><span class="n">codec_type</span> <span class="o">==</span> <span class="n">AVMEDIA_TYPE_VIDEO</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">v_stream_idx</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">v_stream_idx</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Cannot find video stream</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">codec_ctx</span> <span class="o">=</span> <span class="n">avcodec_alloc_context3</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">avcodec_parameters_to_context</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="n">fmt_ctx</span><span class="o">-&gt;</span><span class="n">streams</span><span class="p">[</span><span class="n">v_stream_idx</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">codecpar</span><span class="p">);</span>
+    <span class="n">codec</span> <span class="o">=</span> <span class="n">avcodec_find_decoder</span><span class="p">(</span><span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">codec_id</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">codec</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Unsupported codec for video file</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">avcodec_open2</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="n">codec</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Can not open codec</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">SDL_Init</span><span class="p">(</span><span class="n">SDL_INIT_VIDEO</span> <span class="o">|</span> <span class="n">SDL_INIT_AUDIO</span> <span class="o">|</span> <span class="n">SDL_INIT_TIMER</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Could not init SDL due to %s&#34;</span><span class="p">,</span> <span class="n">SDL_GetError</span><span class="p">());</span>
+        <span class="k">goto</span> <span class="n">end</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">SDL_Window</span> <span class="o">*</span><span class="n">window</span><span class="p">;</span>
+    <span class="n">SDL_Renderer</span> <span class="o">*</span><span class="n">renderer</span><span class="p">;</span>
+    <span class="n">SDL_Texture</span> <span class="o">*</span><span class="n">texture</span><span class="p">;</span>
+    <span class="n">SDL_Event</span> <span class="n">event</span><span class="p">;</span>
+    <span class="n">SDL_Rect</span> <span class="n">r</span><span class="p">;</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">SDL_CreateWindow</span><span class="p">(</span><span class="s">&#34;SDL_CreateTexture&#34;</span><span class="p">,</span> <span class="n">SDL_WINDOWPOS_UNDEFINED</span><span class="p">,</span>
+                              <span class="n">SDL_WINDOWPOS_UNDEFINED</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span>
+                              <span class="n">SDL_WINDOW_RESIZABLE</span><span class="p">);</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">;</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">h</span> <span class="o">=</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">;</span>
+
+    <span class="n">renderer</span> <span class="o">=</span> <span class="n">SDL_CreateRenderer</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">texture</span> <span class="o">=</span> <span class="n">SDL_CreateTexture</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="n">SDL_PIXELFORMAT_YV12</span><span class="p">,</span> <span class="n">SDL_TEXTUREACCESS_STREAMING</span><span class="p">,</span>
+                                <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">);</span>
+
+    <span class="k">struct</span> <span class="n">SwsContext</span> <span class="o">*</span><span class="n">sws_ctx</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">sws_ctx</span> <span class="o">=</span> <span class="n">sws_getContext</span><span class="p">(</span><span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">pix_fmt</span><span class="p">,</span>
+                             <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span> <span class="n">AV_PIX_FMT_YUV420P</span><span class="p">,</span> <span class="n">SWS_BILINEAR</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">av_frame_alloc</span><span class="p">();</span>
+
+    <span class="kt">int</span> <span class="n">ret1</span><span class="p">,</span> <span class="n">ret2</span><span class="p">;</span>
+    <span class="n">AVFrame</span> <span class="o">*</span><span class="n">pict</span><span class="p">;</span>
+    <span class="n">pict</span> <span class="o">=</span> <span class="n">av_frame_alloc</span><span class="p">();</span>
+
+
+    <span class="kt">int</span> <span class="n">numBytes</span><span class="p">;</span>
+    <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">buffer</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">numBytes</span> <span class="o">=</span> <span class="n">av_image_get_buffer_size</span><span class="p">(</span><span class="n">AV_PIX_FMT_YUV420P</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span> <span class="n">av_malloc</span><span class="p">(</span><span class="n">numBytes</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">));</span>
+    <span class="c1">// required, or bad dst image pointers
+</span><span class="c1"></span>    <span class="n">av_image_fill_arrays</span><span class="p">(</span><span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">AV_PIX_FMT_YUV420P</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span>
+                         <span class="mi">1</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SDL_PollEvent</span><span class="p">(</span><span class="o">&amp;</span><span class="n">event</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">SDL_QUIT</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">av_read_frame</span><span class="p">(</span><span class="n">fmt_ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">packet</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">packet</span><span class="p">.</span><span class="n">stream_index</span> <span class="o">==</span> <span class="n">v_stream_idx</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">ret1</span> <span class="o">=</span> <span class="n">avcodec_send_packet</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">packet</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ret1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">ret2</span> <span class="o">=</span> <span class="n">avcodec_receive_frame</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">,</span> <span class="n">frame</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ret2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">sws_scale</span><span class="p">(</span><span class="n">sws_ctx</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="k">const</span> <span class="o">*</span><span class="k">const</span> <span class="o">*</span><span class="p">)</span> <span class="n">frame</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span>
+                      <span class="n">frame</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">codec_ctx</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span>
+                      <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">);</span>
+            <span class="n">SDL_UpdateYUVTexture</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">r</span><span class="p">,</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                 <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                 <span class="n">pict</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">pict</span><span class="o">-&gt;</span><span class="n">linesize</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+            <span class="n">SDL_RenderClear</span><span class="p">(</span><span class="n">renderer</span><span class="p">);</span>
+            <span class="n">SDL_RenderCopy</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="n">texture</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+            <span class="n">SDL_RenderPresent</span><span class="p">(</span><span class="n">renderer</span><span class="p">);</span>
+            <span class="n">SDL_Delay</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">av_packet_unref</span><span class="p">(</span><span class="o">&amp;</span><span class="n">packet</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">SDL_DestroyRenderer</span><span class="p">(</span><span class="n">renderer</span><span class="p">);</span>
+    <span class="n">SDL_Quit</span><span class="p">();</span>
+    <span class="n">av_frame_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">frame</span><span class="p">);</span>
+    <span class="n">avcodec_close</span><span class="p">(</span><span class="n">codec_ctx</span><span class="p">);</span>
+    <span class="n">avcodec_free_context</span><span class="p">(</span><span class="o">&amp;</span><span class="n">codec_ctx</span><span class="p">);</span>
+    <span class="nl">end</span><span class="p">:</span>
+    <span class="n">avformat_close_input</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fmt_ctx</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Shutdown</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><h3 id="6参考资料">6.参考资料</h3>
 <p>[1] 雷霄骅 <a href="https://blog.csdn.net/leixiaohua1020/" target="_blank" rel="noopener noreffer">https://blog.csdn.net/leixiaohua1020/</a><br>
 [2] <a href="https://www.cnblogs.com/yongdaimi/p/9804699.html" target="_blank" rel="noopener noreffer">https://www.cnblogs.com/yongdaimi/p/9804699.html</a><br>
 [3] <a href="https://www.cnblogs.com/leisure_chn/p/10235926.html" target="_blank" rel="noopener noreffer">https://www.cnblogs.com/leisure_chn/p/10235926.html</a></p>
@@ -446,8 +446,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 
