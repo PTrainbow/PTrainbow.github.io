@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c124d401-dca4-4b91-96bb-ea3b7a677c52" name="Changes" comment="update: nativebitmap &amp; dorkdump">
+      <change beforePath="$PROJECT_DIR$/posts/2018-02-02-Yoga-和-Flexbox/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/posts/2018-02-02-Yoga-和-Flexbox/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts/2019-06-14-初识-Webpack-遇到的坑/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/posts/2019-06-14-初识-Webpack-遇到的坑/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts/2020-07-31-FFmpeg-简易播放器/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/posts/2020-07-31-FFmpeg-简易播放器/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts/2021-01-21-Java-匿名内部类/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/posts/2021-01-21-Java-匿名内部类/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/Android/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tags/Android/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/Android/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tags/Android/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/Android/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tags/Android/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/Java/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tags/Java/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/Java/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tags/Java/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/JavaScript/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tags/JavaScript/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/JavaScript/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tags/JavaScript/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/JavaScript/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tags/JavaScript/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/自定义View/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tags/自定义View/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/自定义View/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tags/自定义View/page/1/index.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Jqu8ZsPwZ0t7T3UuuGbtf4jWpK" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/ptrain/github/PTrain666.github.io"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c124d401-dca4-4b91-96bb-ea3b7a677c52" name="Changes" comment="" />
+      <created>1672817775897</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1672817775897</updated>
+    </task>
+    <task id="LOCAL-00001" summary="update: nativebitmap &amp; dorkdump">
+      <created>1672817845870</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1672817845870</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update: nativebitmap &amp; dorkdump" />
+    <option name="LAST_COMMIT_MESSAGE" value="update: nativebitmap &amp; dorkdump" />
+  </component>
+</project>
