@@ -136,27 +136,27 @@
 <h2 id="两种协程的比较">两种协程的比较</h2>
 <h3 id="一个-kotlin-的小例子">一个 Kotlin 的小例子</h3>
 <p>试问下面一段代码，执行结果是什么呢？</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">=</span> <span class="n">runBlocking</span> <span class="p">{</span>
-    <span class="c1">//创建自定义线程池
-</span><span class="c1"></span>    <span class="k">val</span> <span class="py">coroutineDispatcher</span> <span class="p">=</span> <span class="n">Executors</span><span class="p">.</span><span class="n">newFixedThreadPool</span><span class="p">(</span><span class="m">1</span><span class="p">).</span><span class="n">asCoroutineDispatcher</span><span class="p">()</span>
-    <span class="k">val</span> <span class="py">name</span> <span class="p">=</span> <span class="n">Thread</span><span class="p">.</span><span class="n">currentThread</span><span class="p">().</span><span class="n">name</span>
-    <span class="n">println</span><span class="p">(</span><span class="s2">&#34;main start thread-id = </span><span class="si">$name</span><span class="s2">&#34;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">0.</span><span class="p">.</span><span class="m">2</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">launch</span><span class="p">(</span><span class="n">coroutineDispatcher</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">val</span> <span class="py">j</span> <span class="p">=</span> <span class="n">i</span> <span class="p">+</span> <span class="m">1</span>
-                <span class="k">val</span> <span class="py">filename</span> <span class="p">=</span> <span class="s2">&#34;/Users/xxxx/Desktop/mapping</span><span class="si">$j</span><span class="s2">.txt&#34;</span>
-                <span class="k">val</span> <span class="py">file</span> <span class="p">=</span> <span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-                <span class="k">val</span> <span class="py">contents</span> <span class="p">=</span> <span class="k">file</span><span class="p">.</span><span class="n">readText</span><span class="p">()</span>
-                <span class="k">val</span> <span class="py">name</span> <span class="p">=</span> <span class="n">Thread</span><span class="p">.</span><span class="n">currentThread</span><span class="p">().</span><span class="n">name</span>
-                <span class="n">println</span><span class="p">(</span><span class="s2">&#34;thread-id = </span><span class="si">$name</span><span class="s2">, do  work </span><span class="si">$i</span><span class="s2">&#34;</span><span class="p">)</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="n">println</span><span class="p">(</span><span class="s2">&#34;main end thread-id = </span><span class="si">$name</span><span class="s2">&#34;</span><span class="p">)</span>
-
-<span class="p">}</span>
-</code></pre></div><p>这段代码不说 runBlocking 的情况下，启动了3个协程，且执行在一个单线程的线程池中且都是 <code>死循环</code>，在死循环中读取 mapping.txt(一个大概 30M 的文件)。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">=</span> <span class="n">runBlocking</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//创建自定义线程池
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">val</span> <span class="py">coroutineDispatcher</span> <span class="p">=</span> <span class="n">Executors</span><span class="p">.</span><span class="n">newFixedThreadPool</span><span class="p">(</span><span class="m">1</span><span class="p">).</span><span class="n">asCoroutineDispatcher</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">name</span> <span class="p">=</span> <span class="n">Thread</span><span class="p">.</span><span class="n">currentThread</span><span class="p">().</span><span class="n">name</span>
+</span></span><span class="line"><span class="cl">    <span class="n">println</span><span class="p">(</span><span class="s2">&#34;main start thread-id = </span><span class="si">$name</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">0.</span><span class="p">.</span><span class="m">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">launch</span><span class="p">(</span><span class="n">coroutineDispatcher</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">val</span> <span class="py">j</span> <span class="p">=</span> <span class="n">i</span> <span class="p">+</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">                <span class="k">val</span> <span class="py">filename</span> <span class="p">=</span> <span class="s2">&#34;/Users/xxxx/Desktop/mapping</span><span class="si">$j</span><span class="s2">.txt&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">val</span> <span class="py">file</span> <span class="p">=</span> <span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">val</span> <span class="py">contents</span> <span class="p">=</span> <span class="k">file</span><span class="p">.</span><span class="n">readText</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="k">val</span> <span class="py">name</span> <span class="p">=</span> <span class="n">Thread</span><span class="p">.</span><span class="n">currentThread</span><span class="p">().</span><span class="n">name</span>
+</span></span><span class="line"><span class="cl">                <span class="n">println</span><span class="p">(</span><span class="s2">&#34;thread-id = </span><span class="si">$name</span><span class="s2">, do  work </span><span class="si">$i</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">println</span><span class="p">(</span><span class="s2">&#34;main end thread-id = </span><span class="si">$name</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这段代码不说 runBlocking 的情况下，启动了3个协程，且执行在一个单线程的线程池中且都是 <code>死循环</code>，在死循环中读取 mapping.txt(一个大概 30M 的文件)。</p>
 <blockquote>
 <p>我的机器是 Mac<br>
 kotlin 的版本号如下：<br>
@@ -164,117 +164,116 @@ kotlinx-coroutines-core: 1.4.2<br>
 kotlin-stdlib: 1.4.0</p>
 </blockquote>
 <p>结果如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">main start thread-id = main
-main end thread-id = main
-thread-id = pool-1-thread-1, do  work 0
-thread-id = pool-1-thread-1, do  work 0
-thread-id = pool-1-thread-1, do  work 0
-thread-id = pool-1-thread-1, do  work 0
-thread-id = pool-1-thread-1, do  work 0
-thread-id = pool-1-thread-1, do  work 0
-thread-id = pool-1-thread-1, do  work 0
-thread-id = pool-1-thread-1, do  work 0
-thread-id = pool-1-thread-1, do  work 0
-thread-id = pool-1-thread-1, do  work 0
-thread-id = pool-1-thread-1, do  work 0
-thread-id = pool-1-thread-1, do  work 0
-// 无限多···
-</code></pre></div><p>可以看到，协程的载体是 <code>线程</code>，协程的代码逻辑可以理解为一个 <code>任务</code>，多线程多任务且没有特殊的阻塞任务(死循环等)的情况下，任务早晚是可以被执行的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">main start thread-id = main
+</span></span><span class="line"><span class="cl">main end thread-id = main
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
+</span></span><span class="line"><span class="cl">// 无限多···
+</span></span></code></pre></div><p>可以看到，协程的载体是 <code>线程</code>，协程的代码逻辑可以理解为一个 <code>任务</code>，多线程多任务且没有特殊的阻塞任务(死循环等)的情况下，任务早晚是可以被执行的。</p>
 <p>但是这段逻辑是死循环，且是单线程，以致于 i = 0 时，创建的协程任务占用住了当前线程，第二个协程任务 <code>无法被执行</code>。</p>
 <p>所以看得出，对于 Kotlin 的协程任务因为其是 <code>非抢占式</code> 的，是存在不被执行的情况的(协程被 <code>饿死了</code>)。</p>
 <h3 id="一个-golang-的小例子">一个 Golang 的小例子</h3>
 <p>试问下面一段代码，执行结果是什么呢？</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;fmt&#34;</span>
-	<span class="s">&#34;io/ioutil&#34;</span>
-	<span class="s">&#34;os&#34;</span>
-	<span class="s">&#34;runtime&#34;</span>
-	<span class="s">&#34;syscall&#34;</span>
-	<span class="s">&#34;time&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">runtime</span><span class="p">.</span><span class="nf">GOMAXPROCS</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">for</span> <span class="p">{</span>
-				<span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprint</span><span class="p">(</span><span class="s">&#34;/Users/xxxx/Desktop/mapping&#34;</span><span class="p">,</span> <span class="p">(</span><span class="nx">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="s">&#34;.txt&#34;</span><span class="p">))</span>
-				<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-					<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-				<span class="p">}</span>
-				<span class="k">defer</span> <span class="nx">file</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
-				<span class="nx">ioutil</span><span class="p">.</span><span class="nf">ReadAll</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
-				<span class="nx">tid</span> <span class="o">:=</span> <span class="nf">gettid</span><span class="p">()</span>
-				<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;thread-id = %d, do work %d\n&#34;</span><span class="p">,</span> <span class="nx">tid</span><span class="p">,</span> <span class="nx">j</span><span class="p">)</span>
-			<span class="p">}</span>
-		<span class="p">}(</span><span class="nx">i</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;finish work&#34;</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">gettid</span><span class="p">()</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">uint64</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">r0</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">syscall</span><span class="p">.</span><span class="nf">RawSyscall</span><span class="p">(</span><span class="nx">syscall</span><span class="p">.</span><span class="nx">SYS_THREAD_SELFID</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-	<span class="nx">n</span> <span class="p">=</span> <span class="nb">uint64</span><span class="p">(</span><span class="nx">r0</span><span class="p">)</span>
-	<span class="k">return</span> <span class="nx">n</span>
-<span class="p">}</span>
-
-</code></pre></div><p>这段代码也很简单，<code>runtime.GOMAXPROCS(1)</code> 设置了 P 只有一个，Golang 中的 <code>go</code> 关键字会启动一个<code>协程</code>，其余逻辑和 Kotlin 代码的逻辑基本一致，都是启动三个协程读3个文件，那结果跟是不是像 Kotlin 一样，<code>阻塞在第一个任务</code> 呢？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;io/ioutil&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;runtime&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;syscall&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">runtime</span><span class="p">.</span><span class="nf">GOMAXPROCS</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprint</span><span class="p">(</span><span class="s">&#34;/Users/xxxx/Desktop/mapping&#34;</span><span class="p">,</span> <span class="p">(</span><span class="nx">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="s">&#34;.txt&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span>
+</span></span><span class="line"><span class="cl">				<span class="k">defer</span> <span class="nx">file</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">ioutil</span><span class="p">.</span><span class="nf">ReadAll</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">tid</span> <span class="o">:=</span> <span class="nf">gettid</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;thread-id = %d, do work %d\n&#34;</span><span class="p">,</span> <span class="nx">tid</span><span class="p">,</span> <span class="nx">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;finish work&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">gettid</span><span class="p">()</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">uint64</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">r0</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">syscall</span><span class="p">.</span><span class="nf">RawSyscall</span><span class="p">(</span><span class="nx">syscall</span><span class="p">.</span><span class="nx">SYS_THREAD_SELFID</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">n</span> <span class="p">=</span> <span class="nb">uint64</span><span class="p">(</span><span class="nx">r0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">n</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这段代码也很简单，<code>runtime.GOMAXPROCS(1)</code> 设置了 P 只有一个，Golang 中的 <code>go</code> 关键字会启动一个<code>协程</code>，其余逻辑和 Kotlin 代码的逻辑基本一致，都是启动三个协程读3个文件，那结果跟是不是像 Kotlin 一样，<code>阻塞在第一个任务</code> 呢？</p>
 <p>结果如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">thread-id = 2873233, do work 1
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 2
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 0
-thread-id = 2873233, do work 1
-thread-id = 2873233, do work 1
-finish work
-</code></pre></div><p>是不是很神奇！结果 <code>不一致</code> 了！并没有因为死循环卡死在第一个任务上，且在1s后主线程结束、程序退出(因为代码里，主线程只是 sleep 了1s)。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 2
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 0
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
+</span></span><span class="line"><span class="cl">finish work
+</span></span></code></pre></div><p>是不是很神奇！结果 <code>不一致</code> 了！并没有因为死循环卡死在第一个任务上，且在1s后主线程结束、程序退出(因为代码里，主线程只是 sleep 了1s)。</p>
 <p>这里就很神奇了，通过 <code>gettid()</code> 打印的线程 id 显示，这3个协程运行在了同一个线程之上，居然可以打破死循环···</p>
 <h3 id="gettid-的小插曲">gettid 的小插曲</h3>
 <p>因为电脑是 MacOSX，一开始使用 Golang 自己提供的 <code>syscall.Gettid()</code> 方法来获取 tid，结果发现报错：<code>undefined Gettid()</code>，似乎是 MacOSX 并没有实现这个方法，所以问了大哥得到了另一种方法</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">gettid</span><span class="p">()</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">uint64</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">r0</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">syscall</span><span class="p">.</span><span class="nf">RawSyscall</span><span class="p">(</span><span class="nx">syscall</span><span class="p">.</span><span class="nx">SYS_THREAD_SELFID</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-	<span class="nx">n</span> <span class="p">=</span> <span class="nb">uint64</span><span class="p">(</span><span class="nx">r0</span><span class="p">)</span>
-	<span class="k">return</span> <span class="nx">n</span>
-<span class="p">}</span>
-</code></pre></div><h2 id="疑问和总结">疑问和总结</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">gettid</span><span class="p">()</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">uint64</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">r0</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">syscall</span><span class="p">.</span><span class="nf">RawSyscall</span><span class="p">(</span><span class="nx">syscall</span><span class="p">.</span><span class="nx">SYS_THREAD_SELFID</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">n</span> <span class="p">=</span> <span class="nb">uint64</span><span class="p">(</span><span class="nx">r0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">n</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="疑问和总结">疑问和总结</h2>
 <h3 id="总结">总结</h3>
 <p>首先，确认了 Kotlin 的协程似乎并没有任务调度上的优化，只是在线程池中执行任务，存在协程饿死的情况。</p>
 <p>其次，Golang 的协程存在一些神奇的优化，即使是死循环，任务也可以交替执行。</p>
@@ -310,8 +309,8 @@ finish work
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

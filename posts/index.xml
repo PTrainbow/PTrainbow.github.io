@@ -3,7 +3,21 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 04 Jan 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>forkdump 触发的神奇 bug</title>
+    <link>http://PTrain666.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</link>
+    <pubDate>Wed, 04 Jan 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</guid>
+    <description><![CDATA[​ 最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起 最近]]></description>
+</item><item>
+    <title>NativeBitmap 实现</title>
+    <link>http://PTrain666.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</link>
+    <pubDate>Sat, 31 Dec 2022 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</guid>
+    <description><![CDATA[​ 前言 最近一直在治理 OOM 问题，OOM 问题分为多种，其中有一种的原因是 java heap 空间不足 这种 OOM 多发生于低版本手机，或者是存在严重的内存泄漏的高版本手机]]></description>
+</item><item>
     <title>JVMTI 的运用</title>
     <link>http://PTrain666.github.io/posts/jvmti/</link>
     <pubDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</pubDate>
@@ -59,19 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/%E8%AF%9B%E4%BB%99%E5%89%8D%E6%9C%9F%E4%B8%BB%E7%BA%BF/</guid>
     <description><![CDATA[最近，诛仙的动漫就要开播了，看了看预告中的建模，有一些失望，碧瑶似乎毫无灵性反而有些像可爱的乖乖女。而且，想必动漫也无法完美还原小说中的剧情]]></description>
-</item><item>
-    <title>pthread 监听</title>
-    <link>http://PTrain666.github.io/posts/pthread-%E7%9B%91%E5%90%AC/</link>
-    <pubDate>Sat, 23 Jul 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/pthread-%E7%9B%91%E5%90%AC/</guid>
-    <description><![CDATA[简介 所谓的 native thread，其实就是只我们使用 c/c++ 做开发时，使用的 POSIX 标准的 pthread pthread 函数在 libc 中，而 Android 中使用的是 bionic libc(不是 GNU libc) pthread 常见方法 pthread_create pthread_join pthread_detach pthread_exit pthread_getattr_np]]></description>
-</item><item>
-    <title>Accelerate C&#43;&#43; Chapter01</title>
-    <link>http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/</link>
-    <pubDate>Thu, 30 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/</guid>
-    <description><![CDATA[Exercises Exercise 1-1 Are the following definitions valid? Why or why not? const std::string hello = &#34;Hello&#34;; const std::string message = hello + &#34;, world&#34; + &#34;!&#34;; 编译正确。std::string 重写了 + 操作符 Exercise 1-2 Are the following definitions valid? Why or why not? const std::string exclam = &#34;!&#34;; const std::string message =]]></description>
 </item></channel>
 </rss>

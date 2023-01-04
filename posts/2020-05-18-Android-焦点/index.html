@@ -133,148 +133,146 @@
 <h4 id="事件起源">事件起源</h4>
 <p>如果非要讲···不知道有没有人说的清···反正我是说不清。要从硬件说起，从驱动程序说起，从操作系统说起，中断程序说起~~</p>
 <p>但是对于我等渣渣，还是从 ViewRootImpl 看起来吧~~</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">processKeyEvent</span><span class="o">(</span><span class="n">QueuedInputEvent</span> <span class="n">q</span><span class="o">)</span> <span class="o">{</span>
-            <span class="kd">final</span> <span class="n">KeyEvent</span> <span class="n">event</span> <span class="o">=</span> <span class="o">(</span><span class="n">KeyEvent</span><span class="o">)</span><span class="n">q</span><span class="o">.</span><span class="na">mEvent</span><span class="o">;</span>
-
-            <span class="k">if</span> <span class="o">(</span><span class="n">mUnhandledKeyManager</span><span class="o">.</span><span class="na">preViewDispatch</span><span class="o">(</span><span class="n">event</span><span class="o">))</span> <span class="o">{</span>
-                <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
-            <span class="o">}</span>
-
-            <span class="c1">// Deliver the key to the view hierarchy.
-</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">mView</span><span class="o">.</span><span class="na">dispatchKeyEvent</span><span class="o">(</span><span class="n">event</span><span class="o">))</span> <span class="o">{</span>
-                <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
-            <span class="o">}</span>
-
-            <span class="k">if</span> <span class="o">(</span><span class="n">shouldDropInputEvent</span><span class="o">(</span><span class="n">q</span><span class="o">))</span> <span class="o">{</span>
-                <span class="k">return</span> <span class="n">FINISH_NOT_HANDLED</span><span class="o">;</span>
-            <span class="o">}</span>
-
-            <span class="c1">// This dispatch is for windows that don&#39;t have a Window.Callback. Otherwise,
-</span><span class="c1"></span>            <span class="c1">// the Window.Callback usually will have already called this (see
-</span><span class="c1"></span>            <span class="c1">// DecorView.superDispatchKeyEvent) leaving this call a no-op.
-</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">mUnhandledKeyManager</span><span class="o">.</span><span class="na">dispatch</span><span class="o">(</span><span class="n">mView</span><span class="o">,</span> <span class="n">event</span><span class="o">))</span> <span class="o">{</span>
-                <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
-            <span class="o">}</span>
-
-            <span class="kt">int</span> <span class="n">groupNavigationDirection</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
-
-            <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getAction</span><span class="o">()</span> <span class="o">==</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">ACTION_DOWN</span>
-                    <span class="o">&amp;&amp;</span> <span class="n">event</span><span class="o">.</span><span class="na">getKeyCode</span><span class="o">()</span> <span class="o">==</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_TAB</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">KeyEvent</span><span class="o">.</span><span class="na">metaStateHasModifiers</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getMetaState</span><span class="o">(),</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">META_META_ON</span><span class="o">))</span> <span class="o">{</span>
-                    <span class="n">groupNavigationDirection</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_FORWARD</span><span class="o">;</span>
-                <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">KeyEvent</span><span class="o">.</span><span class="na">metaStateHasModifiers</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getMetaState</span><span class="o">(),</span>
-                        <span class="n">KeyEvent</span><span class="o">.</span><span class="na">META_META_ON</span> <span class="o">|</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">META_SHIFT_ON</span><span class="o">))</span> <span class="o">{</span>
-                    <span class="n">groupNavigationDirection</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_BACKWARD</span><span class="o">;</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
-
-            <span class="c1">// If a modifier is held, try to interpret the key as a shortcut.
-</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getAction</span><span class="o">()</span> <span class="o">==</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">ACTION_DOWN</span>
-                    <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">KeyEvent</span><span class="o">.</span><span class="na">metaStateHasNoModifiers</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getMetaState</span><span class="o">())</span>
-                    <span class="o">&amp;&amp;</span> <span class="n">event</span><span class="o">.</span><span class="na">getRepeatCount</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span>
-                    <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">KeyEvent</span><span class="o">.</span><span class="na">isModifierKey</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getKeyCode</span><span class="o">())</span>
-                    <span class="o">&amp;&amp;</span> <span class="n">groupNavigationDirection</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">mView</span><span class="o">.</span><span class="na">dispatchKeyShortcutEvent</span><span class="o">(</span><span class="n">event</span><span class="o">))</span> <span class="o">{</span>
-                    <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
-                <span class="o">}</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">shouldDropInputEvent</span><span class="o">(</span><span class="n">q</span><span class="o">))</span> <span class="o">{</span>
-                    <span class="k">return</span> <span class="n">FINISH_NOT_HANDLED</span><span class="o">;</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
-
-            <span class="c1">// Apply the fallback event policy.
-</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">mFallbackEventHandler</span><span class="o">.</span><span class="na">dispatchKeyEvent</span><span class="o">(</span><span class="n">event</span><span class="o">))</span> <span class="o">{</span>
-                <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
-            <span class="o">}</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">shouldDropInputEvent</span><span class="o">(</span><span class="n">q</span><span class="o">))</span> <span class="o">{</span>
-                <span class="k">return</span> <span class="n">FINISH_NOT_HANDLED</span><span class="o">;</span>
-            <span class="o">}</span>
-
-            <span class="c1">// Handle automatic focus changes.
-</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getAction</span><span class="o">()</span> <span class="o">==</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">ACTION_DOWN</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">groupNavigationDirection</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">performKeyboardGroupNavigation</span><span class="o">(</span><span class="n">groupNavigationDirection</span><span class="o">))</span> <span class="o">{</span>
-                        <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
-                    <span class="o">}</span>
-                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">performFocusNavigation</span><span class="o">(</span><span class="n">event</span><span class="o">))</span> <span class="o">{</span>
-                        <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
-                    <span class="o">}</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
-            <span class="k">return</span> <span class="n">FORWARD</span><span class="o">;</span>
-        <span class="o">}</span>
-
-</code></pre></div><p>代码相对于事件分发还不算太长~~
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">processKeyEvent</span><span class="o">(</span><span class="n">QueuedInputEvent</span> <span class="n">q</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">final</span> <span class="n">KeyEvent</span> <span class="n">event</span> <span class="o">=</span> <span class="o">(</span><span class="n">KeyEvent</span><span class="o">)</span><span class="n">q</span><span class="o">.</span><span class="na">mEvent</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">mUnhandledKeyManager</span><span class="o">.</span><span class="na">preViewDispatch</span><span class="o">(</span><span class="n">event</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// Deliver the key to the view hierarchy.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">mView</span><span class="o">.</span><span class="na">dispatchKeyEvent</span><span class="o">(</span><span class="n">event</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">shouldDropInputEvent</span><span class="o">(</span><span class="n">q</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">FINISH_NOT_HANDLED</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// This dispatch is for windows that don&#39;t have a Window.Callback. Otherwise,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// the Window.Callback usually will have already called this (see
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// DecorView.superDispatchKeyEvent) leaving this call a no-op.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">mUnhandledKeyManager</span><span class="o">.</span><span class="na">dispatch</span><span class="o">(</span><span class="n">mView</span><span class="o">,</span> <span class="n">event</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">groupNavigationDirection</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getAction</span><span class="o">()</span> <span class="o">==</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">ACTION_DOWN</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">&amp;&amp;</span> <span class="n">event</span><span class="o">.</span><span class="na">getKeyCode</span><span class="o">()</span> <span class="o">==</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_TAB</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">KeyEvent</span><span class="o">.</span><span class="na">metaStateHasModifiers</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getMetaState</span><span class="o">(),</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">META_META_ON</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">groupNavigationDirection</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_FORWARD</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">KeyEvent</span><span class="o">.</span><span class="na">metaStateHasModifiers</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getMetaState</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">KeyEvent</span><span class="o">.</span><span class="na">META_META_ON</span> <span class="o">|</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">META_SHIFT_ON</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">groupNavigationDirection</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_BACKWARD</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// If a modifier is held, try to interpret the key as a shortcut.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getAction</span><span class="o">()</span> <span class="o">==</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">ACTION_DOWN</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">KeyEvent</span><span class="o">.</span><span class="na">metaStateHasNoModifiers</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getMetaState</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">&amp;&amp;</span> <span class="n">event</span><span class="o">.</span><span class="na">getRepeatCount</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">KeyEvent</span><span class="o">.</span><span class="na">isModifierKey</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getKeyCode</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">&amp;&amp;</span> <span class="n">groupNavigationDirection</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">mView</span><span class="o">.</span><span class="na">dispatchKeyShortcutEvent</span><span class="o">(</span><span class="n">event</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">shouldDropInputEvent</span><span class="o">(</span><span class="n">q</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="n">FINISH_NOT_HANDLED</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// Apply the fallback event policy.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">mFallbackEventHandler</span><span class="o">.</span><span class="na">dispatchKeyEvent</span><span class="o">(</span><span class="n">event</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">shouldDropInputEvent</span><span class="o">(</span><span class="n">q</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">FINISH_NOT_HANDLED</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// Handle automatic focus changes.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getAction</span><span class="o">()</span> <span class="o">==</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">ACTION_DOWN</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">groupNavigationDirection</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">performKeyboardGroupNavigation</span><span class="o">(</span><span class="n">groupNavigationDirection</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">performFocusNavigation</span><span class="o">(</span><span class="n">event</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">return</span> <span class="n">FINISH_HANDLED</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">FORWARD</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span></code></pre></div><p>代码相对于事件分发还不算太长~~
 可以看到前面都是对于 dispatchKeyEvent 相关的拦截，如果拦截了，那么就不会走后续的流程了，所以重写 dispatchKeyEvent 可以帮忙处理一些按键需求。</p>
 <p>之后，如果不返回 true，还会有一些特殊按键处理，之后就到了 performFocusNavigation，这个就是一个默认的自动寻找焦点的逻辑了。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">performFocusNavigation</span><span class="o">(</span><span class="n">KeyEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
-            <span class="kt">int</span> <span class="n">direction</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
-            <span class="k">switch</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getKeyCode</span><span class="o">())</span> <span class="o">{</span>
-                <span class="k">case</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_DPAD_LEFT</span><span class="o">:</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasNoModifiers</span><span class="o">())</span> <span class="o">{</span>
-                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_LEFT</span><span class="o">;</span>
-                    <span class="o">}</span>
-                    <span class="k">break</span><span class="o">;</span>
-                <span class="k">case</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_DPAD_RIGHT</span><span class="o">:</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasNoModifiers</span><span class="o">())</span> <span class="o">{</span>
-                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_RIGHT</span><span class="o">;</span>
-                    <span class="o">}</span>
-                    <span class="k">break</span><span class="o">;</span>
-                <span class="k">case</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_DPAD_UP</span><span class="o">:</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasNoModifiers</span><span class="o">())</span> <span class="o">{</span>
-                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_UP</span><span class="o">;</span>
-                    <span class="o">}</span>
-                    <span class="k">break</span><span class="o">;</span>
-                <span class="k">case</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_DPAD_DOWN</span><span class="o">:</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasNoModifiers</span><span class="o">())</span> <span class="o">{</span>
-                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_DOWN</span><span class="o">;</span>
-                    <span class="o">}</span>
-                    <span class="k">break</span><span class="o">;</span>
-                <span class="k">case</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_TAB</span><span class="o">:</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasNoModifiers</span><span class="o">())</span> <span class="o">{</span>
-                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_FORWARD</span><span class="o">;</span>
-                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasModifiers</span><span class="o">(</span><span class="n">KeyEvent</span><span class="o">.</span><span class="na">META_SHIFT_ON</span><span class="o">))</span> <span class="o">{</span>
-                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_BACKWARD</span><span class="o">;</span>
-                    <span class="o">}</span>
-                    <span class="k">break</span><span class="o">;</span>
-            <span class="o">}</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">direction</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">View</span> <span class="n">focused</span> <span class="o">=</span> <span class="n">mView</span><span class="o">.</span><span class="na">findFocus</span><span class="o">();</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">focused</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="n">View</span> <span class="n">v</span> <span class="o">=</span> <span class="n">focused</span><span class="o">.</span><span class="na">focusSearch</span><span class="o">(</span><span class="n">direction</span><span class="o">);</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">v</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">focused</span><span class="o">)</span> <span class="o">{</span>
-                        <span class="c1">// do the math the get the interesting rect
-</span><span class="c1"></span>                        <span class="c1">// of previous focused into the coord system of
-</span><span class="c1"></span>                        <span class="c1">// newly focused view
-</span><span class="c1"></span>                        <span class="n">focused</span><span class="o">.</span><span class="na">getFocusedRect</span><span class="o">(</span><span class="n">mTempRect</span><span class="o">);</span>
-                        <span class="k">if</span> <span class="o">(</span><span class="n">mView</span> <span class="k">instanceof</span> <span class="n">ViewGroup</span><span class="o">)</span> <span class="o">{</span>
-                            <span class="o">((</span><span class="n">ViewGroup</span><span class="o">)</span> <span class="n">mView</span><span class="o">).</span><span class="na">offsetDescendantRectToMyCoords</span><span class="o">(</span>
-                                    <span class="n">focused</span><span class="o">,</span> <span class="n">mTempRect</span><span class="o">);</span>
-                            <span class="o">((</span><span class="n">ViewGroup</span><span class="o">)</span> <span class="n">mView</span><span class="o">).</span><span class="na">offsetRectIntoDescendantCoords</span><span class="o">(</span>
-                                    <span class="n">v</span><span class="o">,</span> <span class="n">mTempRect</span><span class="o">);</span>
-                        <span class="o">}</span>
-                        <span class="k">if</span> <span class="o">(</span><span class="n">v</span><span class="o">.</span><span class="na">requestFocus</span><span class="o">(</span><span class="n">direction</span><span class="o">,</span> <span class="n">mTempRect</span><span class="o">))</span> <span class="o">{</span>
-                            <span class="n">playSoundEffect</span><span class="o">(</span><span class="n">SoundEffectConstants</span>
-                                    <span class="o">.</span><span class="na">getContantForFocusDirection</span><span class="o">(</span><span class="n">direction</span><span class="o">));</span>
-                            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-                        <span class="o">}</span>
-                    <span class="o">}</span>
-
-                    <span class="c1">// Give the focused view a last chance to handle the dpad key.
-</span><span class="c1"></span>                    <span class="k">if</span> <span class="o">(</span><span class="n">mView</span><span class="o">.</span><span class="na">dispatchUnhandledMove</span><span class="o">(</span><span class="n">focused</span><span class="o">,</span> <span class="n">direction</span><span class="o">))</span> <span class="o">{</span>
-                        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-                    <span class="o">}</span>
-                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">mView</span><span class="o">.</span><span class="na">restoreDefaultFocus</span><span class="o">())</span> <span class="o">{</span>
-                        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-                    <span class="o">}</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
-            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
-        <span class="o">}</span>
-
-</code></pre></div><p>代码其实很好懂，判断方向，寻找焦点，请求焦点。核心方法，focusSearch 和 requestFocus，这两个都是 View 的方法，给了我们重写来实现自定义效果的可能。这里 requestFocus 如果是 ViewGroup 还会进入 onRequestFocusInDescendants 这个方法，会见到熟悉的 getDescendantFocusability。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">performFocusNavigation</span><span class="o">(</span><span class="n">KeyEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">direction</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">switch</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getKeyCode</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_DPAD_LEFT</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasNoModifiers</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_LEFT</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_DPAD_RIGHT</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasNoModifiers</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_RIGHT</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_DPAD_UP</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasNoModifiers</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_UP</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_DPAD_DOWN</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasNoModifiers</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_DOWN</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="n">KeyEvent</span><span class="o">.</span><span class="na">KEYCODE_TAB</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasNoModifiers</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_FORWARD</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasModifiers</span><span class="o">(</span><span class="n">KeyEvent</span><span class="o">.</span><span class="na">META_SHIFT_ON</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">direction</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">FOCUS_BACKWARD</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">direction</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">View</span> <span class="n">focused</span> <span class="o">=</span> <span class="n">mView</span><span class="o">.</span><span class="na">findFocus</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">focused</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">View</span> <span class="n">v</span> <span class="o">=</span> <span class="n">focused</span><span class="o">.</span><span class="na">focusSearch</span><span class="o">(</span><span class="n">direction</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">v</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">focused</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1">// do the math the get the interesting rect
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="c1">// of previous focused into the coord system of
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="c1">// newly focused view
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="n">focused</span><span class="o">.</span><span class="na">getFocusedRect</span><span class="o">(</span><span class="n">mTempRect</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">if</span> <span class="o">(</span><span class="n">mView</span> <span class="k">instanceof</span> <span class="n">ViewGroup</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="o">((</span><span class="n">ViewGroup</span><span class="o">)</span> <span class="n">mView</span><span class="o">).</span><span class="na">offsetDescendantRectToMyCoords</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">focused</span><span class="o">,</span> <span class="n">mTempRect</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                            <span class="o">((</span><span class="n">ViewGroup</span><span class="o">)</span> <span class="n">mView</span><span class="o">).</span><span class="na">offsetRectIntoDescendantCoords</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">v</span><span class="o">,</span> <span class="n">mTempRect</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">if</span> <span class="o">(</span><span class="n">v</span><span class="o">.</span><span class="na">requestFocus</span><span class="o">(</span><span class="n">direction</span><span class="o">,</span> <span class="n">mTempRect</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">playSoundEffect</span><span class="o">(</span><span class="n">SoundEffectConstants</span>
+</span></span><span class="line"><span class="cl">                                    <span class="o">.</span><span class="na">getContantForFocusDirection</span><span class="o">(</span><span class="n">direction</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                    <span class="c1">// Give the focused view a last chance to handle the dpad key.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">if</span> <span class="o">(</span><span class="n">mView</span><span class="o">.</span><span class="na">dispatchUnhandledMove</span><span class="o">(</span><span class="n">focused</span><span class="o">,</span> <span class="n">direction</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">mView</span><span class="o">.</span><span class="na">restoreDefaultFocus</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span></code></pre></div><p>代码其实很好懂，判断方向，寻找焦点，请求焦点。核心方法，focusSearch 和 requestFocus，这两个都是 View 的方法，给了我们重写来实现自定义效果的可能。这里 requestFocus 如果是 ViewGroup 还会进入 onRequestFocusInDescendants 这个方法，会见到熟悉的 getDescendantFocusability。</p>
 <p>经常会在网上看到文章说给 ViewGroup 添加 descendantFocusability 这个属性等等，其实就是在这类进行判断的。这个方法也可以重写，但是意义不大。</p>
 <h4 id="理一理思路">理一理思路</h4>
 <p>所以说，现在我们知道了，焦点事件或者说遥控器的按键事件的分发我们可以在 <code>dispatchKeyEvent</code> 拦截，如果拦截了事件被截断。如果不拦截，那么一般会走到寻找焦点的逻辑，这时候 <code>focusSearch</code> 和 <code>requestFocus</code> 和 <code>onRequestFocusInDescendants</code> 就出现了。可以重写 focusSearch 来返回当前情况下你想让哪个 view 获取到焦点，如果不重写，focusSearch 会一直到 isRootNamespace 返回 true，走FocusFinder.getInstance().findNextFocus(this, focused, direction)。FocusFinder这里就会有一套自己根据方向寻找焦点 view 的默认逻辑，这也是为什么，你不重写任何方法，有时候焦点也能达到你想要的效果。</p>
@@ -321,8 +319,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

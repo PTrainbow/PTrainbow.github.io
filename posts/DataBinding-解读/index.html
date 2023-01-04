@@ -164,47 +164,47 @@
 <p>官方说是 1.5.0 以上就好了，肯定都没什么问题。</p>
 <p>说到这里，AGP 都帮我们做了什么？Android 的编译过程其实有很多东西，只不过我目前对于这一方面的了解也很有限。</p>
 <h3 id="gradle">gradle</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">android</span> <span class="o">{</span>
-        <span class="o">...</span>
-        <span class="n">dataBinding</span> <span class="o">{</span>
-            <span class="n">enabled</span> <span class="o">=</span> <span class="kc">true</span>
-        <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>通过上述配置，即可打开 dataBinding，AGP 4.0 的话也可以使用 <code>buildFeatures</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">android</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataBinding</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>通过上述配置，即可打开 dataBinding，AGP 4.0 的话也可以使用 <code>buildFeatures</code>。</p>
 <p>通过 AGP 的支持，<code>编译过程中</code> 帮我们做了很多事情。</p>
 <h2 id="大致的使用方式">大致的使用方式</h2>
 <p>通过在 layout 文件中绑定表达式的方式来实现数据绑定。</p>
 <p>写过后端或者前端的人应该对此再熟悉不过了。</p>
 <p>一个 layout 文件的示例</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="c">&lt;!--notification_no_picture.xml--&gt;</span>
-<span class="nt">&lt;layout</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span><span class="nt">&gt;</span>
-
-  <span class="nt">&lt;data&gt;</span>
-    <span class="nt">&lt;variable</span>
-      <span class="na">name=</span><span class="s">&#34;notification&#34;</span>
-      <span class="na">type=</span><span class="s">&#34;com.ptrain.note.model.Notification&#34;</span> <span class="nt">/&gt;</span>
-  <span class="nt">&lt;/data&gt;</span>
-
-  <span class="nt">&lt;TextView</span>
-    <span class="na">android:id=</span><span class="s">&#34;@+id/description&#34;</span>
-    <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
-    <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
-    <span class="na">android:layout_marginTop=</span><span class="s">&#34;8dp&#34;</span>
-    <span class="na">android:text=</span><span class="s">&#34;@{notification.description}&#34;</span>
-    <span class="na">android:textColor=</span><span class="s">&#34;@color/teal_700&#34;</span>
-    <span class="na">android:textSize=</span><span class="s">&#34;16sp&#34;</span> <span class="nt">/&gt;</span>
-  
-<span class="nt">&lt;/layout&gt;</span>
-</code></pre></div><p>传入 notification 实例， 使用 <code>@{notification.xxx}</code> 取值，也可以使用 <code>@={notification.xxx}</code> 实现双向绑定。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="c">&lt;!--notification_no_picture.xml--&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;layout</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;data&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;variable</span>
+</span></span><span class="line"><span class="cl">      <span class="na">name=</span><span class="s">&#34;notification&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">type=</span><span class="s">&#34;com.ptrain.note.model.Notification&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/data&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;TextView</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:id=</span><span class="s">&#34;@+id/description&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:layout_marginTop=</span><span class="s">&#34;8dp&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:text=</span><span class="s">&#34;@{notification.description}&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:textColor=</span><span class="s">&#34;@color/teal_700&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:textSize=</span><span class="s">&#34;16sp&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/layout&gt;</span>
+</span></span></code></pre></div><p>传入 notification 实例， 使用 <code>@{notification.xxx}</code> 取值，也可以使用 <code>@={notification.xxx}</code> 实现双向绑定。</p>
 <p>那么怎么绑定实例呢？</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">XXXBinding</span> <span class="n">binding</span> <span class="o">=</span>  <span class="n">DataBindingUtil</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">layoutId</span><span class="o">,</span> <span class="n">parent</span><span class="o">,</span> <span class="n">attachToParent</span><span class="o">)</span><span class="err">；</span>
-<span class="c1">// 上述实例中就是
-</span><span class="c1">// NotificationOnePictureBinding binding = DataBindingUtil.inflate(context, layoutId, parent, attachToParent)；
-</span><span class="c1"></span><span class="n">binding</span><span class="o">.</span><span class="na">setXXXX</span><span class="o">(</span><span class="n">model</span><span class="o">);</span>
-<span class="n">binding</span><span class="o">.</span><span class="na">executePendingBindings</span><span class="o">();</span>
-<span class="c1">// 上述实例中就是
-</span><span class="c1">// binding.setNotification(notification);
-</span></code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XXXBinding</span> <span class="n">binding</span> <span class="o">=</span>  <span class="n">DataBindingUtil</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">layoutId</span><span class="o">,</span> <span class="n">parent</span><span class="o">,</span> <span class="n">attachToParent</span><span class="o">)</span><span class="err">；</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 上述实例中就是
+</span></span></span><span class="line"><span class="cl"><span class="c1">// NotificationOnePictureBinding binding = DataBindingUtil.inflate(context, layoutId, parent, attachToParent)；
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">binding</span><span class="o">.</span><span class="na">setXXXX</span><span class="o">(</span><span class="n">model</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">binding</span><span class="o">.</span><span class="na">executePendingBindings</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 上述实例中就是
+</span></span></span><span class="line"><span class="cl"><span class="c1">// binding.setNotification(notification);
+</span></span></span></code></pre></div><blockquote>
 <p>数据类一定要使用可观察对象或者直接使用可观察字段</p>
 </blockquote>
 <h2 id="几个重要的类">几个重要的类</h2>
@@ -242,108 +242,108 @@
 <h2 id="databinding-源码分析">DataBinding 源码分析</h2>
 <h3 id="错误的-model-类">错误的 model 类</h3>
 <p>假设数据类如下，继承 BaseObservable。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Notification</span> <span class="kd">extends</span> <span class="n">BaseObservable</span> <span class="o">{</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="n">description</span><span class="o">;</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div><p>layout 文件如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
-<span class="nt">&lt;layout</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span>
-  <span class="na">xmlns:app=</span><span class="s">&#34;http://schemas.android.com/apk/res-auto&#34;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;data&gt;</span>
-    <span class="nt">&lt;variable</span>
-      <span class="na">name=</span><span class="s">&#34;notification&#34;</span>
-      <span class="na">type=</span><span class="s">&#34;com.ptrain.note.model.Notification&#34;</span> <span class="nt">/&gt;</span>
-  <span class="nt">&lt;/data&gt;</span>
-
-  <span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
-    <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
-    <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
-    <span class="na">android:paddingLeft=</span><span class="s">&#34;8dp&#34;</span>
-    <span class="na">android:paddingRight=</span><span class="s">&#34;8dp&#34;</span><span class="nt">&gt;</span>
-
-    <span class="nt">&lt;TextView</span>
-      <span class="na">android:id=</span><span class="s">&#34;@+id/title&#34;</span>
-      <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
-      <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
-      <span class="na">android:text=</span><span class="s">&#34;@{notification.title}&#34;</span>
-      <span class="na">android:textColor=</span><span class="s">&#34;@color/black&#34;</span>
-      <span class="na">android:textSize=</span><span class="s">&#34;24sp&#34;</span>
-      <span class="na">app:layout_constraintBottom_toTopOf=</span><span class="s">&#34;@+id/description&#34;</span>
-      <span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">&#34;parent&#34;</span> <span class="nt">/&gt;</span>
-
-    <span class="nt">&lt;TextView</span>
-      <span class="na">android:id=</span><span class="s">&#34;@+id/description&#34;</span>
-      <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
-      <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
-      <span class="na">android:text=</span><span class="s">&#34;@{notification.description}&#34;</span>
-      <span class="na">android:textColor=</span><span class="s">&#34;@color/teal_700&#34;</span>
-      <span class="na">android:textSize=</span><span class="s">&#34;16sp&#34;</span>
-      <span class="na">android:layout_marginTop=</span><span class="s">&#34;8dp&#34;</span>
-      <span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">&#34;parent&#34;</span>
-      <span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">&#34;@+id/title&#34;</span> <span class="nt">/&gt;</span>
-  <span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
-<span class="nt">&lt;/layout&gt;</span>
-</code></pre></div><p>修改数据类和 bind 的代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// bind 相关的代码，在 onCreateViewHolder 和 onBindViewHolder 中
-</span><span class="c1"></span><span class="nd">@Override</span>
-<span class="kd">public</span> <span class="n">NotificationOnePictureViewHolder</span> <span class="nf">onCreateViewHolder</span><span class="o">(</span><span class="n">ViewGroup</span> <span class="n">parent</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">NotificationOnePictureBinding</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">DataBindingUtil</span>
-    <span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">parent</span><span class="o">.</span><span class="na">getContext</span><span class="o">()),</span> <span class="n">NotificationType</span><span class="o">.</span><span class="na">ONE_PICTURE</span><span class="o">,</span> <span class="n">parent</span><span class="o">,</span>
-        <span class="kc">false</span><span class="o">);</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">NotificationOnePictureViewHolder</span><span class="o">(</span><span class="n">binding</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="c1">// onBindViewHolder 我用的 Adapter 重构了一下，不用在意
-</span><span class="c1"></span><span class="nd">@Override</span>
-<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onBind</span><span class="o">(</span><span class="n">Notification</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">// 把数据类传递给 binding
-</span><span class="c1"></span>    <span class="n">binding</span><span class="o">.</span><span class="na">setNotification</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
-    <span class="n">binding</span><span class="o">.</span><span class="na">executePendingBindings</span><span class="o">();</span>
-<span class="o">}</span>
-
-<span class="c1">// ----------------------------------------------------------
-</span><span class="c1">// 数据初始化和修改相关的代码
-</span><span class="c1">// 省略初始化 notificationList 数据
-</span><span class="c1"></span><span class="n">List</span><span class="o">&lt;</span><span class="n">Notification</span><span class="o">&gt;</span> <span class="n">notificationList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
-<span class="c1">// 传递给 adapter
-</span><span class="c1"></span><span class="n">adapter</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">notificationList</span><span class="o">);</span>
-<span class="c1">// 随意模拟一下 5s 后修改源数据，不要在意 Handler
-</span><span class="c1"></span><span class="n">Handler</span> <span class="n">handler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Handler</span><span class="o">();</span>
-<span class="n">handler</span><span class="o">.</span><span class="na">postDelayed</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
-    <span class="n">notificationList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">setTitle</span><span class="o">(</span><span class="s">&#34;i have changed&#34;</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">},</span> <span class="n">5000</span><span class="o">);</span>
-</code></pre></div><p>这样能实现数据绑定吗？<code>否</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Notification</span> <span class="kd">extends</span> <span class="n">BaseObservable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="n">description</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>layout 文件如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;layout</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">xmlns:app=</span><span class="s">&#34;http://schemas.android.com/apk/res-auto&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;data&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;variable</span>
+</span></span><span class="line"><span class="cl">      <span class="na">name=</span><span class="s">&#34;notification&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">type=</span><span class="s">&#34;com.ptrain.note.model.Notification&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/data&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:paddingLeft=</span><span class="s">&#34;8dp&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:paddingRight=</span><span class="s">&#34;8dp&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;TextView</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:id=</span><span class="s">&#34;@+id/title&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:text=</span><span class="s">&#34;@{notification.title}&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:textColor=</span><span class="s">&#34;@color/black&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:textSize=</span><span class="s">&#34;24sp&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">app:layout_constraintBottom_toTopOf=</span><span class="s">&#34;@+id/description&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">&#34;parent&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;TextView</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:id=</span><span class="s">&#34;@+id/description&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:text=</span><span class="s">&#34;@{notification.description}&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:textColor=</span><span class="s">&#34;@color/teal_700&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:textSize=</span><span class="s">&#34;16sp&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">android:layout_marginTop=</span><span class="s">&#34;8dp&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">&#34;parent&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">&#34;@+id/title&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/layout&gt;</span>
+</span></span></code></pre></div><p>修改数据类和 bind 的代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// bind 相关的代码，在 onCreateViewHolder 和 onBindViewHolder 中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">NotificationOnePictureViewHolder</span> <span class="nf">onCreateViewHolder</span><span class="o">(</span><span class="n">ViewGroup</span> <span class="n">parent</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NotificationOnePictureBinding</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">DataBindingUtil</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">parent</span><span class="o">.</span><span class="na">getContext</span><span class="o">()),</span> <span class="n">NotificationType</span><span class="o">.</span><span class="na">ONE_PICTURE</span><span class="o">,</span> <span class="n">parent</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">false</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">NotificationOnePictureViewHolder</span><span class="o">(</span><span class="n">binding</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// onBindViewHolder 我用的 Adapter 重构了一下，不用在意
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onBind</span><span class="o">(</span><span class="n">Notification</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 把数据类传递给 binding
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">binding</span><span class="o">.</span><span class="na">setNotification</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">binding</span><span class="o">.</span><span class="na">executePendingBindings</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// ----------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 数据初始化和修改相关的代码
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 省略初始化 notificationList 数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">List</span><span class="o">&lt;</span><span class="n">Notification</span><span class="o">&gt;</span> <span class="n">notificationList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 传递给 adapter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">adapter</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">notificationList</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 随意模拟一下 5s 后修改源数据，不要在意 Handler
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Handler</span> <span class="n">handler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Handler</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">handler</span><span class="o">.</span><span class="na">postDelayed</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">notificationList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">setTitle</span><span class="o">(</span><span class="s">&#34;i have changed&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">},</span> <span class="n">5000</span><span class="o">);</span>
+</span></span></code></pre></div><p>这样能实现数据绑定吗？<code>否</code></p>
 <p>问题在于数据类，虽然继承了 BaseObservable，但是并没有调用 notify()，那么修改一下，如下呢？</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Notification</span> <span class="kd">extends</span> <span class="n">BaseObservable</span> <span class="o">{</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="n">description</span><span class="o">;</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
-
-  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTitle</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">title</span><span class="o">;</span>
-  <span class="o">}</span>
-
-  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">description</span><span class="o">;</span>
-  <span class="o">}</span>
-
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateTitle</span><span class="o">(</span><span class="n">String</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
-    <span class="c1">// 此处改变
-</span><span class="c1"></span>    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateDescription</span><span class="o">(</span><span class="n">String</span> <span class="n">description</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">description</span> <span class="o">=</span> <span class="n">description</span><span class="o">;</span>
-    <span class="c1">// 此处改变
-</span><span class="c1"></span>    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
-  <span class="o">}</span>
-
-<span class="o">}</span>
-</code></pre></div><p>这样能实现数据绑定吗？<code>否</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Notification</span> <span class="kd">extends</span> <span class="n">BaseObservable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="n">description</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTitle</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">description</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateTitle</span><span class="o">(</span><span class="n">String</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 此处改变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateDescription</span><span class="o">(</span><span class="n">String</span> <span class="n">description</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">description</span> <span class="o">=</span> <span class="n">description</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 此处改变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这样能实现数据绑定吗？<code>否</code></p>
 <p>两个问题<br>
 <strong>BR.java 的 key 如何生成?</strong><br>
 <strong>notifyPropertyChanged() 有什么作用</strong></p>
@@ -356,146 +356,146 @@
 <p>所以结论是，<code>BR.java 中的 key 由 @Bindable 和 layout 文件共同决定</code></p>
 <h3 id="趁热打铁增加-bindable-注解">趁热打铁增加 @Bindable 注解</h3>
 <p>代码修改如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Notification</span> <span class="kd">extends</span> <span class="n">BaseObservable</span> <span class="o">{</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="n">description</span><span class="o">;</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
-  
-  <span class="c1">// 此处改变
-</span><span class="c1"></span>  <span class="nd">@Bindable</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTitle</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">title</span><span class="o">;</span>
-  <span class="o">}</span>
-  <span class="c1">// 此处改变
-</span><span class="c1"></span>  <span class="nd">@Bindable</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">description</span><span class="o">;</span>
-  <span class="o">}</span>
-
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateTitle</span><span class="o">(</span><span class="n">String</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
-    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateDescription</span><span class="o">(</span><span class="n">String</span> <span class="n">description</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">description</span> <span class="o">=</span> <span class="n">description</span><span class="o">;</span>
-    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
-  <span class="o">}</span>
-
-<span class="o">}</span>
-</code></pre></div><p>这样能实现数据绑定吗？<code>否</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Notification</span> <span class="kd">extends</span> <span class="n">BaseObservable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="n">description</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 此处改变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nd">@Bindable</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTitle</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 此处改变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nd">@Bindable</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">description</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateTitle</span><span class="o">(</span><span class="n">String</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateDescription</span><span class="o">(</span><span class="n">String</span> <span class="n">description</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">description</span> <span class="o">=</span> <span class="n">description</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">notifyPropertyChanged</span><span class="o">(</span><span class="n">BR</span><span class="o">.</span><span class="na">notification</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这样能实现数据绑定吗？<code>否</code></p>
 <p>这就不得不研究一下 notifyPropertyChanged 方法</p>
 <h3 id="notifypropertychanged-引出的整个链路">notifyPropertyChanged() 引出的整个链路</h3>
 <p>因为 Notification extends BaseObservable，BaseObservable 中 notifyPropertyChanged 代码如下</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">notifyPropertyChanged</span><span class="o">(</span><span class="kt">int</span> <span class="n">fieldId</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">mCallbacks</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">return</span><span class="o">;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-    <span class="n">mCallbacks</span><span class="o">.</span><span class="na">notifyCallbacks</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">fieldId</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div><p>所以是通过 mCallbacks 回调，那么 mCallbacks 何时来的？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">notifyPropertyChanged</span><span class="o">(</span><span class="kt">int</span> <span class="n">fieldId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">mCallbacks</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mCallbacks</span><span class="o">.</span><span class="na">notifyCallbacks</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">fieldId</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>所以是通过 mCallbacks 回调，那么 mCallbacks 何时来的？</p>
 <p>调用栈如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">addOnPropertyChangedCallback:33, BaseObservable (androidx.databinding)
-addListener:1446, ViewDataBinding$WeakPropertyListener (androidx.databinding)
-addListener:1431, ViewDataBinding$WeakPropertyListener (androidx.databinding)
-setTarget:1404, ViewDataBinding$WeakListener (androidx.databinding)
-registerTo:688, ViewDataBinding (androidx.databinding)
-updateRegistration:612, ViewDataBinding (androidx.databinding)
-updateRegistration:627, ViewDataBinding (androidx.databinding)
-setNotification:74, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
-onBind:42, NotificationOnePictureBinder$NotificationOnePictureViewHolder (com.ptrain.note.viewholder)
-</code></pre></div><p>还记得 onBindViewHolder 通过 binding.setNotification 传递 model 实例么？此时通过 setNotification 一系列调用，便注册了 mCallbacks</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">addOnPropertyChangedCallback:33, BaseObservable (androidx.databinding)
+</span></span><span class="line"><span class="cl">addListener:1446, ViewDataBinding$WeakPropertyListener (androidx.databinding)
+</span></span><span class="line"><span class="cl">addListener:1431, ViewDataBinding$WeakPropertyListener (androidx.databinding)
+</span></span><span class="line"><span class="cl">setTarget:1404, ViewDataBinding$WeakListener (androidx.databinding)
+</span></span><span class="line"><span class="cl">registerTo:688, ViewDataBinding (androidx.databinding)
+</span></span><span class="line"><span class="cl">updateRegistration:612, ViewDataBinding (androidx.databinding)
+</span></span><span class="line"><span class="cl">updateRegistration:627, ViewDataBinding (androidx.databinding)
+</span></span><span class="line"><span class="cl">setNotification:74, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
+</span></span><span class="line"><span class="cl">onBind:42, NotificationOnePictureBinder$NotificationOnePictureViewHolder (com.ptrain.note.viewholder)
+</span></span></code></pre></div><p>还记得 onBindViewHolder 通过 binding.setNotification 传递 model 实例么？此时通过 setNotification 一系列调用，便注册了 mCallbacks</p>
 <p>updateRegistration() 方法便是对应了 <code>之前</code> 说的 <code>可观察数据类型</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">Observable</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_PROPERTY_LISTENER</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">ObservableList</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_LIST_LISTENER</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">ObservableMap</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_MAP_LISTENER</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateLiveDataRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">LiveData</span><span class="o">&lt;?&gt;</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">mInLiveDataRegisterObserver</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-    <span class="k">try</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_LIVE_DATA_LISTENER</span><span class="o">);</span>
-    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-        <span class="n">mInLiveDataRegisterObserver</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>我们这里传递的是 Observable(BaseObservable implements Observable)，所以是 CREATE_PROPERTY_LISTENER，属性监听器。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">addListener</span><span class="o">(</span><span class="n">Observable</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">target</span><span class="o">.</span><span class="na">addOnPropertyChangedCallback</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="nd">@Override</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">addOnPropertyChangedCallback</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">OnPropertyChangedCallback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">mCallbacks</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="c1">// 此处创建 PropertyChangeRegistry
-</span><span class="c1"></span>            <span class="n">mCallbacks</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PropertyChangeRegistry</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-    <span class="n">mCallbacks</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">callback</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div><p>WeakPropertyListener.addListener 把自己传了回去，然后 addOnPropertyChangedCallback 创建了 <code>PropertyChangeRegistry extends CallbackRegistry</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">Observable</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_PROPERTY_LISTENER</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">ObservableList</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_LIST_LISTENER</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">ObservableMap</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_MAP_LISTENER</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">updateLiveDataRegistration</span><span class="o">(</span><span class="kt">int</span> <span class="n">localFieldId</span><span class="o">,</span> <span class="n">LiveData</span><span class="o">&lt;?&gt;</span> <span class="n">observable</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mInLiveDataRegisterObserver</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">updateRegistration</span><span class="o">(</span><span class="n">localFieldId</span><span class="o">,</span> <span class="n">observable</span><span class="o">,</span> <span class="n">CREATE_LIVE_DATA_LISTENER</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mInLiveDataRegisterObserver</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们这里传递的是 Observable(BaseObservable implements Observable)，所以是 CREATE_PROPERTY_LISTENER，属性监听器。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addListener</span><span class="o">(</span><span class="n">Observable</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">target</span><span class="o">.</span><span class="na">addOnPropertyChangedCallback</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addOnPropertyChangedCallback</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">OnPropertyChangedCallback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">mCallbacks</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 此处创建 PropertyChangeRegistry
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">mCallbacks</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PropertyChangeRegistry</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mCallbacks</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">callback</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>WeakPropertyListener.addListener 把自己传了回去，然后 addOnPropertyChangedCallback 创建了 <code>PropertyChangeRegistry extends CallbackRegistry</code></p>
 <p>所以 mCallbacks 中的元素在本例中其实就是 WeakPropertyListener(如果数据类型是其他类型，则对应相应的可观察类型的Listener)</p>
 <p>mCallbacks.notifyCallbacks 会调用到 CallbackRegistry.notifyCallbacks，这个方法没有细看，但是是个递归，通过它的注释知道，用于回调所有的 callback。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">notifyCallbacks</span><span class="o">(</span><span class="n">T</span> <span class="n">sender</span><span class="o">,</span> <span class="kt">int</span> <span class="n">arg</span><span class="o">,</span> <span class="n">A</span> <span class="n">arg2</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">startIndex</span><span class="o">,</span>
-            <span class="kd">final</span> <span class="kt">int</span> <span class="n">endIndex</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">bits</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kt">long</span> <span class="n">bitMask</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
-    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">startIndex</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">endIndex</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">((</span><span class="n">bits</span> <span class="o">&amp;</span> <span class="n">bitMask</span><span class="o">)</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">mNotifier</span><span class="o">.</span><span class="na">onNotifyCallback</span><span class="o">(</span><span class="n">mCallbacks</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">),</span> <span class="n">sender</span><span class="o">,</span> <span class="n">arg</span><span class="o">,</span> <span class="n">arg2</span><span class="o">);</span>
-        <span class="o">}</span>
-        <span class="n">bitMask</span> <span class="o">&lt;&lt;=</span> <span class="n">1</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>CallbackRegistry 中的 mNotifier ，由 PropertyChangeRegistry mNotifier 回调到 WeakPropertyListener.onPropertyChanged 中，最终到 <code>XXXBindingImpl.onChangeXXXXX</code> 处理属性变化。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">notifyCallbacks</span><span class="o">(</span><span class="n">T</span> <span class="n">sender</span><span class="o">,</span> <span class="kt">int</span> <span class="n">arg</span><span class="o">,</span> <span class="n">A</span> <span class="n">arg2</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">startIndex</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">final</span> <span class="kt">int</span> <span class="n">endIndex</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">bits</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">bitMask</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">startIndex</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">endIndex</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">((</span><span class="n">bits</span> <span class="o">&amp;</span> <span class="n">bitMask</span><span class="o">)</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mNotifier</span><span class="o">.</span><span class="na">onNotifyCallback</span><span class="o">(</span><span class="n">mCallbacks</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">),</span> <span class="n">sender</span><span class="o">,</span> <span class="n">arg</span><span class="o">,</span> <span class="n">arg2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bitMask</span> <span class="o">&lt;&lt;=</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>CallbackRegistry 中的 mNotifier ，由 PropertyChangeRegistry mNotifier 回调到 WeakPropertyListener.onPropertyChanged 中，最终到 <code>XXXBindingImpl.onChangeXXXXX</code> 处理属性变化。</p>
 <p>调用栈如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">onChangeNotification:92, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
-onFieldChange:87, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
-handleFieldChange:549, ViewDataBinding (androidx.databinding)
-access$800:65, ViewDataBinding (androidx.databinding)
-onPropertyChanged:1468, ViewDataBinding$WeakPropertyListener (androidx.databinding)
-onNotifyCallback:30, PropertyChangeRegistry$1 (androidx.databinding)
-onNotifyCallback:26, PropertyChangeRegistry$1 (androidx.databinding)
-notifyCallbacks:201, CallbackRegistry (androidx.databinding)
-notifyFirst64:122, CallbackRegistry (androidx.databinding)
-notifyRemainder:169, CallbackRegistry (androidx.databinding)
-notifyRecurse:145, CallbackRegistry (androidx.databinding)
-notifyCallbacks:91, CallbackRegistry (androidx.databinding)
-notifyPropertyChanged:76, BaseObservable (androidx.databinding)
-setTitle:31, Notification (com.ptrain.note.model)
-</code></pre></div><p>所以 notifyPropertyChanged 作用很简单，处理属性修改后的回调，回调的具体代码实际就在生成的 BindingImpl 中，本例中为：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 编译生成的 XXXBindingImpl.java 中的 onChangeYYY(YYY 是绑定的名称) 方法
-</span><span class="c1"></span><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">onChangeNotification</span><span class="o">(</span><span class="n">com</span><span class="o">.</span><span class="na">ptrain</span><span class="o">.</span><span class="na">note</span><span class="o">.</span><span class="na">model</span><span class="o">.</span><span class="na">Notification</span> <span class="n">Notification</span><span class="o">,</span> <span class="kt">int</span> <span class="n">fieldId</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">fieldId</span> <span class="o">==</span> <span class="n">BR</span><span class="o">.</span><span class="na">_all</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">mDirtyFlags</span> <span class="o">|=</span> <span class="n">0x1L</span><span class="o">;</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">fieldId</span> <span class="o">==</span> <span class="n">BR</span><span class="o">.</span><span class="na">title</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">mDirtyFlags</span> <span class="o">|=</span> <span class="n">0x2L</span><span class="o">;</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">fieldId</span> <span class="o">==</span> <span class="n">BR</span><span class="o">.</span><span class="na">description</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">mDirtyFlags</span> <span class="o">|=</span> <span class="n">0x4L</span><span class="o">;</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div><h3 id="model-类错误的原因">model 类错误的原因</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">onChangeNotification:92, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
+</span></span><span class="line"><span class="cl">onFieldChange:87, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
+</span></span><span class="line"><span class="cl">handleFieldChange:549, ViewDataBinding (androidx.databinding)
+</span></span><span class="line"><span class="cl">access$800:65, ViewDataBinding (androidx.databinding)
+</span></span><span class="line"><span class="cl">onPropertyChanged:1468, ViewDataBinding$WeakPropertyListener (androidx.databinding)
+</span></span><span class="line"><span class="cl">onNotifyCallback:30, PropertyChangeRegistry$1 (androidx.databinding)
+</span></span><span class="line"><span class="cl">onNotifyCallback:26, PropertyChangeRegistry$1 (androidx.databinding)
+</span></span><span class="line"><span class="cl">notifyCallbacks:201, CallbackRegistry (androidx.databinding)
+</span></span><span class="line"><span class="cl">notifyFirst64:122, CallbackRegistry (androidx.databinding)
+</span></span><span class="line"><span class="cl">notifyRemainder:169, CallbackRegistry (androidx.databinding)
+</span></span><span class="line"><span class="cl">notifyRecurse:145, CallbackRegistry (androidx.databinding)
+</span></span><span class="line"><span class="cl">notifyCallbacks:91, CallbackRegistry (androidx.databinding)
+</span></span><span class="line"><span class="cl">notifyPropertyChanged:76, BaseObservable (androidx.databinding)
+</span></span><span class="line"><span class="cl">setTitle:31, Notification (com.ptrain.note.model)
+</span></span></code></pre></div><p>所以 notifyPropertyChanged 作用很简单，处理属性修改后的回调，回调的具体代码实际就在生成的 BindingImpl 中，本例中为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 编译生成的 XXXBindingImpl.java 中的 onChangeYYY(YYY 是绑定的名称) 方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">onChangeNotification</span><span class="o">(</span><span class="n">com</span><span class="o">.</span><span class="na">ptrain</span><span class="o">.</span><span class="na">note</span><span class="o">.</span><span class="na">model</span><span class="o">.</span><span class="na">Notification</span> <span class="n">Notification</span><span class="o">,</span> <span class="kt">int</span> <span class="n">fieldId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">fieldId</span> <span class="o">==</span> <span class="n">BR</span><span class="o">.</span><span class="na">_all</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">mDirtyFlags</span> <span class="o">|=</span> <span class="n">0x1L</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">fieldId</span> <span class="o">==</span> <span class="n">BR</span><span class="o">.</span><span class="na">title</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">mDirtyFlags</span> <span class="o">|=</span> <span class="n">0x2L</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">fieldId</span> <span class="o">==</span> <span class="n">BR</span><span class="o">.</span><span class="na">description</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">mDirtyFlags</span> <span class="o">|=</span> <span class="n">0x4L</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="model-类错误的原因">model 类错误的原因</h3>
 <p>通过上面的 onChangeNotification 代码也知道，只有当 fieldId 为 _all、title、description 三者之一时才会触发更新，所以我们的 setter 方法中的 notifyPropertyChanged 需要修改。</p>
 <p>为什么 onChangeNotification 没有处理 BR.notification 的逻辑呢？</p>
 <p>这个我也不清楚，因为此类为编译时生成。</p>
@@ -504,45 +504,45 @@ setTitle:31, Notification (com.ptrain.note.model)
 <p>notifyPropertyChanged 的部分追踪到了 onChangeNotification，那么之后又发生了什么？</p>
 <p>调用 requestRebind() 更新下一帧 UI。</p>
 <p>代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// ViewDataBinding.java
-</span><span class="c1"></span><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">requestRebind</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">mContainingBinding</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">mContainingBinding</span><span class="o">.</span><span class="na">requestRebind</span><span class="o">();</span>
-    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-        <span class="kd">final</span> <span class="n">LifecycleOwner</span> <span class="n">owner</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">mLifecycleOwner</span><span class="o">;</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">owner</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">Lifecycle</span><span class="o">.</span><span class="na">State</span> <span class="n">state</span> <span class="o">=</span> <span class="n">owner</span><span class="o">.</span><span class="na">getLifecycle</span><span class="o">().</span><span class="na">getCurrentState</span><span class="o">();</span>
-            <span class="k">if</span> <span class="o">(!</span><span class="n">state</span><span class="o">.</span><span class="na">isAtLeast</span><span class="o">(</span><span class="n">Lifecycle</span><span class="o">.</span><span class="na">State</span><span class="o">.</span><span class="na">STARTED</span><span class="o">))</span> <span class="o">{</span>
-                <span class="k">return</span><span class="o">;</span> <span class="c1">// wait until lifecycle owner is started
-</span><span class="c1"></span>            <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">mPendingRebind</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">return</span><span class="o">;</span>
-            <span class="o">}</span>
-            <span class="n">mPendingRebind</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-        <span class="o">}</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">USE_CHOREOGRAPHER</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">mChoreographer</span><span class="o">.</span><span class="na">postFrameCallback</span><span class="o">(</span><span class="n">mFrameCallback</span><span class="o">);</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="n">mUIThreadHandler</span><span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">mRebindRunnable</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>可以看到低版本使用 mUIThreadHandler，高版本注册 FrameCallback，最终都是执行 mRebindRunnable，最终执行</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// ViewDataBinding.java
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">requestRebind</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">mContainingBinding</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mContainingBinding</span><span class="o">.</span><span class="na">requestRebind</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">final</span> <span class="n">LifecycleOwner</span> <span class="n">owner</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">mLifecycleOwner</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">owner</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Lifecycle</span><span class="o">.</span><span class="na">State</span> <span class="n">state</span> <span class="o">=</span> <span class="n">owner</span><span class="o">.</span><span class="na">getLifecycle</span><span class="o">().</span><span class="na">getCurrentState</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(!</span><span class="n">state</span><span class="o">.</span><span class="na">isAtLeast</span><span class="o">(</span><span class="n">Lifecycle</span><span class="o">.</span><span class="na">State</span><span class="o">.</span><span class="na">STARTED</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span><span class="o">;</span> <span class="c1">// wait until lifecycle owner is started
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">mPendingRebind</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mPendingRebind</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">USE_CHOREOGRAPHER</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mChoreographer</span><span class="o">.</span><span class="na">postFrameCallback</span><span class="o">(</span><span class="n">mFrameCallback</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mUIThreadHandler</span><span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">mRebindRunnable</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>可以看到低版本使用 mUIThreadHandler，高版本注册 FrameCallback，最终都是执行 mRebindRunnable，最终执行</p>
 <p>executePendingBindings() 再到 executeBindings()。</p>
 <p>executeBindings() 通过 dirtyFlags 来更新对用的 View 的数据。</p>
 <p>Android 高版本调用栈如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">executeBindings:115, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
-executeBindingsInternal:473, ViewDataBinding (androidx.databinding)
-executePendingBindings:445, ViewDataBinding (androidx.databinding)
-run:197, ViewDataBinding$7 (androidx.databinding)
-doFrame:291, ViewDataBinding$8 (androidx.databinding)
-run:1310, Choreographer$CallbackRecord (android.view)
-doCallbacks:1123, Choreographer (android.view)
-doFrame:934, Choreographer (android.view)
-run:1298, Choreographer$FrameDisplayEventReceiver (android.view)
-</code></pre></div><p>至此单向绑定就说完了</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">executeBindings:115, NotificationOnePictureBindingImpl (com.ptrain.note.databinding)
+</span></span><span class="line"><span class="cl">executeBindingsInternal:473, ViewDataBinding (androidx.databinding)
+</span></span><span class="line"><span class="cl">executePendingBindings:445, ViewDataBinding (androidx.databinding)
+</span></span><span class="line"><span class="cl">run:197, ViewDataBinding$7 (androidx.databinding)
+</span></span><span class="line"><span class="cl">doFrame:291, ViewDataBinding$8 (androidx.databinding)
+</span></span><span class="line"><span class="cl">run:1310, Choreographer$CallbackRecord (android.view)
+</span></span><span class="line"><span class="cl">doCallbacks:1123, Choreographer (android.view)
+</span></span><span class="line"><span class="cl">doFrame:934, Choreographer (android.view)
+</span></span><span class="line"><span class="cl">run:1298, Choreographer$FrameDisplayEventReceiver (android.view)
+</span></span></code></pre></div><p>至此单向绑定就说完了</p>
 <h3 id="双向绑定">双向绑定</h3>
 <p>layout.xml 使用 <code>@={}</code></p>
 <p>双向绑定其实就是在对应的控件生成 listener，回调数据类的 setter 方法，如果你不写就会编译报错。</p>
@@ -615,8 +615,8 @@ run:1298, Choreographer$FrameDisplayEventReceiver (android.view)
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

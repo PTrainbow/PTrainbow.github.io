@@ -166,61 +166,61 @@
 <h3 id="enable_resource_optimizations">ENABLE_RESOURCE_OPTIMIZATIONS</h3>
 <p>经过搜索 ENABLE_RESOURCE_OPTIMIZATIONS，发现一个 PackageApplication 的类</p>
 <p>其中有部分代码如下(AGP 4.2.0)：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// com.android.build.gradle.tasks.PackageApplication
-</span><span class="c1"></span> <span class="k">override</span> <span class="k">fun</span> <span class="nf">handleProvider</span><span class="p">(</span>
-            <span class="n">taskProvider</span><span class="p">:</span> <span class="n">TaskProvider</span><span class="p">&lt;</span><span class="n">PackageApplication</span><span class="p">&gt;</span>
-        <span class="p">)</span> <span class="p">{</span>
-            <span class="k">super</span><span class="p">.</span><span class="n">handleProvider</span><span class="p">(</span><span class="n">taskProvider</span><span class="p">)</span>
-            <span class="n">creationConfig</span><span class="p">.</span><span class="n">taskContainer</span><span class="p">.</span><span class="n">packageAndroidTask</span> <span class="p">=</span> <span class="n">taskProvider</span>
-            <span class="k">val</span> <span class="py">useOptimizedResources</span> <span class="p">=</span> <span class="p">!</span><span class="n">creationConfig</span><span class="p">.</span><span class="n">debuggable</span> <span class="o">&amp;&amp;</span>
-                    <span class="p">!</span><span class="n">creationConfig</span><span class="p">.</span><span class="n">variantType</span><span class="p">.</span><span class="n">isForTesting</span> <span class="o">&amp;&amp;</span>
-                    <span class="n">creationConfig</span><span class="p">.</span><span class="n">services</span><span class="p">.</span><span class="n">projectOptions</span><span class="p">[</span><span class="n">BooleanOption</span><span class="p">.</span><span class="n">ENABLE_RESOURCE_OPTIMIZATIONS</span><span class="p">]</span>
-            <span class="k">val</span> <span class="py">operationRequest</span> <span class="p">=</span> <span class="n">creationConfig</span><span class="p">.</span><span class="n">artifacts</span><span class="p">.</span><span class="n">use</span><span class="p">(</span><span class="n">taskProvider</span><span class="p">)</span>
-                    <span class="p">.</span><span class="n">wiredWithDirectories</span><span class="p">(</span>
-                            <span class="n">PackageAndroidArtifact</span><span class="o">::</span><span class="n">getResourceFiles</span><span class="p">,</span>
-                            <span class="n">PackageApplication</span><span class="o">::</span><span class="n">getOutputDirectory</span><span class="p">)</span>
-
-            <span class="n">transformationRequest</span> <span class="p">=</span> <span class="k">when</span> <span class="p">{</span>
-                <span class="n">useOptimizedResources</span> <span class="o">-&gt;</span> <span class="n">operationRequest</span><span class="p">.</span><span class="n">toTransformMany</span><span class="p">(</span>
-                        <span class="n">InternalArtifactType</span><span class="p">.</span><span class="n">OPTIMIZED_PROCESSED_RES</span><span class="p">,</span>
-                        <span class="n">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
-                        <span class="n">outputDirectory</span><span class="p">.</span><span class="n">absolutePath</span><span class="p">)</span>
-                <span class="n">useResourceShrinker</span> <span class="o">-&gt;</span> <span class="n">operationRequest</span><span class="p">.</span><span class="n">toTransformMany</span><span class="p">(</span>
-                        <span class="n">InternalArtifactType</span><span class="p">.</span><span class="n">SHRUNK_PROCESSED_RES</span><span class="p">,</span>
-                        <span class="n">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
-                        <span class="n">outputDirectory</span><span class="p">.</span><span class="n">absolutePath</span><span class="p">)</span>
-                <span class="k">else</span> <span class="o">-&gt;</span> <span class="n">operationRequest</span><span class="p">.</span><span class="n">toTransformMany</span><span class="p">(</span>
-                        <span class="n">InternalArtifactType</span><span class="p">.</span><span class="n">PROCESSED_RES</span><span class="p">,</span>
-                        <span class="n">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
-                        <span class="n">outputDirectory</span><span class="p">.</span><span class="n">absolutePath</span><span class="p">)</span>
-            <span class="p">}</span>
-</code></pre></div><p>于是发现了 ENABLE_RESOURCE_OPTIMIZATIONS 开关的值，决定了 OPTIMIZED_PROCESSED_RES 的值，那么继续搜索 OPTIMIZED_PROCESSED_RES</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="c1">// com.android.build.gradle.tasks.PackageApplication
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="k">override</span> <span class="k">fun</span> <span class="nf">handleProvider</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">taskProvider</span><span class="p">:</span> <span class="n">TaskProvider</span><span class="p">&lt;</span><span class="n">PackageApplication</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">super</span><span class="p">.</span><span class="n">handleProvider</span><span class="p">(</span><span class="n">taskProvider</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">creationConfig</span><span class="p">.</span><span class="n">taskContainer</span><span class="p">.</span><span class="n">packageAndroidTask</span> <span class="p">=</span> <span class="n">taskProvider</span>
+</span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">useOptimizedResources</span> <span class="p">=</span> <span class="p">!</span><span class="n">creationConfig</span><span class="p">.</span><span class="n">debuggable</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">!</span><span class="n">creationConfig</span><span class="p">.</span><span class="n">variantType</span><span class="p">.</span><span class="n">isForTesting</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">creationConfig</span><span class="p">.</span><span class="n">services</span><span class="p">.</span><span class="n">projectOptions</span><span class="p">[</span><span class="n">BooleanOption</span><span class="p">.</span><span class="n">ENABLE_RESOURCE_OPTIMIZATIONS</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">operationRequest</span> <span class="p">=</span> <span class="n">creationConfig</span><span class="p">.</span><span class="n">artifacts</span><span class="p">.</span><span class="n">use</span><span class="p">(</span><span class="n">taskProvider</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">.</span><span class="n">wiredWithDirectories</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">PackageAndroidArtifact</span><span class="o">::</span><span class="n">getResourceFiles</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">PackageApplication</span><span class="o">::</span><span class="n">getOutputDirectory</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">transformationRequest</span> <span class="p">=</span> <span class="k">when</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">useOptimizedResources</span> <span class="o">-&gt;</span> <span class="n">operationRequest</span><span class="p">.</span><span class="n">toTransformMany</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">InternalArtifactType</span><span class="p">.</span><span class="n">OPTIMIZED_PROCESSED_RES</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">outputDirectory</span><span class="p">.</span><span class="n">absolutePath</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">useResourceShrinker</span> <span class="o">-&gt;</span> <span class="n">operationRequest</span><span class="p">.</span><span class="n">toTransformMany</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">InternalArtifactType</span><span class="p">.</span><span class="n">SHRUNK_PROCESSED_RES</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">outputDirectory</span><span class="p">.</span><span class="n">absolutePath</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span> <span class="o">-&gt;</span> <span class="n">operationRequest</span><span class="p">.</span><span class="n">toTransformMany</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">InternalArtifactType</span><span class="p">.</span><span class="n">PROCESSED_RES</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">outputDirectory</span><span class="p">.</span><span class="n">absolutePath</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span></code></pre></div><p>于是发现了 ENABLE_RESOURCE_OPTIMIZATIONS 开关的值，决定了 OPTIMIZED_PROCESSED_RES 的值，那么继续搜索 OPTIMIZED_PROCESSED_RES</p>
 <h3 id="optimized_processed_res">OPTIMIZED_PROCESSED_RES</h3>
 <p>一顿搜索后，发现一个强相关的类名 <code>OptimizeResourcesTask</code></p>
 <p>此类中还存在 aapt2 参数枚举</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// com.android.build.gradle.internal.tasks.OptimizeResourcesTask
-</span><span class="c1"></span><span class="k">enum</span> <span class="k">class</span> <span class="nc">AAPT2OptimizeFlags</span><span class="p">(</span><span class="k">val</span> <span class="py">flag</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">COLLAPSE_RESOURCE_NAMES</span><span class="p">(</span><span class="s2">&#34;--collapse-resource-names&#34;</span><span class="p">),</span>
-    <span class="n">SHORTEN_RESOURCE_PATHS</span><span class="p">(</span><span class="s2">&#34;--shorten-resource-paths&#34;</span><span class="p">),</span>
-    <span class="n">ENABLE_SPARSE_ENCODING</span><span class="p">(</span><span class="s2">&#34;--enable-sparse-encoding&#34;</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><p>再看 aapt2 源码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">//frameworks/base/tools/aapt2/cmd/Optimize.cpp
-</span><span class="c1"></span> <span class="k">if</span> <span class="p">(</span><span class="n">options_</span><span class="p">.</span><span class="n">shorten_resource_paths</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">ResourcePathShortener</span> <span class="nf">shortener</span><span class="p">(</span><span class="n">options_</span><span class="p">.</span><span class="n">table_flattener_options</span><span class="p">.</span><span class="n">shortened_path_map</span><span class="p">);</span>
-      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">shortener</span><span class="p">.</span><span class="n">Consume</span><span class="p">(</span><span class="n">context_</span><span class="p">,</span> <span class="n">apk</span><span class="o">-&gt;</span><span class="n">GetResourceTable</span><span class="p">()))</span> <span class="p">{</span>
-        <span class="n">context_</span><span class="o">-&gt;</span><span class="n">GetDiagnostics</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">Error</span><span class="p">(</span><span class="n">DiagMessage</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;failed shortening resource paths&#34;</span><span class="p">);</span>
-        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">options_</span><span class="p">.</span><span class="n">shortened_paths_map_path</span>
-          <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">WriteShortenedPathsMap</span><span class="p">(</span><span class="n">options_</span><span class="p">.</span><span class="n">table_flattener_options</span><span class="p">.</span><span class="n">shortened_path_map</span><span class="p">,</span>
-                                      <span class="n">options_</span><span class="p">.</span><span class="n">shortened_paths_map_path</span><span class="p">.</span><span class="n">value</span><span class="p">()))</span> <span class="p">{</span>
-        <span class="n">context_</span><span class="o">-&gt;</span><span class="n">GetDiagnostics</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">Error</span><span class="p">(</span><span class="n">DiagMessage</span><span class="p">()</span>
-                                          <span class="o">&lt;&lt;</span> <span class="s">&#34;failed to write shortened resource paths to file&#34;</span><span class="p">);</span>
-        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-</code></pre></div><p>配上 commit 信息，应该就是这里了</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="c1">// com.android.build.gradle.internal.tasks.OptimizeResourcesTask
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">enum</span> <span class="k">class</span> <span class="nc">AAPT2OptimizeFlags</span><span class="p">(</span><span class="k">val</span> <span class="py">flag</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">COLLAPSE_RESOURCE_NAMES</span><span class="p">(</span><span class="s2">&#34;--collapse-resource-names&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SHORTEN_RESOURCE_PATHS</span><span class="p">(</span><span class="s2">&#34;--shorten-resource-paths&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ENABLE_SPARSE_ENCODING</span><span class="p">(</span><span class="s2">&#34;--enable-sparse-encoding&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>再看 aapt2 源码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">//frameworks/base/tools/aapt2/cmd/Optimize.cpp
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="k">if</span> <span class="p">(</span><span class="n">options_</span><span class="p">.</span><span class="n">shorten_resource_paths</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ResourcePathShortener</span> <span class="nf">shortener</span><span class="p">(</span><span class="n">options_</span><span class="p">.</span><span class="n">table_flattener_options</span><span class="p">.</span><span class="n">shortened_path_map</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">shortener</span><span class="p">.</span><span class="n">Consume</span><span class="p">(</span><span class="n">context_</span><span class="p">,</span> <span class="n">apk</span><span class="o">-&gt;</span><span class="n">GetResourceTable</span><span class="p">()))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">context_</span><span class="o">-&gt;</span><span class="n">GetDiagnostics</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">Error</span><span class="p">(</span><span class="n">DiagMessage</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;failed shortening resource paths&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">options_</span><span class="p">.</span><span class="n">shortened_paths_map_path</span>
+</span></span><span class="line"><span class="cl">          <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">WriteShortenedPathsMap</span><span class="p">(</span><span class="n">options_</span><span class="p">.</span><span class="n">table_flattener_options</span><span class="p">.</span><span class="n">shortened_path_map</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                      <span class="n">options_</span><span class="p">.</span><span class="n">shortened_paths_map_path</span><span class="p">.</span><span class="n">value</span><span class="p">()))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">context_</span><span class="o">-&gt;</span><span class="n">GetDiagnostics</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">Error</span><span class="p">(</span><span class="n">DiagMessage</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                                          <span class="o">&lt;&lt;</span> <span class="s">&#34;failed to write shortened resource paths to file&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p>配上 commit 信息，应该就是这里了</p>
 <pre tabindex="0"><code>Resource Path Obfuscation
 
 This CL allows aapt2 to obfuscate resource paths within the output apk
@@ -307,8 +307,8 @@ Change-Id: I9cacafe1d17800d673566b2d61b0b88f3fb8d60c
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

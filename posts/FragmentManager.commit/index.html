@@ -150,30 +150,30 @@
 <p>已经很晚了···码不动字了</p>
 <p>一路跟着路由框架 debug，加上插件双进程···来回断点···</p>
 <p>最终发现了这么一段代码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">attach</span><span class="o">(</span><span class="n">Activity</span> <span class="n">activity</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">,</span> <span class="kt">int</span> <span class="n">requestCode</span><span class="o">)</span> <span class="o">{</span>
-   <span class="k">this</span><span class="o">.</span><span class="na">intent</span> <span class="o">=</span> <span class="n">intent</span><span class="o">;</span>
-   <span class="k">this</span><span class="o">.</span><span class="na">requestCode</span> <span class="o">=</span> <span class="n">requestCode</span><span class="o">;</span>
-   <span class="n">FragmentManager</span> <span class="n">fragmentManager</span> <span class="o">=</span> <span class="o">((</span><span class="n">FragmentActivity</span><span class="o">)</span><span class="n">activity</span><span class="o">).</span><span class="na">getSupportFragmentManager</span><span class="o">();</span>
-   <span class="n">FragmentTransaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">fragmentManager</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">();</span>
-   <span class="n">transaction</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">TAG</span><span class="o">);</span>
-   <span class="n">transaction</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div><p>这里他们使用一个 fragment 反过来触发 activity 的生命周期，手动调用一下 add commit，在 fragment 的 onCreate 方法中，再调用 activityCompatProxy 的 onCreate 方法，其余生命周期都是一样的分发过程。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">attach</span><span class="o">(</span><span class="n">Activity</span> <span class="n">activity</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">,</span> <span class="kt">int</span> <span class="n">requestCode</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">this</span><span class="o">.</span><span class="na">intent</span> <span class="o">=</span> <span class="n">intent</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">   <span class="k">this</span><span class="o">.</span><span class="na">requestCode</span> <span class="o">=</span> <span class="n">requestCode</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">   <span class="n">FragmentManager</span> <span class="n">fragmentManager</span> <span class="o">=</span> <span class="o">((</span><span class="n">FragmentActivity</span><span class="o">)</span><span class="n">activity</span><span class="o">).</span><span class="na">getSupportFragmentManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">   <span class="n">FragmentTransaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">fragmentManager</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">   <span class="n">transaction</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">TAG</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="n">transaction</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这里他们使用一个 fragment 反过来触发 activity 的生命周期，手动调用一下 add commit，在 fragment 的 onCreate 方法中，再调用 activityCompatProxy 的 onCreate 方法，其余生命周期都是一样的分发过程。</p>
 <p>为什么这么写，没有细看，可能有一些实现困难的地方</p>
 <p>但是这里有一个很明显的问题，<code>commit 并不一定会成功哦!</code></p>
 <p>commit 方法会调用到 enqeueuAction 会 checkStateLoss 哦，<code>如果 mStateSaved = true，会抛异常哦</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">checkStateLoss</span><span class="o">()</span> <span class="o">{</span>
-   <span class="k">if</span> <span class="o">(</span><span class="n">mStateSaved</span><span class="o">)</span> <span class="o">{</span>
-      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
-               <span class="s">&#34;Can not perform this action after onSaveInstanceState&#34;</span><span class="o">);</span>
-   <span class="o">}</span>
-   <span class="k">if</span> <span class="o">(</span><span class="n">mNoTransactionsBecause</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
-               <span class="s">&#34;Can not perform this action inside of &#34;</span> <span class="o">+</span> <span class="n">mNoTransactionsBecause</span><span class="o">);</span>
-   <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>这个 mStateSaved 就是和 onSaveInstanceState 相关联的了</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">checkStateLoss</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">if</span> <span class="o">(</span><span class="n">mStateSaved</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">               <span class="s">&#34;Can not perform this action after onSaveInstanceState&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="k">if</span> <span class="o">(</span><span class="n">mNoTransactionsBecause</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">               <span class="s">&#34;Can not perform this action inside of &#34;</span> <span class="o">+</span> <span class="n">mNoTransactionsBecause</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这个 mStateSaved 就是和 onSaveInstanceState 相关联的了</p>
 <blockquote>
 <p>If called, this method will occur after onStop() for applications targeting platforms starting with <code>Build.VERSION_CODES.P</code>. For applications targeting earlier platform versions this method will occur before onStop() and there are no guarantees about whether it will occur before or after onPause().</p>
 </blockquote>
@@ -210,8 +210,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

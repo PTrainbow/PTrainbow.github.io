@@ -131,10 +131,10 @@
 <p>应用开发中，不需要什么奇技淫巧，好的代码往往通俗易懂，副作用更低。差的代码往往会给人造成困惑，引发各种问题</p>
 <h2 id="案例分析1">案例分析1</h2>
 <p>当你看到这样一个函数时，不知道你会怎么想？</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Activity</span> <span class="nf">getCurrentActivity</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">ActivityContextInitModule</span><span class="o">.</span><span class="na">getActivityContext</span><span class="o">().</span><span class="na">getCurrentActivity</span><span class="o">();</span>
-  <span class="o">}</span>
-</code></pre></div><p>解释一下，这个函数通过我个人觉得很**的方式，用来获取当前的 activity 对象。获取当前 activity 的方式，我觉得从 AMS 大管家里找肯定能找得到，完全没必要自己来一套。当然，这里这个不是重点，忽略实现方式。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Activity</span> <span class="nf">getCurrentActivity</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ActivityContextInitModule</span><span class="o">.</span><span class="na">getActivityContext</span><span class="o">().</span><span class="na">getCurrentActivity</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div><p>解释一下，这个函数通过我个人觉得很**的方式，用来获取当前的 activity 对象。获取当前 activity 的方式，我觉得从 AMS 大管家里找肯定能找得到，完全没必要自己来一套。当然，这里这个不是重点，忽略实现方式。</p>
 <p>这个函数恶心的地方，是我在看另一个灵异的问题时发现的。什么问题呢？就是一个自定义的 snackBar，它本意是要出现在 statusBar 下方，但是同一段代码，时而位置正确，时而遮挡 statusBar，这里的所有代码我都没有改动过，都是公司原有代码，所以这令我百思不得其解。后来才发现，其实这个问题是概率问题，早就存在了！</p>
 <p>先来说说这行代码为什么写的不好，然后顺便就解释下为什么会出现时而正确时而错误的情况。</p>
 <h4 id="为什么这代码写的不好">为什么这代码写的不好</h4>
@@ -176,13 +176,13 @@
 </ul>
 <p><code>只有混淆了吧！</code></p>
 <p>还真是···然后我们来欣赏一段这个代码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">XXXXSlidingPaneLayout</span> <span class="kd">extends</span> <span class="n">android</span><span class="o">.</span><span class="na">support</span><span class="o">.</span><span class="na">v4</span><span class="o">.</span><span class="na">widget</span><span class="o">.</span><span class="na">SlidingPaneLayout</span> <span class="o">{</span>
-   <span class="kd">public</span> <span class="nf">XXXXSlidingPaneLayout</span><span class="o">()</span> <span class="o">{</span>
-     <span class="c1">// 此处反射 try-catch
-</span><span class="c1"></span>     <span class="n">setField</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">&#34;mSlideOffset&#34;</span><span class="o">,</span> <span class="n">0</span><span class="o">.</span><span class="na">0f</span><span class="o">);</span>
-   <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>他自定义 view 继承基础控件，还要反射去拿私有变量，release 包混淆之后，自然找不到 mSlideOffset。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">XXXXSlidingPaneLayout</span> <span class="kd">extends</span> <span class="n">android</span><span class="o">.</span><span class="na">support</span><span class="o">.</span><span class="na">v4</span><span class="o">.</span><span class="na">widget</span><span class="o">.</span><span class="na">SlidingPaneLayout</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="nf">XXXXSlidingPaneLayout</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">     <span class="c1">// 此处反射 try-catch
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>     <span class="n">setField</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">&#34;mSlideOffset&#34;</span><span class="o">,</span> <span class="n">0</span><span class="o">.</span><span class="na">0f</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>他自定义 view 继承基础控件，还要反射去拿私有变量，release 包混淆之后，自然找不到 mSlideOffset。</p>
 <p>不是说这段代码写的差或者怎么样，我觉得这个就是典型的不规范！</p>
 <ul>
 <li>
@@ -226,8 +226,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

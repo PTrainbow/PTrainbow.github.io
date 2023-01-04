@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrain666.github.io\/posts\/Baseline-Profile\/baselineprofile_workflow.png",
                             "width":  5067 ,
                             "height":  1776 
-                        }],"genre": "posts","keywords": "Android","wordcount":  667 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  668 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/Baseline-Profile\/","datePublished": "2022-10-14T00:00:00+00:00","dateModified": "2022-10-14T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Baseline Profile</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-10-14">2022-10-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 667 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-10-14">2022-10-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 668 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -144,87 +144,87 @@
 <h2 id="源码">源码</h2>
 <p>靠猜也知道，肯定是编译过程中，生成 profile 文件时做了一些特殊处理，但是没有实锤肯定是不安心的</p>
 <p>终于，在 AGP 源码中，找到了 CompileArtProfileTask</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">val</span> <span class="py">diagnostics</span> <span class="p">=</span> <span class="n">Diagnostics</span> <span class="p">{</span>
-            <span class="n">error</span> <span class="o">-&gt;</span> <span class="k">throw</span> <span class="n">RuntimeException</span><span class="p">(</span><span class="s2">&#34;Error parsing baseline-prof.txt : </span><span class="si">$error</span><span class="s2">&#34;</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="k">val</span> <span class="py">humanReadableProfile</span> <span class="p">=</span> <span class="n">HumanReadableProfile</span><span class="p">(</span>
-        <span class="n">parameters</span><span class="p">.</span><span class="n">mergedArtProfile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">,</span>
-        <span class="n">diagnostics</span>
-    <span class="p">)</span> <span class="o">?:</span> <span class="k">throw</span> <span class="n">RuntimeException</span><span class="p">(</span>
-        <span class="s2">&#34;Merged </span><span class="si">${SdkConstants.FN_ART_PROFILE}</span><span class="s2"> cannot be parsed successfully.&#34;</span>
-    <span class="p">)</span>
-
-    <span class="k">val</span> <span class="py">supplier</span> <span class="p">=</span> <span class="n">DexFileNameSupplier</span><span class="p">()</span>
-    <span class="k">val</span> <span class="py">artProfile</span> <span class="p">=</span> <span class="n">ArtProfile</span><span class="p">(</span>
-            <span class="n">humanReadableProfile</span><span class="p">,</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">parameters</span><span class="p">.</span><span class="n">obfuscationMappingFile</span><span class="p">.</span><span class="n">isPresent</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">ObfuscationMap</span><span class="p">(</span><span class="n">parameters</span><span class="p">.</span><span class="n">obfuscationMappingFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">)</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="n">ObfuscationMap</span><span class="p">.</span><span class="n">Empty</span>
-            <span class="p">},</span>
-            <span class="c1">//need to rename dex files with sequential numbers the same way [DexIncrementalRenameManager] does
-</span><span class="c1"></span>            <span class="n">parameters</span><span class="p">.</span><span class="n">dexFolders</span><span class="p">.</span><span class="n">asFileTree</span><span class="p">.</span><span class="n">files</span><span class="p">.</span><span class="n">sortedWith</span><span class="p">(</span><span class="n">DexFileComparator</span><span class="p">()).</span><span class="n">map</span> <span class="p">{</span>
-                <span class="n">DexFile</span><span class="p">(</span><span class="k">it</span><span class="p">.</span><span class="n">inputStream</span><span class="p">(),</span> <span class="n">supplier</span><span class="p">.</span><span class="k">get</span><span class="p">())</span>
-            <span class="p">}</span>
-    <span class="p">)</span>
-    <span class="c1">// the P compiler is always used, the server side will transcode if necessary.
-</span><span class="c1"></span>    <span class="n">parameters</span><span class="p">.</span><span class="n">binaryArtProfileOutputFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">.</span><span class="n">outputStream</span><span class="p">().</span><span class="n">use</span> <span class="p">{</span>
-        <span class="n">artProfile</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="k">it</span><span class="p">,</span> <span class="n">ArtProfileSerializer</span><span class="p">.</span><span class="n">V0_1_0_P</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="c1">// create the metadata for N and above.
-</span><span class="c1"></span>    <span class="n">parameters</span><span class="p">.</span><span class="n">binaryArtProfileMetadataOutputFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">.</span><span class="n">outputStream</span><span class="p">().</span><span class="n">use</span> <span class="p">{</span>
-        <span class="n">artProfile</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="k">it</span><span class="p">,</span> <span class="n">ArtProfileSerializer</span><span class="p">.</span><span class="n">METADATA_FOR_N</span><span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>可以看到其中使用了 obfuscationMap，进一步查看 ArtProfile 的生成，会发现使用了 deobfuscate 方法，源码如下</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">ArtProfile</span><span class="p">(</span>
-        <span class="n">hrp</span><span class="p">:</span> <span class="n">HumanReadableProfile</span><span class="p">,</span>
-        <span class="n">obf</span><span class="p">:</span> <span class="n">ObfuscationMap</span><span class="p">,</span>
-        <span class="n">dexes</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">DexFile</span><span class="p">&gt;,</span>
-        <span class="n">apkName</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
-<span class="p">):</span> <span class="n">ArtProfile</span> <span class="p">{</span>
-    <span class="k">val</span> <span class="py">profileData</span> <span class="p">=</span> <span class="n">HashMap</span><span class="p">&lt;</span><span class="n">DexFile</span><span class="p">,</span> <span class="n">DexFileData</span><span class="p">&gt;()</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">iDex</span> <span class="k">in</span> <span class="n">dexes</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">val</span> <span class="py">dex</span> <span class="p">=</span> <span class="n">dexes</span><span class="p">[</span><span class="n">iDex</span><span class="p">]</span>
-        <span class="k">val</span> <span class="py">methods</span> <span class="p">=</span> <span class="n">dex</span><span class="p">.</span><span class="n">methodPool</span>
-        <span class="k">val</span> <span class="py">types</span> <span class="p">=</span> <span class="n">dex</span><span class="p">.</span><span class="n">typePool</span>
-        <span class="k">val</span> <span class="py">classDefs</span> <span class="p">=</span> <span class="n">dex</span><span class="p">.</span><span class="n">classDefPool</span>
-
-        <span class="k">val</span> <span class="py">profileTypeIndexes</span> <span class="p">=</span> <span class="n">mutableSetOf</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">&gt;()</span>
-        <span class="k">val</span> <span class="py">profileClassIndexes</span> <span class="p">=</span> <span class="n">mutableSetOf</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">&gt;()</span>
-        <span class="k">val</span> <span class="py">profileMethods</span> <span class="p">=</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">MethodData</span><span class="p">&gt;()</span>
-
-        <span class="k">for</span> <span class="p">(</span><span class="n">iMethod</span> <span class="k">in</span> <span class="n">methods</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">val</span> <span class="py">method</span> <span class="p">=</span> <span class="n">methods</span><span class="p">[</span><span class="n">iMethod</span><span class="p">]</span>
-            <span class="k">val</span> <span class="py">deobfuscated</span> <span class="p">=</span> <span class="n">obf</span><span class="p">.</span><span class="n">deobfuscate</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
-            <span class="k">val</span> <span class="py">flags</span> <span class="p">=</span> <span class="n">hrp</span><span class="p">.</span><span class="n">match</span><span class="p">(</span><span class="n">deobfuscated</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">!=</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">profileMethods</span><span class="p">[</span><span class="n">iMethod</span><span class="p">]</span> <span class="p">=</span> <span class="n">MethodData</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-
-        <span class="k">for</span> <span class="p">(</span><span class="n">classIndex</span> <span class="k">in</span> <span class="n">classDefs</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">val</span> <span class="py">typeIndex</span> <span class="p">=</span> <span class="n">classDefs</span><span class="p">[</span><span class="n">classIndex</span><span class="p">]</span>
-            <span class="k">val</span> <span class="py">type</span> <span class="p">=</span> <span class="n">types</span><span class="p">[</span><span class="n">typeIndex</span><span class="p">]</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">obf</span><span class="p">.</span><span class="n">deobfuscate</span><span class="p">(</span><span class="n">type</span><span class="p">).</span><span class="n">any</span> <span class="p">{</span> <span class="n">hrp</span><span class="p">.</span><span class="n">match</span><span class="p">(</span><span class="k">it</span><span class="p">)</span> <span class="o">!=</span> <span class="m">0</span> <span class="p">})</span> <span class="p">{</span>
-                <span class="n">profileTypeIndexes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">typeIndex</span><span class="p">)</span>
-                <span class="n">profileClassIndexes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">classIndex</span><span class="p">)</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="n">profileTypeIndexes</span><span class="p">.</span><span class="n">isNotEmpty</span><span class="p">()</span> <span class="o">||</span> <span class="n">profileMethods</span><span class="p">.</span><span class="n">isNotEmpty</span><span class="p">())</span> <span class="p">{</span>
-            <span class="n">profileData</span><span class="p">[</span><span class="n">dex</span><span class="p">]</span> <span class="p">=</span> <span class="n">DexFileData</span><span class="p">(</span>
-                    <span class="n">profileTypeIndexes</span><span class="p">,</span>
-                    <span class="n">profileClassIndexes</span><span class="p">,</span>
-                    <span class="n">profileMethods</span>
-            <span class="p">)</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">ArtProfile</span><span class="p">(</span><span class="n">profileData</span><span class="p">,</span> <span class="n">apkName</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><p>破案，在打包过程中，执行了 CompileArtProfileTask，所以最终生成的 profile 文件中已经是混淆后的相关名称</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">diagnostics</span> <span class="p">=</span> <span class="n">Diagnostics</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">error</span> <span class="o">-&gt;</span> <span class="k">throw</span> <span class="n">RuntimeException</span><span class="p">(</span><span class="s2">&#34;Error parsing baseline-prof.txt : </span><span class="si">$error</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">humanReadableProfile</span> <span class="p">=</span> <span class="n">HumanReadableProfile</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">parameters</span><span class="p">.</span><span class="n">mergedArtProfile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">diagnostics</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span> <span class="o">?:</span> <span class="k">throw</span> <span class="n">RuntimeException</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Merged </span><span class="si">${SdkConstants.FN_ART_PROFILE}</span><span class="s2"> cannot be parsed successfully.&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">supplier</span> <span class="p">=</span> <span class="n">DexFileNameSupplier</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">artProfile</span> <span class="p">=</span> <span class="n">ArtProfile</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">humanReadableProfile</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">parameters</span><span class="p">.</span><span class="n">obfuscationMappingFile</span><span class="p">.</span><span class="n">isPresent</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ObfuscationMap</span><span class="p">(</span><span class="n">parameters</span><span class="p">.</span><span class="n">obfuscationMappingFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ObfuscationMap</span><span class="p">.</span><span class="n">Empty</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//need to rename dex files with sequential numbers the same way [DexIncrementalRenameManager] does
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">parameters</span><span class="p">.</span><span class="n">dexFolders</span><span class="p">.</span><span class="n">asFileTree</span><span class="p">.</span><span class="n">files</span><span class="p">.</span><span class="n">sortedWith</span><span class="p">(</span><span class="n">DexFileComparator</span><span class="p">()).</span><span class="n">map</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">DexFile</span><span class="p">(</span><span class="k">it</span><span class="p">.</span><span class="n">inputStream</span><span class="p">(),</span> <span class="n">supplier</span><span class="p">.</span><span class="k">get</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// the P compiler is always used, the server side will transcode if necessary.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">parameters</span><span class="p">.</span><span class="n">binaryArtProfileOutputFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">.</span><span class="n">outputStream</span><span class="p">().</span><span class="n">use</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">artProfile</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="k">it</span><span class="p">,</span> <span class="n">ArtProfileSerializer</span><span class="p">.</span><span class="n">V0_1_0_P</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// create the metadata for N and above.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">parameters</span><span class="p">.</span><span class="n">binaryArtProfileMetadataOutputFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">.</span><span class="n">outputStream</span><span class="p">().</span><span class="n">use</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">artProfile</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="k">it</span><span class="p">,</span> <span class="n">ArtProfileSerializer</span><span class="p">.</span><span class="n">METADATA_FOR_N</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>可以看到其中使用了 obfuscationMap，进一步查看 ArtProfile 的生成，会发现使用了 deobfuscate 方法，源码如下</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">ArtProfile</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hrp</span><span class="p">:</span> <span class="n">HumanReadableProfile</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">obf</span><span class="p">:</span> <span class="n">ObfuscationMap</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dexes</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">DexFile</span><span class="p">&gt;,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">apkName</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">):</span> <span class="n">ArtProfile</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">profileData</span> <span class="p">=</span> <span class="n">HashMap</span><span class="p">&lt;</span><span class="n">DexFile</span><span class="p">,</span> <span class="n">DexFileData</span><span class="p">&gt;()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">iDex</span> <span class="k">in</span> <span class="n">dexes</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">dex</span> <span class="p">=</span> <span class="n">dexes</span><span class="p">[</span><span class="n">iDex</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">methods</span> <span class="p">=</span> <span class="n">dex</span><span class="p">.</span><span class="n">methodPool</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">types</span> <span class="p">=</span> <span class="n">dex</span><span class="p">.</span><span class="n">typePool</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">classDefs</span> <span class="p">=</span> <span class="n">dex</span><span class="p">.</span><span class="n">classDefPool</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">profileTypeIndexes</span> <span class="p">=</span> <span class="n">mutableSetOf</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">&gt;()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">profileClassIndexes</span> <span class="p">=</span> <span class="n">mutableSetOf</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">&gt;()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">profileMethods</span> <span class="p">=</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">MethodData</span><span class="p">&gt;()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">iMethod</span> <span class="k">in</span> <span class="n">methods</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">method</span> <span class="p">=</span> <span class="n">methods</span><span class="p">[</span><span class="n">iMethod</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">deobfuscated</span> <span class="p">=</span> <span class="n">obf</span><span class="p">.</span><span class="n">deobfuscate</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">flags</span> <span class="p">=</span> <span class="n">hrp</span><span class="p">.</span><span class="n">match</span><span class="p">(</span><span class="n">deobfuscated</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">!=</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">profileMethods</span><span class="p">[</span><span class="n">iMethod</span><span class="p">]</span> <span class="p">=</span> <span class="n">MethodData</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">classIndex</span> <span class="k">in</span> <span class="n">classDefs</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">typeIndex</span> <span class="p">=</span> <span class="n">classDefs</span><span class="p">[</span><span class="n">classIndex</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">type</span> <span class="p">=</span> <span class="n">types</span><span class="p">[</span><span class="n">typeIndex</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">obf</span><span class="p">.</span><span class="n">deobfuscate</span><span class="p">(</span><span class="n">type</span><span class="p">).</span><span class="n">any</span> <span class="p">{</span> <span class="n">hrp</span><span class="p">.</span><span class="n">match</span><span class="p">(</span><span class="k">it</span><span class="p">)</span> <span class="o">!=</span> <span class="m">0</span> <span class="p">})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">profileTypeIndexes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">typeIndex</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">profileClassIndexes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">classIndex</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">profileTypeIndexes</span><span class="p">.</span><span class="n">isNotEmpty</span><span class="p">()</span> <span class="o">||</span> <span class="n">profileMethods</span><span class="p">.</span><span class="n">isNotEmpty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">profileData</span><span class="p">[</span><span class="n">dex</span><span class="p">]</span> <span class="p">=</span> <span class="n">DexFileData</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">profileTypeIndexes</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">profileClassIndexes</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">profileMethods</span>
+</span></span><span class="line"><span class="cl">            <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ArtProfile</span><span class="p">(</span><span class="n">profileData</span><span class="p">,</span> <span class="n">apkName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>破案，在打包过程中，执行了 CompileArtProfileTask，所以最终生成的 profile 文件中已经是混淆后的相关名称</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -255,8 +255,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

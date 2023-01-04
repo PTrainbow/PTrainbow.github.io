@@ -147,14 +147,14 @@
 <p>其实，你会发现 JNIEnv 其实还是依赖于 JNINativeInterface 这个结构体，其内部全是指针，我们调用的 NewStringUTF 也在其中，是一个<code>未被绑定的函数指针</code></p>
 <p>为什么说是未被绑定呢？这就得回头去看 JNIEnv 的创建了(jni_env_ext.cc)！</p>
 <p>JNIEnv 是一个 <code>thread 绑定</code> 的变量，每个 thread 对应不同的 JNIEnv。但是，看了源码你就会发现，在创建之时，他会调用一个方法 GetFunctionTable()</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">const</span> <span class="n">JNINativeInterface</span><span class="o">*</span> <span class="n">JNIEnvExt</span><span class="o">::</span><span class="n">GetFunctionTable</span><span class="p">(</span><span class="kt">bool</span> <span class="n">check_jni</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">const</span> <span class="n">JNINativeInterface</span><span class="o">*</span> <span class="n">override</span> <span class="o">=</span> <span class="n">JNIEnvExt</span><span class="o">::</span><span class="n">table_override_</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">override</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">override</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">check_jni</span> <span class="o">?</span> <span class="n">GetCheckJniNativeInterface</span><span class="p">()</span> <span class="o">:</span> <span class="n">GetJniNativeInterface</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div><p>check_jni 似乎是帮助 debug 的，看代码似乎就是包含了一些检测，这块我也不太清楚。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">const</span> <span class="n">JNINativeInterface</span><span class="o">*</span> <span class="n">JNIEnvExt</span><span class="o">::</span><span class="n">GetFunctionTable</span><span class="p">(</span><span class="kt">bool</span> <span class="n">check_jni</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="n">JNINativeInterface</span><span class="o">*</span> <span class="n">override</span> <span class="o">=</span> <span class="n">JNIEnvExt</span><span class="o">::</span><span class="n">table_override_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">override</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">override</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">check_jni</span> <span class="o">?</span> <span class="n">GetCheckJniNativeInterface</span><span class="p">()</span> <span class="o">:</span> <span class="n">GetJniNativeInterface</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>check_jni 似乎是帮助 debug 的，看代码似乎就是包含了一些检测，这块我也不太清楚。</p>
 <p>不过不影响分析流程，无论 check_jni 是什么值，之后被调用的两个方法中，都含有 JNIEnv 提供的所有方法的实现 且 存储在了一个结构体中 且 <code>存储的是函数指针</code> 且 是编译时常量</p>
 <p>那也就是说，我们的 JNIEnv 提供的方法，其实是在 JNIEnv 创建的时候，GetFunctionTable 拿到了一堆<code>函数指针</code>，然后<code>赋值给了 JNIEnv 底层的 JNINativeInterface</code>。</p>
 <p>这个可以理解为一个<code>绑定的过程</code>！</p>
@@ -166,17 +166,16 @@
 <p>那我们就可以采用其他文章中提供的一些思路：<code>直接替换函数指针</code></p>
 <p>但是替换函数指针也有两个层面，所以也有两种方式</p>
 <p>由之前我们已经知道 JNIEnv 其实是靠内部的 JNINativeInterface，代码中叫做 functions</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// jni.h
-</span><span class="c1"></span><span class="k">struct</span> <span class="n">_JNIEnv</span> <span class="p">{</span>
-    <span class="c1">// 全部依靠 JNINativeInterface
-</span><span class="c1"></span>    <span class="k">const</span> <span class="k">struct</span> <span class="n">JNINativeInterface</span><span class="o">*</span> <span class="n">functions</span><span class="p">;</span>
-
-    <span class="n">jint</span> <span class="nf">GetVersion</span><span class="p">()</span>
-    <span class="p">{</span> <span class="k">return</span> <span class="n">functions</span><span class="o">-&gt;</span><span class="n">GetVersion</span><span class="p">(</span><span class="n">this</span><span class="p">);</span> <span class="p">}</span>
-
-    <span class="c1">// 无限多的 JNIEnv 方法，如 NewString、NewStringUTF 等等
-</span><span class="c1"></span>
-</code></pre></div><p>那这里其实就有两种方式了:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// jni.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">_JNIEnv</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 全部依靠 JNINativeInterface
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">const</span> <span class="k">struct</span> <span class="n">JNINativeInterface</span><span class="o">*</span> <span class="n">functions</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">jint</span> <span class="nf">GetVersion</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="k">return</span> <span class="n">functions</span><span class="o">-&gt;</span><span class="n">GetVersion</span><span class="p">(</span><span class="n">this</span><span class="p">);</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 无限多的 JNIEnv 方法，如 NewString、NewStringUTF 等等
+</span></span></span></code></pre></div><p>那这里其实就有两种方式了:</p>
 <ul>
 <li>替换 functions 这个 JNINativeInterface 指针，将这个结构整体替换，那么间接的就达到了 hook 的目的。</li>
 <li>直接替换 JNINativeInterface 内部调用的各个函数指针的地址，也能达到 hook 的目的</li>
@@ -187,59 +186,59 @@
 <p>比如，此时我们都在主线程调用一些 JNI 的方法，那么此时所有的 JNIEnv 是同一个对象，那么此时我们替换了 functions 的话，只是对于主线程调用的方法生效。此时子线程执行 JNI 调用，是另一个 JNIEnv 对象，所以 hook 不生效。</p>
 <p>这就是这种 hook 方式的<code>弊端</code>！无法一次 hook 所有的 JNI 方法调用。</p>
 <p>大致代码如下(示例 hook 单个 NewStringUTF 方法)：：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// 定义一个函数指针，用于存放原始 NewStringUTF 函数
-</span><span class="c1"></span><span class="n">jstring</span> <span class="p">(</span><span class="o">*</span><span class="n">originNewString</span><span class="p">)(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">obj</span><span class="p">);</span>
-<span class="c1">// 定义一个新的 NewStringUTF 函数
-</span><span class="c1"></span><span class="n">jstring</span> <span class="nf">NewStringUTFOverride</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">obj</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">LOGGER</span><span class="p">(</span><span class="s">&#34;hook new string:%s&#34;</span><span class="p">,</span>  <span class="n">obj</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">originNewString</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">obj</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// 创建一个 JNINativeInterface
-</span><span class="c1"></span><span class="n">JNINativeInterface</span> <span class="o">*</span><span class="n">newTable</span> <span class="o">=</span> <span class="n">new</span> <span class="n">JNINativeInterface</span><span class="p">;</span>
-<span class="c1">// 这里不是指针类型，会促成一次拷贝，所以 oldTable 会 copy 一份原始的 functions 的各个函数指针
-</span><span class="c1"></span><span class="n">JNINativeInterface</span> <span class="n">oldTable</span> <span class="o">=</span> <span class="o">*</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">functions</span><span class="p">;</span>
-<span class="c1">// 解引用赋值，此时 newTable 就有了一摸一样的 functions
-</span><span class="c1"></span><span class="o">*</span><span class="n">newTable</span> <span class="o">=</span> <span class="n">oldTable</span><span class="p">;</span>
-<span class="c1">// 存之前的指针
-</span><span class="c1"></span><span class="n">originNewString</span> <span class="o">=</span> <span class="n">oldTable</span><span class="p">.</span><span class="n">NewStringUTF</span><span class="p">;</span>
-<span class="c1">// 替换新的 NewStringUTF
-</span><span class="c1"></span><span class="n">newTable</span><span class="o">-&gt;</span><span class="n">NewStringUTF</span> <span class="o">=</span> <span class="n">NewStringUTFOverride</span><span class="p">;</span>
-<span class="c1">// 替换当前 env 的所有 functions
-</span><span class="c1"></span><span class="n">env</span><span class="o">-&gt;</span><span class="n">functions</span> <span class="o">=</span> <span class="n">newTable</span><span class="p">;</span>
-</code></pre></div><p>为什么要 copy 一份？是因为原始的内存区间不可写，所以 copy 了一份。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 定义一个函数指针，用于存放原始 NewStringUTF 函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">jstring</span> <span class="p">(</span><span class="o">*</span><span class="n">originNewString</span><span class="p">)(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">obj</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 定义一个新的 NewStringUTF 函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">jstring</span> <span class="nf">NewStringUTFOverride</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">obj</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="p">(</span><span class="s">&#34;hook new string:%s&#34;</span><span class="p">,</span>  <span class="n">obj</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">originNewString</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">obj</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 创建一个 JNINativeInterface
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">JNINativeInterface</span> <span class="o">*</span><span class="n">newTable</span> <span class="o">=</span> <span class="n">new</span> <span class="n">JNINativeInterface</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 这里不是指针类型，会促成一次拷贝，所以 oldTable 会 copy 一份原始的 functions 的各个函数指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">JNINativeInterface</span> <span class="n">oldTable</span> <span class="o">=</span> <span class="o">*</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">functions</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 解引用赋值，此时 newTable 就有了一摸一样的 functions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">*</span><span class="n">newTable</span> <span class="o">=</span> <span class="n">oldTable</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 存之前的指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">originNewString</span> <span class="o">=</span> <span class="n">oldTable</span><span class="p">.</span><span class="n">NewStringUTF</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 替换新的 NewStringUTF
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">newTable</span><span class="o">-&gt;</span><span class="n">NewStringUTF</span> <span class="o">=</span> <span class="n">NewStringUTFOverride</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 替换当前 env 的所有 functions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">env</span><span class="o">-&gt;</span><span class="n">functions</span> <span class="o">=</span> <span class="n">newTable</span><span class="p">;</span>
+</span></span></code></pre></div><p>为什么要 copy 一份？是因为原始的内存区间不可写，所以 copy 了一份。</p>
 <p>这种方式就是不用修改内存属性，但是你也看到了需要把每个 env 的 functions 都替换掉，才能实现全局 hook，略有不足。</p>
 <h4 id="替换-functions-内部的函数内容">替换 functions 内部的函数内容</h4>
 <p>这种方式，直接修改函数指针的地址，但是因为这片内存区间只是可读的，不可写，所以需要修改内存区域的属性为可写(使用 <code>mprotect</code>)，这种方式可以 <code>全局生效</code>。</p>
 <p>先来介绍一下 mprotect:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// 修改内存属性，addr 是 NewStringUTF 地址，page_size 为一页大小，不过最好修改完了以后，再恢复为 PROT_READ
-</span><span class="c1"></span><span class="kt">int</span> <span class="n">prot</span> <span class="o">=</span> <span class="n">PROT_READ</span> <span class="o">|</span> <span class="n">PROT_WRITE</span><span class="p">;</span>
-<span class="n">mprotect</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">addr</span><span class="p">,</span> <span class="n">page_size</span><span class="p">,</span> <span class="n">prot</span><span class="p">);</span>
-</code></pre></div><p>mprotect 需要注意的是 addr ·一定要是内存页起始地址(·页大小的整数倍)，后面是要修改的内存大小，我这里传入的就是一页的大小。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 修改内存属性，addr 是 NewStringUTF 地址，page_size 为一页大小，不过最好修改完了以后，再恢复为 PROT_READ
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">prot</span> <span class="o">=</span> <span class="n">PROT_READ</span> <span class="o">|</span> <span class="n">PROT_WRITE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">mprotect</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">addr</span><span class="p">,</span> <span class="n">page_size</span><span class="p">,</span> <span class="n">prot</span><span class="p">);</span>
+</span></span></code></pre></div><p>mprotect 需要注意的是 addr ·一定要是内存页起始地址(·页大小的整数倍)，后面是要修改的内存大小，我这里传入的就是一页的大小。</p>
 <p>总体 hook 的大致代码如下(示例 hook 单个 NewStringUTF 方法)：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// 定义一个函数指针，用于存放原始 NewStringUTF 函数
-</span><span class="c1"></span><span class="n">jstring</span> <span class="p">(</span><span class="o">*</span><span class="n">originNewString</span><span class="p">)(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">obj</span><span class="p">);</span>
-
-<span class="c1">// 定义一个新的 NewStringUTF 函数
-</span><span class="c1"></span><span class="n">jstring</span> <span class="nf">NewStringUTFOverride</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">obj</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">LOGGER</span><span class="p">(</span><span class="s">&#34;hook new string :%s&#34;</span><span class="p">,</span>  <span class="n">obj</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">originNewString</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">obj</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// 获取 JNINativeInterface
-</span><span class="c1"></span><span class="n">JNINativeInterface</span> <span class="o">*</span><span class="n">funcTable</span> <span class="o">=</span> <span class="p">(</span><span class="n">JNINativeInterface</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">functions</span><span class="p">;</span>
-<span class="c1">// 获取原始 NewStringUTF 函数指针本身的地址，本身是一个地址值，也可以用一个二级指针代表，无所谓什么类型接受
-</span><span class="c1"></span><span class="kt">void</span><span class="o">**</span> <span class="n">funcPointerAddress</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">funcTable</span><span class="o">-&gt;</span><span class="n">NewStringUTF</span><span class="p">);</span>
-<span class="c1">// 修改对应地址的内存空间属性为可写
-</span><span class="c1">// 需要将 funcPointerAddress 按照 long 值解析，算出一个页大小整数倍的起始地址，调用 mprotect
-</span><span class="c1"></span>
-<span class="c1">// 将老的函数指针保存
-</span><span class="c1"></span><span class="n">originNewString</span> <span class="o">=</span> <span class="n">funcTable</span><span class="o">-&gt;</span><span class="n">NewStringUTF</span><span class="p">;</span>
-<span class="c1">// 获取自己写的替换方法的函数指针的地址
-</span><span class="c1"></span><span class="kt">void</span><span class="o">**</span> <span class="n">newFuncPointerAddress</span> <span class="o">=</span> <span class="n">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="o">**&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">NewStringUTFOverride</span><span class="p">);</span>
-<span class="c1">// 替换
-</span><span class="c1"></span><span class="o">*</span><span class="n">funcPointerAddress</span> <span class="o">=</span> <span class="n">newFuncPointerAddress</span><span class="p">;</span>
-</code></pre></div><h2 id="总结">总结</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 定义一个函数指针，用于存放原始 NewStringUTF 函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">jstring</span> <span class="p">(</span><span class="o">*</span><span class="n">originNewString</span><span class="p">)(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">obj</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 定义一个新的 NewStringUTF 函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">jstring</span> <span class="nf">NewStringUTFOverride</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">obj</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="p">(</span><span class="s">&#34;hook new string :%s&#34;</span><span class="p">,</span>  <span class="n">obj</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">originNewString</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">obj</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 获取 JNINativeInterface
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">JNINativeInterface</span> <span class="o">*</span><span class="n">funcTable</span> <span class="o">=</span> <span class="p">(</span><span class="n">JNINativeInterface</span> <span class="o">*</span><span class="p">)</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">functions</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 获取原始 NewStringUTF 函数指针本身的地址，本身是一个地址值，也可以用一个二级指针代表，无所谓什么类型接受
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span><span class="o">**</span> <span class="n">funcPointerAddress</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">funcTable</span><span class="o">-&gt;</span><span class="n">NewStringUTF</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 修改对应地址的内存空间属性为可写
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 需要将 funcPointerAddress 按照 long 值解析，算出一个页大小整数倍的起始地址，调用 mprotect
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 将老的函数指针保存
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">originNewString</span> <span class="o">=</span> <span class="n">funcTable</span><span class="o">-&gt;</span><span class="n">NewStringUTF</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 获取自己写的替换方法的函数指针的地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span><span class="o">**</span> <span class="n">newFuncPointerAddress</span> <span class="o">=</span> <span class="n">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="o">**&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">NewStringUTFOverride</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 替换
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">*</span><span class="n">funcPointerAddress</span> <span class="o">=</span> <span class="n">newFuncPointerAddress</span><span class="p">;</span>
+</span></span></code></pre></div><h2 id="总结">总结</h2>
 <p>经过上述的一通学习，也觉得 JNI <code>使用函数指针十分合理</code>。</p>
 <p>这样，我们在编写 so 库时，根本不需要考虑添加任何系统的动态链接库。</p>
 <p>在平时的底层开发中，CMakeList 里，我们从没有添加过诸如 libart 等动态链接库， 但是我们照样能成功调用 JNI 提供的一些接口方法，这里就是函数指针的魔法了！</p>
@@ -277,8 +276,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

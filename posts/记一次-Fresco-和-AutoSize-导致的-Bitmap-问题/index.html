@@ -169,19 +169,19 @@
 <h2 id="fresco-圆角">Fresco 圆角</h2>
 <p>Fresco 的圆角，普通图片非 ColorDrawable 的情况下，都是依靠 RoundedBitmapDrawable 来实现。</p>
 <p>再底层其实都是依靠 <code>BitmapShader + Path</code> 了，来看看 RoundedBitmapDrawable.updatePaint() 的代码：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">updatePaint</span><span class="o">()</span> <span class="o">{</span>
-  <span class="k">if</span> <span class="o">(</span><span class="n">mLastBitmap</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">mLastBitmap</span><span class="o">.</span><span class="na">get</span><span class="o">()</span> <span class="o">!=</span> <span class="n">mBitmap</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">mLastBitmap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WeakReference</span><span class="o">&lt;&gt;(</span><span class="n">mBitmap</span><span class="o">);</span>
-    <span class="n">mPaint</span><span class="o">.</span><span class="na">setShader</span><span class="o">(</span><span class="k">new</span> <span class="n">BitmapShader</span><span class="o">(</span><span class="n">mBitmap</span><span class="o">,</span> <span class="n">Shader</span><span class="o">.</span><span class="na">TileMode</span><span class="o">.</span><span class="na">CLAMP</span><span class="o">,</span> <span class="n">Shader</span><span class="o">.</span><span class="na">TileMode</span><span class="o">.</span><span class="na">CLAMP</span><span class="o">));</span>
-    <span class="n">mIsShaderTransformDirty</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-  <span class="o">}</span>
-  <span class="k">if</span> <span class="o">(</span><span class="n">mIsShaderTransformDirty</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">mPaint</span><span class="o">.</span><span class="na">getShader</span><span class="o">().</span><span class="na">setLocalMatrix</span><span class="o">(</span><span class="n">mTransform</span><span class="o">);</span>
-    <span class="n">mIsShaderTransformDirty</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-  <span class="o">}</span>
-  <span class="n">mPaint</span><span class="o">.</span><span class="na">setFilterBitmap</span><span class="o">(</span><span class="n">getPaintFilterBitmap</span><span class="o">());</span>
-<span class="o">}</span>
-</code></pre></div><p>可以看到使用了 BitmapShader，TileMode CLAMP。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">updatePaint</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">mLastBitmap</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">mLastBitmap</span><span class="o">.</span><span class="na">get</span><span class="o">()</span> <span class="o">!=</span> <span class="n">mBitmap</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mLastBitmap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WeakReference</span><span class="o">&lt;&gt;(</span><span class="n">mBitmap</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mPaint</span><span class="o">.</span><span class="na">setShader</span><span class="o">(</span><span class="k">new</span> <span class="n">BitmapShader</span><span class="o">(</span><span class="n">mBitmap</span><span class="o">,</span> <span class="n">Shader</span><span class="o">.</span><span class="na">TileMode</span><span class="o">.</span><span class="na">CLAMP</span><span class="o">,</span> <span class="n">Shader</span><span class="o">.</span><span class="na">TileMode</span><span class="o">.</span><span class="na">CLAMP</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mIsShaderTransformDirty</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">mIsShaderTransformDirty</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mPaint</span><span class="o">.</span><span class="na">getShader</span><span class="o">().</span><span class="na">setLocalMatrix</span><span class="o">(</span><span class="n">mTransform</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mIsShaderTransformDirty</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">mPaint</span><span class="o">.</span><span class="na">setFilterBitmap</span><span class="o">(</span><span class="n">getPaintFilterBitmap</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>可以看到使用了 BitmapShader，TileMode CLAMP。</p>
 <blockquote>
 <p>CLAMP<br>
 Replicate the edge color if the shader draws outside of its original bounds.<br>
@@ -200,8 +200,8 @@ RGB_565 和 RGB_8888 啥区别啊？</p>
 <p>既然今天遇到了，那就看看呗，相当于顺便复习了</p>
 <h3 id="bitmap">Bitmap</h3>
 <p>Bitmap 就是一张图片的数据源，当我们从网络上下载一张图片时，图片从流中解码成 Bitmap。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="n">inputStream</span><span class="o">)</span>
-</code></pre></div><p>如果图片原始大小是 100x100 像素，但是我的 View 宽高是 50x50 像素，显然我不需要 100x100 这么大的图片。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="n">inputStream</span><span class="o">)</span>
+</span></span></code></pre></div><p>如果图片原始大小是 100x100 像素，但是我的 View 宽高是 50x50 像素，显然我不需要 100x100 这么大的图片。</p>
 <p>这就有了常说的 <code>BitmapFactory.Options</code>，通过 <code>inJustDecodeBounds</code> 获取宽高，再用 <code>inSampleSize</code> 缩小对应比例。</p>
 <p>古老的 Android 书里似乎还会教这个，不过现在都是图片加载框架帮你搞定了。</p>
 <p>Bitmap 高本版早已分配在 native 内存中，可以去追追代码。</p>
@@ -212,73 +212,73 @@ RGB_565 和 RGB_8888 啥区别啊？</p>
 <h4 id="density">density</h4>
 <p>Bitmap 还有个属性叫做 density，这个应该也鲜为人知。</p>
 <p>density 的作用，我目前只看到了 BitmapDrawable 中有使用。图片展示都是依赖于BitmapDrawable 的 draw 方法。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
-  <span class="c1">// 省略
-</span><span class="c1"></span>  <span class="n">updateDstRectAndInsetsIfDirty</span><span class="o">();</span>
-  <span class="c1">// 省略
-</span><span class="c1"></span>  <span class="n">canvas</span><span class="o">.</span><span class="na">drawBitmap</span><span class="o">(</span><span class="n">bitmap</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">mDstRect</span><span class="o">,</span> <span class="n">paint</span><span class="o">);</span>
-  <span class="c1">// 省略
-</span><span class="c1"></span><span class="o">}</span>
-</code></pre></div><p>那代码中的 mDstRect 哪里来的呢？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 省略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">updateDstRectAndInsetsIfDirty</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 省略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">canvas</span><span class="o">.</span><span class="na">drawBitmap</span><span class="o">(</span><span class="n">bitmap</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">mDstRect</span><span class="o">,</span> <span class="n">paint</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 省略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>那代码中的 mDstRect 哪里来的呢？</p>
 <p>其实是 updateDstRectAndInsetsIfDirty() 方法会更新 mDstRect</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"> <span class="n">Gravity</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">mBitmapState</span><span class="o">.</span><span class="na">mGravity</span><span class="o">,</span> <span class="n">mBitmapWidth</span><span class="o">,</span> <span class="n">mBitmapHeight</span><span class="o">,</span>
-                        <span class="n">bounds</span><span class="o">,</span> <span class="n">mDstRect</span><span class="o">,</span> <span class="n">layoutDirection</span><span class="o">);</span>
-</code></pre></div><p>而每当我们 setBitmap 时，最终都会触发一个 BitmapDrawable.computeBitmapSize() 的方法，更新 mBitmap 的宽高属性</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">computeBitmapSize</span><span class="o">()</span> <span class="o">{</span>
-  <span class="kd">final</span> <span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">mBitmapState</span><span class="o">.</span><span class="na">mBitmap</span><span class="o">;</span>
-  <span class="k">if</span> <span class="o">(</span><span class="n">bitmap</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-      <span class="n">mBitmapWidth</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getScaledWidth</span><span class="o">(</span><span class="n">mTargetDensity</span><span class="o">);</span>
-      <span class="n">mBitmapHeight</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getScaledHeight</span><span class="o">(</span><span class="n">mTargetDensity</span><span class="o">);</span>
-  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-      <span class="n">mBitmapWidth</span> <span class="o">=</span> <span class="n">mBitmapHeight</span> <span class="o">=</span> <span class="o">-</span><span class="n">1</span><span class="o">;</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>所以说，Bitmap 的 density 会影响到 canvas 最终绘制的 mDstRect，进而影响到图片的展示。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"> <span class="n">Gravity</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">mBitmapState</span><span class="o">.</span><span class="na">mGravity</span><span class="o">,</span> <span class="n">mBitmapWidth</span><span class="o">,</span> <span class="n">mBitmapHeight</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">bounds</span><span class="o">,</span> <span class="n">mDstRect</span><span class="o">,</span> <span class="n">layoutDirection</span><span class="o">);</span>
+</span></span></code></pre></div><p>而每当我们 setBitmap 时，最终都会触发一个 BitmapDrawable.computeBitmapSize() 的方法，更新 mBitmap 的宽高属性</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">computeBitmapSize</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">final</span> <span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">mBitmapState</span><span class="o">.</span><span class="na">mBitmap</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">bitmap</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">mBitmapWidth</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getScaledWidth</span><span class="o">(</span><span class="n">mTargetDensity</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">mBitmapHeight</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getScaledHeight</span><span class="o">(</span><span class="n">mTargetDensity</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">mBitmapWidth</span> <span class="o">=</span> <span class="n">mBitmapHeight</span> <span class="o">=</span> <span class="o">-</span><span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>所以说，Bitmap 的 density 会影响到 canvas 最终绘制的 mDstRect，进而影响到图片的展示。</p>
 <p>默认情况下，Bitmap 就是系统的 density，系统的 density 不会有啥变化，所以不会有任何影响。</p>
 <h3 id="drawable">Drawable</h3>
 <p>前面已经说了一堆 BitmapDrawable 了，Drawable 就是 Android 抽象出来的一种处理绘制过程的抽象类。在 Fresco 中，这个被用烂了。</p>
 <p>Fresco 中其实全靠 GenericDraweeHierarchy，GenericDraweeHierarchy 中有各种层级的 Drawable，注释如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">Example</span> <span class="n">hierarchy</span> <span class="n">with</span> <span class="n">a</span> <span class="n">placeholder</span><span class="o">,</span> <span class="n">retry</span><span class="o">,</span> <span class="n">failure</span> <span class="n">and</span> <span class="n">the</span> <span class="n">actual</span> <span class="n">image</span><span class="o">:</span>
-    <span class="n">o</span> <span class="nf">RootDrawable</span> <span class="o">(</span><span class="n">top</span> <span class="n">level</span> <span class="n">drawable</span><span class="o">)</span>
-    <span class="o">|</span>
-    <span class="o">+--</span><span class="n">o</span> <span class="n">FadeDrawable</span>
-       <span class="o">|</span>
-       <span class="o">+--</span><span class="n">o</span> <span class="nf">ScaleTypeDrawable</span> <span class="o">(</span><span class="n">placeholder</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
-       <span class="o">|</span>  <span class="o">|</span>
-       <span class="o">|</span>  <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">placeholder</span> <span class="n">image</span><span class="o">)</span>
-       <span class="o">|</span>
-       <span class="o">+--</span><span class="n">o</span> <span class="nf">ScaleTypeDrawable</span> <span class="o">(</span><span class="n">actual</span> <span class="n">image</span> <span class="n">branch</span><span class="o">)</span>
-       <span class="o">|</span>  <span class="o">|</span>
-       <span class="o">|</span>  <span class="o">+--</span><span class="n">o</span> <span class="nf">ForwardingDrawable</span> <span class="o">(</span><span class="n">actual</span> <span class="n">image</span> <span class="n">wrapper</span><span class="o">)</span>
-       <span class="o">|</span>     <span class="o">|</span>
-       <span class="o">|</span>     <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">actual</span> <span class="n">image</span><span class="o">)</span>
-       <span class="o">|</span>
-       <span class="o">+--</span><span class="n">o</span> <span class="nf">null</span> <span class="o">(</span><span class="n">progress</span> <span class="n">bar</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
-       <span class="o">|</span>
-       <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">retry</span> <span class="n">image</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
-       <span class="o">|</span>
-       <span class="o">+--</span><span class="n">o</span> <span class="nf">ScaleTypeDrawable</span> <span class="o">(</span><span class="n">failure</span> <span class="n">image</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
-          <span class="o">|</span>
-          <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">failure</span> <span class="n">image</span><span class="o">)</span>
-    
-</code></pre></div><p>比如其中的 FadeDrawable 就是渐现的具体实现，ScaleTypeDrawable 就是 ScaleType 的具体实现，每一个 SimpleDraweeView 的展示，都有多层的 Drawable。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Example</span> <span class="n">hierarchy</span> <span class="n">with</span> <span class="n">a</span> <span class="n">placeholder</span><span class="o">,</span> <span class="n">retry</span><span class="o">,</span> <span class="n">failure</span> <span class="n">and</span> <span class="n">the</span> <span class="n">actual</span> <span class="n">image</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">o</span> <span class="nf">RootDrawable</span> <span class="o">(</span><span class="n">top</span> <span class="n">level</span> <span class="n">drawable</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span>
+</span></span><span class="line"><span class="cl">    <span class="o">+--</span><span class="n">o</span> <span class="n">FadeDrawable</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span>
+</span></span><span class="line"><span class="cl">       <span class="o">+--</span><span class="n">o</span> <span class="nf">ScaleTypeDrawable</span> <span class="o">(</span><span class="n">placeholder</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span>  <span class="o">|</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span>  <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">placeholder</span> <span class="n">image</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span>
+</span></span><span class="line"><span class="cl">       <span class="o">+--</span><span class="n">o</span> <span class="nf">ScaleTypeDrawable</span> <span class="o">(</span><span class="n">actual</span> <span class="n">image</span> <span class="n">branch</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span>  <span class="o">|</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span>  <span class="o">+--</span><span class="n">o</span> <span class="nf">ForwardingDrawable</span> <span class="o">(</span><span class="n">actual</span> <span class="n">image</span> <span class="n">wrapper</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span>     <span class="o">|</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span>     <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">actual</span> <span class="n">image</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span>
+</span></span><span class="line"><span class="cl">       <span class="o">+--</span><span class="n">o</span> <span class="nf">null</span> <span class="o">(</span><span class="n">progress</span> <span class="n">bar</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span>
+</span></span><span class="line"><span class="cl">       <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">retry</span> <span class="n">image</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span>
+</span></span><span class="line"><span class="cl">       <span class="o">+--</span><span class="n">o</span> <span class="nf">ScaleTypeDrawable</span> <span class="o">(</span><span class="n">failure</span> <span class="n">image</span> <span class="n">branch</span><span class="o">,</span> <span class="n">optional</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">|</span>
+</span></span><span class="line"><span class="cl">          <span class="o">+--</span><span class="n">o</span> <span class="nf">Drawable</span> <span class="o">(</span><span class="n">failure</span> <span class="n">image</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span></code></pre></div><p>比如其中的 FadeDrawable 就是渐现的具体实现，ScaleTypeDrawable 就是 ScaleType 的具体实现，每一个 SimpleDraweeView 的展示，都有多层的 Drawable。</p>
 <p>我们常见的 ScaleType 的实现都是通过给 Drawable 设置各种 transform 矩阵(canvas.concat(matrix))来做的，无论是 ImageView 还是 Fresco(SimpleDraweeView)。</p>
 <p>Fresco 中使用 actualImageScaleType，其实最终都在 ScalingUtils 中，比如 CenterCrop 对应为 ScaleTypeCenterCrop 静态内部类，返回一个对应的 outTransform 矩阵。</p>
 <p>总之，最终还是调用到 scaleTypeDrawable 的 draw 方法，concat 一个矩阵</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
-  <span class="n">configureBoundsIfUnderlyingChanged</span><span class="o">();</span>
-  <span class="k">if</span> <span class="o">(</span><span class="n">mDrawMatrix</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kt">int</span> <span class="n">saveCount</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
-    <span class="n">canvas</span><span class="o">.</span><span class="na">clipRect</span><span class="o">(</span><span class="n">getBounds</span><span class="o">());</span>
-    <span class="n">canvas</span><span class="o">.</span><span class="na">concat</span><span class="o">(</span><span class="n">mDrawMatrix</span><span class="o">);</span>
-    <span class="kd">super</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
-    <span class="n">canvas</span><span class="o">.</span><span class="na">restoreToCount</span><span class="o">(</span><span class="n">saveCount</span><span class="o">);</span>
-  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-    <span class="c1">// mDrawMatrix == null means our bounds match and we can take fast path
-</span><span class="c1"></span>    <span class="kd">super</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><h3 id="小结">小结</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configureBoundsIfUnderlyingChanged</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">mDrawMatrix</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">saveCount</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">canvas</span><span class="o">.</span><span class="na">clipRect</span><span class="o">(</span><span class="n">getBounds</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">canvas</span><span class="o">.</span><span class="na">concat</span><span class="o">(</span><span class="n">mDrawMatrix</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">canvas</span><span class="o">.</span><span class="na">restoreToCount</span><span class="o">(</span><span class="n">saveCount</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// mDrawMatrix == null means our bounds match and we can take fast path
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">super</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">canvas</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="小结">小结</h3>
 <p>Bitmap 本身的 density 变化，会影响到 BitmapDrawable 的 DstRect 进而影响到绘制的范围。</p>
 <p>普通 ImageView 的 ScaleType 和 Fresco 的 actualImageScaleType 会影响到 canvas.concat(matrix) 进而影响到绘制的范围。</p>
 <h2 id="解析原因">解析原因</h2>
@@ -286,68 +286,68 @@ RGB_565 和 RGB_8888 啥区别啊？</p>
 <p>Fresco 中的 RoundedBitmapDrawable 通过 BitmapShader 实现，TileMode.CLAMP 在铺不满 view 的情况下，会重复边缘像素。</p>
 <h3 id="bitmapdrawble-的-density-被-autosize-修改">BitmapDrawble 的 Density 被 AutoSize 修改</h3>
 <p>RoundedBitmapDrawable 创建的代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nf">RoundedBitmapDrawable</span><span class="o">(</span><span class="n">Resources</span> <span class="n">res</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Paint</span> <span class="n">paint</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kd">super</span><span class="o">(</span><span class="k">new</span> <span class="n">BitmapDrawable</span><span class="o">(</span><span class="n">res</span><span class="o">,</span> <span class="n">bitmap</span><span class="o">));</span>
-    <span class="n">mBitmap</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">;</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">paint</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-      <span class="n">mPaint</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">paint</span><span class="o">);</span>
-    <span class="o">}</span>
-
-    <span class="n">mPaint</span><span class="o">.</span><span class="na">setFlags</span><span class="o">(</span><span class="n">Paint</span><span class="o">.</span><span class="na">ANTI_ALIAS_FLAG</span><span class="o">);</span>
-    <span class="n">mBorderPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="n">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
-  <span class="o">}</span>
-</code></pre></div><p>RoundedBitmapDrawable 内部创建了 BitmapDrawable，并通过 resource 获取到 density</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="nf">RoundedBitmapDrawable</span><span class="o">(</span><span class="n">Resources</span> <span class="n">res</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Paint</span> <span class="n">paint</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">(</span><span class="k">new</span> <span class="n">BitmapDrawable</span><span class="o">(</span><span class="n">res</span><span class="o">,</span> <span class="n">bitmap</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mBitmap</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">paint</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">mPaint</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">paint</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">mPaint</span><span class="o">.</span><span class="na">setFlags</span><span class="o">(</span><span class="n">Paint</span><span class="o">.</span><span class="na">ANTI_ALIAS_FLAG</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mBorderPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="n">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div><p>RoundedBitmapDrawable 内部创建了 BitmapDrawable，并通过 resource 获取到 density</p>
 <p>而 AutoSize 这个库，默认会修改 density</p>
 <p>比如，我的一加 A6000 density 本来是 420，依赖 AutoSize 后变为了 480。</p>
 <p>所以，此时 BitmapDrawble 的 density(mTargetDensity) = 480，进而 computeBitmapSize 其实已经出现问题。</p>
 <h3 id="bucketsbitmappool-创建-bitmap-没有管-density">BucketsBitmapPool 创建 Bitmap 没有管 Density</h3>
 <p>然后，有意思的来了，Bitmap 初始化默认的 density 是多少呢？</p>
 <p>Fresco 中通过 BucketsBitmapPool 调用 Bitmap.createBitmap 实现的，一路追下去就到了 native 方法中，nativeCreateBimap  其实 register 的时候叫做 Bitmap_creator ，追相关的方法，你就会发现调用到了这里：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="n">jobject</span> <span class="nf">createBitmap</span><span class="p">(</span><span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span><span class="p">,</span> <span class="n">Bitmap</span><span class="o">*</span> <span class="n">bitmap</span><span class="p">,</span>
-        <span class="kt">int</span> <span class="n">bitmapCreateFlags</span><span class="p">,</span> <span class="n">jbyteArray</span> <span class="n">ninePatchChunk</span><span class="p">,</span> <span class="n">jobject</span> <span class="n">ninePatchInsets</span><span class="p">,</span>
-        <span class="kt">int</span> <span class="n">density</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">bool</span> <span class="n">isMutable</span> <span class="o">=</span> <span class="n">bitmapCreateFlags</span> <span class="o">&amp;</span> <span class="n">kBitmapCreateFlag_Mutable</span><span class="p">;</span>
-    <span class="kt">bool</span> <span class="n">isPremultiplied</span> <span class="o">=</span> <span class="n">bitmapCreateFlags</span> <span class="o">&amp;</span> <span class="n">kBitmapCreateFlag_Premultiplied</span><span class="p">;</span>
-    <span class="c1">// The caller needs to have already set the alpha type properly, so the
-</span><span class="c1"></span>    <span class="c1">// native SkBitmap stays in sync with the Java Bitmap.
-</span><span class="c1"></span>    <span class="n">assert_premultiplied</span><span class="p">(</span><span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">info</span><span class="p">(),</span> <span class="n">isPremultiplied</span><span class="p">);</span>
-    <span class="kt">bool</span> <span class="n">fromMalloc</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">pixelStorageType</span><span class="p">()</span> <span class="o">==</span> <span class="n">PixelStorageType</span><span class="o">::</span><span class="n">Heap</span><span class="p">;</span>
-    <span class="n">BitmapWrapper</span><span class="o">*</span> <span class="n">bitmapWrapper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BitmapWrapper</span><span class="p">(</span><span class="n">bitmap</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isMutable</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">bitmapWrapper</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">().</span><span class="n">setImmutable</span><span class="p">();</span>
-    <span class="p">}</span>
-    <span class="n">jobject</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">env</span><span class="o">-&gt;</span><span class="n">NewObject</span><span class="p">(</span><span class="n">gBitmap_class</span><span class="p">,</span> <span class="n">gBitmap_constructorMethodID</span><span class="p">,</span>
-            <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">jlong</span><span class="o">&gt;</span><span class="p">(</span><span class="n">bitmapWrapper</span><span class="p">),</span> <span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">(),</span> <span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">(),</span> <span class="n">density</span><span class="p">,</span>
-            <span class="n">isPremultiplied</span><span class="p">,</span> <span class="n">ninePatchChunk</span><span class="p">,</span> <span class="n">ninePatchInsets</span><span class="p">,</span> <span class="n">fromMalloc</span><span class="p">);</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionCheck</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">ALOGE</span><span class="p">(</span><span class="s">&#34;*** Uncaught exception returned from Java call!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-        <span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionDescribe</span><span class="p">();</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">obj</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>此处 density 传的值是 -1，因为调用的时候没有传值，Bitmap.h 方法声明中有默认值 -1。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">jobject</span> <span class="nf">createBitmap</span><span class="p">(</span><span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span><span class="p">,</span> <span class="n">Bitmap</span><span class="o">*</span> <span class="n">bitmap</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">bitmapCreateFlags</span><span class="p">,</span> <span class="n">jbyteArray</span> <span class="n">ninePatchChunk</span><span class="p">,</span> <span class="n">jobject</span> <span class="n">ninePatchInsets</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">density</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">isMutable</span> <span class="o">=</span> <span class="n">bitmapCreateFlags</span> <span class="o">&amp;</span> <span class="n">kBitmapCreateFlag_Mutable</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">isPremultiplied</span> <span class="o">=</span> <span class="n">bitmapCreateFlags</span> <span class="o">&amp;</span> <span class="n">kBitmapCreateFlag_Premultiplied</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// The caller needs to have already set the alpha type properly, so the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// native SkBitmap stays in sync with the Java Bitmap.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">assert_premultiplied</span><span class="p">(</span><span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">info</span><span class="p">(),</span> <span class="n">isPremultiplied</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">fromMalloc</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">pixelStorageType</span><span class="p">()</span> <span class="o">==</span> <span class="n">PixelStorageType</span><span class="o">::</span><span class="n">Heap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BitmapWrapper</span><span class="o">*</span> <span class="n">bitmapWrapper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BitmapWrapper</span><span class="p">(</span><span class="n">bitmap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isMutable</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bitmapWrapper</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">().</span><span class="n">setImmutable</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">jobject</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">env</span><span class="o">-&gt;</span><span class="n">NewObject</span><span class="p">(</span><span class="n">gBitmap_class</span><span class="p">,</span> <span class="n">gBitmap_constructorMethodID</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">jlong</span><span class="o">&gt;</span><span class="p">(</span><span class="n">bitmapWrapper</span><span class="p">),</span> <span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">(),</span> <span class="n">bitmap</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">(),</span> <span class="n">density</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">isPremultiplied</span><span class="p">,</span> <span class="n">ninePatchChunk</span><span class="p">,</span> <span class="n">ninePatchInsets</span><span class="p">,</span> <span class="n">fromMalloc</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionCheck</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ALOGE</span><span class="p">(</span><span class="s">&#34;*** Uncaught exception returned from Java call!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionDescribe</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>此处 density 传的值是 -1，因为调用的时候没有传值，Bitmap.h 方法声明中有默认值 -1。</p>
 <p>但是，我的 Bitmap 中的 density 显示 = 420，很神奇。</p>
 <p><strong>这是为什么呢？</strong></p>
 <p>其实都在 env-&gt;NewObject 中，native 层反调了 java 层的 Bitmap 构造函数，&gt;=0 时才生效，-1 时会走进 Bitmap.getDefaultDensity() 的逻辑</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kt">int</span> <span class="nf">getDefaultDensity</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">sDefaultDensity</span> <span class="o">&gt;=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">sDefaultDensity</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="n">sDefaultDensity</span> <span class="o">=</span> <span class="n">DisplayMetrics</span><span class="o">.</span><span class="na">DENSITY_DEVICE</span><span class="o">;</span>
-    <span class="k">return</span> <span class="n">sDefaultDensity</span><span class="o">;</span>
-<span class="o">}</span>
-
-<span class="c1">// DisplayMetrics.java
-</span><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">getDeviceDensity</span><span class="o">()</span> <span class="o">{</span>
-    <span class="c1">// qemu.sf.lcd_density can be used to override ro.sf.lcd_density
-</span><span class="c1"></span>    <span class="c1">// when running in the emulator, allowing for dynamic configurations.
-</span><span class="c1"></span>    <span class="c1">// The reason for this is that ro.sf.lcd_density is write-once and is
-</span><span class="c1"></span>    <span class="c1">// set by the init process when it parses build.prop before anything else.
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">SystemProperties</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">&#34;qemu.sf.lcd_density&#34;</span><span class="o">,</span>
-            <span class="n">SystemProperties</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">&#34;ro.sf.lcd_density&#34;</span><span class="o">,</span> <span class="n">DENSITY_DEFAULT</span><span class="o">));</span>
-<span class="o">}</span>
-</code></pre></div><p>根本不是从 Resource 中获取，直接读取的 SystemProperties，所以两个 density 不一样。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">static</span> <span class="kt">int</span> <span class="nf">getDefaultDensity</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">sDefaultDensity</span> <span class="o">&gt;=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">sDefaultDensity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sDefaultDensity</span> <span class="o">=</span> <span class="n">DisplayMetrics</span><span class="o">.</span><span class="na">DENSITY_DEVICE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sDefaultDensity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// DisplayMetrics.java
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">getDeviceDensity</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// qemu.sf.lcd_density can be used to override ro.sf.lcd_density
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// when running in the emulator, allowing for dynamic configurations.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// The reason for this is that ro.sf.lcd_density is write-once and is
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// set by the init process when it parses build.prop before anything else.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">SystemProperties</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">&#34;qemu.sf.lcd_density&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">SystemProperties</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">&#34;ro.sf.lcd_density&#34;</span><span class="o">,</span> <span class="n">DENSITY_DEFAULT</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>根本不是从 Resource 中获取，直接读取的 SystemProperties，所以两个 density 不一样。</p>
 <p>最终就成了这样，比如 Bitmap 有 100x100 的大小，却要覆盖 120x120 的区间，BitmapShader 帮忙盖满，从而出现了一开始的图中的情况。</p>
 <p>所以修改的方案是：</p>
 <ul>
@@ -389,8 +389,8 @@ RGB_565 和 RGB_8888 啥区别啊？</p>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

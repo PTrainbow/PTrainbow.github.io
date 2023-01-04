@@ -125,18 +125,18 @@
 <p>很多人说是，WMS 的代理对象，可是目前我看的 android-28 的源码，发现并不是这样。</p>
 <p>getSystemService 方法在 SystemServiceRegistry.java 中</p>
 <p>其中和 WMS 相关的是</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"> <span class="n">registerService</span><span class="o">(</span><span class="n">Context</span><span class="o">.</span><span class="na">WINDOW_SERVICE</span><span class="o">,</span> <span class="n">WindowManager</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>
-                <span class="k">new</span> <span class="n">CachedServiceFetcher</span><span class="o">&lt;</span><span class="n">WindowManager</span><span class="o">&gt;()</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">WindowManager</span> <span class="nf">createService</span><span class="o">(</span><span class="n">ContextImpl</span> <span class="n">ctx</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="n">WindowManagerImpl</span><span class="o">(</span><span class="n">ctx</span><span class="o">);</span>
-<span class="o">}});</span>
-</code></pre></div><p>所以我们拿到的是一个叫做 WindowManagerImpl 的类，并不是什么 binder 代理对象</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"> <span class="n">registerService</span><span class="o">(</span><span class="n">Context</span><span class="o">.</span><span class="na">WINDOW_SERVICE</span><span class="o">,</span> <span class="n">WindowManager</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                <span class="k">new</span> <span class="n">CachedServiceFetcher</span><span class="o">&lt;</span><span class="n">WindowManager</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">WindowManager</span> <span class="nf">createService</span><span class="o">(</span><span class="n">ContextImpl</span> <span class="n">ctx</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">WindowManagerImpl</span><span class="o">(</span><span class="n">ctx</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}});</span>
+</span></span></code></pre></div><p>所以我们拿到的是一个叫做 WindowManagerImpl 的类，并不是什么 binder 代理对象</p>
 <h2 id="windowmanagerimpl-是什么">WindowManagerImpl 是什么</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">WindowManagerImpl</span> <span class="kd">implements</span> <span class="n">WindowManager</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="n">WindowManagerGlobal</span> <span class="n">mGlobal</span> <span class="o">=</span> <span class="n">WindowManagerGlobal</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div><p>省略了很多代码，WindowManagerImpl 实现了 WindowManager 接口，但是这也和 binder 毫无关系，这个接口就是一个普通接口。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">WindowManagerImpl</span> <span class="kd">implements</span> <span class="n">WindowManager</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">WindowManagerGlobal</span> <span class="n">mGlobal</span> <span class="o">=</span> <span class="n">WindowManagerGlobal</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>省略了很多代码，WindowManagerImpl 实现了 WindowManager 接口，但是这也和 binder 毫无关系，这个接口就是一个普通接口。</p>
 <p>那么 WindowManagerImpl 又是怎么跨进程调用 WMS 的方法的呢？</p>
 <h2 id="windowmanagerglobal">WindowManagerGlobal</h2>
 <p>WindowManagerImpl 总共就100多行，其中 addView 等方法，都会调用到 WindowManagerGlobal 中去。</p>
@@ -176,8 +176,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

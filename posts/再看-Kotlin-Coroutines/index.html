@@ -173,38 +173,38 @@
         title="/img/in-post/inspired_by_other.jpeg" /></p>
 <h3 id="kotlin-dsl">Kotlin DSL</h3>
 <p>按照前面说的 async/await 的原型，kotlin coroutines 就可以是类似这种样子(最终当然不是这样子的，为了引出来 suspend)：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">postItem</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Item</span><span class="p">)</span> <span class="p">=</span> <span class="n">async</span> <span class="p">{</span>
-  <span class="k">val</span> <span class="py">token</span> <span class="p">=</span> <span class="n">await</span><span class="p">(</span><span class="n">requestToken</span><span class="p">())</span>
-  <span class="k">val</span> <span class="py">post</span> <span class="p">=</span> <span class="n">await</span><span class="p">(</span><span class="n">createPost</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span>
-<span class="p">}</span>
-</code></pre></div><p>这里他还解释了一下，async 在这里其实就是个函数，不过 kotlin 支持 trailing lambda，函数体移动到了外面</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">postItem</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Item</span><span class="p">)</span> <span class="p">=</span> <span class="n">async</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="py">token</span> <span class="p">=</span> <span class="n">await</span><span class="p">(</span><span class="n">requestToken</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="py">post</span> <span class="p">=</span> <span class="n">await</span><span class="p">(</span><span class="n">createPost</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这里他还解释了一下，async 在这里其实就是个函数，不过 kotlin 支持 trailing lambda，函数体移动到了外面</p>
 <blockquote>
 <p>这个 Trailing Lambda 的存在，可以搞出任意的 dsl，因为函数体可以作为参数，加上可以做为扩展函数，并且移动到了大括号后 如果你是作者，你也可以不叫它 async(kotlin 中确实也不叫 asnyc)
 但是，这个 await 显然很 trick，所以在 kotlin 中提出了 suspend 关键字，代码修改成了这样：</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">suspend</span> <span class="k">fun</span> <span class="nf">postItem</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Item</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">val</span> <span class="py">token</span> <span class="p">=</span> <span class="n">requestToken</span><span class="p">()</span>
-  <span class="k">val</span> <span class="py">post</span> <span class="p">=</span> <span class="n">createPost</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><p>这段代码除了 suspend 没有任何多余的关键字或者让人难理解的地方，代码和普通函数没有任何区别
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">suspend</span> <span class="k">fun</span> <span class="nf">postItem</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Item</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="py">token</span> <span class="p">=</span> <span class="n">requestToken</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="py">post</span> <span class="p">=</span> <span class="n">createPost</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这段代码除了 suspend 没有任何多余的关键字或者让人难理解的地方，代码和普通函数没有任何区别
 并且说，这并不是一个大胆的设计，或者说是不符合习惯的设计</p>
 <p>因为这和 go 很相似，函数还是常规函数，通过一个 go 关键字，就开启了协程(还好以前写过 go，如此看来 go 的哲学还是很牛逼的呀)。</p>
 <h3 id="prototyping-librariesdsl-for-kotlin">Prototyping Libraries(dsl for kotlin)</h3>
 <p>这里又讲了一波 go 的设计，go 牛逼！(破音)</p>
 <p>仿照 go 的开启协程的方式，kotlin 的 dsl 成为了这样：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">suspend</span> <span class="k">fun</span> <span class="nf">say</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">0.</span><span class="p">.</span><span class="m">4</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">delay</span><span class="p">(</span><span class="m">100</span><span class="p">)</span> <span class="c1">// 这里是因为之前举了个例子，go 的协程中可以 sleep，但是并不是真的 Java 中的 Thread.sleep
-</span><span class="c1"></span>    <span class="n">println</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">=</span> <span class="n">mainBlocking</span><span class="p">{</span>
-  <span class="n">go</span> <span class="p">{</span>
-    <span class="n">say</span><span class="p">(</span><span class="err">“</span><span class="n">hello</span><span class="s2">&#34;)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>实际上呢？上述的 go 和 mainBlocking 函数，在 kotlin 的实现中，对应了 launch 和 runBlocking 这两个函数</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">suspend</span> <span class="k">fun</span> <span class="nf">say</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">0.</span><span class="p">.</span><span class="m">4</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">delay</span><span class="p">(</span><span class="m">100</span><span class="p">)</span> <span class="c1">// 这里是因为之前举了个例子，go 的协程中可以 sleep，但是并不是真的 Java 中的 Thread.sleep
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">println</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">=</span> <span class="n">mainBlocking</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">go</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">say</span><span class="p">(</span><span class="err">“</span><span class="n">hello</span><span class="s2">&#34;)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>实际上呢？上述的 go 和 mainBlocking 函数，在 kotlin 的实现中，对应了 launch 和 runBlocking 这两个函数</p>
 <p>所以，这里来看，很多东西在概念上都是同一个意义，只不过取了不同的名字而已</p>
 <p>Roman Elizarov 说，为了让基础库更好，让大家 happy programming</p>
 <p>kotlin 天然支持 <code>Thread-bound UI programming</code></p>
@@ -213,31 +213,31 @@
 <p>看过源码的话就会发现，很多东西都继承自 context，都可以作为 context 的 element，被存起来
 Dispatchers 也是如此。听名字就知道适用于调度任务的，通过 launch(Dispatchers.IO) 传入的 io dispatcher 替换掉了 parent context 中默认的 dispatcher</p>
 <p>写了个例子：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">runBlocking</span> <span class="p">{</span> <span class="c1">// 隐式存在一个 coroutineScope 对象(就理解为 context) 作为 parent context
-</span><span class="c1"></span>        <span class="n">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="n">IO</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 传入了 dispatcher 替换了 parent 中的 dispatcher 
-</span><span class="c1"></span>            <span class="n">println</span><span class="p">(</span><span class="s2">&#34;thread name = </span><span class="si">${Thread.currentThread().name}</span><span class="s2">&#34;</span><span class="p">)</span>
-        <span class="p">}</span>
-        <span class="n">delay</span><span class="p">(</span><span class="m">1000</span><span class="p">)</span>
-        <span class="n">println</span><span class="p">(</span><span class="s2">&#34;thread name = </span><span class="si">${Thread.currentThread().name}</span><span class="s2">&#34;</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;end&#34;</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><p>后面又说了高阶函数的情况，没咋听懂也没看懂。感觉就还是说 CoroutineContext 是可以层层传递下去的？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">runBlocking</span> <span class="p">{</span> <span class="c1">// 隐式存在一个 coroutineScope 对象(就理解为 context) 作为 parent context
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="n">IO</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 传入了 dispatcher 替换了 parent 中的 dispatcher 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">println</span><span class="p">(</span><span class="s2">&#34;thread name = </span><span class="si">${Thread.currentThread().name}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">delay</span><span class="p">(</span><span class="m">1000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">println</span><span class="p">(</span><span class="s2">&#34;thread name = </span><span class="si">${Thread.currentThread().name}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;end&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>后面又说了高阶函数的情况，没咋听懂也没看懂。感觉就还是说 CoroutineContext 是可以层层传递下去的？</p>
 <p>说到这里，<code>Coroutine Scope 和 Coroutine Context 什么关系？</code></p>
 <h3 id="scope-and-context-小插曲">Scope and Context 小插曲</h3>
 <p>其实查看源码你就会发现：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">public</span> <span class="k">interface</span> <span class="nc">CoroutineScope</span> <span class="p">{</span>
-    <span class="cm">/**
-</span><span class="cm">     * The context of this scope.
-</span><span class="cm">     * Context is encapsulated by the scope and used for implementation of coroutine builders that are extensions on the scope.
-</span><span class="cm">     * Accessing this property in general code is not recommended for any purposes except accessing the [Job] instance for advanced usages.
-</span><span class="cm">     *
-</span><span class="cm">     * By convention, should contain an instance of a [job][Job] to enforce structured concurrency.
-</span><span class="cm">     */</span>
-    <span class="k">public</span> <span class="k">val</span> <span class="py">coroutineContext</span><span class="p">:</span> <span class="n">CoroutineContext</span>
-<span class="p">}</span>
-</code></pre></div><p>CoroutineScope 就是持有了一个 CoroutineContext，那到底为啥有俩？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">CoroutineScope</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * The context of this scope.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Context is encapsulated by the scope and used for implementation of coroutine builders that are extensions on the scope.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Accessing this property in general code is not recommended for any purposes except accessing the [Job] instance for advanced usages.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * By convention, should contain an instance of a [job][Job] to enforce structured concurrency.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">val</span> <span class="py">coroutineContext</span><span class="p">:</span> <span class="n">CoroutineContext</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>CoroutineScope 就是持有了一个 CoroutineContext，那到底为啥有俩？</p>
 <p>这里是 Roman Elizarov 的文章</p>
 <p><a href="https://elizarov.medium.com/coroutine-context-and-scope-c8b255d59055" target="_blank" rel="noopener noreffer">https://elizarov.medium.com/coroutine-context-and-scope-c8b255d59055</a></p>
 <p>文章的开头就说，同样的东西在不同的用途上，通常会有不同的名字。所以说，他们可以理解为同一个东西，只是不同场景下的叫法。</p>
@@ -246,32 +246,32 @@ Dispatchers 也是如此。听名字就知道适用于调度任务的，通过 l
 <p>比如之前举得切换线程的例子，通过传入 Dispatcher(extends CoroutineContext) 替换了 child scope 运行时所处的线程</p>
 <p>怎么理解呢？</p>
 <p>其实，每当你传入 context 的时候(比如传入 dispatcher)，都会产生一个新的 context，代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">public</span> <span class="k">actual</span> <span class="k">fun</span> <span class="nf">CoroutineScope</span><span class="p">.</span><span class="n">newCoroutineContext</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">CoroutineContext</span><span class="p">):</span> <span class="n">CoroutineContext</span> <span class="p">{</span>
-    <span class="k">val</span> <span class="py">combined</span> <span class="p">=</span> <span class="n">coroutineContext</span> <span class="p">+</span> <span class="n">context</span>
-    <span class="k">val</span> <span class="py">debug</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="n">DEBUG</span><span class="p">)</span> <span class="n">combined</span> <span class="p">+</span> <span class="n">CoroutineId</span><span class="p">(</span><span class="n">COROUTINE_ID</span><span class="p">.</span><span class="n">incrementAndGet</span><span class="p">())</span> <span class="k">else</span> <span class="n">combined</span>
-    <span class="k">return</span> <span class="k">if</span> <span class="p">(</span><span class="n">combined</span> <span class="o">!==</span> <span class="n">Dispatchers</span><span class="p">.</span><span class="n">Default</span> <span class="o">&amp;&amp;</span> <span class="n">combined</span><span class="p">[</span><span class="n">ContinuationInterceptor</span><span class="p">]</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span>
-        <span class="n">debug</span> <span class="p">+</span> <span class="n">Dispatchers</span><span class="p">.</span><span class="n">Default</span> <span class="k">else</span> <span class="n">debug</span>
-<span class="p">}</span>
-</code></pre></div><p>coroutineContext + context 这个就很有意思，其实是运算符重载。context 的 plus 方法如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"> <span class="cm">/**
-</span><span class="cm">     * Returns a context containing elements from this context and elements from  other [context].
-</span><span class="cm">     * The elements from this context with the same key as in the other one are dropped.
-</span><span class="cm">     */</span>
-    <span class="k">public</span> <span class="k">operator</span> <span class="k">fun</span> <span class="nf">plus</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">CoroutineContext</span><span class="p">):</span> <span class="n">CoroutineContext</span> <span class="p">=</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">context</span> <span class="o">===</span> <span class="n">EmptyCoroutineContext</span><span class="p">)</span> <span class="k">this</span> <span class="k">else</span> <span class="c1">// fast path -- avoid lambda creation
-</span><span class="c1"></span>            <span class="n">context</span><span class="p">.</span><span class="n">fold</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span> <span class="n">acc</span><span class="p">,</span> <span class="n">element</span> <span class="o">-&gt;</span>
-                <span class="k">val</span> <span class="py">removed</span> <span class="p">=</span> <span class="n">acc</span><span class="p">.</span><span class="n">minusKey</span><span class="p">(</span><span class="n">element</span><span class="p">.</span><span class="n">key</span><span class="p">)</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">removed</span> <span class="o">===</span> <span class="n">EmptyCoroutineContext</span><span class="p">)</span> <span class="n">element</span> <span class="k">else</span> <span class="p">{</span>
-                    <span class="c1">// make sure interceptor is always last in the context (and thus is fast to get when present)
-</span><span class="c1"></span>                    <span class="k">val</span> <span class="py">interceptor</span> <span class="p">=</span> <span class="n">removed</span><span class="p">[</span><span class="n">ContinuationInterceptor</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="n">interceptor</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="n">CombinedContext</span><span class="p">(</span><span class="n">removed</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
-                        <span class="k">val</span> <span class="py">left</span> <span class="p">=</span> <span class="n">removed</span><span class="p">.</span><span class="n">minusKey</span><span class="p">(</span><span class="n">ContinuationInterceptor</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="n">left</span> <span class="o">===</span> <span class="n">EmptyCoroutineContext</span><span class="p">)</span> <span class="n">CombinedContext</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">interceptor</span><span class="p">)</span> <span class="k">else</span>
-                            <span class="n">CombinedContext</span><span class="p">(</span><span class="n">CombinedContext</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">element</span><span class="p">),</span> <span class="n">interceptor</span><span class="p">)</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-</code></pre></div><p>注释中也说了，其实 context 像是一个大 Map，两个 context 的组合就像是两个 map 的组合，相同的 key 会被覆盖，就是文中的这张图：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">actual</span> <span class="k">fun</span> <span class="nf">CoroutineScope</span><span class="p">.</span><span class="n">newCoroutineContext</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">CoroutineContext</span><span class="p">):</span> <span class="n">CoroutineContext</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">combined</span> <span class="p">=</span> <span class="n">coroutineContext</span> <span class="p">+</span> <span class="n">context</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">debug</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="n">DEBUG</span><span class="p">)</span> <span class="n">combined</span> <span class="p">+</span> <span class="n">CoroutineId</span><span class="p">(</span><span class="n">COROUTINE_ID</span><span class="p">.</span><span class="n">incrementAndGet</span><span class="p">())</span> <span class="k">else</span> <span class="n">combined</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">if</span> <span class="p">(</span><span class="n">combined</span> <span class="o">!==</span> <span class="n">Dispatchers</span><span class="p">.</span><span class="n">Default</span> <span class="o">&amp;&amp;</span> <span class="n">combined</span><span class="p">[</span><span class="n">ContinuationInterceptor</span><span class="p">]</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">debug</span> <span class="p">+</span> <span class="n">Dispatchers</span><span class="p">.</span><span class="n">Default</span> <span class="k">else</span> <span class="n">debug</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>coroutineContext + context 这个就很有意思，其实是运算符重载。context 的 plus 方法如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"> <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Returns a context containing elements from this context and elements from  other [context].
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * The elements from this context with the same key as in the other one are dropped.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">operator</span> <span class="k">fun</span> <span class="nf">plus</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">CoroutineContext</span><span class="p">):</span> <span class="n">CoroutineContext</span> <span class="p">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">context</span> <span class="o">===</span> <span class="n">EmptyCoroutineContext</span><span class="p">)</span> <span class="k">this</span> <span class="k">else</span> <span class="c1">// fast path -- avoid lambda creation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">context</span><span class="p">.</span><span class="n">fold</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span> <span class="n">acc</span><span class="p">,</span> <span class="n">element</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">val</span> <span class="py">removed</span> <span class="p">=</span> <span class="n">acc</span><span class="p">.</span><span class="n">minusKey</span><span class="p">(</span><span class="n">element</span><span class="p">.</span><span class="n">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">removed</span> <span class="o">===</span> <span class="n">EmptyCoroutineContext</span><span class="p">)</span> <span class="n">element</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// make sure interceptor is always last in the context (and thus is fast to get when present)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">val</span> <span class="py">interceptor</span> <span class="p">=</span> <span class="n">removed</span><span class="p">[</span><span class="n">ContinuationInterceptor</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="p">(</span><span class="n">interceptor</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="n">CombinedContext</span><span class="p">(</span><span class="n">removed</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">val</span> <span class="py">left</span> <span class="p">=</span> <span class="n">removed</span><span class="p">.</span><span class="n">minusKey</span><span class="p">(</span><span class="n">ContinuationInterceptor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">if</span> <span class="p">(</span><span class="n">left</span> <span class="o">===</span> <span class="n">EmptyCoroutineContext</span><span class="p">)</span> <span class="n">CombinedContext</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">interceptor</span><span class="p">)</span> <span class="k">else</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">CombinedContext</span><span class="p">(</span><span class="n">CombinedContext</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">element</span><span class="p">),</span> <span class="n">interceptor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span></code></pre></div><p>注释中也说了，其实 context 像是一个大 Map，两个 context 的组合就像是两个 map 的组合，相同的 key 会被覆盖，就是文中的这张图：</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -284,19 +284,19 @@ Dispatchers 也是如此。听名字就知道适用于调度任务的，通过 l
 <p>Roman Elizarov 又介绍了一些关于协程任务取消的设计
 这里又提了 go。go 可以传入 channel 作为一个 cancellation token，来退出任务，但是他说这样你要自己记得自己怎么处理的</p>
 <p>代码如下(为啥举了个菲波那切数列的例子，感觉和并发没啥关系额，不知道有何深意，没理解)：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">func</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">quit</span> <span class="n">chan</span> <span class="n">int</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:=</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span>
-  <span class="k">for</span> <span class="p">{</span>
-    <span class="n">select</span> <span class="p">{</span>
-      <span class="n">case</span> <span class="n">c</span> <span class="p">&lt;-</span> <span class="n">x</span><span class="p">:</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">+</span><span class="n">y</span>
-      <span class="n">case</span> <span class="p">&lt;-</span><span class="n">quit</span><span class="p">:</span>
-        <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">quit</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>同时又说了 go 也有 Context，但是只要你需要在某一级子任务使用的话，应该是需要自己一层层传递下去的(这里 gopher 有话说，听说 go 语言有一个哲学是，<code>显式优于隐式</code>)，所以它应该就是想这么设计。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="n">func</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">quit</span> <span class="n">chan</span> <span class="n">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:=</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">select</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">case</span> <span class="n">c</span> <span class="p">&lt;-</span> <span class="n">x</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">+</span><span class="n">y</span>
+</span></span><span class="line"><span class="cl">      <span class="n">case</span> <span class="p">&lt;-</span><span class="n">quit</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">quit</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>同时又说了 go 也有 Context，但是只要你需要在某一级子任务使用的话，应该是需要自己一层层传递下去的(这里 gopher 有话说，听说 go 语言有一个哲学是，<code>显式优于隐式</code>)，所以它应该就是想这么设计。</p>
 <p>kotlin 中是 lib 库帮我们传入了 parent scope 的 context(如果有)，并且合并了自己的 context。</p>
 <p>然后说，go 经常处理的是一次请求，从 request 到 response，贯穿整个过程，所以引出了 Lifetime prototype。</p>
 <h3 id="lifetime-prototype">Lifetime Prototype</h3>
@@ -314,24 +314,24 @@ Dispatchers 也是如此。听名字就知道适用于调度任务的，通过 l
 <p>launch 等函数都可以返回一个 Job 对象，从而对于整个任务进行管理。</p>
 <h3 id="children-coroutines">Children Coroutines</h3>
 <p>Roman Elizarov 又举了个小例子</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">job1</span> <span class="p">=</span> <span class="n">launch</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">)</span> <span class="p">}</span>
-<span class="k">val</span> <span class="py">job2</span> <span class="p">=</span> <span class="n">launch</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;world&#34;</span><span class="p">)</span> <span class="p">}</span>
-
-<span class="c1">// 常规的取消任务的办法
-</span><span class="c1"></span><span class="k">val</span> <span class="py">jobs</span> <span class="p">=</span> <span class="n">CompositeJob</span><span class="p">()</span>
-<span class="n">jobs</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">job1</span><span class="p">)</span>
-<span class="n">jobs</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">job2</span><span class="p">)</span>
-<span class="n">jobs</span><span class="p">.</span><span class="n">cancel</span><span class="p">()</span>
-</code></pre></div><p>代码里，介绍了取消多个任务的一种办法，但是 Roman Elizarov 觉得这并不是一个好的设计，无故增加了很多个概念、api、代码量等等。(这个好熟悉啊，RxJava CompositiDisposable)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">val</span> <span class="py">job1</span> <span class="p">=</span> <span class="n">launch</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="py">job2</span> <span class="p">=</span> <span class="n">launch</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;world&#34;</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 常规的取消任务的办法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="py">jobs</span> <span class="p">=</span> <span class="n">CompositeJob</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">jobs</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">job1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">jobs</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">job2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">jobs</span><span class="p">.</span><span class="n">cancel</span><span class="p">()</span>
+</span></span></code></pre></div><p>代码里，介绍了取消多个任务的一种办法，但是 Roman Elizarov 觉得这并不是一个好的设计，无故增加了很多个概念、api、代码量等等。(这个好熟悉啊，RxJava CompositiDisposable)</p>
 <p>kotlin coroutine 的 context 是可以传递下去的，context 包含了协程任务的所有东西，launch 可以返回 Job 对象，Job 也是 CoroutineContext 子类</p>
 <p>context 传递下去后，可以说是在 parent context 中启动了协程任务，这就有了关联性。
 所以 kotlin 有了这样的设计：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">job</span> <span class="p">=</span>  <span class="n">launch</span><span class="p">(</span><span class="n">UI</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">launch</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">)</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">)</span> <span class="p">}</span>
-  <span class="n">launch</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">)</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;world&#34;</span><span class="p">)</span> <span class="p">}</span>
-<span class="p">}</span>
-<span class="n">job</span><span class="p">.</span><span class="n">cancel</span><span class="p">()</span>
-</code></pre></div><p>这里 job 的取消，就会取消 UI context 下的任务(scope 这时候还没出现，而且 scope 本身也是 context)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">val</span> <span class="py">job</span> <span class="p">=</span>  <span class="n">launch</span><span class="p">(</span><span class="n">UI</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">launch</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">)</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">launch</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">)</span> <span class="p">{</span> <span class="n">say</span><span class="p">(</span><span class="s2">&#34;world&#34;</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">job</span><span class="p">.</span><span class="n">cancel</span><span class="p">()</span>
+</span></span></code></pre></div><p>这里 job 的取消，就会取消 UI context 下的任务(scope 这时候还没出现，而且 scope 本身也是 context)</p>
 <h3 id="error-propagation">Error Propagation</h3>
 <p>上述这样设计很好，但是这样问题来了，怎么处理错误状况?</p>
 <p>比如之前的代码中启动的两个协程任务，那么他们都有可能会失败，而且是并发的，所以外层的协程任务只能等待</p>
@@ -425,8 +425,8 @@ Dispatchers 也是如此。听名字就知道适用于调度任务的，通过 l
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

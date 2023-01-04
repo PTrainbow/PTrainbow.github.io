@@ -200,156 +200,156 @@
 <p>PathClassLoader 是一个经常遇到的类加载器，继承自 BaseDexClassLoader，下面是一坨代码，核心其实就是想说：</p>
 <p>在 classloader 创建之时，已经开始了默默的加载操作(只是想 mmap)，一直到 openDexFileNative，进入到了 native 层。</p>
 <p>流程大致是，DexPathList 的创建 -&gt; makeDexElements -&gt; loadDexFile -&gt; openDexFileNative</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// libcore/dalvik/src/main/java/dalvik/system/BaseDexClassLoader.java
-</span><span class="c1"></span><span class="kd">public</span> <span class="nf">BaseDexClassLoader</span><span class="o">(</span><span class="n">String</span> <span class="n">dexPath</span><span class="o">,</span>
-          <span class="n">String</span> <span class="n">librarySearchPath</span><span class="o">,</span> <span class="n">ClassLoader</span> <span class="n">parent</span><span class="o">,</span> <span class="n">ClassLoader</span><span class="o">[]</span> <span class="n">sharedLibraryLoaders</span><span class="o">,</span>
-          <span class="n">ClassLoader</span><span class="o">[]</span> <span class="n">sharedLibraryLoadersAfter</span><span class="o">,</span>
-          <span class="kt">boolean</span> <span class="n">isTrusted</span><span class="o">)</span> <span class="o">{</span>
-      <span class="kd">super</span><span class="o">(</span><span class="n">parent</span><span class="o">);</span>
-      <span class="c1">// Setup shared libraries before creating the path list. ART relies on the class loader
-</span><span class="c1"></span>      <span class="c1">// hierarchy being finalized before loading dex files.
-</span><span class="c1"></span>      <span class="k">this</span><span class="o">.</span><span class="na">sharedLibraryLoaders</span> <span class="o">=</span> <span class="n">sharedLibraryLoaders</span> <span class="o">==</span> <span class="kc">null</span>
-              <span class="o">?</span> <span class="kc">null</span>
-              <span class="o">:</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">sharedLibraryLoaders</span><span class="o">,</span> <span class="n">sharedLibraryLoaders</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
-      <span class="k">this</span><span class="o">.</span><span class="na">pathList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DexPathList</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">dexPath</span><span class="o">,</span> <span class="n">librarySearchPath</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">isTrusted</span><span class="o">);</span>
-
-      <span class="k">this</span><span class="o">.</span><span class="na">sharedLibraryLoadersAfter</span> <span class="o">=</span> <span class="n">sharedLibraryLoadersAfter</span> <span class="o">==</span> <span class="kc">null</span>
-              <span class="o">?</span> <span class="kc">null</span>
-              <span class="o">:</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">sharedLibraryLoadersAfter</span><span class="o">,</span> <span class="n">sharedLibraryLoadersAfter</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
-      <span class="c1">// Run background verification after having set &#39;pathList&#39;.
-</span><span class="c1"></span>      <span class="k">this</span><span class="o">.</span><span class="na">pathList</span><span class="o">.</span><span class="na">maybeRunBackgroundVerification</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-
-      <span class="n">reportClassLoaderChain</span><span class="o">();</span>
-  <span class="o">}</span>
-
-<span class="c1">// libcore/dalvik/src/main/java/dalvik/system/DexPathList.java
-</span><span class="c1"></span><span class="n">DexPathList</span><span class="o">(</span><span class="n">ClassLoader</span> <span class="n">definingContext</span><span class="o">,</span> <span class="n">String</span> <span class="n">dexPath</span><span class="o">,</span>
-          <span class="n">String</span> <span class="n">librarySearchPath</span><span class="o">,</span> <span class="n">File</span> <span class="n">optimizedDirectory</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">isTrusted</span><span class="o">)</span> <span class="o">{</span>
-      
-      <span class="c1">// 略
-</span><span class="c1"></span>      <span class="k">this</span><span class="o">.</span><span class="na">dexElements</span> <span class="o">=</span> <span class="n">makeDexElements</span><span class="o">(</span><span class="n">splitDexPath</span><span class="o">(</span><span class="n">dexPath</span><span class="o">),</span> <span class="n">optimizedDirectory</span><span class="o">,</span>
-                                          <span class="n">suppressedExceptions</span><span class="o">,</span> <span class="n">definingContext</span><span class="o">,</span> <span class="n">isTrusted</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">private</span> <span class="kd">static</span> <span class="n">Element</span><span class="o">[]</span> <span class="nf">makeDexElements</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">File</span><span class="o">&gt;</span> <span class="n">files</span><span class="o">,</span> <span class="n">File</span> <span class="n">optimizedDirectory</span><span class="o">,</span>
-            <span class="n">List</span><span class="o">&lt;</span><span class="n">IOException</span><span class="o">&gt;</span> <span class="n">suppressedExceptions</span><span class="o">,</span> <span class="n">ClassLoader</span> <span class="n">loader</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">isTrusted</span><span class="o">)</span> <span class="o">{</span>
-      <span class="c1">// 略
-</span><span class="c1"></span>       <span class="n">loadDexFile</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">optimizedDirectory</span><span class="o">,</span> <span class="n">loader</span><span class="o">,</span> <span class="n">elements</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="c1">// libcore/dalvik/src/main/java/dalvik/system/DexFile.java
-</span><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="n">Object</span> <span class="nf">openDexFile</span><span class="o">(</span><span class="n">String</span> <span class="n">sourceName</span><span class="o">,</span> <span class="n">String</span> <span class="n">outputName</span><span class="o">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="o">,</span>
-        <span class="n">ClassLoader</span> <span class="n">loader</span><span class="o">,</span> <span class="n">DexPathList</span><span class="o">.</span><span class="na">Element</span><span class="o">[]</span> <span class="n">elements</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="c1">// Use absolute paths to enable the use of relative paths when testing on host.
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">openDexFileNative</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">sourceName</span><span class="o">).</span><span class="na">getAbsolutePath</span><span class="o">(),</span>
-                              <span class="o">(</span><span class="n">outputName</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
-                                  <span class="o">?</span> <span class="kc">null</span>
-                                  <span class="o">:</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">outputName</span><span class="o">).</span><span class="na">getAbsolutePath</span><span class="o">(),</span>
-                              <span class="n">flags</span><span class="o">,</span>
-                              <span class="n">loader</span><span class="o">,</span>
-                              <span class="n">elements</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div><h3 id="native-层">native 层</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// libcore/dalvik/src/main/java/dalvik/system/BaseDexClassLoader.java
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="nf">BaseDexClassLoader</span><span class="o">(</span><span class="n">String</span> <span class="n">dexPath</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">String</span> <span class="n">librarySearchPath</span><span class="o">,</span> <span class="n">ClassLoader</span> <span class="n">parent</span><span class="o">,</span> <span class="n">ClassLoader</span><span class="o">[]</span> <span class="n">sharedLibraryLoaders</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">ClassLoader</span><span class="o">[]</span> <span class="n">sharedLibraryLoadersAfter</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="kt">boolean</span> <span class="n">isTrusted</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">super</span><span class="o">(</span><span class="n">parent</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// Setup shared libraries before creating the path list. ART relies on the class loader
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// hierarchy being finalized before loading dex files.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">this</span><span class="o">.</span><span class="na">sharedLibraryLoaders</span> <span class="o">=</span> <span class="n">sharedLibraryLoaders</span> <span class="o">==</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">              <span class="o">?</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">              <span class="o">:</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">sharedLibraryLoaders</span><span class="o">,</span> <span class="n">sharedLibraryLoaders</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="o">.</span><span class="na">pathList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DexPathList</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">dexPath</span><span class="o">,</span> <span class="n">librarySearchPath</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">isTrusted</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="o">.</span><span class="na">sharedLibraryLoadersAfter</span> <span class="o">=</span> <span class="n">sharedLibraryLoadersAfter</span> <span class="o">==</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">              <span class="o">?</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">              <span class="o">:</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">sharedLibraryLoadersAfter</span><span class="o">,</span> <span class="n">sharedLibraryLoadersAfter</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// Run background verification after having set &#39;pathList&#39;.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">this</span><span class="o">.</span><span class="na">pathList</span><span class="o">.</span><span class="na">maybeRunBackgroundVerification</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="n">reportClassLoaderChain</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// libcore/dalvik/src/main/java/dalvik/system/DexPathList.java
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">DexPathList</span><span class="o">(</span><span class="n">ClassLoader</span> <span class="n">definingContext</span><span class="o">,</span> <span class="n">String</span> <span class="n">dexPath</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">String</span> <span class="n">librarySearchPath</span><span class="o">,</span> <span class="n">File</span> <span class="n">optimizedDirectory</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">isTrusted</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="c1">// 略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">this</span><span class="o">.</span><span class="na">dexElements</span> <span class="o">=</span> <span class="n">makeDexElements</span><span class="o">(</span><span class="n">splitDexPath</span><span class="o">(</span><span class="n">dexPath</span><span class="o">),</span> <span class="n">optimizedDirectory</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">suppressedExceptions</span><span class="o">,</span> <span class="n">definingContext</span><span class="o">,</span> <span class="n">isTrusted</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="n">Element</span><span class="o">[]</span> <span class="nf">makeDexElements</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">File</span><span class="o">&gt;</span> <span class="n">files</span><span class="o">,</span> <span class="n">File</span> <span class="n">optimizedDirectory</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">List</span><span class="o">&lt;</span><span class="n">IOException</span><span class="o">&gt;</span> <span class="n">suppressedExceptions</span><span class="o">,</span> <span class="n">ClassLoader</span> <span class="n">loader</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">isTrusted</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>       <span class="n">loadDexFile</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">optimizedDirectory</span><span class="o">,</span> <span class="n">loader</span><span class="o">,</span> <span class="n">elements</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// libcore/dalvik/src/main/java/dalvik/system/DexFile.java
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="n">Object</span> <span class="nf">openDexFile</span><span class="o">(</span><span class="n">String</span> <span class="n">sourceName</span><span class="o">,</span> <span class="n">String</span> <span class="n">outputName</span><span class="o">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ClassLoader</span> <span class="n">loader</span><span class="o">,</span> <span class="n">DexPathList</span><span class="o">.</span><span class="na">Element</span><span class="o">[]</span> <span class="n">elements</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Use absolute paths to enable the use of relative paths when testing on host.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">openDexFileNative</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">sourceName</span><span class="o">).</span><span class="na">getAbsolutePath</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">                              <span class="o">(</span><span class="n">outputName</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                                  <span class="o">?</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">                                  <span class="o">:</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">outputName</span><span class="o">).</span><span class="na">getAbsolutePath</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">                              <span class="n">flags</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                              <span class="n">loader</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                              <span class="n">elements</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="native-层">native 层</h3>
 <p>接着上面的 openDexFileNative，会进入 native 层，最终 mmap 的地方我找了好久</p>
 <p>最终发现其实只要调用了 oat_file_info.getFile() 其实就已经触发了 mmap</p>
 <p>大致流程为:<br>
 openDexFileNative -&gt; OpenDexFilesFromOat -&gt; GetOptimizationStatus -&gt; GetFile -&gt; Open -&gt; OpenOatFile -&gt; Load -&gt; ElfFileOpen</p>
 <p>此处 getOptimizationsStatus 是我找到的最靠前的方法。mmap 最早发生在何处可能不太准确，但是不影响结论——使用 mmap 来达到懒加载。</p>
 <p>native 侧代码如下</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// art/runtime/native/dalvik_system_DexFile.cc
-</span><span class="c1"></span><span class="k">static</span> <span class="n">jobject</span> <span class="nf">DexFile_openDexFileNative</span><span class="p">(</span><span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span><span class="p">,</span>
-                                         <span class="n">jclass</span><span class="p">,</span>
-                                         <span class="n">jstring</span> <span class="n">javaSourceName</span><span class="p">,</span>
-                                         <span class="n">jstring</span> <span class="n">javaOutputName</span> <span class="n">ATTRIBUTE_UNUSED</span><span class="p">,</span>
-                                         <span class="n">jint</span> <span class="n">flags</span> <span class="n">ATTRIBUTE_UNUSED</span><span class="p">,</span>
-                                         <span class="n">jobject</span> <span class="n">class_loader</span><span class="p">,</span>
-                                         <span class="n">jobjectArray</span> <span class="n">dex_elements</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">ScopedUtfChars</span> <span class="n">sourceName</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">javaSourceName</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">sourceName</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">error_msgs</span><span class="p">;</span>
-  <span class="k">const</span> <span class="n">OatFile</span><span class="o">*</span> <span class="n">oat_file</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">DexFile</span><span class="o">&gt;&gt;</span> <span class="n">dex_files</span> <span class="o">=</span>
-      <span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetOatFileManager</span><span class="p">().</span><span class="n">OpenDexFilesFromOat</span><span class="p">(</span><span class="n">sourceName</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span>
-                                                                  <span class="n">class_loader</span><span class="p">,</span>
-                                                                  <span class="n">dex_elements</span><span class="p">,</span>
-                                                                  <span class="cm">/*out*/</span> <span class="o">&amp;</span><span class="n">oat_file</span><span class="p">,</span>
-                                                                  <span class="cm">/*out*/</span> <span class="o">&amp;</span><span class="n">error_msgs</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">CreateCookieFromOatFileManagerResult</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">dex_files</span><span class="p">,</span> <span class="n">oat_file</span><span class="p">,</span> <span class="n">error_msgs</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// art/runtime/oat_file_manager.cc
-</span><span class="c1"></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">DexFile</span><span class="o">&gt;&gt;</span> <span class="n">OatFileManager</span><span class="o">::</span><span class="n">OpenDexFilesFromOat</span><span class="p">(</span>
-    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">dex_location</span><span class="p">,</span>
-    <span class="n">jobject</span> <span class="n">class_loader</span><span class="p">,</span>
-    <span class="n">jobjectArray</span> <span class="n">dex_elements</span><span class="p">,</span>
-    <span class="k">const</span> <span class="n">OatFile</span><span class="o">**</span> <span class="n">out_oat_file</span><span class="p">,</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;*</span> <span class="n">error_msgs</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// 略
-</span><span class="c1"></span>
-  <span class="c1">// 这里是我发现的可能是最早的 mmap 的地方
-</span><span class="c1"></span>  <span class="n">oat_file_assistant</span><span class="o">-&gt;</span><span class="n">GetOptimizationStatus</span><span class="p">(</span>
-      <span class="o">&amp;</span><span class="n">odex_location</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">compilation_filter</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">compilation_reason</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">odex_status</span><span class="p">);</span>
-
-  <span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetAppInfo</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">RegisterOdexStatus</span><span class="p">(</span>
-      <span class="n">dex_location</span><span class="p">,</span>
-      <span class="n">compilation_filter</span><span class="p">,</span>
-      <span class="n">compilation_reason</span><span class="p">,</span>
-      <span class="n">odex_status</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// art/runtime/oat_file_assistant.cc
-</span><span class="c1"></span><span class="kt">void</span> <span class="n">OatFileAssistant</span><span class="o">::</span><span class="n">GetOptimizationStatus</span><span class="p">(</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">out_odex_location</span><span class="p">,</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">out_compilation_filter</span><span class="p">,</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">out_compilation_reason</span><span class="p">,</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">out_odex_status</span><span class="p">)</span> <span class="p">{</span>
-<span class="n">OatFileInfo</span><span class="o">&amp;</span> <span class="n">oat_file_info</span> <span class="o">=</span> <span class="n">GetBestInfo</span><span class="p">();</span>
-<span class="k">const</span> <span class="n">OatFile</span><span class="o">*</span> <span class="n">oat_file</span> <span class="o">=</span> <span class="n">GetBestInfo</span><span class="p">().</span><span class="n">GetFile</span><span class="p">();</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="n">oat_file</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-  <span class="o">*</span><span class="n">out_odex_location</span> <span class="o">=</span> <span class="s">&#34;error&#34;</span><span class="p">;</span>
-  <span class="o">*</span><span class="n">out_compilation_filter</span> <span class="o">=</span> <span class="s">&#34;run-from-apk&#34;</span><span class="p">;</span>
-  <span class="o">*</span><span class="n">out_compilation_reason</span> <span class="o">=</span> <span class="s">&#34;unknown&#34;</span><span class="p">;</span>
-  <span class="c1">// This mostly happens when we cannot open the oat file.
-</span><span class="c1"></span>  <span class="c1">// Note that it&#39;s different than kOatCannotOpen.
-</span><span class="c1"></span>  <span class="c1">// TODO: The design of getting the BestInfo is not ideal,
-</span><span class="c1"></span>  <span class="c1">// as it&#39;s not very clear what&#39;s the difference between
-</span><span class="c1"></span>  <span class="c1">// a nullptr and kOatcannotOpen. The logic should be revised
-</span><span class="c1"></span>  <span class="c1">// and improved.
-</span><span class="c1"></span>  <span class="o">*</span><span class="n">out_odex_status</span> <span class="o">=</span> <span class="s">&#34;io-error-no-oat&#34;</span><span class="p">;</span>
-  <span class="k">return</span><span class="p">;</span>
-
-  <span class="c1">// 略
-</span><span class="c1"></span><span class="p">}</span>
-
-<span class="c1">// art/runtime/oat_file.cc
-</span><span class="c1">//  Open -&gt; OpenOatFile -&gt; Load -&gt; ElfFileOpen  均在 oat_file 中 
-</span><span class="c1"></span><span class="kt">bool</span> <span class="n">ElfOatFile</span><span class="o">::</span><span class="n">ElfFileOpen</span><span class="p">(</span><span class="n">File</span><span class="o">*</span> <span class="n">file</span><span class="p">,</span>
-                             <span class="kt">bool</span> <span class="n">writable</span><span class="p">,</span>
-                             <span class="kt">bool</span> <span class="n">executable</span><span class="p">,</span>
-                             <span class="kt">bool</span> <span class="n">low_4gb</span><span class="p">,</span>
-                             <span class="cm">/*inout*/</span><span class="n">MemMap</span><span class="o">*</span> <span class="n">reservation</span><span class="p">,</span>
-                             <span class="cm">/*out*/</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">error_msg</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">ScopedTrace</span> <span class="nf">trace</span><span class="p">(</span><span class="n">__PRETTY_FUNCTION__</span><span class="p">);</span>
-  <span class="n">elf_file_</span><span class="p">.</span><span class="n">reset</span><span class="p">(</span><span class="n">ElfFile</span><span class="o">::</span><span class="n">Open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span>
-                                <span class="n">writable</span><span class="p">,</span>
-                                <span class="cm">/*program_header_only=*/</span> <span class="nb">true</span><span class="p">,</span>
-                                <span class="n">low_4gb</span><span class="p">,</span>
-                                <span class="n">error_msg</span><span class="p">));</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">elf_file_</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">DCHECK</span><span class="p">(</span><span class="o">!</span><span class="n">error_msg</span><span class="o">-&gt;</span><span class="n">empty</span><span class="p">());</span>
-    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="kt">bool</span> <span class="n">loaded</span> <span class="o">=</span> <span class="n">elf_file_</span><span class="o">-&gt;</span><span class="n">Load</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">executable</span><span class="p">,</span> <span class="n">low_4gb</span><span class="p">,</span> <span class="n">reservation</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">);</span>
-  <span class="n">DCHECK</span><span class="p">(</span><span class="n">loaded</span> <span class="o">||</span> <span class="o">!</span><span class="n">error_msg</span><span class="o">-&gt;</span><span class="n">empty</span><span class="p">());</span>
-  <span class="k">return</span> <span class="n">loaded</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// 后续的 Open 方法中会调用 setup，进而调用 MemMap::MapFile 进而调用 mmap
-</span></code></pre></div></div><div class="post-footer" id="post-footer">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// art/runtime/native/dalvik_system_DexFile.cc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="n">jobject</span> <span class="nf">DexFile_openDexFileNative</span><span class="p">(</span><span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">jclass</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">jstring</span> <span class="n">javaSourceName</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">jstring</span> <span class="n">javaOutputName</span> <span class="n">ATTRIBUTE_UNUSED</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">jint</span> <span class="n">flags</span> <span class="n">ATTRIBUTE_UNUSED</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">jobject</span> <span class="n">class_loader</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">jobjectArray</span> <span class="n">dex_elements</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ScopedUtfChars</span> <span class="n">sourceName</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">javaSourceName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">sourceName</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">error_msgs</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="n">OatFile</span><span class="o">*</span> <span class="n">oat_file</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">DexFile</span><span class="o">&gt;&gt;</span> <span class="n">dex_files</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetOatFileManager</span><span class="p">().</span><span class="n">OpenDexFilesFromOat</span><span class="p">(</span><span class="n">sourceName</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">                                                                  <span class="n">class_loader</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                                  <span class="n">dex_elements</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                                  <span class="cm">/*out*/</span> <span class="o">&amp;</span><span class="n">oat_file</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                                  <span class="cm">/*out*/</span> <span class="o">&amp;</span><span class="n">error_msgs</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">CreateCookieFromOatFileManagerResult</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">dex_files</span><span class="p">,</span> <span class="n">oat_file</span><span class="p">,</span> <span class="n">error_msgs</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// art/runtime/oat_file_manager.cc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">DexFile</span><span class="o">&gt;&gt;</span> <span class="n">OatFileManager</span><span class="o">::</span><span class="n">OpenDexFilesFromOat</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">dex_location</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">jobject</span> <span class="n">class_loader</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">jobjectArray</span> <span class="n">dex_elements</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="n">OatFile</span><span class="o">**</span> <span class="n">out_oat_file</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;*</span> <span class="n">error_msgs</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 这里是我发现的可能是最早的 mmap 的地方
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">oat_file_assistant</span><span class="o">-&gt;</span><span class="n">GetOptimizationStatus</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="o">&amp;</span><span class="n">odex_location</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">compilation_filter</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">compilation_reason</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">odex_status</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetAppInfo</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">RegisterOdexStatus</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">dex_location</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">compilation_filter</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">compilation_reason</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">odex_status</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// art/runtime/oat_file_assistant.cc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="n">OatFileAssistant</span><span class="o">::</span><span class="n">GetOptimizationStatus</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">out_odex_location</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">out_compilation_filter</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">out_compilation_reason</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">out_odex_status</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="n">OatFileInfo</span><span class="o">&amp;</span> <span class="n">oat_file_info</span> <span class="o">=</span> <span class="n">GetBestInfo</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="n">OatFile</span><span class="o">*</span> <span class="n">oat_file</span> <span class="o">=</span> <span class="n">GetBestInfo</span><span class="p">().</span><span class="n">GetFile</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">oat_file</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">*</span><span class="n">out_odex_location</span> <span class="o">=</span> <span class="s">&#34;error&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">*</span><span class="n">out_compilation_filter</span> <span class="o">=</span> <span class="s">&#34;run-from-apk&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">*</span><span class="n">out_compilation_reason</span> <span class="o">=</span> <span class="s">&#34;unknown&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// This mostly happens when we cannot open the oat file.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// Note that it&#39;s different than kOatCannotOpen.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// TODO: The design of getting the BestInfo is not ideal,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// as it&#39;s not very clear what&#39;s the difference between
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// a nullptr and kOatcannotOpen. The logic should be revised
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// and improved.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">*</span><span class="n">out_odex_status</span> <span class="o">=</span> <span class="s">&#34;io-error-no-oat&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// art/runtime/oat_file.cc
+</span></span></span><span class="line"><span class="cl"><span class="c1">//  Open -&gt; OpenOatFile -&gt; Load -&gt; ElfFileOpen  均在 oat_file 中 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">bool</span> <span class="n">ElfOatFile</span><span class="o">::</span><span class="n">ElfFileOpen</span><span class="p">(</span><span class="n">File</span><span class="o">*</span> <span class="n">file</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                             <span class="kt">bool</span> <span class="n">writable</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                             <span class="kt">bool</span> <span class="n">executable</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                             <span class="kt">bool</span> <span class="n">low_4gb</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                             <span class="cm">/*inout*/</span><span class="n">MemMap</span><span class="o">*</span> <span class="n">reservation</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                             <span class="cm">/*out*/</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">error_msg</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ScopedTrace</span> <span class="nf">trace</span><span class="p">(</span><span class="n">__PRETTY_FUNCTION__</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">elf_file_</span><span class="p">.</span><span class="n">reset</span><span class="p">(</span><span class="n">ElfFile</span><span class="o">::</span><span class="n">Open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">writable</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="cm">/*program_header_only=*/</span> <span class="nb">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">low_4gb</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">error_msg</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">elf_file_</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DCHECK</span><span class="p">(</span><span class="o">!</span><span class="n">error_msg</span><span class="o">-&gt;</span><span class="n">empty</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">bool</span> <span class="n">loaded</span> <span class="o">=</span> <span class="n">elf_file_</span><span class="o">-&gt;</span><span class="n">Load</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">executable</span><span class="p">,</span> <span class="n">low_4gb</span><span class="p">,</span> <span class="n">reservation</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">DCHECK</span><span class="p">(</span><span class="n">loaded</span> <span class="o">||</span> <span class="o">!</span><span class="n">error_msg</span><span class="o">-&gt;</span><span class="n">empty</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">loaded</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 后续的 Open 方法中会调用 setup，进而调用 MemMap::MapFile 进而调用 mmap
+</span></span></span></code></pre></div></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
@@ -379,8 +379,8 @@ openDexFileNative -&gt; OpenDexFilesFromOat -&gt; GetOptimizationStatus -&gt; Ge
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

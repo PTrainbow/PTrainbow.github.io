@@ -160,9 +160,9 @@
 <h3 id="2安装-risc-v-compile-toolchain">2.安装 risc-v compile toolchain</h3>
 <p>一开始害怕版本问题，去 git clone 了对应的仓库，但是图中有一个子 module 一直 pull 不下来，放弃。</p>
 <p>使用文档中的命令：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ brew tap riscv/riscv
-$ brew install riscv-tools
-</code></pre></div><p>等待比较久，最终我这边目前安装的版本是 11.1.0，后续似乎没有什么版本兼容问题，gdb 也可以启动</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ brew tap riscv/riscv
+</span></span><span class="line"><span class="cl">$ brew install riscv-tools
+</span></span></code></pre></div><p>等待比较久，最终我这边目前安装的版本是 11.1.0，后续似乎没有什么版本兼容问题，gdb 也可以启动</p>
 <h3 id="3安装-qemu-510-并手动编译">3.安装 qemu 5.1.0 并手动编译</h3>
 <p>这个踩了一个坑，通过 brew install qemu 安装的是一个高版本 qemu</p>
 <p>这个版本的 qemu 在运行 xv6 时，<strong><code>会卡主不动!!!</code></strong></p>
@@ -175,14 +175,14 @@ $ brew install riscv-tools
 <p><a href="https://pdos.csail.mit.edu/6.828/2020/tools.html" target="_blank" rel="noopener noreffer">https://pdos.csail.mit.edu/6.828/2020/tools.html</a></p>
 <p>可以从这里的 Labs tab 中跟着学习下载，同时 xv6 tab 下也有一个理论知识的 pdf</p>
 <p>比如，进入 Lab: Xv6 and Unix utilities</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git clone git://g.csail.mit.edu/xv6-labs-2020
-Cloning into <span class="s1">&#39;xv6-labs-2020&#39;</span>...
-...
-$ <span class="nb">cd</span> xv6-labs-2020
-$ git checkout util
-Branch <span class="s1">&#39;util&#39;</span> <span class="nb">set</span> up to track remote branch <span class="s1">&#39;util&#39;</span> from <span class="s1">&#39;origin&#39;</span>.
-Switched to a new branch <span class="s1">&#39;util&#39;</span>
-</code></pre></div><p>记得切分支之后运行</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ git clone git://g.csail.mit.edu/xv6-labs-2020
+</span></span><span class="line"><span class="cl">Cloning into <span class="s1">&#39;xv6-labs-2020&#39;</span>...
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> xv6-labs-2020
+</span></span><span class="line"><span class="cl">$ git checkout util
+</span></span><span class="line"><span class="cl">Branch <span class="s1">&#39;util&#39;</span> <span class="nb">set</span> up to track remote branch <span class="s1">&#39;util&#39;</span> from <span class="s1">&#39;origin&#39;</span>.
+</span></span><span class="line"><span class="cl">Switched to a new branch <span class="s1">&#39;util&#39;</span>
+</span></span></code></pre></div><p>记得切分支之后运行</p>
 <pre tabindex="0"><code>make qemu
 </code></pre><p>最终输出一长串 log 后，出现 init: starting sh，那么就 OK 了！</p>
 <p><img
@@ -196,8 +196,8 @@ Switched to a new branch <span class="s1">&#39;util&#39;</span>
 <h3 id="5如何-debug">5.如何 Debug</h3>
 <p>打开两个 terminal，都进入 xv6 源码目录</p>
 <p>其中一个 terminal 输入</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">make qemu-gdb
-</code></pre></div><p>查看输出，会有一个端口号输出，如 tcp::25501</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">make qemu-gdb
+</span></span></code></pre></div><p>查看输出，会有一个端口号输出，如 tcp::25501</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -207,8 +207,8 @@ Switched to a new branch <span class="s1">&#39;util&#39;</span>
         alt="/img/in-post/xv6-qemu-gdb.jpg"
         title="/img/in-post/xv6-qemu-gdb.jpg" /></p>
 <p>在另一个 terminal 输入</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">riscv64-unknown-elf-gdb kernel/kernel <span class="c1"># 表示调试某个可执行文件</span>
-</code></pre></div><p>之后会有一堆输出，进入 gdb 调试，terminal 开头也会有 (gdb) 字样，这时输入，就可以开始调试了！</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">riscv64-unknown-elf-gdb kernel/kernel <span class="c1"># 表示调试某个可执行文件</span>
+</span></span></code></pre></div><p>之后会有一堆输出，进入 gdb 调试，terminal 开头也会有 (gdb) 字样，这时输入，就可以开始调试了！</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -217,13 +217,13 @@ Switched to a new branch <span class="s1">&#39;util&#39;</span>
         data-sizes="auto"
         alt="/img/in-post/xv6-gdb-2.jpg"
         title="/img/in-post/xv6-gdb-2.jpg" /></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">target remote localhost:25501 
-</code></pre></div><p>具体的 gdb 相关命令，我也不是很熟</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">target remote localhost:25501 
+</span></span></code></pre></div><p>具体的 gdb 相关命令，我也不是很熟</p>
 <p>可以输入</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">b <span class="nb">exec</span> <span class="c1"># 表示的是在 exec 出打断点，b = break</span>
-</code></pre></div><p>之后输入</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">c <span class="c1"># continue，就是运行到断点出</span>
-</code></pre></div><p><img
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">b <span class="nb">exec</span> <span class="c1"># 表示的是在 exec 出打断点，b = break</span>
+</span></span></code></pre></div><p>之后输入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">c <span class="c1"># continue，就是运行到断点出</span>
+</span></span></code></pre></div><p><img
         class="lazyload"
         src="/svg/loading.min.svg"
         data-src="/img/in-post/xv6-gdb-1.jpg"
@@ -263,8 +263,8 @@ Switched to a new branch <span class="s1">&#39;util&#39;</span>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

@@ -145,27 +145,26 @@
 <p>都说 var 是可变的， val 是不可变的，<code>且均要进行初始化</code> 即使赋值是 null，这个地方就关联了很多诡异的写法。</p>
 <h2 id="类成员变量初始化的各种写法">类成员变量初始化的各种写法</h2>
 <h3 id="最基本的概念">最基本的概念</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
-<span class="n">someObj</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
-
-<span class="k">val</span> <span class="py">finalObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
-<span class="n">finalObj</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">2</span><span class="p">)</span> <span class="c1">// 编译报错
-</span><span class="c1"></span>
-</code></pre></div><p>基本概念就是 var 修饰的变量后续 <code>可变</code>，val <code>不可变</code>。先这么记住，后续会存在 <code>打脸</code>。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">someObj</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="py">finalObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">finalObj</span> <span class="p">=</span> <span class="n">SomeObject</span><span class="p">(</span><span class="m">2</span><span class="p">)</span> <span class="c1">// 编译报错
+</span></span></span></code></pre></div><p>基本概念就是 var 修饰的变量后续 <code>可变</code>，val <code>不可变</code>。先这么记住，后续会存在 <code>打脸</code>。
 你会发现我这里声明的变量都初始化了，不初始化行不行？</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 注意这里的都是类成员变量，不是局部变量
-</span><span class="c1"></span><span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="c1">// 报错
-</span><span class="c1"></span><span class="k">var</span> <span class="py">someObj2</span><span class="p">:</span> <span class="n">someObject</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// 报错
-</span><span class="c1"></span><span class="k">val</span> <span class="py">finalObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="c1">// 报错
-</span></code></pre></div><p>因为 kotlin 为了避免空指针，<code>类成员变量不允许不初始化</code> (后续也会打脸)，一定要初始化(你初始化为 null 也行，但是还会检测出你复制为 null 了，要求你转为 <code>可空类型</code>)。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="c1">// 注意这里的都是类成员变量，不是局部变量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="c1">// 报错
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">var</span> <span class="py">someObj2</span><span class="p">:</span> <span class="n">someObject</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// 报错
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="py">finalObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="c1">// 报错
+</span></span></span></code></pre></div><p>因为 kotlin 为了避免空指针，<code>类成员变量不允许不初始化</code> (后续也会打脸)，一定要初始化(你初始化为 null 也行，但是还会检测出你复制为 null 了，要求你转为 <code>可空类型</code>)。</p>
 <p>有可空类型，就有非空类型</p>
 <ul>
 <li>
 <p>可空类型</p>
 <p>顾名思义，可能是空的类型。kotlin 在访问一个类的成员变量时，其实是访问的是其 get set 方法，他会去判空。可空类型在kotlin中的写法就是带个问号</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">someObj2</span><span class="p">:</span> <span class="n">someObject</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// 报错
-</span><span class="c1"></span><span class="k">var</span> <span class="py">someObj3</span><span class="p">:</span> <span class="n">someObject</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// ok
-</span></code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">var</span> <span class="py">someObj2</span><span class="p">:</span> <span class="n">someObject</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// 报错
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">var</span> <span class="py">someObj3</span><span class="p">:</span> <span class="n">someObject</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span> <span class="c1">// ok
+</span></span></span></code></pre></div></li>
 <li>
 <p>非空类型</p>
 <p>更简单了，不是空~~</p>
@@ -173,63 +172,62 @@
 </ul>
 <h3 id="打脸成员变量一定要初始化">打脸成员变量一定要初始化</h3>
 <p>看这段代码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">lateinit</span> <span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span>
-</code></pre></div><p>这里就是声明了一个叫做 someObj 的成员变量，类型是 SomeObject，声明变量时可以在冒号后指定类型，也可以不指定。这都不是重点。重点是，不是说一定要 <code>初始化么</code> ？好了，这里没有初始化，打脸了，但是看到一个关键字，<code>lateinit</code> 来了。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">lateinit</span> <span class="k">var</span> <span class="py">someObj</span><span class="p">:</span> <span class="n">SomeObject</span>
+</span></span></code></pre></div><p>这里就是声明了一个叫做 someObj 的成员变量，类型是 SomeObject，声明变量时可以在冒号后指定类型，也可以不指定。这都不是重点。重点是，不是说一定要 <code>初始化么</code> ？好了，这里没有初始化，打脸了，但是看到一个关键字，<code>lateinit</code> 来了。</p>
 <p>什么是 <code>lateinit</code> ？这是我 2019 年碰 kotlin 的时候，就了解了的。</p>
 <p>想追原理，自己去看字节码。</p>
 <p>总结一句话就是，我就是想打破 kotlin 的赋值初始化规则，让编译器不要管我有没有初始化了(为什么编译器要管初始化的问题？因为 kotlin 想尽力避免空指针的出现，所以都要初始化)，我自己去负责这个变量的初始化。</p>
 <p>那么问题来了，如果你用 <code>lateinit</code> 声明了一个变量，让编译器放你一马，之后你又没有去管理这个变量的初始化，在之后的代码里没有对它进行任何的赋值操作，那么你自己在运行时使用这个变量的时候，很显然啊，空指针啊！</p>
 <p>那么问题又来了，既然 <code>lateinit</code> 只是说明我这个属性是暂时不初始化的，那我为什么不能直接用 var + null 声明呢？如下</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">somObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="k">null</span>
-</code></pre></div><p>这样写对吗？铁定不对啊，编译器会给你报错 <code>Null can not be a value of a non-null type SomeObject</code>，为啥？前面基本概念就说了，你这是可空类型，得加问号啊。但是如果你用 lateinit，就不需要加这个烦人的问号。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">var</span> <span class="py">somObj</span><span class="p">:</span> <span class="n">SomeObject</span> <span class="p">=</span> <span class="k">null</span>
+</span></span></code></pre></div><p>这样写对吗？铁定不对啊，编译器会给你报错 <code>Null can not be a value of a non-null type SomeObject</code>，为啥？前面基本概念就说了，你这是可空类型，得加问号啊。但是如果你用 lateinit，就不需要加这个烦人的问号。</p>
 <h3 id="使用-var--null-初始化的可空类型的后续问题">使用 var + null 初始化的可空类型的后续问题</h3>
 <p>一旦你的一个成员变量是可空类型，你在后续写代码的时候使用会有各种烦人的问题，比如下面这一坨代码。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">private</span> <span class="k">fun</span> <span class="nf">getLayoutView</span><span class="p">():</span> <span class="n">View</span><span class="p">?</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">mLithoView</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">mLithoView</span> <span class="p">=</span> <span class="n">LithoView</span><span class="p">(</span><span class="n">rootView</span><span class="p">.</span><span class="n">context</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">mLithoView</span>
-<span class="p">}</span>
-
-<span class="k">var</span> <span class="py">mPlcEntryDataAdapter</span><span class="p">:</span> <span class="n">PlcEntryDataAdapter</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="n">getLayoutView</span><span class="p">()</span> <span class="o">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">mStyleView</span> <span class="p">=</span> <span class="n">FlexStyleUtils</span><span class="p">.</span><span class="n">addStyleViewToParent</span><span class="p">(</span>
-        <span class="n">rootView</span> <span class="k">as</span> <span class="n">RelativeLayout</span><span class="p">,</span>
-        <span class="n">getLayoutView</span><span class="p">()</span><span class="o">!!</span><span class="p">,</span>
-        <span class="n">getContainerId</span><span class="p">())</span>
-<span class="p">}</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="n">mPlcEntryDataAdapter</span><span class="o">?.</span><span class="n">actionType</span> <span class="o">==</span> <span class="n">PlcEntryStyleInfo</span><span class="p">.</span><span class="n">ActionType</span><span class="p">.</span><span class="n">APP_DOWNLOAD</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">mDownloadActionObserver</span><span class="p">.</span><span class="n">onNext</span><span class="p">(</span><span class="k">false</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><p>你会发现有很多的 <code>？？？？？</code>，居然还有 <code>！！！！</code>。<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">fun</span> <span class="nf">getLayoutView</span><span class="p">():</span> <span class="n">View</span><span class="p">?</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">mLithoView</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">mLithoView</span> <span class="p">=</span> <span class="n">LithoView</span><span class="p">(</span><span class="n">rootView</span><span class="p">.</span><span class="n">context</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">mLithoView</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="py">mPlcEntryDataAdapter</span><span class="p">:</span> <span class="n">PlcEntryDataAdapter</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">getLayoutView</span><span class="p">()</span> <span class="o">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mStyleView</span> <span class="p">=</span> <span class="n">FlexStyleUtils</span><span class="p">.</span><span class="n">addStyleViewToParent</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rootView</span> <span class="k">as</span> <span class="n">RelativeLayout</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">getLayoutView</span><span class="p">()</span><span class="o">!!</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">getContainerId</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">mPlcEntryDataAdapter</span><span class="o">?.</span><span class="n">actionType</span> <span class="o">==</span> <span class="n">PlcEntryStyleInfo</span><span class="p">.</span><span class="n">ActionType</span><span class="p">.</span><span class="n">APP_DOWNLOAD</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mDownloadActionObserver</span><span class="p">.</span><span class="n">onNext</span><span class="p">(</span><span class="k">false</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>你会发现有很多的 <code>？？？？？</code>，居然还有 <code>！！！！</code>。<br>
 是的没错，为了尽可能避免空指针，kotlin 要求所有成员变量都要初始化对吧，你居然还想初始化赋值为 null，那我 kotlin 辛辛苦苦想避免的空指针不就白费了么？所以，如果你一定要这么赋值，那么你就要在声明中加个问号，使用时也得带着问号，就是所谓的可空类型嘛，也就是上面代码里的 <code>mPlcEntryDataAdapter？和 mPlcEntryDataAdapter?.actionType</code> 这个变量的声明和使用的体现。</p>
 <p>那<code>!!</code>这个又是什么呢？</p>
 <h3 id="为什么他的-kotlin-代码里有-">为什么他的 kotlin 代码里有 ！！</h3>
 <p><code>!!</code> 的作用其实就是告诉编译器，我这个可空类型的变量是非空的！(真打脸)</p>
 <p>但是，这在 android 中是非常常见的。比如我们经常使用的 intent 来传递参数，可是 intent 是可空类型的，那么我们从 intent 里面读出来的参数，如果使用 var 声明，那么肯定也是可空类型的。但是，我们又知道，这个 intent 肯定不是空的，我们会传自己的参数进来，所以我们存在 intent 里面的参数也一定不是空的，我们接收参数的方法，也是接收一个非空参数。这个时候只能如下这样写用 <code>!!</code>，或者 lateinit。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">config</span><span class="p">:</span> <span class="n">AlbumDetectionConfig</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
-<span class="k">override</span> <span class="k">fun</span> <span class="nf">onStartCommand</span><span class="p">(</span><span class="n">intent</span><span class="p">:</span> <span class="n">Intent</span><span class="p">?,</span> <span class="n">flags</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">startId</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">Int</span> <span class="p">{</span>
-    <span class="n">config</span> <span class="p">=</span> <span class="n">intent</span><span class="o">?.</span><span class="n">let</span> <span class="p">{</span>
-        <span class="n">IntentUtils</span><span class="p">.</span><span class="n">getSerializableExtra</span><span class="p">&lt;</span><span class="n">AlbumDetectionConfig</span><span class="p">&gt;(</span>
-            <span class="k">it</span><span class="p">,</span>
-            <span class="n">AlbumDetectInitModuleALBUM_DETECTION_CONFIG_KEY</span>
-            <span class="p">)}</span><span class="o">?:</span>
-            <span class="n">emitter</span><span class="p">.</span><span class="n">onError</span><span class="p">(</span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s2">&#34;AlbumDetectionConfig must not be null!!&#34;</span><span class="p">))</span>
-    <span class="n">VideoInfo</span><span class="p">.</span><span class="n">buildVideoInfo</span><span class="p">(</span><span class="n">config</span><span class="o">!!</span><span class="p">,</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><p>这里因为 intent 可空，所以 config 可空，又因为 buildVideoInfo 接收非空类型，所以我们只能用 <code>!!</code>，或者 lateinit，但是 lateinit 只能用于声明全局变量，很多时候我们只需要一个局部变量，所以很多时候只能使用 var 和 <code>!!</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">var</span> <span class="py">config</span><span class="p">:</span> <span class="n">AlbumDetectionConfig</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+</span></span><span class="line"><span class="cl"><span class="k">override</span> <span class="k">fun</span> <span class="nf">onStartCommand</span><span class="p">(</span><span class="n">intent</span><span class="p">:</span> <span class="n">Intent</span><span class="p">?,</span> <span class="n">flags</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">startId</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">Int</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">config</span> <span class="p">=</span> <span class="n">intent</span><span class="o">?.</span><span class="n">let</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">IntentUtils</span><span class="p">.</span><span class="n">getSerializableExtra</span><span class="p">&lt;</span><span class="n">AlbumDetectionConfig</span><span class="p">&gt;(</span>
+</span></span><span class="line"><span class="cl">            <span class="k">it</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">AlbumDetectInitModuleALBUM_DETECTION_CONFIG_KEY</span>
+</span></span><span class="line"><span class="cl">            <span class="p">)}</span><span class="o">?:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">emitter</span><span class="p">.</span><span class="n">onError</span><span class="p">(</span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s2">&#34;AlbumDetectionConfig must not be null!!&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">VideoInfo</span><span class="p">.</span><span class="n">buildVideoInfo</span><span class="p">(</span><span class="n">config</span><span class="o">!!</span><span class="p">,</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这里因为 intent 可空，所以 config 可空，又因为 buildVideoInfo 接收非空类型，所以我们只能用 <code>!!</code>，或者 lateinit，但是 lateinit 只能用于声明全局变量，很多时候我们只需要一个局部变量，所以很多时候只能使用 var 和 <code>!!</code></p>
 <p>在上面的代码里，我们又会发现了两个诡异的东西 <code>let</code> 和 <code>?:</code></p>
 <h3 id="打脸-val-和-final">打脸 val 和 final</h3>
 <p>终于搞完了前面一大堆的 var 相关的类成员变量声明的问题，这时候我们一直谨记着 var 可变 val 不可变。</p>
 <p><code>但是你又会看到这样的代码</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">size</span><span class="p">:</span> <span class="n">Int</span>
-    <span class="k">get</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">value</span><span class="o">?.</span><span class="n">size</span><span class="p">()</span> <span class="o">?:</span> <span class="p">-</span><span class="m">1</span>
-    <span class="p">}</span>
-
-</code></pre></div><p>首先看这个写法，咋还能这么写？？？是的，他就是可以这么写，可以重写 get 和 set 方法。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">val</span> <span class="py">size</span><span class="p">:</span> <span class="n">Int</span>
+</span></span><span class="line"><span class="cl">    <span class="k">get</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="k">value</span><span class="o">?.</span><span class="n">size</span><span class="p">()</span> <span class="o">?:</span> <span class="p">-</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p>首先看这个写法，咋还能这么写？？？是的，他就是可以这么写，可以重写 get 和 set 方法。</p>
 <p>然后看 size 这个成员变量，这个成员变量是 val 声明的，但是···这不是随着 value 的值在变么？value 空了就是 -1，不是空就是 value 的大小。<code>一直以为 val 声明的就是 final 的变量，其实不然</code>···</p>
 <p>这其实是因为 kotlin 为我们生成了所有类成员变量的默认的 get set 方法，我们当然可以重写，我们声明的 val 只是声明了一个 final 的 get 方法仅此而已，而不是声明了一个 final 的成员变量，这个可以通过转 java 代码查看。</p>
 <p>好了，至此，搞懂这些，应该能看懂 60%-70% 的 kotlin 代码了吧~~</p>
@@ -262,21 +260,21 @@ android 中也很常见 object: interface {}<br>
 <p>主要来看伴生对象，如果想快速理解的话就是伴生对象在 kotlin 中的感觉就像是 java 中的 static 一样，因为 kotlin 中没有 static 的概念。</p>
 <p>companion object 是通过创建一个单例类来实现的。</p>
 <p>如果你只是在 kotlin 代码中互相调用，是没有感知的，因为 kotlin 中 object 的声明，就代表了可以直接引用。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">object</span> <span class="nc">A</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;A&#34;</span>
-    <span class="k">fun</span> <span class="nf">a</span><span class="p">()</span> <span class="p">{}</span>
-<span class="p">}</span>
-
-<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
-    <span class="n">A</span><span class="p">.</span><span class="n">a</span> <span class="c1">// ok
-</span><span class="c1"></span>    <span class="n">A</span><span class="p">.</span><span class="n">a</span><span class="p">()</span> <span class="c1">// ok
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><p>这就跟 java 中的静态方法调用写法一致，但是实际 A 是个单例类，当你从 java 代码中调用时会明显发现不对劲。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-  <span class="n">A</span><span class="o">.</span><span class="na">a</span><span class="o">();</span> <span class="c1">// error
-</span><span class="c1"></span>  <span class="n">A</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">.</span><span class="na">a</span><span class="o">();</span> <span class="c1">// ok
-</span><span class="c1"></span><span class="o">}</span>
-</code></pre></div><p>这里就很明显了吧，其实就是一个单例类而已。而 companion object 同理，在 java 中调用时要用 A.Companion 来调用。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">A</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;A&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="nf">a</span><span class="p">()</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span><span class="p">.</span><span class="n">a</span> <span class="c1">// ok
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">A</span><span class="p">.</span><span class="n">a</span><span class="p">()</span> <span class="c1">// ok
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>这就跟 java 中的静态方法调用写法一致，但是实际 A 是个单例类，当你从 java 代码中调用时会明显发现不对劲。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">A</span><span class="o">.</span><span class="na">a</span><span class="o">();</span> <span class="c1">// error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">A</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">.</span><span class="na">a</span><span class="o">();</span> <span class="c1">// ok
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>这里就很明显了吧，其实就是一个单例类而已。而 companion object 同理，在 java 中调用时要用 A.Companion 来调用。</p>
 <p>这里就有了另一个注解 @Jvmtatic，如果你加上了这个注解，那么编译器会在外部帮你生成一个真实的 java static 方法或者成员变量，那么你在 java 代码中调用的时候，就不需要 A.Companion 了，可以直接 A.a()！</p>
 <h3 id="数据类和密封类">数据类和密封类</h3>
 <p>数据类就是 <code>data</code> 关键字来声明，只是帮我们生成了一些常用的方法仅此而已。<br>
@@ -284,21 +282,21 @@ android 中也很常见 object: interface {}<br>
 <h3 id="gettersetter-和-幕后字段">getter/setter 和 幕后字段</h3>
 <p>java 中我们要写 getter 和 setter，kotlin 中对于类型成员变量的方法和改变也是 getter 和 setter。<br>
 但是下面这段在 java 中看似没毛病的代码确是不行的~~</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
-  <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
-      <span class="k">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">this</span><span class="p">.</span><span class="n">a</span> <span class="p">=</span> <span class="n">value</span>
-      <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>运行直接栈溢出</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">set</span><span class="p">(</span><span class="k">value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">this</span><span class="p">.</span><span class="n">a</span> <span class="p">=</span> <span class="k">value</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>运行直接栈溢出</p>
 <p>所以为了解决这个问题出现了 <code>幕后字段</code>，用关键字 <code>field</code> 表示，我基本没用到过，所以刚才的代码要这么写</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
-  <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
-      <span class="k">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">field</span> <span class="p">=</span> <span class="n">value</span>
-      <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>之后我看到了一些 <code>幕后属性</code> 的概念，但是没看到官方对此有任何的说明，举例也没有任何关键字，只是一种约定，感觉像是自己说出来的东西。<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">set</span><span class="p">(</span><span class="k">value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">field</span> <span class="p">=</span> <span class="k">value</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>之后我看到了一些 <code>幕后属性</code> 的概念，但是没看到官方对此有任何的说明，举例也没有任何关键字，只是一种约定，感觉像是自己说出来的东西。<br>
 通过 _a，这种变量名写法表示是 <code>幕后属性</code>？，然后再声明个 a，外部访问只能访问 a，不可访问 _a， a 的值依赖 _a，来达到一种可读不可写的作用域。</p>
 <p>但是，直接声明个 a，private set，外部不就不可以调用了吗？内部依旧可以</p>
 <h2 id="协程">协程</h2>
@@ -342,8 +340,8 @@ android 中也很常见 object: interface {}<br>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

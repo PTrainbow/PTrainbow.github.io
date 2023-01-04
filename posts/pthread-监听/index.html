@@ -147,12 +147,12 @@
 </ol>
 <p>比较常用的是 create/join/detach 三个方法，后续的几个方法均是 pthread set/get 一些额外属性所需要的</p>
 <p>三个方法的函数原型如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">pthread_create</span><span class="p">(</span><span class="n">pthread_t</span><span class="o">*</span> <span class="n">__pthread_ptr</span><span class="p">,</span> <span class="n">pthread_attr_t</span> <span class="k">const</span><span class="o">*</span> <span class="n">__attr</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">__start_routine</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="p">),</span> <span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-
-<span class="kt">int</span> <span class="nf">pthread_detach</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">__pthread</span><span class="p">);</span>
-
-<span class="kt">int</span> <span class="nf">pthread_join</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">__pthread</span><span class="p">,</span> <span class="kt">void</span><span class="o">**</span> <span class="n">__return_value_ptr</span><span class="p">);</span>
-</code></pre></div><p>详细介绍两个方法 pthread_create 和 pthread_exit </p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">pthread_create</span><span class="p">(</span><span class="n">pthread_t</span><span class="o">*</span> <span class="n">__pthread_ptr</span><span class="p">,</span> <span class="n">pthread_attr_t</span> <span class="k">const</span><span class="o">*</span> <span class="n">__attr</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">__start_routine</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="p">),</span> <span class="kt">void</span><span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">pthread_detach</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">__pthread</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">pthread_join</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">__pthread</span><span class="p">,</span> <span class="kt">void</span><span class="o">**</span> <span class="n">__return_value_ptr</span><span class="p">);</span>
+</span></span></code></pre></div><p>详细介绍两个方法 pthread_create 和 pthread_exit </p>
 <ul>
 <li>
 <p>pthread_create<br>
@@ -163,235 +163,234 @@
 线程退出。其实 start_routine 结束时，也会自动调用。源码如下：</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// bionic/libc/bionic/pthread_create.cpp
-</span><span class="c1"></span><span class="k">static</span> <span class="kt">int</span> <span class="nf">__pthread_start</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">arg</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">pthread_internal_t</span><span class="o">*</span> <span class="kr">thread</span> <span class="o">=</span> <span class="n">reinterpret_cast</span><span class="o">&lt;</span><span class="n">pthread_internal_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">arg</span><span class="p">);</span>
-
-  <span class="n">__hwasan_thread_enter</span><span class="p">();</span>
-
-  <span class="c1">// Wait for our creating thread to release us. This lets it have time to
-</span><span class="c1"></span>  <span class="c1">// notify gdb about this thread before we start doing anything.
-</span><span class="c1"></span>  <span class="c1">// This also provides the memory barrier needed to ensure that all memory
-</span><span class="c1"></span>  <span class="c1">// accesses previously made by the creating thread are visible to us.
-</span><span class="c1"></span>  <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">startup_handshake_lock</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
-
-  <span class="n">__set_stack_and_tls_vma_name</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-  <span class="n">__init_additional_stacks</span><span class="p">(</span><span class="kr">thread</span><span class="p">);</span>
-  <span class="n">__rt_sigprocmask</span><span class="p">(</span><span class="n">SIG_SETMASK</span><span class="p">,</span> <span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">start_mask</span><span class="p">,</span> <span class="n">nullptr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">start_mask</span><span class="p">));</span>
-<span class="cp">#ifdef __aarch64__
-</span><span class="cp"></span>  <span class="c1">// Chrome&#39;s sandbox prevents this prctl, so only reset IA if the target SDK level is high enough.
-</span><span class="c1"></span>  <span class="c1">// Furthermore, processes loaded from vendor partitions may have their own sandboxes that would
-</span><span class="c1"></span>  <span class="c1">// reject the prctl. Because no devices launched with PAC enabled before S, we can avoid issues on
-</span><span class="c1"></span>  <span class="c1">// upgrading devices by checking for PAC support before issuing the prctl.
-</span><span class="c1"></span>  <span class="k">static</span> <span class="k">const</span> <span class="kt">bool</span> <span class="n">pac_supported</span> <span class="o">=</span> <span class="n">getauxval</span><span class="p">(</span><span class="n">AT_HWCAP</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">HWCAP_PACA</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">pac_supported</span> <span class="o">&amp;&amp;</span> <span class="n">android_get_application_target_sdk_version</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">__ANDROID_API_S__</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">prctl</span><span class="p">(</span><span class="n">PR_PAC_RESET_KEYS</span><span class="p">,</span> <span class="n">PR_PAC_APIAKEY</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="cp">#endif
-</span><span class="cp"></span>
-  <span class="kt">void</span><span class="o">*</span> <span class="n">result</span> <span class="o">=</span> <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">start_routine</span><span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">start_routine_arg</span><span class="p">);</span>
-
-  <span class="c1">// start_routine 执行完毕以后，直接自动调用了 pthread_exit
-</span><span class="c1"></span>  <span class="n">pthread_exit</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
-
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><h2 id="pthread-泄露的原因">pthread 泄露的原因</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// bionic/libc/bionic/pthread_create.cpp
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="kt">int</span> <span class="nf">__pthread_start</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">arg</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pthread_internal_t</span><span class="o">*</span> <span class="kr">thread</span> <span class="o">=</span> <span class="n">reinterpret_cast</span><span class="o">&lt;</span><span class="n">pthread_internal_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">arg</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">__hwasan_thread_enter</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Wait for our creating thread to release us. This lets it have time to
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// notify gdb about this thread before we start doing anything.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// This also provides the memory barrier needed to ensure that all memory
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// accesses previously made by the creating thread are visible to us.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">startup_handshake_lock</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">__set_stack_and_tls_vma_name</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__init_additional_stacks</span><span class="p">(</span><span class="kr">thread</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__rt_sigprocmask</span><span class="p">(</span><span class="n">SIG_SETMASK</span><span class="p">,</span> <span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">start_mask</span><span class="p">,</span> <span class="n">nullptr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">start_mask</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#ifdef __aarch64__
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>  <span class="c1">// Chrome&#39;s sandbox prevents this prctl, so only reset IA if the target SDK level is high enough.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// Furthermore, processes loaded from vendor partitions may have their own sandboxes that would
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// reject the prctl. Because no devices launched with PAC enabled before S, we can avoid issues on
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// upgrading devices by checking for PAC support before issuing the prctl.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">static</span> <span class="k">const</span> <span class="kt">bool</span> <span class="n">pac_supported</span> <span class="o">=</span> <span class="n">getauxval</span><span class="p">(</span><span class="n">AT_HWCAP</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">HWCAP_PACA</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">pac_supported</span> <span class="o">&amp;&amp;</span> <span class="n">android_get_application_target_sdk_version</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">__ANDROID_API_S__</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">prctl</span><span class="p">(</span><span class="n">PR_PAC_RESET_KEYS</span><span class="p">,</span> <span class="n">PR_PAC_APIAKEY</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span><span class="o">*</span> <span class="n">result</span> <span class="o">=</span> <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">start_routine</span><span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">start_routine_arg</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// start_routine 执行完毕以后，直接自动调用了 pthread_exit
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">pthread_exit</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="pthread-泄露的原因">pthread 泄露的原因</h2>
 <p>以下分析基于 bionic libc(Android 使用的是这个 libc)</p>
 <p>pthread_create 部分源码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// bionic/libc/bionic/pthread_create.cpp
-</span><span class="c1"></span>
-<span class="kt">int</span> <span class="nf">pthread_create</span><span class="p">(</span><span class="n">pthread_t</span><span class="o">*</span> <span class="n">thread_out</span><span class="p">,</span> <span class="n">pthread_attr_t</span> <span class="k">const</span><span class="o">*</span> <span class="n">attr</span><span class="p">,</span>
-                   <span class="kt">void</span><span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">start_routine</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="p">),</span> <span class="kt">void</span><span class="o">*</span> <span class="n">arg</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">ErrnoRestorer</span> <span class="n">errno_restorer</span><span class="p">;</span>
-
-  <span class="n">pthread_attr_t</span> <span class="n">thread_attr</span><span class="p">;</span>
-  <span class="n">ScopedTrace</span> <span class="n">trace</span><span class="p">(</span><span class="s">&#34;pthread_create&#34;</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">attr</span> <span class="o">==</span> <span class="n">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">pthread_attr_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">thread_attr</span><span class="p">);</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="n">thread_attr</span> <span class="o">=</span> <span class="o">*</span><span class="n">attr</span><span class="p">;</span>
-    <span class="n">attr</span> <span class="o">=</span> <span class="n">nullptr</span><span class="p">;</span> <span class="c1">// Prevent misuse below.
-</span><span class="c1"></span>  <span class="p">}</span>
-
-  <span class="n">bionic_tcb</span><span class="o">*</span> <span class="n">tcb</span> <span class="o">=</span> <span class="n">nullptr</span><span class="p">;</span>
-  <span class="kt">void</span><span class="o">*</span> <span class="n">child_stack</span> <span class="o">=</span> <span class="n">nullptr</span><span class="p">;</span>
-  <span class="c1">// 内存分配
-</span><span class="c1"></span>  <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">__allocate_thread</span><span class="p">(</span><span class="o">&amp;</span><span class="n">thread_attr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tcb</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">child_stack</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">pthread_internal_t</span><span class="o">*</span> <span class="kr">thread</span> <span class="o">=</span> <span class="n">tcb</span><span class="o">-&gt;</span><span class="kr">thread</span><span class="p">();</span>
-  <span class="c1">// 省略很多代码
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><p>其中 <code>__allocate_thread</code> 会进行内存分配，目前看 bionic 使用的是 mmap  </p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// bionic/libc/bionic/pthread_create.cpp
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">pthread_create</span><span class="p">(</span><span class="n">pthread_t</span><span class="o">*</span> <span class="n">thread_out</span><span class="p">,</span> <span class="n">pthread_attr_t</span> <span class="k">const</span><span class="o">*</span> <span class="n">attr</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="kt">void</span><span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">start_routine</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="p">),</span> <span class="kt">void</span><span class="o">*</span> <span class="n">arg</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ErrnoRestorer</span> <span class="n">errno_restorer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">pthread_attr_t</span> <span class="n">thread_attr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ScopedTrace</span> <span class="n">trace</span><span class="p">(</span><span class="s">&#34;pthread_create&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">attr</span> <span class="o">==</span> <span class="n">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pthread_attr_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">thread_attr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">thread_attr</span> <span class="o">=</span> <span class="o">*</span><span class="n">attr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">attr</span> <span class="o">=</span> <span class="n">nullptr</span><span class="p">;</span> <span class="c1">// Prevent misuse below.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">bionic_tcb</span><span class="o">*</span> <span class="n">tcb</span> <span class="o">=</span> <span class="n">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span><span class="o">*</span> <span class="n">child_stack</span> <span class="o">=</span> <span class="n">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 内存分配
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">__allocate_thread</span><span class="p">(</span><span class="o">&amp;</span><span class="n">thread_attr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tcb</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">child_stack</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">pthread_internal_t</span><span class="o">*</span> <span class="kr">thread</span> <span class="o">=</span> <span class="n">tcb</span><span class="o">-&gt;</span><span class="kr">thread</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 省略很多代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>其中 <code>__allocate_thread</code> 会进行内存分配，目前看 bionic 使用的是 mmap  </p>
 <p>假如，我们仅仅只是使用了 pthread_create 创建了线程，之后就不管了，那么 mmap 映射的这块内存区间是<code>永远不会释放的</code>，同时，pthread_internal 内部会维护一个全局的 thread 链表，链表节点也<code>不会被删除</code>，这也就是 pthread 会产生内存泄露的根本原因。</p>
 <p>而在 pthread_join 中进行了 unmmap 释放了这块内存</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">pthread_join</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">t</span><span class="p">,</span> <span class="kt">void</span><span class="o">**</span> <span class="n">return_value</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">ScopedTrace</span> <span class="n">trace</span><span class="p">(</span><span class="s">&#34;pthread_join&#34;</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">t</span> <span class="o">==</span> <span class="n">pthread_self</span><span class="p">())</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">EDEADLK</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">pthread_internal_t</span><span class="o">*</span> <span class="kr">thread</span> <span class="o">=</span> <span class="n">__pthread_internal_find</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s">&#34;pthread_join&#34;</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="kr">thread</span> <span class="o">==</span> <span class="n">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">ESRCH</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">ThreadJoinState</span> <span class="n">old_state</span> <span class="o">=</span> <span class="n">THREAD_NOT_JOINED</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">((</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_NOT_JOINED</span> <span class="o">||</span> <span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_EXITED_NOT_JOINED</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-         <span class="o">!</span><span class="n">atomic_compare_exchange_weak</span><span class="p">(</span><span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">join_state</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">old_state</span><span class="p">,</span> <span class="n">THREAD_JOINED</span><span class="p">))</span> <span class="p">{</span>
-  <span class="p">}</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_DETACHED</span> <span class="o">||</span> <span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_JOINED</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">EINVAL</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">pid_t</span> <span class="n">tid</span> <span class="o">=</span> <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">;</span>
-  <span class="k">volatile</span> <span class="kt">int</span><span class="o">*</span> <span class="n">tid_ptr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">;</span>
-
-  <span class="c1">// We set thread-&gt;join_state to THREAD_JOINED with atomic operation,
-</span><span class="c1"></span>  <span class="c1">// so no one is going to remove this thread except us.
-</span><span class="c1"></span>
-  <span class="c1">// Wait for the thread to actually exit, if it hasn&#39;t already.
-</span><span class="c1"></span>  <span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">tid_ptr</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">__futex_wait</span><span class="p">(</span><span class="n">tid_ptr</span><span class="p">,</span> <span class="n">tid</span><span class="p">,</span> <span class="n">nullptr</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="n">return_value</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">*</span><span class="n">return_value</span> <span class="o">=</span> <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">return_value</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="c1">// 内部调用了 munmap，同时清除 global thread_internal_list
-</span><span class="c1"></span>  <span class="n">__pthread_internal_remove_and_free</span><span class="p">(</span><span class="kr">thread</span><span class="p">);</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>再来看看 pthread_detach，你会发现在一些特殊的状态时刻，detach 和 join 等效——直接调用 pthread_join 方法。<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">pthread_join</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">t</span><span class="p">,</span> <span class="kt">void</span><span class="o">**</span> <span class="n">return_value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ScopedTrace</span> <span class="n">trace</span><span class="p">(</span><span class="s">&#34;pthread_join&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">t</span> <span class="o">==</span> <span class="n">pthread_self</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">EDEADLK</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">pthread_internal_t</span><span class="o">*</span> <span class="kr">thread</span> <span class="o">=</span> <span class="n">__pthread_internal_find</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s">&#34;pthread_join&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="kr">thread</span> <span class="o">==</span> <span class="n">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ESRCH</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">ThreadJoinState</span> <span class="n">old_state</span> <span class="o">=</span> <span class="n">THREAD_NOT_JOINED</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">((</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_NOT_JOINED</span> <span class="o">||</span> <span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_EXITED_NOT_JOINED</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">         <span class="o">!</span><span class="n">atomic_compare_exchange_weak</span><span class="p">(</span><span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">join_state</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">old_state</span><span class="p">,</span> <span class="n">THREAD_JOINED</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_DETACHED</span> <span class="o">||</span> <span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_JOINED</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">EINVAL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">pid_t</span> <span class="n">tid</span> <span class="o">=</span> <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">volatile</span> <span class="kt">int</span><span class="o">*</span> <span class="n">tid_ptr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// We set thread-&gt;join_state to THREAD_JOINED with atomic operation,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// so no one is going to remove this thread except us.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// Wait for the thread to actually exit, if it hasn&#39;t already.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">tid_ptr</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__futex_wait</span><span class="p">(</span><span class="n">tid_ptr</span><span class="p">,</span> <span class="n">tid</span><span class="p">,</span> <span class="n">nullptr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">return_value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="n">return_value</span> <span class="o">=</span> <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">return_value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 内部调用了 munmap，同时清除 global thread_internal_list
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">__pthread_internal_remove_and_free</span><span class="p">(</span><span class="kr">thread</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>再来看看 pthread_detach，你会发现在一些特殊的状态时刻，detach 和 join 等效——直接调用 pthread_join 方法。<br>
 而大多数时候，调用 detach 后，thread 都是 not_joined 状态，上面的 CAS 比较，只会让 state 变为 DETACHED，不会走入 join 的 if 分支中</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">pthread_detach</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">pthread_internal_t</span><span class="o">*</span> <span class="kr">thread</span> <span class="o">=</span> <span class="n">__pthread_internal_find</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s">&#34;pthread_detach&#34;</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="kr">thread</span> <span class="o">==</span> <span class="n">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">ESRCH</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">ThreadJoinState</span> <span class="n">old_state</span> <span class="o">=</span> <span class="n">THREAD_NOT_JOINED</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_NOT_JOINED</span> <span class="o">&amp;&amp;</span>
-         <span class="o">!</span><span class="n">atomic_compare_exchange_weak</span><span class="p">(</span><span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">join_state</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">old_state</span><span class="p">,</span> <span class="n">THREAD_DETACHED</span><span class="p">))</span> <span class="p">{</span>
-  <span class="p">}</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_NOT_JOINED</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_EXITED_NOT_JOINED</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Use pthread_join to clean it up.
-</span><span class="c1"></span>    <span class="c1">// 是不是很神奇···调用的 pthread_join···
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">pthread_join</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">nullptr</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">EINVAL</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>那这么看来，pthread_detach 代码中<code>并没有释放内存</code>的操作，岂不是依然还是存在泄露的问题？
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">pthread_detach</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pthread_internal_t</span><span class="o">*</span> <span class="kr">thread</span> <span class="o">=</span> <span class="n">__pthread_internal_find</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s">&#34;pthread_detach&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="kr">thread</span> <span class="o">==</span> <span class="n">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ESRCH</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">ThreadJoinState</span> <span class="n">old_state</span> <span class="o">=</span> <span class="n">THREAD_NOT_JOINED</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_NOT_JOINED</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">         <span class="o">!</span><span class="n">atomic_compare_exchange_weak</span><span class="p">(</span><span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">join_state</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">old_state</span><span class="p">,</span> <span class="n">THREAD_DETACHED</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_NOT_JOINED</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_EXITED_NOT_JOINED</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Use pthread_join to clean it up.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 是不是很神奇···调用的 pthread_join···
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">pthread_join</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">nullptr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">EINVAL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>那这么看来，pthread_detach 代码中<code>并没有释放内存</code>的操作，岂不是依然还是存在泄露的问题？
 当然不是，但是这里的逻辑比较神奇。先来看看 pthread_exit</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">pthread_exit</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">return_value</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// Call dtors for thread_local objects first.
-</span><span class="c1"></span>  <span class="n">__cxa_thread_finalize</span><span class="p">();</span>
-
-  <span class="n">pthread_internal_t</span><span class="o">*</span> <span class="kr">thread</span> <span class="o">=</span> <span class="n">__get_thread</span><span class="p">();</span>
-  <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">return_value</span><span class="p">;</span>
-
-  <span class="c1">// Call the cleanup handlers.
-</span><span class="c1"></span>  <span class="k">while</span> <span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">cleanup_stack</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">__pthread_cleanup_t</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">cleanup_stack</span><span class="p">;</span>
-    <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">cleanup_stack</span> <span class="o">=</span> <span class="n">c</span><span class="o">-&gt;</span><span class="n">__cleanup_prev</span><span class="p">;</span>
-    <span class="n">c</span><span class="o">-&gt;</span><span class="n">__cleanup_routine</span><span class="p">(</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">__cleanup_arg</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="c1">// Call the TLS destructors. It is important to do that before removing this
-</span><span class="c1"></span>  <span class="c1">// thread from the global list. This will ensure that if someone else deletes
-</span><span class="c1"></span>  <span class="c1">// a TLS key, the corresponding value will be set to NULL in this thread&#39;s TLS
-</span><span class="c1"></span>  <span class="c1">// space (see pthread_key_delete).
-</span><span class="c1"></span>  <span class="n">pthread_key_clean_all</span><span class="p">();</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">alternate_signal_stack</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Tell the kernel to stop using the alternate signal stack.
-</span><span class="c1"></span>    <span class="n">stack_t</span> <span class="n">ss</span><span class="p">;</span>
-    <span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">ss</span><span class="p">));</span>
-    <span class="n">ss</span><span class="p">.</span><span class="n">ss_flags</span> <span class="o">=</span> <span class="n">SS_DISABLE</span><span class="p">;</span>
-    <span class="n">sigaltstack</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ss</span><span class="p">,</span> <span class="n">nullptr</span><span class="p">);</span>
-
-    <span class="c1">// Free it.
-</span><span class="c1"></span>    <span class="n">munmap</span><span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">alternate_signal_stack</span><span class="p">,</span> <span class="n">SIGNAL_STACK_SIZE</span><span class="p">);</span>
-    <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">alternate_signal_stack</span> <span class="o">=</span> <span class="n">nullptr</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">ThreadJoinState</span> <span class="n">old_state</span> <span class="o">=</span> <span class="n">THREAD_NOT_JOINED</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_NOT_JOINED</span> <span class="o">&amp;&amp;</span>
-         <span class="o">!</span><span class="n">atomic_compare_exchange_weak</span><span class="p">(</span><span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">join_state</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">old_state</span><span class="p">,</span> <span class="n">THREAD_EXITED_NOT_JOINED</span><span class="p">))</span> <span class="p">{</span>
-  <span class="p">}</span>
-
-  <span class="c1">// android_run_on_all_threads() needs to see signals blocked atomically with setting the
-</span><span class="c1"></span>  <span class="c1">// terminating flag, so take the creation lock while doing these operations.
-</span><span class="c1"></span>  <span class="p">{</span>
-    <span class="n">ScopedReadLock</span> <span class="n">locker</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_thread_creation_lock</span><span class="p">);</span>
-    <span class="n">atomic_store</span><span class="p">(</span><span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">terminating</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
-
-    <span class="c1">// We don&#39;t want to take a signal after unmapping the stack, the shadow call stack, or dynamic
-</span><span class="c1"></span>    <span class="c1">// TLS memory.
-</span><span class="c1"></span>    <span class="n">sigset64_t</span> <span class="n">set</span><span class="p">;</span>
-    <span class="n">sigfillset64</span><span class="p">(</span><span class="o">&amp;</span><span class="n">set</span><span class="p">);</span>
-    <span class="n">__rt_sigprocmask</span><span class="p">(</span><span class="n">SIG_BLOCK</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">set</span><span class="p">,</span> <span class="n">nullptr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">sigset64_t</span><span class="p">));</span>
-  <span class="p">}</span>
-
-<span class="cp">#ifdef __aarch64__
-</span><span class="cp"></span>  <span class="c1">// Free the shadow call stack and guard pages.
-</span><span class="c1"></span>  <span class="n">munmap</span><span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">shadow_call_stack_guard_region</span><span class="p">,</span> <span class="n">SCS_GUARD_REGION_SIZE</span><span class="p">);</span>
-<span class="cp">#endif
-</span><span class="cp"></span>
-  <span class="n">__free_dynamic_tls</span><span class="p">(</span><span class="n">__get_bionic_tcb</span><span class="p">());</span>
-
-  <span class="c1">// 这里单独处理了 detached 状态
-</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_DETACHED</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// The thread is detached, no one will use pthread_internal_t after pthread_exit.
-</span><span class="c1"></span>    <span class="c1">// So we can free mapped space, which includes pthread_internal_t and thread stack.
-</span><span class="c1"></span>    <span class="c1">// First make sure that the kernel does not try to clear the tid field
-</span><span class="c1"></span>    <span class="c1">// because we&#39;ll have freed the memory before the thread actually exits.
-</span><span class="c1"></span>    <span class="n">__set_tid_address</span><span class="p">(</span><span class="n">nullptr</span><span class="p">);</span>
-
-    <span class="c1">// pthread_internal_t is freed below with stack, not here.
-</span><span class="c1"></span>    <span class="n">__pthread_internal_remove</span><span class="p">(</span><span class="kr">thread</span><span class="p">);</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">mmap_size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// We need to free mapped space for detached threads when they exit.
-</span><span class="c1"></span>      <span class="c1">// That&#39;s not something we can do in C.
-</span><span class="c1"></span>      <span class="n">__notify_thread_exit_callbacks</span><span class="p">();</span>
-      <span class="n">__hwasan_thread_exit</span><span class="p">();</span>
-      <span class="n">_exit_with_stack_teardown</span><span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">mmap_base</span><span class="p">,</span> <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">mmap_size</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
-  <span class="c1">// No need to free mapped space. Either there was no space mapped, or it is left for
-</span><span class="c1"></span>  <span class="c1">// the pthread_join caller to clean up.
-</span><span class="c1"></span>  <span class="n">__notify_thread_exit_callbacks</span><span class="p">();</span>
-  <span class="n">__hwasan_thread_exit</span><span class="p">();</span>
-
-  <span class="n">__exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p>你会发现 pthread_exit 其实本身也会清理一些内存空间，但是有一些独有的关于 detached 的状态逻辑。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">pthread_exit</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">return_value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// Call dtors for thread_local objects first.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">__cxa_thread_finalize</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">pthread_internal_t</span><span class="o">*</span> <span class="kr">thread</span> <span class="o">=</span> <span class="n">__get_thread</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">return_value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Call the cleanup handlers.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">while</span> <span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">cleanup_stack</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__pthread_cleanup_t</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">cleanup_stack</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">cleanup_stack</span> <span class="o">=</span> <span class="n">c</span><span class="o">-&gt;</span><span class="n">__cleanup_prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">c</span><span class="o">-&gt;</span><span class="n">__cleanup_routine</span><span class="p">(</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">__cleanup_arg</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Call the TLS destructors. It is important to do that before removing this
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// thread from the global list. This will ensure that if someone else deletes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// a TLS key, the corresponding value will be set to NULL in this thread&#39;s TLS
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// space (see pthread_key_delete).
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">pthread_key_clean_all</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">alternate_signal_stack</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Tell the kernel to stop using the alternate signal stack.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">stack_t</span> <span class="n">ss</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ss</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">ss</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ss</span><span class="p">.</span><span class="n">ss_flags</span> <span class="o">=</span> <span class="n">SS_DISABLE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sigaltstack</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ss</span><span class="p">,</span> <span class="n">nullptr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Free it.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">munmap</span><span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">alternate_signal_stack</span><span class="p">,</span> <span class="n">SIGNAL_STACK_SIZE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">alternate_signal_stack</span> <span class="o">=</span> <span class="n">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">ThreadJoinState</span> <span class="n">old_state</span> <span class="o">=</span> <span class="n">THREAD_NOT_JOINED</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_NOT_JOINED</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">         <span class="o">!</span><span class="n">atomic_compare_exchange_weak</span><span class="p">(</span><span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">join_state</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">old_state</span><span class="p">,</span> <span class="n">THREAD_EXITED_NOT_JOINED</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// android_run_on_all_threads() needs to see signals blocked atomically with setting the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// terminating flag, so take the creation lock while doing these operations.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ScopedReadLock</span> <span class="n">locker</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_thread_creation_lock</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">atomic_store</span><span class="p">(</span><span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">terminating</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// We don&#39;t want to take a signal after unmapping the stack, the shadow call stack, or dynamic
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// TLS memory.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">sigset64_t</span> <span class="n">set</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sigfillset64</span><span class="p">(</span><span class="o">&amp;</span><span class="n">set</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__rt_sigprocmask</span><span class="p">(</span><span class="n">SIG_BLOCK</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">set</span><span class="p">,</span> <span class="n">nullptr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">sigset64_t</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">#ifdef __aarch64__
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>  <span class="c1">// Free the shadow call stack and guard pages.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">munmap</span><span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">shadow_call_stack_guard_region</span><span class="p">,</span> <span class="n">SCS_GUARD_REGION_SIZE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl">  <span class="n">__free_dynamic_tls</span><span class="p">(</span><span class="n">__get_bionic_tcb</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 这里单独处理了 detached 状态
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">old_state</span> <span class="o">==</span> <span class="n">THREAD_DETACHED</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// The thread is detached, no one will use pthread_internal_t after pthread_exit.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// So we can free mapped space, which includes pthread_internal_t and thread stack.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// First make sure that the kernel does not try to clear the tid field
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// because we&#39;ll have freed the memory before the thread actually exits.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">__set_tid_address</span><span class="p">(</span><span class="n">nullptr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// pthread_internal_t is freed below with stack, not here.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">__pthread_internal_remove</span><span class="p">(</span><span class="kr">thread</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">mmap_size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// We need to free mapped space for detached threads when they exit.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// That&#39;s not something we can do in C.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="n">__notify_thread_exit_callbacks</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="n">__hwasan_thread_exit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="n">_exit_with_stack_teardown</span><span class="p">(</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="n">mmap_base</span><span class="p">,</span> <span class="kr">thread</span><span class="o">-&gt;</span><span class="n">mmap_size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// No need to free mapped space. Either there was no space mapped, or it is left for
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// the pthread_join caller to clean up.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">__notify_thread_exit_callbacks</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__hwasan_thread_exit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">__exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>你会发现 pthread_exit 其实本身也会清理一些内存空间，但是有一些独有的关于 detached 的状态逻辑。</p>
 <p>可以看到会调用 <code>pthread_internal_remove</code> 方法删除掉节点，同时调用了一个神奇的函数 <code>exit_with_stack_teardown</code></p>
 <p>而这个方法是汇编代码(为什么呢？)，这里是调用了一个 system call，munmap 也是一个 system call</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;private/bionic_asm.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// void _exit_with_stack_teardown(void* stackBase, size_t stackSize)
-</span><span class="c1"></span><span class="n">ENTRY_PRIVATE</span><span class="p">(</span><span class="n">_exit_with_stack_teardown</span><span class="p">)</span>
-  <span class="n">ldr</span> <span class="n">r7</span><span class="p">,</span> <span class="o">=</span><span class="n">__NR_munmap</span>
-  <span class="n">swi</span> <span class="err">#</span><span class="mi">0</span>
-  <span class="c1">// If munmap failed, we ignore the failure and exit anyway.
-</span><span class="c1"></span>
-  <span class="n">mov</span> <span class="n">r0</span><span class="p">,</span> <span class="err">#</span><span class="mi">0</span>
-  <span class="n">ldr</span> <span class="n">r7</span><span class="p">,</span> <span class="o">=</span><span class="n">__NR_exit</span>
-  <span class="n">swi</span> <span class="err">#</span><span class="mi">0</span>
-  <span class="c1">// The exit syscall does not return.
-</span><span class="c1"></span><span class="n">END</span><span class="p">(</span><span class="n">_exit_with_stack_teardown</span><span class="p">)</span>
-
-</code></pre></div><p>这里调用了 munmap，释放了内存空间！</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;private/bionic_asm.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// void _exit_with_stack_teardown(void* stackBase, size_t stackSize)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ENTRY_PRIVATE</span><span class="p">(</span><span class="n">_exit_with_stack_teardown</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ldr</span> <span class="n">r7</span><span class="p">,</span> <span class="o">=</span><span class="n">__NR_munmap</span>
+</span></span><span class="line"><span class="cl">  <span class="n">swi</span> <span class="err">#</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// If munmap failed, we ignore the failure and exit anyway.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="n">mov</span> <span class="n">r0</span><span class="p">,</span> <span class="err">#</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ldr</span> <span class="n">r7</span><span class="p">,</span> <span class="o">=</span><span class="n">__NR_exit</span>
+</span></span><span class="line"><span class="cl">  <span class="n">swi</span> <span class="err">#</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// The exit syscall does not return.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">END</span><span class="p">(</span><span class="n">_exit_with_stack_teardown</span><span class="p">)</span>
+</span></span></code></pre></div><p>这里调用了 munmap，释放了内存空间！</p>
 <p>所以，正确的使用 pthread 的方式是：</p>
 <ol>
 <li>创建 detached 的 pthread</li>
@@ -435,8 +434,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

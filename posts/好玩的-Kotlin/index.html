@@ -169,24 +169,24 @@
 <p>好在有一个 Kotlin 大神同事在，偷偷看他写的代码，非常的 Kotlin Style，默默的学了学。</p>
 <h2 id="kotlin-functions-are-first-class">Kotlin Functions Are First-Class</h2>
 <p>比如，我看到了如下的代码：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">private</span> <span class="k">fun</span> <span class="nf">GrowthTestLayout</span><span class="p">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">apply</span> <span class="p">{</span>
-      <span class="n">space</span><span class="p">()</span>
-<span class="err">​</span>
-      <span class="n">title</span><span class="p">(</span><span class="s2">&#34;应用信息&#34;</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">inflateAppInfo</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
-      <span class="p">}</span>
-<span class="err">​</span>
-      <span class="n">title</span><span class="p">(</span><span class="s2">&#34;手机信息&#34;</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">inflateMobileInfo</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
-      <span class="p">}</span>
-<span class="err">​</span>
-      <span class="n">title</span><span class="p">(</span><span class="s2">&#34;设备重置&#34;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">action</span><span class="p">(</span><span class="s2">&#34;设置新机（真机体验） &gt;&gt;&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">context</span><span class="p">.</span><span class="n">startTestNewDeviceActivity</span><span class="p">()</span> <span class="p">}</span>
-        <span class="n">action</span><span class="p">(</span><span class="s2">&#34;清除应用数据&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">TestNewDeviceUtils</span><span class="p">.</span><span class="n">showClearDataDialog</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">}</span>
-        <span class="n">action</span><span class="p">(</span><span class="s2">&#34;手机垃圾清理&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">context</span><span class="p">.</span><span class="n">startGrowthCleanerActivity</span><span class="p">()</span> <span class="p">}</span>
-      <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>这个就很有意思了，写起来清晰多了，这里是一个 RecyclerView，一个 function 对应一个 item，并且会 inflate 对应的布局文件。当然，同事也为了更通用，声明了 action 等许多函数，这里的 action 就是最终当 onClick 函数传了过去。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">fun</span> <span class="nf">GrowthTestLayout</span><span class="p">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">apply</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">space</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl">      <span class="n">title</span><span class="p">(</span><span class="s2">&#34;应用信息&#34;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">inflateAppInfo</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl">      <span class="n">title</span><span class="p">(</span><span class="s2">&#34;手机信息&#34;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">inflateMobileInfo</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl">      <span class="n">title</span><span class="p">(</span><span class="s2">&#34;设备重置&#34;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">action</span><span class="p">(</span><span class="s2">&#34;设置新机（真机体验） &gt;&gt;&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">context</span><span class="p">.</span><span class="n">startTestNewDeviceActivity</span><span class="p">()</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">action</span><span class="p">(</span><span class="s2">&#34;清除应用数据&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">TestNewDeviceUtils</span><span class="p">.</span><span class="n">showClearDataDialog</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">action</span><span class="p">(</span><span class="s2">&#34;手机垃圾清理&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">context</span><span class="p">.</span><span class="n">startGrowthCleanerActivity</span><span class="p">()</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这个就很有意思了，写起来清晰多了，这里是一个 RecyclerView，一个 function 对应一个 item，并且会 inflate 对应的布局文件。当然，同事也为了更通用，声明了 action 等许多函数，这里的 action 就是最终当 onClick 函数传了过去。</p>
 <p>能轻松的做这些，也是因为在 Kotlin 中函数可以作为一等公民了，引用 Kotlin 官方文档的描述(也有中文的，但是感觉翻译的有点诡异)：</p>
 <blockquote>
 <p>Kotlin functions are first-class, which means that they can be stored in variables and data structures, passed as arguments to and returned from other higher-order functions. You can operate with functions in any way that is possible for other non-function values. To facilitate this, Kotlin, as a statically typed programming language, uses a family of function types to represent functions and provides a set of specialized language constructs, such as lambda expressions.</p>
@@ -195,24 +195,24 @@
 <p>这个翻译的叫做 传递末尾的 lambda 表达式，很多地方使用到。
 就是如果一个函数的最后一个参数类型是个 函数，那么这个函数可以放到圆括号之外。
 eg:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 函数声明
-</span><span class="c1"></span><span class="k">fun</span> <span class="nf">test</span><span class="p">(</span><span class="n">param1</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">param2</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
-<span class="err">​</span>
-<span class="p">}</span>
-<span class="c1">// 函数使用
-</span><span class="c1"></span><span class="n">test</span><span class="p">(</span><span class="s2">&#34;param1&#34;</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// 函数体
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><p>如果有且仅有一个参数且是函数类型，圆括号都可以省略。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">// 函数声明
-</span><span class="c1"></span><span class="k">fun</span> <span class="nf">test</span><span class="p">(</span><span class="k">param</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
-<span class="err">​</span>
-<span class="p">}</span>
-<span class="c1">// 函数使用
-</span><span class="c1"></span><span class="n">test</span><span class="p">{</span>
-  <span class="c1">// 函数体
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><p>同时，记住 it：单个参数的隐式名称</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="c1">// 函数声明
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">fun</span> <span class="nf">test</span><span class="p">(</span><span class="n">param1</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">param2</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 函数使用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">test</span><span class="p">(</span><span class="s2">&#34;param1&#34;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 函数体
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>如果有且仅有一个参数且是函数类型，圆括号都可以省略。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="c1">// 函数声明
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">fun</span> <span class="nf">test</span><span class="p">(</span><span class="k">param</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 函数使用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">test</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 函数体
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>同时，记住 it：单个参数的隐式名称</p>
 <h2 id="type-safe-builders">Type-safe Builders</h2>
 <p>看了半天 Kotlin 文档，发现了 Type-safe Builders 这个章节，发现举例代码很像同事写的代码，原理其实依然是依靠之前说的 functions are first-class 这一点。</p>
 <p>同时 Kotlin 也支持 Extension Functions，就是可以给一个类增加一个额外方法。
@@ -220,113 +220,113 @@ eg:</p>
 <p>Type-safe Builders 章节举例了一些 DSL，比如 HTML 和 Anko 这两个库。</p>
 <p>Anko 也是一开始用于摆脱 XML 的，但是现在发展成啥样了不是很清楚。</p>
 <p>我也练了练手，自己写了个 极其简陋且丑陋 的 DSL，应该是类似 Anko 的，我并没有看它的源码哈：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">row</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span>
-<span class="err">​</span>
-  <span class="n">layout</span> <span class="p">{</span>
-    <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span>
-      <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">MATCH_PARENT</span><span class="p">,</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span>
-        <span class="p">.</span><span class="n">WRAP_CONTENT</span>
-    <span class="p">)</span>
-  <span class="p">}</span>
-<span class="err">​</span>
-  <span class="n">text</span> <span class="p">{</span>
-    <span class="n">text</span> <span class="p">=</span> <span class="s2">&#34;hello world 1&#34;</span>
-    <span class="n">textSize</span> <span class="p">=</span> <span class="m">16f</span>
-    <span class="n">gravity</span> <span class="p">=</span> <span class="n">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>不知道最顶层的 context 怎么处理，所以我干脆传了个 this(Activity) 进去。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="n">row</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl">  <span class="n">layout</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">MATCH_PARENT</span><span class="p">,</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="n">WRAP_CONTENT</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl">  <span class="n">text</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">text</span> <span class="p">=</span> <span class="s2">&#34;hello world 1&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">textSize</span> <span class="p">=</span> <span class="m">16f</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gravity</span> <span class="p">=</span> <span class="n">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>不知道最顶层的 context 怎么处理，所以我干脆传了个 this(Activity) 进去。</p>
 <p>最好玩的地方在于 row 这个函数是怎么定义的</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">init</span> <span class="p">{</span>
-    <span class="n">orientation</span> <span class="p">=</span> <span class="n">HORIZONTAL</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="err">​</span>
-<span class="c1">// 其实就是个 LinearLayout
-</span><span class="c1"></span><span class="k">open</span> <span class="k">class</span> <span class="nc">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">LinearLayout</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">fun</span> <span class="nf">layout</span><span class="p">(</span><span class="n">function</span> <span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">layoutParams</span> <span class="p">=</span> <span class="n">function</span><span class="p">()</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="err">​</span>
-<span class="c1">// row 函数
-</span><span class="c1"></span><span class="k">fun</span> <span class="nf">row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">Row</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">):</span><span class="n">Row</span> <span class="p">{</span>
-  <span class="k">val</span> <span class="py">row</span> <span class="p">=</span> <span class="n">Row</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
-  <span class="n">row</span><span class="p">.</span><span class="n">body</span><span class="p">()</span>
-  <span class="k">return</span> <span class="n">row</span>
-<span class="p">}</span>
-</code></pre></div><p>这里第一个参数是 Context，其实 Row extends LinearLayout 所以需要一个 Context 作为参数
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">init</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">orientation</span> <span class="p">=</span> <span class="n">HORIZONTAL</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 其实就是个 LinearLayout
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">open</span> <span class="k">class</span> <span class="nc">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">LinearLayout</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fun</span> <span class="nf">layout</span><span class="p">(</span><span class="n">function</span> <span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">layoutParams</span> <span class="p">=</span> <span class="n">function</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// row 函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">fun</span> <span class="nf">row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">Row</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">):</span><span class="n">Row</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="py">row</span> <span class="p">=</span> <span class="n">Row</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">row</span><span class="p">.</span><span class="n">body</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">row</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这里第一个参数是 Context，其实 Row extends LinearLayout 所以需要一个 Context 作为参数
 最后一个参数是个 Row 的 Extension Function，同时根据前面说的 Trailing Lambda，函数体可以被放到外面(且 this 是 Row)：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">row</span><span class="p">(</span><span class="n">params1</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// 函数体
-</span><span class="c1"></span>  <span class="c1">// this = Row
-</span><span class="c1"></span><span class="p">}</span>
-<span class="err">``</span><span class="n">`kotlin</span>
-<span class="n">又因为</span> <span class="k">this</span> <span class="n">是</span> <span class="n">Row</span><span class="err">，</span><span class="n">又可以给</span> <span class="n">Row</span> <span class="n">增加几个方法</span><span class="err">，</span><span class="n">比如加一个</span> <span class="n">text</span> <span class="n">方法</span><span class="p">(</span><span class="n">这里不知道</span> <span class="n">params</span> <span class="n">怎么传过去比较好</span><span class="err">，</span><span class="n">自己写了一个很挫的办法</span><span class="err">：</span><span class="n">还是传</span> <span class="n">function</span><span class="p">)</span><span class="err">：</span>
-
-<span class="err">``</span><span class="n">`kotlin</span>
-<span class="c1">// 加一个通用的 text 方法
-</span><span class="c1"></span><span class="k">open</span> <span class="k">class</span> <span class="nc">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">LinearLayout</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// 增加一个 text 方法
-</span><span class="c1"></span>  <span class="k">fun</span> <span class="nf">text</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Text</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">):</span> <span class="n">Text</span> <span class="p">{</span>
-    <span class="k">val</span> <span class="py">textView</span> <span class="p">=</span> <span class="n">Text</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
-    <span class="n">textView</span><span class="p">.</span><span class="n">body</span><span class="p">()</span>
-    <span class="n">addView</span><span class="p">(</span><span class="n">textView</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">textView</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="err">​</span>
-<span class="c1">// Row extends ViewGroupDSL extends LinearLayout
-</span><span class="c1">// orientation HORIZONTAL
-</span><span class="c1"></span><span class="k">class</span> <span class="nc">Row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">init</span> <span class="p">{</span>
-    <span class="n">orientation</span> <span class="p">=</span> <span class="n">HORIZONTAL</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="err">​</span>
-<span class="k">class</span> <span class="nc">Text</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">AppCompatTextView</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// 加一个 click 方法
-</span><span class="c1"></span>  <span class="k">fun</span> <span class="nf">click</span><span class="p">(</span><span class="n">onclick</span> <span class="p">:</span> <span class="p">(</span><span class="n">View</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">setOnClickListener</span><span class="p">(</span><span class="n">onclick</span><span class="p">)</span>
-  <span class="p">}</span>
-  
-  <span class="c1">// 加一个 layout 方法
-</span><span class="c1"></span>  <span class="k">fun</span> <span class="nf">layout</span><span class="p">(</span><span class="n">function</span> <span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">layoutParams</span> <span class="p">=</span> <span class="n">function</span><span class="p">()</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="n">于是我就可以这样调用</span>
-<span class="n">row</span><span class="p">(</span><span class="n">params1</span><span class="p">,</span> <span class="n">params2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// row 本身的参数，感觉这么传参数很挫
-</span><span class="c1"></span>  <span class="n">layout</span> <span class="p">{</span>
-    <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span><span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">MATCH_PARENT</span><span class="p">,</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span><span class="p">)</span>
-  <span class="p">}</span>
-<span class="err">​</span>
-  <span class="c1">// text 方法
-</span><span class="c1"></span>  <span class="n">text</span> <span class="p">{</span>
-    <span class="c1">// this 就是 TextView
-</span><span class="c1"></span>    <span class="n">text</span> <span class="p">=</span> <span class="s2">&#34;hello world 1&#34;</span>
-    <span class="n">textSize</span> <span class="p">=</span> <span class="m">20f</span>
-    <span class="n">gravity</span> <span class="p">=</span> <span class="n">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
-<span class="err">​</span>
-    <span class="c1">// text 的 layout params，感觉很挫
-</span><span class="c1"></span>    <span class="n">layout</span> <span class="p">{</span>
-      <span class="k">val</span> <span class="py">layoutParams</span> <span class="p">=</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span>
-        <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span><span class="p">,</span> <span class="n">LinearLayout</span>
-          <span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span>
-      <span class="p">)</span>
-      <span class="n">layoutParams</span><span class="p">.</span><span class="n">gravity</span> <span class="p">=</span> <span class="n">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
-      <span class="n">layoutParams</span>
-    <span class="p">}</span>
-<span class="err">​</span>
-    <span class="c1">// text 的 click 方法
-</span><span class="c1"></span>    <span class="n">click</span> <span class="p">{</span>
-      <span class="n">Toast</span><span class="p">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&#34;hello world&#34;</span><span class="p">,</span> <span class="n">Toast</span><span class="p">.</span><span class="n">LENGTH_SHORT</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>除了 layout 方法，其他的代码看起来是不是还挺有意思的？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="n">row</span><span class="p">(</span><span class="n">params1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 函数体
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// this = Row
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">```</span><span class="n">kotlin</span>
+</span></span><span class="line"><span class="cl"><span class="n">又因为</span> <span class="k">this</span> <span class="n">是</span> <span class="n">Row</span><span class="err">，</span><span class="n">又可以给</span> <span class="n">Row</span> <span class="n">增加几个方法</span><span class="err">，</span><span class="n">比如加一个</span> <span class="n">text</span> <span class="n">方法</span><span class="p">(</span><span class="n">这里不知道</span> <span class="n">params</span> <span class="n">怎么传过去比较好</span><span class="err">，</span><span class="n">自己写了一个很挫的办法</span><span class="err">：</span><span class="n">还是传</span> <span class="n">function</span><span class="p">)</span><span class="err">：</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">```</span><span class="n">kotlin</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 加一个通用的 text 方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">open</span> <span class="k">class</span> <span class="nc">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">LinearLayout</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 增加一个 text 方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">fun</span> <span class="nf">text</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Text</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">):</span> <span class="n">Text</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">textView</span> <span class="p">=</span> <span class="n">Text</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">textView</span><span class="p">.</span><span class="n">body</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">addView</span><span class="p">(</span><span class="n">textView</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">textView</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Row extends ViewGroupDSL extends LinearLayout
+</span></span></span><span class="line"><span class="cl"><span class="c1">// orientation HORIZONTAL
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">Row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">init</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">orientation</span> <span class="p">=</span> <span class="n">HORIZONTAL</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Text</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">AppCompatTextView</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 加一个 click 方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">fun</span> <span class="nf">click</span><span class="p">(</span><span class="n">onclick</span> <span class="p">:</span> <span class="p">(</span><span class="n">View</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">setOnClickListener</span><span class="p">(</span><span class="n">onclick</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 加一个 layout 方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">fun</span> <span class="nf">layout</span><span class="p">(</span><span class="n">function</span> <span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">layoutParams</span> <span class="p">=</span> <span class="n">function</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">于是我就可以这样调用</span>
+</span></span><span class="line"><span class="cl"><span class="n">row</span><span class="p">(</span><span class="n">params1</span><span class="p">,</span> <span class="n">params2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// row 本身的参数，感觉这么传参数很挫
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">layout</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span><span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">MATCH_PARENT</span><span class="p">,</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// text 方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">text</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// this 就是 TextView
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">text</span> <span class="p">=</span> <span class="s2">&#34;hello world 1&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">textSize</span> <span class="p">=</span> <span class="m">20f</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gravity</span> <span class="p">=</span> <span class="n">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// text 的 layout params，感觉很挫
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">layout</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="py">layoutParams</span> <span class="p">=</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span><span class="p">,</span> <span class="n">LinearLayout</span>
+</span></span><span class="line"><span class="cl">          <span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span>
+</span></span><span class="line"><span class="cl">      <span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="n">layoutParams</span><span class="p">.</span><span class="n">gravity</span> <span class="p">=</span> <span class="n">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
+</span></span><span class="line"><span class="cl">      <span class="n">layoutParams</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">​</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// text 的 click 方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">click</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Toast</span><span class="p">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&#34;hello world&#34;</span><span class="p">,</span> <span class="n">Toast</span><span class="p">.</span><span class="n">LENGTH_SHORT</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>除了 layout 方法，其他的代码看起来是不是还挺有意思的？</p>
 <p>当然了，我这只是最简单的情况，其实想完全处理 XML 布局的情况这远远不够，还有包括各种父布局(ConstraintLayout 等)。</p>
 <p>但是已经不是很关心具体的实现了，具体的实现都是设计思想的体现，原理已经搞明白了。Anko 肯定有更好的设计，但是源码我并没有看，也不是很想看了(东西太多，学不过来了，而且我觉得 Compose 应该是个趋势吧？有这时间继续看 Compose 了)</p>
 <h2 id="更多的思考">更多的思考</h2>
@@ -365,8 +365,8 @@ eg:</p>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

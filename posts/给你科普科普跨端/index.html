@@ -208,17 +208,17 @@
 </ol>
 <p>用一个简单的例子看</p>
 <p>假设我的 js 文件中就是要 <code>展示一个红色的 div 方块</code>。那么首先，端会把这个文本传给 JavaScript Runtime，它解析完后形成一个约定的格式，比如如下的 JSON 格式(里面的值用来描述是一个100*100红色方块，我随便定义的)</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;width&#34;</span><span class="p">:</span><span class="s2">&#34;100&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;height&#34;</span><span class="p">:</span><span class="s2">&#34;100&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;background&#34;</span><span class="p">:</span><span class="s2">&#34;red&#34;</span>
-<span class="p">}</span>
-</code></pre></div><p>通过 JavaScript Runtime 和 端(Android/iOS) 通信，把这个消息传回去。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;width&#34;</span><span class="p">:</span><span class="s2">&#34;100&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;height&#34;</span><span class="p">:</span><span class="s2">&#34;100&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;background&#34;</span><span class="p">:</span><span class="s2">&#34;red&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>通过 JavaScript Runtime 和 端(Android/iOS) 通信，把这个消息传回去。</p>
 <p>端拿到了消息，发现要创建一个 100*100 的叫做 div 的东西，没有 div 啊！这就需要端上提前埋好代码，比如 Android 里有 FrameLayout，那么就有类似的注册代码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 伪代码
-</span><span class="c1"></span><span class="n">register</span><span class="o">(</span><span class="s">&#34;div&#34;</span><span class="o">,</span> <span class="n">FrameLayout</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-</code></pre></div><p>然后端就知道了，oh！我需要创建一个长100宽100的正方形。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 伪代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">register</span><span class="o">(</span><span class="s">&#34;div&#34;</span><span class="o">,</span> <span class="n">FrameLayout</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span></code></pre></div><p>然后端就知道了，oh！我需要创建一个长100宽100的正方形。</p>
 <p><strong>那如果没有这个 div 怎么办？</strong></p>
 <p>首先，这是框架设计提前思考好的，究竟要支持哪些基础组件，比如 image 、text 等等。而且一般这里都会开个口子，让开发者可以自己扩展组件，比如你需要一个横滑列表，没提供怎么办？看看 div 怎么注册的，按照它的过程注册一个列表就好了。这也可以 <code>PPT</code> 吹成：<code>扩展跨端框架</code>，其实 <code>门槛比自定义 View 还要低</code>。</p>
 <h3 id="javascript-runtime-是什么">JavaScript Runtime 是什么？</h3>
@@ -235,45 +235,45 @@
         alt="/img/in-post/multi_platform_base_2.jpg"
         title="/img/in-post/multi_platform_base_2.jpg" /></p>
 <p>左边只要在内存中维护好这样一个树形结构就好了，传递给客户端时，转为</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;children&#34;</span><span class="p">:[</span>
-        <span class="p">{</span>
-            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;image&#34;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;children&#34;</span><span class="p">:[]</span>
-        <span class="p">}</span>
-        <span class="c1">// 等等
-</span><span class="c1"></span>    <span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div><p>端上拿到消息，创建视图为右图中的结构即可。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;children&#34;</span><span class="p">:[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;image&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;children&#34;</span><span class="p">:[]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 等等
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>端上拿到消息，创建视图为右图中的结构即可。</p>
 <p>如何维护好这个模型呢？调用什么 js 的方法发送消息呢？怎么给这些个 div 加上 css 来描述它的大小形状呢？等等更复杂的一系列的前端问题，都需要 <code>写代码</code> 来实现。</p>
 <p>所以一般都会有个 <code>core.js</code> 或者 <code>framework.js</code> 类似的一堆 js 代码，就是用来处理这些事情，而这些代码同样依靠 JavaScript Engine 来执行。</p>
 <p>从而所谓的 <code>JavaScript Runtime</code>，我觉得可以单纯的理解为 JavaScript Engine 自身的代码跑起来后的环境，也可以理解为 core.js 等被跨端框架所需要的、包含了各种逻辑的前端代码被加载运行后的环境。</p>
 <h3 id="怎么就能知道每个视图的位置和属性了">怎么就能知道每个视图的位置和属性了？</h3>
 <p>当你用这些跨端框架的时候，你会发现他们只支持 <code>css 子集</code>，而且布局方式基本都是 <code>flexbox(一种布局模型)</code>。</p>
 <p>那么比如你写了一个横着容纳了三个小方块的大方块，你的前端 css 代码肯定要写成，<code>flex-diretion:row</code>，那么抛给端上的消息可能如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;attribute&#34;</span><span class="p">:{</span>
-        <span class="c1">// 使用布局
-</span><span class="c1"></span>        <span class="nt">&#34;flex-diretion&#34;</span><span class="p">:</span><span class="s2">&#34;row&#34;</span>
-    <span class="p">},</span>
-    <span class="nt">&#34;children&#34;</span><span class="p">:[</span>
-        <span class="p">{</span>
-            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div><p>端上拿到这个消息，都不知道 flex-direction 是什么。当然，你可以自己写一个解析库来解，但是 Yoga 帮你做了这件事！</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;attribute&#34;</span><span class="p">:{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 使用布局
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nt">&#34;flex-diretion&#34;</span><span class="p">:</span><span class="s2">&#34;row&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;children&#34;</span><span class="p">:[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>端上拿到这个消息，都不知道 flex-direction 是什么。当然，你可以自己写一个解析库来解，但是 Yoga 帮你做了这件事！</p>
 <p>所以 RN 使用的是 Yoga 布局引擎(支持 flexbox，也是 Facebook 搞的)。</p>
 <p>Weex 似乎一开始是用的 Yoga，后来自己写了一套？</p>
 <p>这个地方就出现了一个名词 <code>Layout Engine</code>，它就是帮我们处理各种布局参数的，然后帮我们算好每个视图的坐标，然后端上拿到坐标后设置对应的视图的坐标，一个井井有条的视图便展示了出来。如果你觉得你写的布局解析算法超越了 Yoga 等等，那么你完全可以自己写一套。</p>
@@ -286,12 +286,12 @@
 <p>而且当你做动画还想监听动画过程的时候，肯定在短时间内发送了大量消息，这些过程肯定是 <code>需要优化</code> 的。</p>
 <p>并且！据我个人用 Weex 的经验，有的 flexbox 属性两端都不统一(可能是 Weex 的 Bug，毕竟 KPI 项目，都不维护了)</p>
 <p>我记得当时还开玩笑说，用了 Weex 终于领悟了跨端的真谛：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="k">if</span><span class="p">(</span><span class="nx">platform</span> <span class="o">===</span> <span class="s1">&#39;Andoird&#39;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// 差异化逻辑
-</span><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">platform</span> <span class="o">===</span> <span class="s1">&#39;iOS&#39;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// 差异化逻辑
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><p>跨端的代价就是，你 <code>本以为</code> 真的可以一套代码两端跑，后来发现真的有点做梦了(连 H5 有时候 Andoird/iOS 都不一致，因为用的内核都不是一个)，代码里有不少的 if-else。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">platform</span> <span class="o">===</span> <span class="s1">&#39;Andoird&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 差异化逻辑
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">platform</span> <span class="o">===</span> <span class="s1">&#39;iOS&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 差异化逻辑
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>跨端的代价就是，你 <code>本以为</code> 真的可以一套代码两端跑，后来发现真的有点做梦了(连 H5 有时候 Andoird/iOS 都不一致，因为用的内核都不是一个)，代码里有不少的 if-else。</p>
 <h2 id="总结">总结</h2>
 <p>所以经过上面的一系列科普，一个跨端框架成了这样：</p>
 <p><img
@@ -341,8 +341,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

@@ -168,20 +168,20 @@
 </ol>
 <p>queueNext 和 pendingNext 均是 Reference 类型，queue 为 ReferenceQueue 类型</p>
 <p>具体代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Reference</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
-  <span class="kd">final</span> <span class="n">ReferenceQueue</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">queue</span><span class="o">;</span>
-  <span class="n">Reference</span> <span class="n">queueNext</span><span class="o">;</span>
-  <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">pendingNext</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div><h3 id="referencequeue">ReferenceQueue</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Reference</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">final</span> <span class="n">ReferenceQueue</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">queue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Reference</span> <span class="n">queueNext</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">pendingNext</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="referencequeue">ReferenceQueue</h3>
 <p>ReferenceQueue 顾名思义存储 reference 的一个队列(其实还是链表)。</p>
 <p>但是其本身有 <code>两个队列</code>，一个是入队的队列(每个对象独有)，一个是未入队的队列(静态成员，共有)</p>
 <h4 id="referencequeue-结构">ReferenceQueue 结构</h4>
 <ol>
 <li>
 <p>队列一: <code>unenqueued</code>。十分重要，代码如下</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"> <span class="kd">public</span> <span class="kd">static</span> <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">unenqueued</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</code></pre></div><p>因为是静态成员，所以是一个共享变量，多线程操作时需要锁操作，多个 ReferenceQueue 也指向同一个 unenqueued (链表头结点)。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"> <span class="kd">public</span> <span class="kd">static</span> <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">unenqueued</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span></code></pre></div><p>因为是静态成员，所以是一个共享变量，多线程操作时需要锁操作，多个 ReferenceQueue 也指向同一个 unenqueued (链表头结点)。</p>
 </li>
 <li>
 <p>队列二：<code>head</code>。其实就是每个 ReferenceQueue 各自 <code>独有</code> 的链表头结点，存储入队的 Reference。</p>
@@ -189,50 +189,50 @@
 </ol>
 <h4 id="referencequeue-方法">ReferenceQueue 方法</h4>
 <p>有两个关键方法 add() 和 enqueuePending()，代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">unenqueued</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">unenqueued</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="c1">// Find the last element in unenqueued.
-</span><span class="c1"></span>            <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">last</span> <span class="o">=</span> <span class="n">unenqueued</span><span class="o">;</span>
-            <span class="k">while</span> <span class="o">(</span><span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">!=</span> <span class="n">unenqueued</span><span class="o">)</span> <span class="o">{</span>
-              <span class="n">last</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
-            <span class="o">}</span>
-            <span class="c1">// Add our list to the end. Update the pendingNext to point back to enqueued.
-</span><span class="c1"></span>            <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
-            <span class="n">last</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
-            <span class="k">while</span> <span class="o">(</span><span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">!=</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">last</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
-            <span class="o">}</span>
-            <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">unenqueued</span><span class="o">;</span>
-        <span class="o">}</span>
-        <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">notifyAll</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">enqueuePending</span><span class="o">(</span><span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">start</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
-    <span class="k">do</span> <span class="o">{</span>
-        <span class="n">ReferenceQueue</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">queue</span><span class="o">;</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">queue</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
-            <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
-            <span class="n">list</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="kd">synchronized</span> <span class="o">(</span><span class="n">queue</span><span class="o">.</span><span class="na">lock</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">do</span> <span class="o">{</span>
-                    <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
-                    <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
-                    <span class="n">queue</span><span class="o">.</span><span class="na">enqueueLocked</span><span class="o">(</span><span class="n">list</span><span class="o">);</span>
-                    <span class="n">list</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
-                <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">list</span> <span class="o">!=</span> <span class="n">start</span> <span class="o">&amp;&amp;</span> <span class="n">list</span><span class="o">.</span><span class="na">queue</span> <span class="o">==</span> <span class="n">queue</span><span class="o">);</span>
-                <span class="n">queue</span><span class="o">.</span><span class="na">lock</span><span class="o">.</span><span class="na">notifyAll</span><span class="o">();</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-    <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">list</span> <span class="o">!=</span> <span class="n">start</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div><p>enqueuePending() 中会再调用 enqueueLocked()，enqueueLocked() 代码就不贴了，核心就是 referece.queueNext = newReference，让新的 reference 入队或者就做链表头结点。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">static</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">unenqueued</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">unenqueued</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// Find the last element in unenqueued.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">last</span> <span class="o">=</span> <span class="n">unenqueued</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">while</span> <span class="o">(</span><span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">!=</span> <span class="n">unenqueued</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">              <span class="n">last</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// Add our list to the end. Update the pendingNext to point back to enqueued.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">last</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">while</span> <span class="o">(</span><span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">!=</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">last</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">last</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">unenqueued</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">notifyAll</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">enqueuePending</span><span class="o">(</span><span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">start</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">do</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ReferenceQueue</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">queue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">queue</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">list</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">synchronized</span> <span class="o">(</span><span class="n">queue</span><span class="o">.</span><span class="na">lock</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">do</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">list</span><span class="o">.</span><span class="na">pendingNext</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">queue</span><span class="o">.</span><span class="na">enqueueLocked</span><span class="o">(</span><span class="n">list</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">list</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">list</span> <span class="o">!=</span> <span class="n">start</span> <span class="o">&amp;&amp;</span> <span class="n">list</span><span class="o">.</span><span class="na">queue</span> <span class="o">==</span> <span class="n">queue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">queue</span><span class="o">.</span><span class="na">lock</span><span class="o">.</span><span class="na">notifyAll</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">list</span> <span class="o">!=</span> <span class="n">start</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>enqueuePending() 中会再调用 enqueueLocked()，enqueueLocked() 代码就不贴了，核心就是 referece.queueNext = newReference，让新的 reference 入队或者就做链表头结点。</p>
 <p>add 方法作用是让 reference 进入 unenqueued 队列或者就做链表头结点。</p>
 <h3 id="关系图">关系图</h3>
 <p>为了方便理解，关系图如下</p>
@@ -266,82 +266,82 @@
 <p>下面就看一看 GC 过程</p>
 <h4 id="runtimegc-过程">Runtime.gc() 过程</h4>
 <p>Runtime.gc()，调的是 native gc() 方法，对应 native 方法为 JVM_GC()</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// OpenjdkJvm.cc
-</span><span class="c1"></span><span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="nf">JVM_GC</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">art</span><span class="o">::</span><span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">IsExplicitGcDisabled</span><span class="p">())</span> <span class="p">{</span>
-      <span class="n">LOG</span><span class="p">(</span><span class="n">INFO</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Explicit GC skipped.&#34;</span><span class="p">;</span>
-      <span class="k">return</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">art</span><span class="o">::</span><span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetHeap</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">CollectGarbage</span><span class="p">(</span><span class="cm">/* clear_soft_references */</span> <span class="nb">false</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p>CollectGarbage() 方法会调用到 CollectClearedReferences()，部分代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// heap.cc
-</span><span class="c1"></span><span class="n">collector</span><span class="o">::</span><span class="n">GcType</span> <span class="n">Heap</span><span class="o">::</span><span class="n">CollectGarbageInternal</span><span class="p">(</span><span class="n">collector</span><span class="o">::</span><span class="n">GcType</span> <span class="n">gc_type</span><span class="p">,</span> <span class="n">GcCause</span> <span class="n">gc_cause</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">clear_soft_references</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// 略
-</span><span class="c1"></span>  <span class="n">collector</span><span class="o">-&gt;</span><span class="n">Run</span><span class="p">(</span><span class="n">gc_cause</span><span class="p">,</span> <span class="n">clear_soft_references</span> <span class="o">||</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">IsZygote</span><span class="p">());</span>
-  <span class="n">IncrementFreedEver</span><span class="p">();</span>
-  <span class="n">RequestTrim</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
-  <span class="c1">// Collect cleared references.
-</span><span class="c1"></span>  <span class="n">SelfDeletingTask</span><span class="o">*</span> <span class="n">clear</span> <span class="o">=</span> <span class="n">reference_processor_</span><span class="o">-&gt;</span><span class="n">CollectClearedReferences</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
-  <span class="c1">// Grow the heap so that we know when to perform the next GC.
-</span><span class="c1"></span>  <span class="n">GrowForUtilization</span><span class="p">(</span><span class="n">collector</span><span class="p">,</span> <span class="n">bytes_allocated_before_gc</span><span class="p">);</span>
-  <span class="n">LogGC</span><span class="p">(</span><span class="n">gc_cause</span><span class="p">,</span> <span class="n">collector</span><span class="p">);</span>
-  <span class="n">FinishGC</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">gc_type</span><span class="p">);</span>
-  <span class="c1">// Actually enqueue all cleared references. Do this after the GC has officially finished since
-</span><span class="c1"></span>  <span class="c1">// otherwise we can deadlock.
-</span><span class="c1"></span>  <span class="n">clear</span><span class="o">-&gt;</span><span class="n">Run</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
-  <span class="n">clear</span><span class="o">-&gt;</span><span class="n">Finalize</span><span class="p">();</span>
-  <span class="c1">// Inform DDMS that a GC completed.
-</span><span class="c1"></span>  <span class="n">Dbg</span><span class="o">::</span><span class="n">GcDidFinish</span><span class="p">();</span>
-
-  <span class="c1">// 略
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><p>CollectClearedReferences() 其实构建了一个 Task，ClearedReferenceTask，代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="n">SelfDeletingTask</span><span class="o">*</span> <span class="n">ReferenceProcessor</span><span class="o">::</span><span class="n">CollectClearedReferences</span><span class="p">(</span><span class="n">Thread</span><span class="o">*</span> <span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">Locks</span><span class="o">::</span><span class="n">mutator_lock_</span><span class="o">-&gt;</span><span class="n">AssertNotHeld</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
-  <span class="c1">// By default we don&#39;t actually need to do anything. Just return this no-op task to avoid having
-</span><span class="c1"></span>  <span class="c1">// to put in ifs.
-</span><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">SelfDeletingTask</span><span class="o">&gt;</span> <span class="n">result</span><span class="p">(</span><span class="k">new</span> <span class="n">FunctionTask</span><span class="p">([](</span><span class="n">Thread</span><span class="o">*</span><span class="p">)</span> <span class="p">{}));</span>
-  <span class="c1">// When a runtime isn&#39;t started there are no reference queues to care about so ignore.
-</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">cleared_references_</span><span class="p">.</span><span class="n">IsEmpty</span><span class="p">())</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">LIKELY</span><span class="p">(</span><span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">IsStarted</span><span class="p">()))</span> <span class="p">{</span>
-      <span class="n">jobject</span> <span class="n">cleared_references</span><span class="p">;</span>
-      <span class="p">{</span>
-        <span class="n">ReaderMutexLock</span> <span class="nf">mu</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">*</span><span class="n">Locks</span><span class="o">::</span><span class="n">mutator_lock_</span><span class="p">);</span>
-        <span class="n">cleared_references</span> <span class="o">=</span> <span class="n">self</span><span class="o">-&gt;</span><span class="n">GetJniEnv</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetVm</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddGlobalRef</span><span class="p">(</span>
-            <span class="n">self</span><span class="p">,</span> <span class="n">cleared_references_</span><span class="p">.</span><span class="n">GetList</span><span class="p">());</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">kAsyncReferenceQueueAdd</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// TODO: This can cause RunFinalization to terminate before newly freed objects are
-</span><span class="c1"></span>        <span class="c1">// finalized since they may not be enqueued by the time RunFinalization starts.
-</span><span class="c1"></span>        <span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetHeap</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetTaskProcessor</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddTask</span><span class="p">(</span>
-            <span class="n">self</span><span class="p">,</span> <span class="k">new</span> <span class="n">ClearedReferenceTask</span><span class="p">(</span><span class="n">cleared_references</span><span class="p">));</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">result</span><span class="p">.</span><span class="n">reset</span><span class="p">(</span><span class="k">new</span> <span class="n">ClearedReferenceTask</span><span class="p">(</span><span class="n">cleared_references</span><span class="p">));</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="n">cleared_references_</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">result</span><span class="p">.</span><span class="n">release</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div><p>最终执行的是 ClearedReferenceTask 的 Run 方法，代码如下:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">ClearedReferenceTask</span> <span class="o">:</span> <span class="k">public</span> <span class="n">HeapTask</span> <span class="p">{</span>
- <span class="k">public</span><span class="o">:</span>
-  <span class="k">explicit</span> <span class="n">ClearedReferenceTask</span><span class="p">(</span><span class="n">jobject</span> <span class="n">cleared_references</span><span class="p">)</span>
-      <span class="o">:</span> <span class="n">HeapTask</span><span class="p">(</span><span class="n">NanoTime</span><span class="p">()),</span> <span class="n">cleared_references_</span><span class="p">(</span><span class="n">cleared_references</span><span class="p">)</span> <span class="p">{</span>
-  <span class="p">}</span>
-  <span class="kt">void</span> <span class="nf">Run</span><span class="p">(</span><span class="n">Thread</span><span class="o">*</span> <span class="kr">thread</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
-    <span class="n">ScopedObjectAccess</span> <span class="n">soa</span><span class="p">(</span><span class="kr">thread</span><span class="p">);</span>
-    <span class="n">jvalue</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-    <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">l</span> <span class="o">=</span> <span class="n">cleared_references_</span><span class="p">;</span>
-    <span class="n">InvokeWithJValues</span><span class="p">(</span><span class="n">soa</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="n">WellKnownClasses</span><span class="o">::</span><span class="n">java_lang_ref_ReferenceQueue_add</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
-    <span class="n">soa</span><span class="p">.</span><span class="n">Env</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">DeleteGlobalRef</span><span class="p">(</span><span class="n">cleared_references_</span><span class="p">);</span>
-  <span class="p">}</span>
-
- <span class="k">private</span><span class="o">:</span>
-  <span class="k">const</span> <span class="n">jobject</span> <span class="n">cleared_references_</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></div><p>InvokeWithJValues(soa, nullptr, WellKnownClasses::java_lang_ref_ReferenceQueue_add, args);</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// OpenjdkJvm.cc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="nf">JVM_GC</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">art</span><span class="o">::</span><span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">IsExplicitGcDisabled</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">LOG</span><span class="p">(</span><span class="n">INFO</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Explicit GC skipped.&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">art</span><span class="o">::</span><span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetHeap</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">CollectGarbage</span><span class="p">(</span><span class="cm">/* clear_soft_references */</span> <span class="nb">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>CollectGarbage() 方法会调用到 CollectClearedReferences()，部分代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// heap.cc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">collector</span><span class="o">::</span><span class="n">GcType</span> <span class="n">Heap</span><span class="o">::</span><span class="n">CollectGarbageInternal</span><span class="p">(</span><span class="n">collector</span><span class="o">::</span><span class="n">GcType</span> <span class="n">gc_type</span><span class="p">,</span> <span class="n">GcCause</span> <span class="n">gc_cause</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">clear_soft_references</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">collector</span><span class="o">-&gt;</span><span class="n">Run</span><span class="p">(</span><span class="n">gc_cause</span><span class="p">,</span> <span class="n">clear_soft_references</span> <span class="o">||</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">IsZygote</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">  <span class="n">IncrementFreedEver</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">RequestTrim</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// Collect cleared references.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">SelfDeletingTask</span><span class="o">*</span> <span class="n">clear</span> <span class="o">=</span> <span class="n">reference_processor_</span><span class="o">-&gt;</span><span class="n">CollectClearedReferences</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// Grow the heap so that we know when to perform the next GC.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">GrowForUtilization</span><span class="p">(</span><span class="n">collector</span><span class="p">,</span> <span class="n">bytes_allocated_before_gc</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">LogGC</span><span class="p">(</span><span class="n">gc_cause</span><span class="p">,</span> <span class="n">collector</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">FinishGC</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">gc_type</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// Actually enqueue all cleared references. Do this after the GC has officially finished since
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// otherwise we can deadlock.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">clear</span><span class="o">-&gt;</span><span class="n">Run</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">clear</span><span class="o">-&gt;</span><span class="n">Finalize</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// Inform DDMS that a GC completed.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">Dbg</span><span class="o">::</span><span class="n">GcDidFinish</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>CollectClearedReferences() 其实构建了一个 Task，ClearedReferenceTask，代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">SelfDeletingTask</span><span class="o">*</span> <span class="n">ReferenceProcessor</span><span class="o">::</span><span class="n">CollectClearedReferences</span><span class="p">(</span><span class="n">Thread</span><span class="o">*</span> <span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Locks</span><span class="o">::</span><span class="n">mutator_lock_</span><span class="o">-&gt;</span><span class="n">AssertNotHeld</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// By default we don&#39;t actually need to do anything. Just return this no-op task to avoid having
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// to put in ifs.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">SelfDeletingTask</span><span class="o">&gt;</span> <span class="n">result</span><span class="p">(</span><span class="k">new</span> <span class="n">FunctionTask</span><span class="p">([](</span><span class="n">Thread</span><span class="o">*</span><span class="p">)</span> <span class="p">{}));</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// When a runtime isn&#39;t started there are no reference queues to care about so ignore.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">cleared_references_</span><span class="p">.</span><span class="n">IsEmpty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">LIKELY</span><span class="p">(</span><span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">IsStarted</span><span class="p">()))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">jobject</span> <span class="n">cleared_references</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ReaderMutexLock</span> <span class="nf">mu</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">*</span><span class="n">Locks</span><span class="o">::</span><span class="n">mutator_lock_</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cleared_references</span> <span class="o">=</span> <span class="n">self</span><span class="o">-&gt;</span><span class="n">GetJniEnv</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetVm</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddGlobalRef</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">self</span><span class="p">,</span> <span class="n">cleared_references_</span><span class="p">.</span><span class="n">GetList</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">kAsyncReferenceQueueAdd</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// TODO: This can cause RunFinalization to terminate before newly freed objects are
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// finalized since they may not be enqueued by the time RunFinalization starts.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Runtime</span><span class="o">::</span><span class="n">Current</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetHeap</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">GetTaskProcessor</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddTask</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">self</span><span class="p">,</span> <span class="k">new</span> <span class="n">ClearedReferenceTask</span><span class="p">(</span><span class="n">cleared_references</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span><span class="p">.</span><span class="n">reset</span><span class="p">(</span><span class="k">new</span> <span class="n">ClearedReferenceTask</span><span class="p">(</span><span class="n">cleared_references</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cleared_references_</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">result</span><span class="p">.</span><span class="n">release</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>最终执行的是 ClearedReferenceTask 的 Run 方法，代码如下:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ClearedReferenceTask</span> <span class="o">:</span> <span class="k">public</span> <span class="n">HeapTask</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="k">explicit</span> <span class="n">ClearedReferenceTask</span><span class="p">(</span><span class="n">jobject</span> <span class="n">cleared_references</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">:</span> <span class="n">HeapTask</span><span class="p">(</span><span class="n">NanoTime</span><span class="p">()),</span> <span class="n">cleared_references_</span><span class="p">(</span><span class="n">cleared_references</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">Run</span><span class="p">(</span><span class="n">Thread</span><span class="o">*</span> <span class="kr">thread</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ScopedObjectAccess</span> <span class="n">soa</span><span class="p">(</span><span class="kr">thread</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">jvalue</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">l</span> <span class="o">=</span> <span class="n">cleared_references_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InvokeWithJValues</span><span class="p">(</span><span class="n">soa</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="n">WellKnownClasses</span><span class="o">::</span><span class="n">java_lang_ref_ReferenceQueue_add</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">soa</span><span class="p">.</span><span class="n">Env</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">DeleteGlobalRef</span><span class="p">(</span><span class="n">cleared_references_</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="n">jobject</span> <span class="n">cleared_references_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>InvokeWithJValues(soa, nullptr, WellKnownClasses::java_lang_ref_ReferenceQueue_add, args);</p>
 <p>这行代码一看就很熟悉，ReferenceQueue_add 方法。</p>
 <p>所以，找到了初步关系就是：</p>
 <blockquote>
@@ -352,35 +352,35 @@
 <p>这部分的逻辑其实在 Daemons.java 中，Daemons.java 会启动四个线程，其中有两个很熟悉，<code>FinalizerDaemon</code> 和 <code>ReferenceQueueDaemon</code>。</p>
 <p>其中 FinalizerDaemon 会执行重写了 finalize 函数的对象的 finalize() 方法(这个过程是如何实现的可以网上搜一搜)</p>
 <p>ReferenceQueueDaemon 是今天的重点，它是引用队列的守护线程。代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// Daemons.java
-</span><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ReferenceQueueDaemon</span> <span class="kd">extends</span> <span class="n">Daemon</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ReferenceQueueDaemon</span> <span class="n">INSTANCE</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReferenceQueueDaemon</span><span class="o">();</span>
-
-    <span class="n">ReferenceQueueDaemon</span><span class="o">()</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">(</span><span class="s">&#34;ReferenceQueueDaemon&#34;</span><span class="o">);</span>
-    <span class="o">}</span>
-
-    <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">runInternal</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">while</span> <span class="o">(</span><span class="n">isRunning</span><span class="o">())</span> <span class="o">{</span>
-            <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">list</span><span class="o">;</span>
-            <span class="k">try</span> <span class="o">{</span>
-                <span class="kd">synchronized</span> <span class="o">(</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="k">while</span> <span class="o">(</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">unenqueued</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-                        <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">wait</span><span class="o">();</span>
-                    <span class="o">}</span>
-                    <span class="n">list</span> <span class="o">=</span> <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">unenqueued</span><span class="o">;</span>
-                    <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">unenqueued</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-                <span class="o">}</span>
-            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">continue</span><span class="o">;</span>
-            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">OutOfMemoryError</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">continue</span><span class="o">;</span>
-            <span class="o">}</span>
-            <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">enqueuePending</span><span class="o">(</span><span class="n">list</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>还记得 add() 最终执行的 ReferenceQueue.class.notifyAll() 吗？这里 ReferenceQueueDaemon 正在等待被唤醒，之后会执行 ReferenceQueue.enqueuePending(list)，就此打通所有流程。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// Daemons.java
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ReferenceQueueDaemon</span> <span class="kd">extends</span> <span class="n">Daemon</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ReferenceQueueDaemon</span> <span class="n">INSTANCE</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReferenceQueueDaemon</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ReferenceQueueDaemon</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">(</span><span class="s">&#34;ReferenceQueueDaemon&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">runInternal</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="o">(</span><span class="n">isRunning</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Reference</span><span class="o">&lt;?&gt;</span> <span class="n">list</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">synchronized</span> <span class="o">(</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">while</span> <span class="o">(</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">unenqueued</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">wait</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">list</span> <span class="o">=</span> <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">unenqueued</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">unenqueued</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">continue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">OutOfMemoryError</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">continue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ReferenceQueue</span><span class="o">.</span><span class="na">enqueuePending</span><span class="o">(</span><span class="n">list</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>还记得 add() 最终执行的 ReferenceQueue.class.notifyAll() 吗？这里 ReferenceQueueDaemon 正在等待被唤醒，之后会执行 ReferenceQueue.enqueuePending(list)，就此打通所有流程。</p>
 <p>ReferenceQueueDaemon 又是怎么启动的？其实是 <code>Daemons.start()</code> 启动的(具体过程见流程梳理)</p>
 <h3 id="流程梳理">流程梳理</h3>
 <h4 id="第一步">第一步</h4>
@@ -388,26 +388,26 @@
 <p>JVM/ART 启动时，会 <code>启动四个 Daemon 线程</code>，其中包括了 ReferenceQueueDaemon，并且其会因为 unenqueued == null 而 wait() 被挂起。</p>
 </blockquote>
 <p>具体启动流程可以参见 Android ART 虚拟机启动流程，大致为 init 进程启动 zygote 进程，app_main.cpp 中会调用 Runtime::Start()(这个函数比较长)，从而执行到  StartDaemonThreads()，其代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="n">Runtime</span><span class="o">::</span><span class="n">StartDaemonThreads</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">ScopedTrace</span> <span class="nf">trace</span><span class="p">(</span><span class="n">__FUNCTION__</span><span class="p">);</span>
-  <span class="n">VLOG</span><span class="p">(</span><span class="n">startup</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Runtime::StartDaemonThreads entering&#34;</span><span class="p">;</span>
-
-  <span class="n">Thread</span><span class="o">*</span> <span class="n">self</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">::</span><span class="n">Current</span><span class="p">();</span>
-
-  <span class="c1">// Must be in the kNative state for calling native methods.
-</span><span class="c1"></span>  <span class="n">CHECK_EQ</span><span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">GetState</span><span class="p">(),</span> <span class="n">kNative</span><span class="p">);</span>
-
-  <span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span> <span class="o">=</span> <span class="n">self</span><span class="o">-&gt;</span><span class="n">GetJniEnv</span><span class="p">();</span>
-  <span class="n">env</span><span class="o">-&gt;</span><span class="n">CallStaticVoidMethod</span><span class="p">(</span><span class="n">WellKnownClasses</span><span class="o">::</span><span class="n">java_lang_Daemons</span><span class="p">,</span>
-                            <span class="n">WellKnownClasses</span><span class="o">::</span><span class="n">java_lang_Daemons_start</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionCheck</span><span class="p">())</span> <span class="p">{</span>
-    <span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionDescribe</span><span class="p">();</span>
-    <span class="n">LOG</span><span class="p">(</span><span class="n">FATAL</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Error starting java.lang.Daemons&#34;</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">VLOG</span><span class="p">(</span><span class="n">startup</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Runtime::StartDaemonThreads exiting&#34;</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>可以看到 CallStaticVoidMethod(WellKnownClasses::java_lang_Daemons, WellKnownClasses::java_lang_Daemons_start) 被调用，从而调用了 Daemons.start()，启动了四个 Daemon 线程。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">Runtime</span><span class="o">::</span><span class="n">StartDaemonThreads</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ScopedTrace</span> <span class="nf">trace</span><span class="p">(</span><span class="n">__FUNCTION__</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">VLOG</span><span class="p">(</span><span class="n">startup</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Runtime::StartDaemonThreads entering&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">Thread</span><span class="o">*</span> <span class="n">self</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">::</span><span class="n">Current</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Must be in the kNative state for calling native methods.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">CHECK_EQ</span><span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">GetState</span><span class="p">(),</span> <span class="n">kNative</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span> <span class="o">=</span> <span class="n">self</span><span class="o">-&gt;</span><span class="n">GetJniEnv</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">env</span><span class="o">-&gt;</span><span class="n">CallStaticVoidMethod</span><span class="p">(</span><span class="n">WellKnownClasses</span><span class="o">::</span><span class="n">java_lang_Daemons</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">WellKnownClasses</span><span class="o">::</span><span class="n">java_lang_Daemons_start</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionCheck</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionDescribe</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOG</span><span class="p">(</span><span class="n">FATAL</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Error starting java.lang.Daemons&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">VLOG</span><span class="p">(</span><span class="n">startup</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Runtime::StartDaemonThreads exiting&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>可以看到 CallStaticVoidMethod(WellKnownClasses::java_lang_Daemons, WellKnownClasses::java_lang_Daemons_start) 被调用，从而调用了 Daemons.start()，启动了四个 Daemon 线程。</p>
 <h4 id="第二步">第二步</h4>
 <blockquote>
 <p>JVM/ART GC 时，会调用 ReferenceQueue 的 ReferenceQueue.add(Reference)，最终 <code>notifyAll 唤醒 ReferenceQueueDaemon 线程</code>，执行 ReferenceQueue.enqueuePending(list) 方法</p>
@@ -453,8 +453,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

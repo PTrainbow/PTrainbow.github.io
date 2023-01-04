@@ -39,28 +39,28 @@
     <guid>http://PTrain666.github.io/posts/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/</guid>
     <description><![CDATA[<h2 id="一个c文件调用另一个c文件的方法如何找到">一个c文件调用另一个c文件的方法，如何找到？</h2>
 <p>hello.h</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#ifndef HELLO
-</span><span class="cp">#define HELLO
-</span><span class="cp"></span><span class="kt">int</span> <span class="nf">fn_c</span><span class="p">(</span><span class="kt">int</span> <span class="n">x_local</span><span class="p">);</span>
-<span class="cp">#endif
-</span></code></pre></div><p>hello.c</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* 这是一个存在于程序别处的某个全局变量的声明 */</span>
-<span class="k">extern</span> <span class="kt">int</span> <span class="n">z_global</span><span class="p">;</span>
-
-<span class="cm">/* 这是一个函数的定义，函数参数可以认为是局部变量 */</span>
-<span class="kt">int</span> <span class="nf">fn_c</span><span class="p">(</span><span class="kt">int</span> <span class="n">x_local</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">z_global</span> <span class="o">+</span> <span class="n">x_local</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p>hello_main.c</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span><span class="cpf">&#34;hello.h&#34;</span><span class="cp">
-</span><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span><span class="cp"></span><span class="kt">int</span> <span class="n">z_global</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
-<span class="p">{</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="n">fn_c</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>]]></description>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#ifndef HELLO
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define HELLO
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">fn_c</span><span class="p">(</span><span class="kt">int</span> <span class="n">x_local</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#endif
+</span></span></span></code></pre></div><p>hello.c</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* 这是一个存在于程序别处的某个全局变量的声明 */</span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">int</span> <span class="n">z_global</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/* 这是一个函数的定义，函数参数可以认为是局部变量 */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">fn_c</span><span class="p">(</span><span class="kt">int</span> <span class="n">x_local</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">z_global</span> <span class="o">+</span> <span class="n">x_local</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>hello_main.c</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&#34;hello.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="n">z_global</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="n">fn_c</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>]]></description>
 </item></channel>
 </rss>

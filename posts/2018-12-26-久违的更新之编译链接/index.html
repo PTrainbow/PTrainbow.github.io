@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrain666.github.io\/posts\/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5\/"
-        },"genre": "posts","keywords": "基础","wordcount":  319 ,
+        },"genre": "posts","keywords": "基础","wordcount":  321 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5\/","datePublished": "2018-12-26T00:00:00+00:00","dateModified": "2018-12-26T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -153,7 +153,7 @@ int main(int argc, char *argv[])
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">久违的更新之链接</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-12-26">2018-12-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 319 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-12-26">2018-12-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 321 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -168,32 +168,32 @@ int main(int argc, char *argv[])
 </nav></div>
             </div><div class="content" id="content"><h2 id="一个c文件调用另一个c文件的方法如何找到">一个c文件调用另一个c文件的方法，如何找到？</h2>
 <p>hello.h</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#ifndef HELLO
-</span><span class="cp">#define HELLO
-</span><span class="cp"></span><span class="kt">int</span> <span class="nf">fn_c</span><span class="p">(</span><span class="kt">int</span> <span class="n">x_local</span><span class="p">);</span>
-<span class="cp">#endif
-</span></code></pre></div><p>hello.c</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* 这是一个存在于程序别处的某个全局变量的声明 */</span>
-<span class="k">extern</span> <span class="kt">int</span> <span class="n">z_global</span><span class="p">;</span>
-
-<span class="cm">/* 这是一个函数的定义，函数参数可以认为是局部变量 */</span>
-<span class="kt">int</span> <span class="nf">fn_c</span><span class="p">(</span><span class="kt">int</span> <span class="n">x_local</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">z_global</span> <span class="o">+</span> <span class="n">x_local</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p>hello_main.c</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span><span class="cpf">&#34;hello.h&#34;</span><span class="cp">
-</span><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span><span class="cp"></span><span class="kt">int</span> <span class="n">z_global</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
-<span class="p">{</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="n">fn_c</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>hello_main.c 中引用了 hello.c 中的 fn_c 方法，我们单独编译 hello_main.c</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">gcc -c hello_main.c -o hello_main.o
-nm hello_main.o  //查看符号表命令
-</code></pre></div><p>这个不会报错，但是很好奇这个 fn_c 他要怎么表示呢？因为此时都没有编译 hello.c，结果居然是···空着的<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#ifndef HELLO
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define HELLO
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">fn_c</span><span class="p">(</span><span class="kt">int</span> <span class="n">x_local</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#endif
+</span></span></span></code></pre></div><p>hello.c</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* 这是一个存在于程序别处的某个全局变量的声明 */</span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">int</span> <span class="n">z_global</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/* 这是一个函数的定义，函数参数可以认为是局部变量 */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">fn_c</span><span class="p">(</span><span class="kt">int</span> <span class="n">x_local</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">z_global</span> <span class="o">+</span> <span class="n">x_local</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>hello_main.c</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&#34;hello.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="n">z_global</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="n">fn_c</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>hello_main.c 中引用了 hello.c 中的 fn_c 方法，我们单独编译 hello_main.c</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">gcc -c hello_main.c -o hello_main.o
+</span></span><span class="line"><span class="cl">nm hello_main.o  //查看符号表命令
+</span></span></code></pre></div><p>这个不会报错，但是很好奇这个 fn_c 他要怎么表示呢？因为此时都没有编译 hello.c，结果居然是···空着的<br>
 <img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -203,10 +203,10 @@ nm hello_main.o  //查看符号表命令
         alt="/img/in-post/nm_hello_main.png"
         title="/img/in-post/nm_hello_main.png" /></p>
 <p>之后我们编译 hello.c，链接这两个文件</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">gcc -c hello.c -o hello.o
-gcc hello.o hello_main.o -o main.out
-nm main.out  //查看符号表命令
-</code></pre></div><p><img
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">gcc -c hello.c -o hello.o
+</span></span><span class="line"><span class="cl">gcc hello.o hello_main.o -o main.out
+</span></span><span class="line"><span class="cl">nm main.out  //查看符号表命令
+</span></span></code></pre></div><p><img
         class="lazyload"
         src="/svg/loading.min.svg"
         data-src="/img/in-post/nm_hello_out.png"
@@ -249,8 +249,8 @@ nm main.out  //查看符号表命令
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

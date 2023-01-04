@@ -149,39 +149,39 @@
 <p>xdl 包装了一层，使用 xdl_iterate_phdr，同样允许传入 callback，在 callback 循环中获取到了 so 基址，生成 elf 结构(其实也就是获得了所有地址)，进行函数替换(hook过程)，同时需要修改这片内存为可写</p>
 <p>问题就发生在这里</p>
 <p>通过读取 /proc/self/maps 来获取当前内存地址的状态并修改为可写，但是 memory-leak-detector 的逻辑是:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="n">xdl_iterate_phdr</span><span class="p">(</span><span class="n">dl_iterate_callback</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">XDL_FULL_PATHNAME</span><span class="p">);</span>
-
-<span class="c1">// 循环每个内存中的 so 依次回调
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">dl_iterate_callback</span><span class="p">(</span><span class="n">dl_phdr_info</span> <span class="o">*</span><span class="n">info</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">info</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">common_callback</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">dlpi_name</span><span class="p">,</span> <span class="n">get_so_base</span><span class="p">(</span><span class="n">info</span><span class="p">),</span> <span class="n">data</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// 没什么细节
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">common_callback</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="n">uintptr_t</span> <span class="n">base</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="c1">// 省略
-</span><span class="c1"></span>    <span class="n">ret</span> <span class="o">=</span> <span class="n">default_callback</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">base</span><span class="p">);</span>
-   	<span class="c1">// 省略
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">default_callback</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="n">uintptr_t</span> <span class="n">base</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">// 省略
-</span><span class="c1"></span>    <span class="n">tryHookAllFunc</span><span class="p">(</span><span class="n">elf</span><span class="p">);</span>
-    <span class="c1">// 省略
-</span><span class="c1"></span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">static</span> <span class="kt">void</span> <span class="nf">tryHookAllFunc</span><span class="p">(</span><span class="n">xh_elf_t</span> <span class="n">elf</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">sPltGot</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">sPltGot</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-		<span class="c1">// 问题就在这里，xh_elf_hook 每次调用均会触发一次 proc/self/maps 的 IO 操作，这部分属于 xhook 的源码
-</span><span class="c1"></span>        <span class="n">xh_elf_hook</span><span class="p">(</span><span class="o">&amp;</span><span class="n">elf</span><span class="p">,</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="n">sPltGot</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span> <span class="n">sPltGot</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>于是，整个过程，读取 proc/self/maps 的次数 = <code>o 个数 * hook 方法个数</code>，机器越低端越漫长，最终 ANR。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">xdl_iterate_phdr</span><span class="p">(</span><span class="n">dl_iterate_callback</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">XDL_FULL_PATHNAME</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 循环每个内存中的 so 依次回调
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">dl_iterate_callback</span><span class="p">(</span><span class="n">dl_phdr_info</span> <span class="o">*</span><span class="n">info</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">info</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">common_callback</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">dlpi_name</span><span class="p">,</span> <span class="n">get_so_base</span><span class="p">(</span><span class="n">info</span><span class="p">),</span> <span class="n">data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 没什么细节
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">common_callback</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="n">uintptr_t</span> <span class="n">base</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 省略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ret</span> <span class="o">=</span> <span class="n">default_callback</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">base</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">   	<span class="c1">// 省略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">default_callback</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="n">uintptr_t</span> <span class="n">base</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 省略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">tryHookAllFunc</span><span class="p">(</span><span class="n">elf</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 省略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">tryHookAllFunc</span><span class="p">(</span><span class="n">xh_elf_t</span> <span class="n">elf</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">sPltGot</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">sPltGot</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// 问题就在这里，xh_elf_hook 每次调用均会触发一次 proc/self/maps 的 IO 操作，这部分属于 xhook 的源码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">xh_elf_hook</span><span class="p">(</span><span class="o">&amp;</span><span class="n">elf</span><span class="p">,</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="n">sPltGot</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span> <span class="n">sPltGot</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>于是，整个过程，读取 proc/self/maps 的次数 = <code>o 个数 * hook 方法个数</code>，机器越低端越漫长，最终 ANR。</p>
 <p>既然耗时，<code>移动到子线程是否可以呢</code>？<strong>不可以</strong></p>
 <p>dl_iterate_phdr 带一个 linker 的<code>全局锁</code>，影响范围很大，activity 也会无法跳转。</p>
 <h2 id="如何解决">如何解决</h2>
@@ -232,8 +232,8 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

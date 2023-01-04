@@ -17,7 +17,7 @@
 <meta name="twitter:title" content="JVMTI 的运用"/>
 <meta name="twitter:description" content="​ 文档 https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn JVMTI 可以做什么 一些重要的功能包括： 重新定义类。 跟踪对象分配和垃圾回收过程。 遵循对象的引用树，遍历堆中的所有对象。 检查 Java 调用堆栈。 暂停（"/>
 <meta name="application-name" content="北邙山之光的 Blog">
-<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/jvmti/" /><link rel="prev" href="http://PTrain666.github.io/posts/Baseline-Profile/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/jvmti/" /><link rel="prev" href="http://PTrain666.github.io/posts/Baseline-Profile/" /><link rel="next" href="http://PTrain666.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -168,35 +168,35 @@
 <p><code>注意</code>：只能再 Debug 模式下开启，且 so 需要 copy 到应用目录下，使用绝对路径加载，否则加载不成功</p>
 </blockquote>
 <p>native 层需要通过 Agent_OnAttach 获取 jvmtiEnv</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="n">Agent_OnAttach</span><span class="p">(</span><span class="n">JavaVM</span> <span class="o">*</span><span class="n">vm</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">options</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">reserved</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">jint</span> <span class="n">result</span> <span class="o">=</span> <span class="n">vm</span><span class="o">-&gt;</span><span class="n">GetEnv</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">sJVMTIEnv</span><span class="p">,</span> <span class="n">JVMTI_VERSION_1_2</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">JNI_OK</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">LOGI</span><span class="p">(</span><span class="s">&#34;create jvmti error!&#34;</span><span class="p">);</span>
-        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">jvmtiCapabilities</span> <span class="n">caps</span><span class="p">;</span>
-    <span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">GetPotentialCapabilities</span><span class="p">(</span><span class="o">&amp;</span><span class="n">caps</span><span class="p">);</span>
-    <span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">AddCapabilities</span><span class="p">(</span><span class="o">&amp;</span><span class="n">caps</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">JNI_OK</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">Agent_OnAttach</span><span class="p">(</span><span class="n">JavaVM</span> <span class="o">*</span><span class="n">vm</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">options</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">reserved</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">jint</span> <span class="n">result</span> <span class="o">=</span> <span class="n">vm</span><span class="o">-&gt;</span><span class="n">GetEnv</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">sJVMTIEnv</span><span class="p">,</span> <span class="n">JVMTI_VERSION_1_2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">JNI_OK</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LOGI</span><span class="p">(</span><span class="s">&#34;create jvmti error!&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">jvmtiCapabilities</span> <span class="n">caps</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">GetPotentialCapabilities</span><span class="p">(</span><span class="o">&amp;</span><span class="n">caps</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">AddCapabilities</span><span class="p">(</span><span class="o">&amp;</span><span class="n">caps</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">JNI_OK</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
 <li>
 <p>注册对应回调函数，开启对应的事件监听</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// 注册回调
-</span><span class="c1"></span><span class="n">jvmtiEnv</span><span class="err">→</span><span class="n">SentEventCallbacks</span>
-<span class="c1">// 锁相关回调为 MonitorContendedEnter 和 MonitorContendedEntered
-</span><span class="c1"></span><span class="n">jvmtiEnv</span><span class="err">→</span><span class="n">SetEventNotificationMode</span>
-</code></pre></div><p>最终回调注册相关的代码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="n">jvmtiEventCallbacks</span> <span class="n">callbacks</span><span class="p">;</span>
-<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">callbacks</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">callbacks</span><span class="p">));</span>
-<span class="n">callbacks</span><span class="p">.</span><span class="n">MonitorContendedEnter</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">onLockEnter</span><span class="p">;</span>
-<span class="n">callbacks</span><span class="p">.</span><span class="n">MonitorContendedEntered</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">onLockEntered</span><span class="p">;</span>
-<span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">SetEventCallbacks</span><span class="p">(</span><span class="o">&amp;</span><span class="n">callbacks</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">callbacks</span><span class="p">));</span>
-<span class="c1">// 最终的线程参数传递 null，表明监听所有线程
-</span><span class="c1"></span><span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">SetEventNotificationMode</span><span class="p">(</span><span class="n">JVMTI_ENABLE</span><span class="p">,</span> <span class="n">JVMTI_EVENT_MONITOR_CONTENDED_ENTER</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">);</span>
-<span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">SetEventNotificationMode</span><span class="p">(</span><span class="n">JVMTI_ENABLE</span><span class="p">,</span> <span class="n">JVMTI_EVENT_MONITOR_CONTENDED_ENTERED</span><span class="p">,</span>
-                                    <span class="k">nullptr</span><span class="p">);</span>
-</code></pre></div><p>onLockEnter 和 onLockEntered 为我们自己的方法，这样当有 lock 事件发生时，便会回调这两个对应方法</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// 注册回调
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">jvmtiEnv</span><span class="err">→</span><span class="n">SentEventCallbacks</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 锁相关回调为 MonitorContendedEnter 和 MonitorContendedEntered
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">jvmtiEnv</span><span class="err">→</span><span class="n">SetEventNotificationMode</span>
+</span></span></code></pre></div><p>最终回调注册相关的代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">jvmtiEventCallbacks</span> <span class="n">callbacks</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">callbacks</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">callbacks</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">callbacks</span><span class="p">.</span><span class="n">MonitorContendedEnter</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">onLockEnter</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">callbacks</span><span class="p">.</span><span class="n">MonitorContendedEntered</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">onLockEntered</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">SetEventCallbacks</span><span class="p">(</span><span class="o">&amp;</span><span class="n">callbacks</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">callbacks</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 最终的线程参数传递 null，表明监听所有线程
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">SetEventNotificationMode</span><span class="p">(</span><span class="n">JVMTI_ENABLE</span><span class="p">,</span> <span class="n">JVMTI_EVENT_MONITOR_CONTENDED_ENTER</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">sJVMTIEnv</span><span class="o">-&gt;</span><span class="n">SetEventNotificationMode</span><span class="p">(</span><span class="n">JVMTI_ENABLE</span><span class="p">,</span> <span class="n">JVMTI_EVENT_MONITOR_CONTENDED_ENTERED</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="k">nullptr</span><span class="p">);</span>
+</span></span></code></pre></div><p>onLockEnter 和 onLockEntered 为我们自己的方法，这样当有 lock 事件发生时，便会回调这两个对应方法</p>
 </li>
 <li>
 <p>通过 jvmti 接口获取各种信息和各类其他信息，如堆栈信息(可以查阅 jvmti interface 文档)<br>
@@ -243,43 +243,42 @@ xdl_open + xdl_sym</li>
 这里没有细看和 java 层的 runtime 之间的关系，如果一致，那么其实可以反调 java 获取，我这里直接找到了对应的方法签名 _ZN3art7Runtime9instance_E，直接调用获取</li>
 </ol>
 <p>代码大致如下(需要依赖 XDL)：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// dl_iterate_callback 中可以通过 dl_phdr_info.name 拿到绝对路径，赋值给 libart 即可
-</span><span class="c1"></span><span class="n">xdl_iterate_phdr</span><span class="p">(</span><span class="n">dl_iterate_callback</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="n">XDL_FULL_PATHNAME</span><span class="p">);</span>
-<span class="kt">void</span> <span class="o">*</span><span class="n">dl</span> <span class="o">=</span> <span class="n">xdl_open</span><span class="p">(</span><span class="n">libart</span><span class="p">,</span> <span class="n">XDL_ALWAYS_FORCE_LOAD</span><span class="p">);</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">dl</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">auto</span> <span class="p">(</span><span class="o">*</span><span class="n">SetJdwpAllowed</span><span class="p">)(</span><span class="kt">bool</span><span class="p">)</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">bool</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">xdl_sym</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span>
-                                                                            <span class="s">&#34;_ZN3art3Dbg14SetJdwpAllowedEb&#34;</span><span class="p">,</span>
-                                                                            <span class="k">nullptr</span><span class="p">));</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">SetJdwpAllowed</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">SetJdwpAllowed</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">LOGE</span><span class="p">(</span><span class="s">&#34;SetJdwpAllowed failed!&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">auto</span> <span class="p">(</span><span class="o">*</span><span class="n">setJavaDebuggable</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">,</span> <span class="kt">bool</span><span class="p">)</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">,</span> <span class="kt">bool</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">xdl_sym</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span>
-                                                                            <span class="s">&#34;_ZN3art7Runtime17SetJavaDebuggableEb&#34;</span><span class="p">,</span>
-                                                                            <span class="k">nullptr</span><span class="p">));</span>
-    <span class="kt">void</span> <span class="o">**</span><span class="n">instance_</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="o">**&gt;</span><span class="p">(</span><span class="n">xdl_sym</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span> <span class="s">&#34;_ZN3art7Runtime9instance_E&#34;</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">));</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">setJavaDebuggable</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">setJavaDebuggable</span><span class="p">(</span><span class="o">*</span><span class="n">instance_</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
-    <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
-        <span class="n">LOGE</span><span class="p">(</span><span class="s">&#34;setJavaDebuggable failed!&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">xdl_close</span><span class="p">(</span><span class="n">dl</span><span class="p">);</span>
-<span class="p">}</span><span class="k">else</span> <span class="p">{</span>
-    <span class="n">LOGE</span><span class="p">(</span><span class="s">&#34;open libart.so failed!&#34;</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p>这样就可以在 release 模式下开启 jvmti 了！但是不要搞到线上去，因为 jvmti 还是有一些性能损耗的！可以用于线下的测试</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// dl_iterate_callback 中可以通过 dl_phdr_info.name 拿到绝对路径，赋值给 libart 即可
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">xdl_iterate_phdr</span><span class="p">(</span><span class="n">dl_iterate_callback</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="n">XDL_FULL_PATHNAME</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="o">*</span><span class="n">dl</span> <span class="o">=</span> <span class="n">xdl_open</span><span class="p">(</span><span class="n">libart</span><span class="p">,</span> <span class="n">XDL_ALWAYS_FORCE_LOAD</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">dl</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="p">(</span><span class="o">*</span><span class="n">SetJdwpAllowed</span><span class="p">)(</span><span class="kt">bool</span><span class="p">)</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">bool</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">xdl_sym</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                                            <span class="s">&#34;_ZN3art3Dbg14SetJdwpAllowedEb&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                                            <span class="k">nullptr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">SetJdwpAllowed</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SetJdwpAllowed</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LOGE</span><span class="p">(</span><span class="s">&#34;SetJdwpAllowed failed!&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="p">(</span><span class="o">*</span><span class="n">setJavaDebuggable</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">,</span> <span class="kt">bool</span><span class="p">)</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">,</span> <span class="kt">bool</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">xdl_sym</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                                            <span class="s">&#34;_ZN3art7Runtime17SetJavaDebuggableEb&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                                            <span class="k">nullptr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">**</span><span class="n">instance_</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="o">**&gt;</span><span class="p">(</span><span class="n">xdl_sym</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span> <span class="s">&#34;_ZN3art7Runtime9instance_E&#34;</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">setJavaDebuggable</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">setJavaDebuggable</span><span class="p">(</span><span class="o">*</span><span class="n">instance_</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LOGE</span><span class="p">(</span><span class="s">&#34;setJavaDebuggable failed!&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">xdl_close</span><span class="p">(</span><span class="n">dl</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGE</span><span class="p">(</span><span class="s">&#34;open libart.so failed!&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这样就可以在 release 模式下开启 jvmti 了！但是不要搞到线上去，因为 jvmti 还是有一些性能损耗的！可以用于线下的测试</p>
 <h2 id="atrace-文件格式细节">Atrace 文件格式细节</h2>
 <p>如何将我们记录到的锁相关的堆栈信息可视化呢？</p>
 <p>我这里是使用 atrace 格式来展示，上面也有具体的展示图。</p>
 <p>atrace 是一种什么格式呢？</p>
 <p>在 systrace 还是 perfetto 的代码中有如下正则匹配(忘记了从哪里找到的了)：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">s*(.+)-(\d+)\s+\(\s*(\d+|-+)\)\s\[(\d+)\]\s+[dX.][Nnp.][Hhs.][0-9a-f.]\s+(\d+\.\d+):\s+(\S+):\s(.*)$
-</code></pre></div><p>再来看看标准的一个 atrace</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">com.xxx.xxx-9702  ( 9702) [001] ...1 1743497.015596: tracing_mark_write: B|9702|Intrinsics:checkParameterIsNotNull
-com.xxx.xxx-9702  ( 9702) [001] ...1 1743497.015612: tracing_mark_write: E|9702|Intrinsics:checkParameterIsNotNull
-
-</code></pre></div><p>刚好对得上这个正则匹配</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">s*(.+)-(\d+)\s+\(\s*(\d+|-+)\)\s\[(\d+)\]\s+[dX.][Nnp.][Hhs.][0-9a-f.]\s+(\d+\.\d+):\s+(\S+):\s(.*)$
+</span></span></code></pre></div><p>再来看看标准的一个 atrace</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">com.xxx.xxx-9702  ( 9702) [001] ...1 1743497.015596: tracing_mark_write: B|9702|Intrinsics:checkParameterIsNotNull
+</span></span><span class="line"><span class="cl">com.xxx.xxx-9702  ( 9702) [001] ...1 1743497.015612: tracing_mark_write: E|9702|Intrinsics:checkParameterIsNotNull
+</span></span></code></pre></div><p>刚好对得上这个正则匹配</p>
 <p>所以我们只需要凑出一个这种格式，然后将获取到的调用栈，展开成 B| funcA, E| funcB 的样式即可</p>
 <p>B 表示一个方法开始，E 表示一个方法结束，中间的六位小数的数值是一个时间数值，[001] &hellip;1 tracing_mark_write 等值原封不动即可</p>
 <p>然后我们只需要找到一个模板 html 文件，将其中间的 atrace 内容替换为我们抓到的 lock 堆栈内容即可</p>
@@ -310,14 +309,15 @@ com.xxx.xxx-9702  ( 9702) [001] ...1 1743497.015612: tracing_mark_write: E|9702|
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/Baseline-Profile/" class="prev" rel="prev" title="Baseline Profile"><i class="fas fa-angle-left fa-fw"></i>Baseline Profile</a></div>
+    <div class="post-nav"><a href="/posts/Baseline-Profile/" class="prev" rel="prev" title="Baseline Profile"><i class="fas fa-angle-left fa-fw"></i>Baseline Profile</a>
+            <a href="/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/" class="next" rel="next" title="NativeBitmap 实现">NativeBitmap 实现<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

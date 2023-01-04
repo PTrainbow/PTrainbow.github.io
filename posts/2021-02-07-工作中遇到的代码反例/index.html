@@ -146,42 +146,42 @@
         title="/img/in-post/tab-example.jpg" /></p>
 <p>类似知乎App的场景，顶部有一排 tab，每次记录选中的是哪一个 tab，下次进入时展示上次退出时的 tab。</p>
 <p>原本的代码中是这样实现的(伪代码)</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 监听 ViewPager 回调
-</span><span class="c1"></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageSelected</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">// 1.拿当前 fragment
-</span><span class="c1"></span>    <span class="n">fragment</span> <span class="o">=</span> <span class="n">getCurFragment</span><span class="o">();</span>
-    <span class="c1">// 2.通过 fragment 拿 channel
-</span><span class="c1"></span>    <span class="n">channel</span> <span class="o">=</span> <span class="n">getChannel</span><span class="o">(</span><span class="n">Fragment</span><span class="o">);</span>
-    <span class="c1">// 3.保存 channel(int值)
-</span><span class="c1"></span>    <span class="n">savePage</span><span class="o">(</span><span class="n">channel</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">getChannel</span><span class="o">(</span><span class="n">Fragment</span> <span class="n">fragment</span><span class="o">)</span> <span class="o">{</span>
-   <span class="k">if</span> <span class="o">(</span><span class="n">fragment</span> <span class="k">instanceof</span> <span class="n">FragmentA</span><span class="o">)</span> <span class="o">{</span>
-       <span class="k">return</span> <span class="n">1</span><span class="o">;</span>
-   <span class="o">}</span>
-   <span class="c1">// ···各个 tab
-</span><span class="c1"></span><span class="o">}</span>
-</code></pre></div><p>到这里也还好，但是当初始化的时候逻辑就很奇怪了</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onViewCreated</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">// 1.获取之前保存在本地的 channel
-</span><span class="c1"></span>    <span class="n">channel</span> <span class="o">=</span> <span class="n">getChannel</span><span class="o">();</span>
-    <span class="c1">// 2.通过 channel 获取 position（我第一次看的时候是懵逼的，凭啥？）
-</span><span class="c1"></span>    <span class="n">position</span> <span class="o">=</span> <span class="n">getPosition</span><span class="o">(</span><span class="n">channel</span><span class="o">);</span>
-    <span class="n">setInitTabPosition</span><span class="o">(</span><span class="n">position</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getPosition</span><span class="o">(</span><span class="kt">int</span> <span class="n">channel</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">// 只为了表示 channel 和 position 有映射关系
-</span><span class="c1"></span>    <span class="k">switch</span><span class="o">(</span><span class="n">channel</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">case</span> <span class="n">5</span><span class="o">:</span>
-            <span class="k">return</span> <span class="n">0</span><span class="o">;</span>
-        <span class="k">case</span> <span class="n">7</span><span class="o">:</span>
-            <span class="k">return</span> <span class="n">1</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>这段代码就是想从本地取之前存好的 channel(也就是代表哪个 Fragment)，然后通过 channel 和 position 的映射关系拿到 position，传给 ViewPager 从而让此 Fragment 对应的 tab 变为选中状态。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 监听 ViewPager 回调
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageSelected</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1.拿当前 fragment
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">fragment</span> <span class="o">=</span> <span class="n">getCurFragment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2.通过 fragment 拿 channel
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">channel</span> <span class="o">=</span> <span class="n">getChannel</span><span class="o">(</span><span class="n">Fragment</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 3.保存 channel(int值)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">savePage</span><span class="o">(</span><span class="n">channel</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">getChannel</span><span class="o">(</span><span class="n">Fragment</span> <span class="n">fragment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">if</span> <span class="o">(</span><span class="n">fragment</span> <span class="k">instanceof</span> <span class="n">FragmentA</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">       <span class="k">return</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">// ···各个 tab
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>到这里也还好，但是当初始化的时候逻辑就很奇怪了</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onViewCreated</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1.获取之前保存在本地的 channel
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">channel</span> <span class="o">=</span> <span class="n">getChannel</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2.通过 channel 获取 position（我第一次看的时候是懵逼的，凭啥？）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">position</span> <span class="o">=</span> <span class="n">getPosition</span><span class="o">(</span><span class="n">channel</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">setInitTabPosition</span><span class="o">(</span><span class="n">position</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">int</span> <span class="nf">getPosition</span><span class="o">(</span><span class="kt">int</span> <span class="n">channel</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 只为了表示 channel 和 position 有映射关系
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">switch</span><span class="o">(</span><span class="n">channel</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">case</span> <span class="n">5</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">case</span> <span class="n">7</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这段代码就是想从本地取之前存好的 channel(也就是代表哪个 Fragment)，然后通过 channel 和 position 的映射关系拿到 position，传给 ViewPager 从而让此 Fragment 对应的 tab 变为选中状态。</p>
 <p>但是，这段代码完全没有考虑我这个后来者。如果 Fragment 的顺序永远固定，那么也就算了，但是显然是不可能的···</p>
 <p>所以，一旦 Fragment 的数量或者位置可以主动变化，那么这段代码就没法维护了，全部乱套。</p>
 <p>拿上面的知乎为例，假设我停在了 <code>热榜</code> 页面，此时我退出了 app，存储 channel = 热榜，channel 和 position 的映射关系为 <code>channel = 热榜 &amp; position = 2</code>。这时候我又进入了 app，如果 tab 是动态下发的，那么热榜前面可能多了两个 tab，此时顺序完全错乱。又或者我处于登录状态，然后退出登录，<code>可能</code> 会有一些 tab 需要隐藏，此时顺序也可能会错乱。</p>
@@ -196,29 +196,29 @@
 <p>还是拿知乎 app 来举例，假设顶部 tab 中有两个 tab 的文字颜色跟其他 tab 不一致，并且滑动的时候还想渐变到对应的颜色，怎么做呢？</p>
 <p>这也恰巧就是我的需求，我要新增一个 tab，tab 文字颜色和其余 tab 不一致。</p>
 <p>当我辛辛苦苦找到处理 tab 文字颜色的代码时，我是崩溃的</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 以下为伪代码
-</span><span class="c1"></span><span class="n">colors</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]</span> <span class="o">{</span>
-    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color1</span><span class="o">),</span>
-    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color2</span><span class="o">),</span>
-    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color3</span><span class="o">),</span>
-    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color4</span><span class="o">),</span>
-    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color5</span><span class="o">)}</span>
-
- <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageScrolled</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="kt">float</span> <span class="n">progress</span><span class="o">,</span> <span class="kt">int</span> <span class="n">positionOffsetPixels</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">tabCount</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">Tab</span> <span class="n">tab</span> <span class="o">=</span> <span class="n">getTabAtIndex</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">position</span> <span class="o">==</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
-            <span class="c1">// 一坨
-</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">()</span> <span class="o">{</span>
-            <span class="c1">// 一坨
-</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">position</span> <span class="o">==</span> <span class="n">count</span> <span class="o">-</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
-            <span class="c1">// 一坨
-</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="c1">// 一坨
-</span><span class="c1"></span>        <span class="o">}</span>
-    <span class="o">}</span>
- <span class="o">}</span>
-</code></pre></div><p>一开始我没有细看代码，我本着快速做完需求的想法，想着删删改改来完成需求。结果这段代码看的着实头疼，虽然有很多注释，但是不找原作者感觉很难理解了···而且我改了前面后面错，改了后面前面错。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 以下为伪代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">colors</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color1</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color2</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color3</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color4</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">resources</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">color</span><span class="o">.</span><span class="na">color5</span><span class="o">)}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageScrolled</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="kt">float</span> <span class="n">progress</span><span class="o">,</span> <span class="kt">int</span> <span class="n">positionOffsetPixels</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">tabCount</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Tab</span> <span class="n">tab</span> <span class="o">=</span> <span class="n">getTabAtIndex</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">position</span> <span class="o">==</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 一坨
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 一坨
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">position</span> <span class="o">==</span> <span class="n">count</span> <span class="o">-</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 一坨
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 一坨
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"> <span class="o">}</span>
+</span></span></code></pre></div><p>一开始我没有细看代码，我本着快速做完需求的想法，想着删删改改来完成需求。结果这段代码看的着实头疼，虽然有很多注释，但是不找原作者感觉很难理解了···而且我改了前面后面错，改了后面前面错。</p>
 <p>最后我看到了 <code>position == count - 1</code> 这种判断，我决定不使用这段代码。因为这定是为了一种特殊情况(最后一个 tab)做的逻辑，必然不可能用普适性。</p>
 <h3 id="不合理的点">不合理的点</h3>
 <ol>
@@ -237,14 +237,14 @@ tab 的字体颜色，应该是构造函数的参数更好一些，如果参数�
 <p>tab 构造函数传入一个 int[] 数组来表示各种颜色。<br>
 一个 tab 目前可以多有3个颜色。为啥？首先是选中状态的颜色，其次是未选中状态时，Fragment 的背景可能是黑色可能是白色，对应有两种未选中状态的颜色。取颜色时，通过 tab.getTabTextColor 取到数组，通过定义常量，比如 SELECTED_COLOR = 0，来表示 color 数组的第一个元素是选中态的颜色。</p>
 <p>于是代码变化为：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"> <span class="c1">// 原始写法：
-</span><span class="c1"></span> <span class="kt">int</span> <span class="n">colors</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="n">color0</span><span class="o">,</span> <span class="n">color1</span><span class="o">}</span>
- <span class="n">setTextColor</span><span class="o">(</span><span class="n">colors</span><span class="o">[</span><span class="n">0</span><span class="o">],</span> <span class="n">colors</span><span class="o">[</span><span class="n">1</span><span class="o">],</span> <span class="n">progress</span><span class="o">)</span>
-
- <span class="c1">// 修改后的写法： 
-</span><span class="c1"></span> <span class="kt">int</span><span class="o">[]</span> <span class="n">colors</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="na">getTextColors</span><span class="o">();</span>  
- <span class="n">setTextColor</span><span class="o">(</span><span class="n">colors</span><span class="o">[</span><span class="n">SELECTED_COLOR</span><span class="o">],</span> <span class="n">colors</span><span class="o">[</span><span class="n">UNSELECTED_COLOR</span><span class="o">],</span> <span class="n">progress</span><span class="o">)</span>
-</code></pre></div><p>我个人认为还是比上面的要好懂很多的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"> <span class="c1">// 原始写法：
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="kt">int</span> <span class="n">colors</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="n">color0</span><span class="o">,</span> <span class="n">color1</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"> <span class="n">setTextColor</span><span class="o">(</span><span class="n">colors</span><span class="o">[</span><span class="n">0</span><span class="o">],</span> <span class="n">colors</span><span class="o">[</span><span class="n">1</span><span class="o">],</span> <span class="n">progress</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="c1">// 修改后的写法： 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="kt">int</span><span class="o">[]</span> <span class="n">colors</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="na">getTextColors</span><span class="o">();</span>  
+</span></span><span class="line"><span class="cl"> <span class="n">setTextColor</span><span class="o">(</span><span class="n">colors</span><span class="o">[</span><span class="n">SELECTED_COLOR</span><span class="o">],</span> <span class="n">colors</span><span class="o">[</span><span class="n">UNSELECTED_COLOR</span><span class="o">],</span> <span class="n">progress</span><span class="o">)</span>
+</span></span></code></pre></div><p>我个人认为还是比上面的要好懂很多的。</p>
 </li>
 <li>
 <p>改掉特殊逻辑<br>
@@ -293,8 +293,8 @@ tab 的字体颜色，应该是构造函数的参数更好一些，如果参数�
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

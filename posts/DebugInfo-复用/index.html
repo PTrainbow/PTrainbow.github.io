@@ -156,10 +156,10 @@
 简单理解就是，debugInfo 可以用于还原行号(这里的行号，如果 R8 开启的话，还有一层映射关系，都在生成的 mapping 文件中)</p>
 <h3 id="r8-行号的映射关系">R8 行号的映射关系</h3>
 <p>补充说明一下，R8 的行号问题。可以看一下 R8 生成的 mapping 文件：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">1:1:void setLink(java.lang.String):58:58 -&gt; setLink
-1:1:void setSearchWord(java.lang.String):54:54 -&gt; setSearchWord
-1:1:void setType(java.lang.String):57:57 -&gt; setType
-</code></pre></div><p>当 R8 开启的时候，如果我们堆栈上报 setLink 这个方法的行号，实际上传的会是 1，解析平台会用 mapping 文件反解为 58 行。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">1:1:void setLink(java.lang.String):58:58 -&gt; setLink
+</span></span><span class="line"><span class="cl">1:1:void setSearchWord(java.lang.String):54:54 -&gt; setSearchWord
+</span></span><span class="line"><span class="cl">1:1:void setType(java.lang.String):57:57 -&gt; setType
+</span></span></code></pre></div><p>当 R8 开启的时候，如果我们堆栈上报 setLink 这个方法的行号，实际上传的会是 1，解析平台会用 mapping 文件反解为 58 行。</p>
 <h2 id="debuginfo-的真实面目">DebugInfo 的真实面目</h2>
 <p><img
         class="lazyload"
@@ -172,14 +172,14 @@
 <p>上图就是 debugInfo 的真实数据结构(工具是 010 Editor)，除了 line_start 和 parameters_size 两个值以外，其余都是叫做 opcode 的东西。</p>
 <p>opcode 有4种: DBG_END_SEQUENCE, DBG_ADVANCE_PC, DBG_ADVANCE_LINE, special code</p>
 <p>且此处的 opcode 已经解析好，其余的 opcode 比较好理解，DBG_END_SEQUENCE DBG_ADVANCE_PC 表示只会增加 address 值， DBG_ADVANCE_LINE 表示增加 line 值，而 special opcode 本身有自己的换算规则：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">DBG_FIRST_SPECIAL</span> <span class="o">=</span> <span class="n">10</span>
-<span class="n">DBG_LINE_RANGE</span> <span class="o">=</span> <span class="n">15</span>
-<span class="n">DBG_LINE_BASE</span> <span class="o">=</span> <span class="o">-</span><span class="n">4</span>
-
-<span class="kt">int</span> <span class="n">adjopcode</span> <span class="o">=</span> <span class="n">opcode</span> <span class="o">-</span> <span class="n">DBG_FIRST_SPECIAL</span><span class="o">;</span>
-<span class="n">entry</span><span class="o">.</span><span class="na">address_</span> <span class="o">+=</span> <span class="n">adjopcode</span> <span class="o">/</span> <span class="n">DBG_LINE_RANGE</span><span class="o">;</span>
-<span class="n">entry</span><span class="o">.</span><span class="na">line_</span> <span class="o">+=</span> <span class="n">DBG_LINE_BASE</span> <span class="o">+</span> <span class="o">(</span><span class="n">adjopcode</span> <span class="o">%</span> <span class="n">DBG_LINE_RANGE</span><span class="o">);</span>
-</code></pre></div><p>所以 opcode = 0xF0 = 240，可以得到，adjopcode = 240 - 10 = 230, address = 230 / 15 = 15, line = -4 + 230 % 15 = 1</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DBG_FIRST_SPECIAL</span> <span class="o">=</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">DBG_LINE_RANGE</span> <span class="o">=</span> <span class="n">15</span>
+</span></span><span class="line"><span class="cl"><span class="n">DBG_LINE_BASE</span> <span class="o">=</span> <span class="o">-</span><span class="n">4</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">adjopcode</span> <span class="o">=</span> <span class="n">opcode</span> <span class="o">-</span> <span class="n">DBG_FIRST_SPECIAL</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">entry</span><span class="o">.</span><span class="na">address_</span> <span class="o">+=</span> <span class="n">adjopcode</span> <span class="o">/</span> <span class="n">DBG_LINE_RANGE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">entry</span><span class="o">.</span><span class="na">line_</span> <span class="o">+=</span> <span class="n">DBG_LINE_BASE</span> <span class="o">+</span> <span class="o">(</span><span class="n">adjopcode</span> <span class="o">%</span> <span class="n">DBG_LINE_RANGE</span><span class="o">);</span>
+</span></span></code></pre></div><p>所以 opcode = 0xF0 = 240，可以得到，adjopcode = 240 - 10 = 230, address = 230 / 15 = 15, line = -4 + 230 % 15 = 1</p>
 <p>也就是图中解析好的 <code>line + 1, address + 15</code>，这个的含义是：源码中移动一行，但是字节码指令区间需要移动 15字节，也就是所谓的 dex_pc 需要移动 15字节，其实就是源码中的一行对应到字节码中多少个字节，那么执行下一条指令，也会偏移相应的字节。</p>
 <p>具体解释一下：</p>
 <p>首先，每个方法的代码的字节码指令在 dex 中就是一串数字，用一个数组存储 insns[]，如下图:</p>
@@ -277,8 +277,8 @@ insns[64]  -&gt; line64
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 
