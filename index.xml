@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 04 Jan 2023 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 23 Feb 2023 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>JNI Pending Exception</title>
+    <link>http://PTrain666.github.io/posts/JNI-Pending-Exception/</link>
+    <pubDate>Thu, 23 Feb 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/JNI-Pending-Exception/</guid>
+    <description><![CDATA[今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception 但是为什么会走到我的代码中？这]]></description>
+</item><item>
     <title>forkdump 触发的神奇 bug</title>
     <link>http://PTrain666.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</link>
     <pubDate>Wed, 04 Jan 2023 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/JNI-Hook/</guid>
     <description><![CDATA[简介 JNI hook 是指: hook JNIEnv 提供的众多方法 正常来说，是没有这方面的需求的。但是，对于低版本的 Android 存在一些 JNI Local Reference 的溢出，超过 512 个便会触发 crash 所以，最好有一种]]></description>
-</item><item>
-    <title>《诛仙》前期主线</title>
-    <link>http://PTrain666.github.io/posts/%E8%AF%9B%E4%BB%99%E5%89%8D%E6%9C%9F%E4%B8%BB%E7%BA%BF/</link>
-    <pubDate>Sun, 31 Jul 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E8%AF%9B%E4%BB%99%E5%89%8D%E6%9C%9F%E4%B8%BB%E7%BA%BF/</guid>
-    <description><![CDATA[最近，诛仙的动漫就要开播了，看了看预告中的建模，有一些失望，碧瑶似乎毫无灵性反而有些像可爱的乖乖女。而且，想必动漫也无法完美还原小说中的剧情]]></description>
 </item></channel>
 </rss>

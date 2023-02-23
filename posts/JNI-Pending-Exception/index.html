@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>JNI Pending Exception - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="JNI Pending Exception" />
+<meta property="og:description" content="今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception 但是为什么会走到我的代码中？这" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/JNI-Pending-Exception/" /><meta property="og:image" content="http://PTrain666.github.io/posts/JNI-Pending-Exception/jni_exception.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-02-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-02-23T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/JNI-Pending-Exception/jni_exception.png"/>
+<meta name="twitter:title" content="JNI Pending Exception"/>
+<meta name="twitter:description" content="今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception 但是为什么会走到我的代码中？这"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/JNI-Pending-Exception/" /><link rel="prev" href="http://PTrain666.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "JNI Pending Exception",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/JNI-Pending-Exception\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/JNI-Pending-Exception\/jni_exception.png",
+                            "width":  652 ,
+                            "height":  517 
+                        }],"genre": "posts","keywords": "Android","wordcount":  1233 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/JNI-Pending-Exception\/","datePublished": "2023-02-23T00:00:00+00:00","dateModified": "2023-02-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">JNI Pending Exception</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-23">2023-02-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1233 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/JNI-Pending-Exception/jni_exception.png"
+        data-srcset="/posts/JNI-Pending-Exception/jni_exception.png, /posts/JNI-Pending-Exception/jni_exception.png 1.5x, /posts/JNI-Pending-Exception/jni_exception.png 2x"
+        data-sizes="auto"
+        alt="/posts/JNI-Pending-Exception/jni_exception.png"
+        title="/posts/JNI-Pending-Exception/jni_exception.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是-jni-pending-exception">什么是 JNI Pending Exception</a></li>
+    <li><a href="#解决问题">解决问题</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception</p>
+<p>但是为什么会走到我的代码中？这就是个巧合的事情了</p>
+<h2 id="什么是-jni-pending-exception">什么是 JNI Pending Exception</h2>
+<p>其实我们每次的 jni 调用都会有一次 <code>check</code>，崩溃调用栈也会发现</p>
+<p>我的调用栈如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">  <span class="n">0x76480</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libc</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">pthread_kill</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x249a0</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libc</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">raise</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x1ce8c</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libc</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">abort</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x47f200</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art7Runtime5AbortEPKc</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0xe7acc</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art10LogMessageD2Ev</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x325ad0</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art9JavaVMExt8JniAbortEPKcS2_</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x325b4c</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art9JavaVMExt9JniAbortVEPKcS2_St9__va_list</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x1056c4</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11ScopedCheck6AbortFEPKcz</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x1050bc</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11ScopedCheck11CheckThreadEP7_JNIEnv</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x1027a8</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11ScopedCheck5CheckERNS_18ScopedObjectAccessEbPKcPNS_12JniValueTypeE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0xf7934</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art8CheckJNI12IsSameObjectEP7_JNIEnvP8_jobjectS4_</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x1bc0</span>  <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">com</span><span class="o">.</span><span class="na">xingin</span><span class="o">.</span><span class="na">xhs</span><span class="o">-</span><span class="n">2</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">arm64</span><span class="o">/</span><span class="n">libnativebitmap</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN10BitmapHook24deleteWeakGlobalRefProxyEP7_JNIEnvP8_jobject</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x1067d4</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art8CheckJNI9DeleteRefEPKcP7_JNIEnvP8_jobjectNS_15IndirectRefKindE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x3b1c8</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libmedia_jni</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN7android4JDrmD2Ev</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x3b364</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libmedia_jni</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZTv0_n24_N7android4JDrmD0Ev</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0xe5d0</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libutils</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZNK7android7RefBase9decStrongEPKv</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x3ca7c</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libmedia_jni</span><span class="o">.</span><span class="na">so</span> <span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x24220d8</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">framework</span><span class="o">/</span><span class="n">arm64</span><span class="o">/</span><span class="n">boot</span><span class="o">-</span><span class="n">framework</span><span class="o">.</span><span class="na">oat</span> <span class="o">(</span><span class="n">android</span><span class="o">.</span><span class="na">media</span><span class="o">.</span><span class="na">MediaDrm</span><span class="o">.</span><span class="na">native_setup</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x24214d8</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">framework</span><span class="o">/</span><span class="n">arm64</span><span class="o">/</span><span class="n">boot</span><span class="o">-</span><span class="n">framework</span><span class="o">.</span><span class="na">oat</span> <span class="o">(</span><span class="n">android</span><span class="o">.</span><span class="na">media</span><span class="o">.</span><span class="na">MediaDrm</span><span class="o">.&lt;</span><span class="n">init</span><span class="o">&gt;)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0xd2e34</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">art_quick_invoke_stub</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0xdff50</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art9ArtMethod6InvokeEPNS_6ThreadEPjjPNS_6JValueEPKc</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x2bb3ec</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreter34ArtInterpreterToCompiledCodeBridgeEPNS_6ThreadEPNS_9ArtMethodEPKNS_7DexFile8CodeItemEPNS_11ShadowFrameEPNS_6JValueE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x2b4490</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreter6DoCallILb0ELb1EEEbPNS_9ArtMethodEPNS_6ThreadERNS_11ShadowFrameEPKNS_11InstructionEtPNS_6JValueE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x2d3594</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreterL8DoInvokeILNS_10InvokeTypeE1ELb0ELb1EEEbPNS_6ThreadERNS_11ShadowFrameEPKNS_11InstructionEtPNS_6JValueE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x2c93d4</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreter17ExecuteSwitchImplILb1ELb0EEENS_6JValueEPNS_6ThreadEPKNS_7DexFile8CodeItemERNS_11ShadowFrameES2_b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x28bca8</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreterL7ExecuteEPNS_6ThreadEPKNS_7DexFile8CodeItemERNS_11ShadowFrameENS_6JValueEb</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x291a94</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreter33ArtInterpreterToInterpreterBridgeEPNS_6ThreadEPKNS_7DexFile8CodeItemEPNS_11ShadowFrameEPNS_6JValueE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x2b4470</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreter6DoCallILb0ELb1EEEbPNS_9ArtMethodEPNS_6ThreadERNS_11ShadowFrameEPKNS_11InstructionEtPNS_6JValueE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x2d3594</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreterL8DoInvokeILNS_10InvokeTypeE1ELb0ELb1EEEbPNS_6ThreadERNS_11ShadowFrameEPKNS_11InstructionEtPNS_6JValueE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x2c93d4</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreter17ExecuteSwitchImplILb1ELb0EEENS_6JValueEPNS_6ThreadEPKNS_7DexFile8CodeItemERNS_11ShadowFrameES2_b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x28bca8</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreterL7ExecuteEPNS_6ThreadEPKNS_7DexFile8CodeItemERNS_11ShadowFrameENS_6JValueEb</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x291a94</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreter33ArtInterpreterToInterpreterBridgeEPNS_6ThreadEPKNS_7DexFile8CodeItemEPNS_11ShadowFrameEPNS_6JValueE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x2b3cbc</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">_ZN3art11interpreter6DoCallILb0ELb0EEEbPNS_9ArtMethodEPNS_6ThreadERNS_11ShadowFrameEPKNS_11InstructionEtPNS_6JValueE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0x5b4098</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">MterpInvokeVirtualQuick</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">0xc9594</span>  <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libart</span><span class="o">.</span><span class="na">so</span> <span class="o">(</span><span class="n">ExecuteMterpImpl</span><span class="o">)</span>
+</span></span></code></pre></div><p>其中你会看到，checkThread 之后就 abort 了</p>
+<p>搜索源码可以知道 pending exception 的位置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// check_jni.cc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="kt">bool</span> <span class="nf">CheckThread</span><span class="p">(</span><span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span><span class="p">)</span> <span class="n">REQUIRES_SHARED</span><span class="p">(</span><span class="n">Locks</span><span class="o">::</span><span class="n">mutator_lock_</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Thread</span><span class="o">*</span> <span class="n">self</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">::</span><span class="n">Current</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">CHECK</span><span class="p">(</span><span class="n">self</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Get the current thread&#39;s JNIEnv by going through our TLS pointer.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">JNIEnvExt</span><span class="o">*</span> <span class="n">threadEnv</span> <span class="o">=</span> <span class="n">self</span><span class="o">-&gt;</span><span class="n">GetJniEnv</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Verify that the current thread is (a) attached and (b) associated with
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// this particular instance of JNIEnv.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 省略代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Verify that, if this thread previously made a critical &#34;get&#34; call, we
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// do the corresponding &#34;release&#34; call before we try anything else.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 省略代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Verify that, if an exception has been raised, the native code doesn&#39;t
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// make any JNI calls other than the Exception* methods.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">((</span><span class="n">flags_</span> <span class="o">&amp;</span> <span class="n">kFlag_ExcepOkay</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="o">-&gt;</span><span class="n">IsExceptionPending</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">mirror</span><span class="o">::</span><span class="n">Throwable</span><span class="o">*</span> <span class="n">exception</span> <span class="o">=</span> <span class="n">self</span><span class="o">-&gt;</span><span class="n">GetException</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="n">AbortF</span><span class="p">(</span><span class="s">&#34;JNI %s called with pending exception %s&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">             <span class="n">function_name_</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">             <span class="n">exception</span><span class="o">-&gt;</span><span class="n">Dump</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span></code></pre></div><p>所以如果发现已经有一个 exception 被抛出了，那么后续所有的 jni 调用都会 crash，都会抛出 jni xxx called with pending exception。</p>
+<p>这就是 jni pending exception 的原理了</p>
+<h2 id="解决问题">解决问题</h2>
+<p>既然我们已经知道了 jni pending exception 表示：之前有 exception 发生，所以本次 jni 调用必 crash。</p>
+<p>那么，我们只要找到他为什么会 crash 就好了</p>
+<p>我这个例子比较特殊</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">NI DETECTED ERROR IN APPLICATION: JNI IsSameObject called with pending exception android.media.UnsupportedSchemeException: Failed to instantiate drm object.&#39;
+</span></span></code></pre></div><p>异常信息表示是想要初始化一个 drm object，然后因为已经出现了 exception，我接着调用了 env-&gt;IsSameObject() 最终 crash</p>
+<p><strong>为什么 drm object 初始化失败了呢？</strong><br>
+查了一下是 media drm，这东西似乎依赖于自己本机有这个功能，所以没这个功能肯定就初始化失败了，失败就会抛异常，本来应该就直接 crash，然而我们所有的线程库线程都加了 catch 逻辑，所以最终表现是异常在 java 层被捕获。而一旦走进了我的代码中，就成了一个 native crash 最终崩溃。</p>
+<p><strong>为什么会走到我的代码里？</strong><br>
+这是因为我刚好 hook 了一个 DeleteWeakGlobalRef 的方法，所有调用这个方法的代码都会走到我的逻辑中，而 MediaDrm 对象很神奇，底层有个 JDrm 对象，析构的时候就会调用到这个方法。本来这个方法不应该有任何额外的逻辑，而我为了一些特殊的功能，在某些条件下，会额外调用两个 jni 方法，最终 crash</p>
+<p><strong>如何修改？</strong><br>
+DeleteWeakGlobalRef 我还是要 hook，不然无法实现我的功能，那如何绕过这个问题呢？那就如果碰到 DeleteWeakGlobalRef 调用的时候已经出现了 exception，我就直接调用原逻辑就好了，不再调用任何额外的 jni 方法。</p>
+<p>所以最终只要在开头加上如下代码即可，这样会抛出对应的 java exception，而 java exception 之前已经被 catch 住了，所以最终无事发生</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">ExceptionOccured</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// call origin function
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="总结">总结</h2>
+<p>jni pending exception 表示的是之前已经有 exception 发生，需要被处理，在这之后的 jni 调用都将会 crash。</p>
+<p>所以真正 crash 的原因可能并不在你的代码之中，关键信息就是看 exception 是什么，然后解决对应的 exception</p>
+<p>本例比较特殊，因为本应该是 java crash，但是被 catch 了，然后我 hook 了一些通用方法，导致异常逻辑走进了我的代码中，并且代码中调用了 jni 方法，最终变为 native crash，catch 不住，产生崩溃。</p>
+<p>所以我最终选择的是：判断如果异常发生，调用原流程 return，否则走我的特殊逻辑。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023-02-23</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/" class="prev" rel="prev" title="forkdump 触发的神奇 bug"><i class="fas fa-angle-left fa-fw"></i>forkdump 触发的神奇 bug</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2023-02-23T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"JNI Pending Exception"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
