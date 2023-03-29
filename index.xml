@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 23 Feb 2023 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 29 Mar 2023 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Fresco Bitmap 潜在问题</title>
+    <link>http://PTrain666.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/</link>
+    <pubDate>Wed, 29 Mar 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/</guid>
+    <description><![CDATA[最近发现线上有一些 used recycled bitmap crash 似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么 其实我觉得主要是造轮子的对于轮子本身理解不够]]></description>
+</item><item>
     <title>JNI Pending Exception</title>
     <link>http://PTrain666.github.io/posts/JNI-Pending-Exception/</link>
     <pubDate>Thu, 23 Feb 2023 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/</guid>
     <description><![CDATA[​最近同事在升级 Andorid13 遇到了包体积变化的问题！ 具体问题：分支 A 编译产出 APK 体积为 110M，而基于分支 A 修改代码，适配 了Android13 后，体积为]]></description>
-</item><item>
-    <title>JNI HOOK</title>
-    <link>http://PTrain666.github.io/posts/JNI-Hook/</link>
-    <pubDate>Fri, 05 Aug 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/JNI-Hook/</guid>
-    <description><![CDATA[简介 JNI hook 是指: hook JNIEnv 提供的众多方法 正常来说，是没有这方面的需求的。但是，对于低版本的 Android 存在一些 JNI Local Reference 的溢出，超过 512 个便会触发 crash 所以，最好有一种]]></description>
 </item></channel>
 </rss>

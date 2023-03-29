@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Fresco Bitmap 潜在问题 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="Fresco Bitmap 潜在问题" />
+<meta property="og:description" content="最近发现线上有一些 used recycled bitmap crash 似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么 其实我觉得主要是造轮子的对于轮子本身理解不够" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrain666.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/" /><meta property="og:image" content="http://PTrain666.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-03-29T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrain666.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png"/>
+<meta name="twitter:title" content="Fresco Bitmap 潜在问题"/>
+<meta name="twitter:description" content="最近发现线上有一些 used recycled bitmap crash 似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么 其实我觉得主要是造轮子的对于轮子本身理解不够"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/" /><link rel="prev" href="http://PTrain666.github.io/posts/JNI-Pending-Exception/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Fresco Bitmap 潜在问题",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrain666.github.io\/posts\/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrain666.github.io\/posts\/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98\/fresco_class.png",
+                            "width":  2510 ,
+                            "height":  1184 
+                        }],"genre": "posts","keywords": "Android","wordcount":  921 ,
+        "url": "http:\/\/PTrain666.github.io\/posts\/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98\/","datePublished": "2023-03-29T00:00:00+00:00","dateModified": "2023-03-29T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrain666" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Fresco Bitmap 潜在问题</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-03-29">2023-03-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 921 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png"
+        data-srcset="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png, /posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png 1.5x, /posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png 2x"
+        data-sizes="auto"
+        alt="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png"
+        title="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#recycled-bitmap">Recycled Bitmap</a></li>
+    <li><a href="#fresco-获取-bitmap">Fresco 获取 Bitmap</a></li>
+    <li><a href="#closeablereference-及其一系列问题">CloseableReference 及其一系列问题</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>最近发现线上有一些 used recycled bitmap crash</p>
+<p>似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么</p>
+<p>其实我觉得主要是造轮子的对于轮子本身理解不够深刻，导致的问题</p>
+<h2 id="recycled-bitmap">Recycled Bitmap</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">  <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">    * Returns true if this bitmap has been recycled. If so, then it is an error
+</span></span></span><span class="line"><span class="cl"><span class="cm">    * to try to access its pixels, and the bitmap will not draw.
+</span></span></span><span class="line"><span class="cl"><span class="cm">    *
+</span></span></span><span class="line"><span class="cl"><span class="cm">    * @return true if the bitmap has been recycled
+</span></span></span><span class="line"><span class="cl"><span class="cm">    */</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="nf">isRecycled</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">mRecycled</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div><p>所以当一个 bitmap recycled 再次使用，则会发生问题</p>
+<p>比如 Canvas drawBitmap 的时候会进行 bitmap 检查</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">throwIfCannotDraw</span><span class="o">(</span><span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">bitmap</span><span class="o">.</span><span class="na">isRecycled</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// crash 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Canvas: trying to use a recycled bitmap &#34;</span> <span class="o">+</span> <span class="n">bitmap</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(!</span><span class="n">bitmap</span><span class="o">.</span><span class="na">isPremultiplied</span><span class="o">()</span> <span class="o">&amp;&amp;</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getConfig</span><span class="o">()</span> <span class="o">==</span> <span class="n">Bitmap</span><span class="o">.</span><span class="na">Config</span><span class="o">.</span><span class="na">ARGB_8888</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">              <span class="n">bitmap</span><span class="o">.</span><span class="na">hasAlpha</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Canvas: trying to use a non-premultiplied bitmap &#34;</span>
+</span></span><span class="line"><span class="cl">                  <span class="o">+</span> <span class="n">bitmap</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">throwIfHwBitmapInSwMode</span><span class="o">(</span><span class="n">bitmap</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div><h2 id="fresco-获取-bitmap">Fresco 获取 Bitmap</h2>
+<p>公司用的 Fresco 版本 2.1.0</p>
+<p>Fresco 获取 Bitmap 大致都会搜到如下代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">val</span> <span class="py">dataSource</span> <span class="p">=</span> <span class="n">Fresco</span><span class="p">.</span><span class="n">getImagePipeline</span><span class="p">().</span><span class="n">fetchDecodedImage</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dataSource</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="k">object</span> <span class="err">: </span><span class="nc">BaseBitmapDataSubscriber</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onFailureImpl</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="n">DataSource</span><span class="p">&lt;</span><span class="n">CloseableReference</span><span class="p">&lt;</span><span class="n">CloseableImage</span><span class="p">&gt;&gt;)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">       
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onNewResultImpl</span><span class="p">(</span><span class="nd">@Nullable</span> <span class="n">bitmap</span><span class="p">:</span> <span class="n">Bitmap</span><span class="p">?)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 此处可以拿到 Bitmap
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 丢给其他 cache 存储，却是不安全的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">LocalImageCache</span><span class="p">.</span><span class="n">trySaveBitmap</span><span class="p">(</span><span class="n">requiredParams</span><span class="p">,</span> <span class="n">bitmap</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">},</span> <span class="n">executor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这段代码可以看到在 onNewResultImpl 中 Fresco 的回调会返给我们 Bitmap 对象，进而有些人会把此处的 Bitmap 存到一个缓存中去，以备后续使用，然而是大错特错</p>
+<p>我们来看一下，BaseBitmapDataSubscriber 的代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">BaseBitmapDataSubscriber</span> <span class="kd">extends</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BaseDataSubscriber</span><span class="o">&lt;</span><span class="n">CloseableReference</span><span class="o">&lt;</span><span class="n">CloseableImage</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNewResultImpl</span><span class="o">(</span><span class="n">DataSource</span><span class="o">&lt;</span><span class="n">CloseableReference</span><span class="o">&lt;</span><span class="n">CloseableImage</span><span class="o">&gt;&gt;</span> <span class="n">dataSource</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(!</span><span class="n">dataSource</span><span class="o">.</span><span class="na">isFinished</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">CloseableReference</span><span class="o">&lt;</span><span class="n">CloseableImage</span><span class="o">&gt;</span> <span class="n">closeableImageRef</span> <span class="o">=</span> <span class="n">dataSource</span><span class="o">.</span><span class="na">getResult</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">closeableImageRef</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">closeableImageRef</span><span class="o">.</span><span class="na">get</span><span class="o">()</span> <span class="k">instanceof</span> <span class="n">CloseableBitmap</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">bitmap</span> <span class="o">=</span> <span class="o">((</span><span class="n">CloseableBitmap</span><span class="o">)</span> <span class="n">closeableImageRef</span><span class="o">.</span><span class="na">get</span><span class="o">()).</span><span class="na">getUnderlyingBitmap</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 此处回调
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="n">onNewResultImpl</span><span class="o">(</span><span class="n">bitmap</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 此处释放 CloseableReference
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="n">CloseableReference</span><span class="o">.</span><span class="na">closeSafely</span><span class="o">(</span><span class="n">closeableImageRef</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * The bitmap provided to this method is only guaranteed to be around for the lifespan of the
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * method.
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * &lt;p&gt;The framework will free the bitmap&#39;s memory after this method has completed.
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * @param bitmap
+</span></span></span><span class="line"><span class="cl"><span class="cm">   */</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">protected</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">onNewResultImpl</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们可以看到，在回调给我们 Bitmap 以后，紧接着会调用到 CloseableReference.close 方法，可能会触发释放逻辑</p>
+<h2 id="closeablereference-及其一系列问题">CloseableReference 及其一系列问题</h2>
+<p>先看一下我们即将牵扯进来的几个类图</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/fresco_class.png"
+        data-srcset="/img/in-post/fresco_class.png, /img/in-post/fresco_class.png 1.5x, /img/in-post/fresco_class.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/fresco_class.png"
+        title="/img/in-post/fresco_class.png" /></p>
+<blockquote>
+<p>CloseableReference 内部持有一个 SharedReference<br>
+SharedReference 类似 shared_ptr，内部是一个引用计数，如果计数为 0，则会触发其内部对应的 ResourceReleaser 做对应的 release 操作</p>
+</blockquote>
+<p>而我们前面看到的 BaseBitmapDataSubscriber 其实一开始拿到的事 CloseableReference 引用，只不过他帮我们解引用拿到了 bitmap，回调结束以后直接 close</p>
+<p>close 会触发一系列的操作，内部 SharedReference 计数 -1，如果为 0，触发 release，进而走到 CloseableReference 引用的对象的相应方法</p>
+<p>而一般我们加载图片时，Fresco 往往返回的是一个 DefaultCloseableReference&lt;CloseableStaticBitmap&gt;</p>
+<p>CloseableStaticBitmap 的 close 方法进一步会释放其内部持有的 CloseableReference&lt;Bitmap&gt;，进而进入其 SharedReference 的 ResourceReleaser(BucketsBitmapPool)，进而触发其 release 方法，最终如果无法复用，则会调用 free，进而调用 Bitmap.recycle()</p>
+<p>大致如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/fresco_flow.png"
+        data-srcset="/img/in-post/fresco_flow.png, /img/in-post/fresco_flow.png 1.5x, /img/in-post/fresco_flow.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/fresco_flow.png"
+        title="/img/in-post/fresco_flow.png" /></p>
+<p>然而，之前的错误代码缺将 Bitmap 对象缓存，之后一旦被使用，肯定是存在 recycled 风险的</p>
+<h2 id="总结">总结</h2>
+<p>CloseableReference 和 SharedReference 结合可以做一些自动释放逻辑</p>
+<p>CloseableReference.close() 可能会触发资源的释放</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023-03-29</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/JNI-Pending-Exception/" class="prev" rel="prev" title="JNI Pending Exception"><i class="fas fa-angle-left fa-fw"></i>JNI Pending Exception</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrain666"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2023-03-29T00:00:00Z","owner":"PTrain666","repo":"PTrain666.github.io","title":"Fresco Bitmap 潜在问题"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
