@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrain666.github.io\/posts\/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98\/fresco_class.png",
                             "width":  2510 ,
                             "height":  1184 
-                        }],"genre": "posts","keywords": "Android","wordcount":  921 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  1129 ,
         "url": "http:\/\/PTrain666.github.io\/posts\/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98\/","datePublished": "2023-03-29T00:00:00+00:00","dateModified": "2023-03-29T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,8 +109,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Fresco Bitmap 潜在问题</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-03-29">2023-03-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 921 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-03-29">2023-03-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1129 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -127,7 +127,11 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#recycled-bitmap">Recycled Bitmap</a></li>
-    <li><a href="#fresco-获取-bitmap">Fresco 获取 Bitmap</a></li>
+    <li><a href="#fresco-获取-bitmap">Fresco 获取 Bitmap</a>
+      <ul>
+        <li><a href="#注意">注意</a></li>
+      </ul>
+    </li>
     <li><a href="#closeablereference-及其一系列问题">CloseableReference 及其一系列问题</a></li>
     <li><a href="#总结">总结</a></li>
   </ul>
@@ -213,6 +217,12 @@
 </span></span><span class="line"><span class="cl">  <span class="kd">protected</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">onNewResultImpl</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>我们可以看到，在回调给我们 Bitmap 以后，紧接着会调用到 CloseableReference.close 方法，可能会触发释放逻辑</p>
+<h3 id="注意">注意</h3>
+<blockquote>
+<p>后来仔细研究发现，dataSource.getResult(); 时候其实是 refCount + 1 了，所以此处如果从缓存中获取， close 后理论上不会出现释放的情况。<br>
+但是，如果缓存不足，后续加载的 Bitmap 还是可能存在被释放的风险。<br>
+总之，从这里获取 Bitmap 对象时，如果缓存中也有一份，则应该没问题。反之则不一定安全，特别是缓存满，或者内存紧张触发释放缓存逻辑的时候，引用计数一旦为0，Bitmap 状态无法被保证，如果缓存此处的 Bitmap 就有几率触发 crash。</p>
+</blockquote>
 <h2 id="closeablereference-及其一系列问题">CloseableReference 及其一系列问题</h2>
 <p>先看一下我们即将牵扯进来的几个类图</p>
 <p><img
