@@ -3,7 +3,14 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 29 Mar 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 26 Apr 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>RN 和 fbjni</title>
+    <link>http://PTrain666.github.io/posts/RN-%E5%92%8C-fbjni/</link>
+    <pubDate>Wed, 26 Apr 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/RN-%E5%92%8C-fbjni/</guid>
+    <description><![CDATA[前言 最近帮 RN 业务方查内存泄漏问题，发现了 fbjni 这个库挺有意思的 正好借助 RN 源码例子，讲述一下 fbjni 是如何控制 java 和 c++ 层对象的生命周期的 源码阅读 下面会贴一]]></description>
+</item><item>
     <title>Fresco Bitmap 潜在问题</title>
     <link>http://PTrain666.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/</link>
     <pubDate>Wed, 29 Mar 2023 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/</guid>
     <description><![CDATA[今天依然是苏轼老师的词！ 《鹧鸪天·林断山明竹隐墙》 宋·苏轼 林断山明竹隐墙。乱蝉衰草小池塘。 翻空白鸟时时见，照水红蕖细细香。 村舍外，古城旁。杖]]></description>
-</item><item>
-    <title>NDK 导致的包体积问题</title>
-    <link>http://PTrain666.github.io/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/</link>
-    <pubDate>Thu, 11 Aug 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/</guid>
-    <description><![CDATA[​最近同事在升级 Andorid13 遇到了包体积变化的问题！ 具体问题：分支 A 编译产出 APK 体积为 110M，而基于分支 A 修改代码，适配 了Android13 后，体积为]]></description>
 </item></channel>
 </rss>
