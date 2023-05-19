@@ -3,7 +3,14 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrain666.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 26 Apr 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 19 May 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>再再再看 startActivity 启动流程</title>
+    <link>http://PTrain666.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link>
+    <pubDate>Fri, 19 May 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrain666.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
+    <description><![CDATA[前言 最近遇到了一个有意思的问题，为了让首页更快的展示出来，将首页的请求提前到了 Application onCreate 阶段。但是带来了一个问题，请求的频次大大增加了，且对于后端]]></description>
+</item><item>
     <title>RN 和 fbjni</title>
     <link>http://PTrain666.github.io/posts/RN-%E5%92%8C-fbjni/</link>
     <pubDate>Wed, 26 Apr 2023 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</guid>
     <description><![CDATA[最近一直在修改一个库，这个库是基于字节开源的 memory-leak-detector 修改的 由于近期增加了一系列的 hook，hook 方法众多，且几乎全量 hook 了所有 so，导致启动时会有]]></description>
-</item><item>
-    <title>X周一首唐诗宋词(5)</title>
-    <link>http://PTrain666.github.io/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/</link>
-    <pubDate>Fri, 19 Aug 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/X%E5%91%A8%E4%B8%80%E9%A6%96%E5%94%90%E8%AF%97%E5%AE%8B%E8%AF%8D5/</guid>
-    <description><![CDATA[今天依然是苏轼老师的词！ 《鹧鸪天·林断山明竹隐墙》 宋·苏轼 林断山明竹隐墙。乱蝉衰草小池塘。 翻空白鸟时时见，照水红蕖细细香。 村舍外，古城旁。杖]]></description>
 </item></channel>
 </rss>

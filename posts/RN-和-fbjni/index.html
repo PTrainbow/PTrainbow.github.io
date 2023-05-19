@@ -17,7 +17,7 @@
 <meta name="twitter:title" content="RN 和 fbjni"/>
 <meta name="twitter:description" content="前言 最近帮 RN 业务方查内存泄漏问题，发现了 fbjni 这个库挺有意思的 正好借助 RN 源码例子，讲述一下 fbjni 是如何控制 java 和 c&#43;&#43; 层对象的生命周期的 源码阅读 下面会贴一"/>
 <meta name="application-name" content="北邙山之光的 Blog">
-<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/RN-%E5%92%8C-fbjni/" /><link rel="prev" href="http://PTrain666.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrain666.github.io/posts/RN-%E5%92%8C-fbjni/" /><link rel="prev" href="http://PTrain666.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/" /><link rel="next" href="http://PTrain666.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -297,7 +297,8 @@ fbjni 的封装，通过 newObject 创建对应 java  层的 HybridData 对象<b
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/" class="prev" rel="prev" title="Fresco Bitmap 潜在问题"><i class="fas fa-angle-left fa-fw"></i>Fresco Bitmap 潜在问题</a></div>
+    <div class="post-nav"><a href="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/" class="prev" rel="prev" title="Fresco Bitmap 潜在问题"><i class="fas fa-angle-left fa-fw"></i>Fresco Bitmap 潜在问题</a>
+            <a href="/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" class="next" rel="next" title="再再再看 startActivity 启动流程">再再再看 startActivity 启动流程<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
