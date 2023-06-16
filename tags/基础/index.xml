@@ -1,42 +1,42 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>基础 - 标签 - 北邙山之光的 Blog</title>
-        <link>http://PTrain666.github.io/tags/%E5%9F%BA%E7%A1%80/</link>
+        <link>http://PTrainbow.github.io/tags/%E5%9F%BA%E7%A1%80/</link>
         <description>基础 - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 26 Jul 2019 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrain666.github.io/tags/%E5%9F%BA%E7%A1%80/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 26 Jul 2019 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/%E5%9F%BA%E7%A1%80/" rel="self" type="application/rss+xml" /><item>
     <title>HTTP CORS</title>
-    <link>http://PTrain666.github.io/posts/2019-07-26-HTTP-CORS/</link>
+    <link>http://PTrainbow.github.io/posts/2019-07-26-HTTP-CORS/</link>
     <pubDate>Fri, 26 Jul 2019 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2019-07-26-HTTP-CORS/</guid>
+    <guid>http://PTrainbow.github.io/posts/2019-07-26-HTTP-CORS/</guid>
     <description><![CDATA[CORS 跨域资源共享(CORS) 是一种机制，它使用额外的 HTTP 头来告诉浏览器 让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当]]></description>
 </item><item>
     <title>OPTIONS 请求</title>
-    <link>http://PTrain666.github.io/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/</link>
+    <link>http://PTrainbow.github.io/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/</link>
     <pubDate>Thu, 25 Jul 2019 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/</guid>
+    <guid>http://PTrainbow.github.io/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/</guid>
     <description><![CDATA[问题描述 第一次跟前端H5对接，结果请求不通，交流才知道，他们先发一个 OPTIONS 请求，然后再发送真实请求，而我这边后台只对 GET 请求做了处理 说出来不怕丢人]]></description>
 </item><item>
     <title>Http Post FormData</title>
-    <link>http://PTrain666.github.io/posts/2019-07-02-Http-Post-FormData/</link>
+    <link>http://PTrainbow.github.io/posts/2019-07-02-Http-Post-FormData/</link>
     <pubDate>Tue, 02 Jul 2019 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2019-07-02-Http-Post-FormData/</guid>
+    <guid>http://PTrainbow.github.io/posts/2019-07-02-Http-Post-FormData/</guid>
     <description><![CDATA[问题描述 需要上传一张图片到我们的对象存储服务器，对方给了接口协议。 需使用 post 请求，Content-Type 为 multipart/form-data 且 key = filecontent，v]]></description>
 </item><item>
     <title>虚拟内存 和 mmap</title>
-    <link>http://PTrain666.github.io/posts/2019-05-22-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-%E5%92%8C-mmap/</link>
+    <link>http://PTrainbow.github.io/posts/2019-05-22-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-%E5%92%8C-mmap/</link>
     <pubDate>Wed, 22 May 2019 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2019-05-22-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-%E5%92%8C-mmap/</guid>
+    <guid>http://PTrainbow.github.io/posts/2019-05-22-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-%E5%92%8C-mmap/</guid>
     <description><![CDATA[虚拟内存 虚拟内存是计算机系统内存管理的一种技术。它使得应用程序认为它拥有连续可用的内存（一个连续完整的地址空间），而实际上，它通常是被分隔成]]></description>
 </item><item>
     <title>久违的更新之链接</title>
-    <link>http://PTrain666.github.io/posts/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/</link>
+    <link>http://PTrainbow.github.io/posts/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/</link>
     <pubDate>Wed, 26 Dec 2018 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/</guid>
+    <guid>http://PTrainbow.github.io/posts/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/</guid>
     <description><![CDATA[<h2 id="一个c文件调用另一个c文件的方法如何找到">一个c文件调用另一个c文件的方法，如何找到？</h2>
 <p>hello.h</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#ifndef HELLO

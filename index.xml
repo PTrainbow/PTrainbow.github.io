@@ -1,79 +1,79 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>北邙山之光的 Blog</title>
-        <link>http://PTrain666.github.io/</link>
+        <link>http://PTrainbow.github.io/</link>
         <description>北邙山之光的 Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 19 May 2023 00:00:00 &#43;0000</lastBuildDate>
-            <atom:link href="http://PTrain666.github.io/index.xml" rel="self" type="application/rss+xml" />
+            <atom:link href="http://PTrainbow.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
     <title>再再再看 startActivity 启动流程</title>
-    <link>http://PTrain666.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link>
+    <link>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link>
     <pubDate>Fri, 19 May 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
+    <guid>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
     <description><![CDATA[前言 最近遇到了一个有意思的问题，为了让首页更快的展示出来，将首页的请求提前到了 Application onCreate 阶段。但是带来了一个问题，请求的频次大大增加了，且对于后端]]></description>
 </item><item>
     <title>RN 和 fbjni</title>
-    <link>http://PTrain666.github.io/posts/RN-%E5%92%8C-fbjni/</link>
+    <link>http://PTrainbow.github.io/posts/RN-%E5%92%8C-fbjni/</link>
     <pubDate>Wed, 26 Apr 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/RN-%E5%92%8C-fbjni/</guid>
+    <guid>http://PTrainbow.github.io/posts/RN-%E5%92%8C-fbjni/</guid>
     <description><![CDATA[前言 最近帮 RN 业务方查内存泄漏问题，发现了 fbjni 这个库挺有意思的 正好借助 RN 源码例子，讲述一下 fbjni 是如何控制 java 和 c++ 层对象的生命周期的 源码阅读 下面会贴一]]></description>
 </item><item>
     <title>Fresco Bitmap 潜在问题</title>
-    <link>http://PTrain666.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/</link>
+    <link>http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/</link>
     <pubDate>Wed, 29 Mar 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/</guid>
+    <guid>http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/</guid>
     <description><![CDATA[最近发现线上有一些 used recycled bitmap crash 似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么 其实我觉得主要是造轮子的对于轮子本身理解不够]]></description>
 </item><item>
     <title>JNI Pending Exception</title>
-    <link>http://PTrain666.github.io/posts/JNI-Pending-Exception/</link>
+    <link>http://PTrainbow.github.io/posts/JNI-Pending-Exception/</link>
     <pubDate>Thu, 23 Feb 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/JNI-Pending-Exception/</guid>
+    <guid>http://PTrainbow.github.io/posts/JNI-Pending-Exception/</guid>
     <description><![CDATA[今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception 但是为什么会走到我的代码中？这]]></description>
 </item><item>
     <title>forkdump 触发的神奇 bug</title>
-    <link>http://PTrain666.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</link>
+    <link>http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</link>
     <pubDate>Wed, 04 Jan 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</guid>
+    <guid>http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</guid>
     <description><![CDATA[​ 最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起 最近]]></description>
 </item><item>
     <title>NativeBitmap 实现</title>
-    <link>http://PTrain666.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</link>
+    <link>http://PTrainbow.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</link>
     <pubDate>Sat, 31 Dec 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</guid>
+    <guid>http://PTrainbow.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</guid>
     <description><![CDATA[​ 前言 最近一直在治理 OOM 问题，OOM 问题分为多种，其中有一种的原因是 java heap 空间不足 这种 OOM 多发生于低版本手机，或者是存在严重的内存泄漏的高版本手机]]></description>
 </item><item>
     <title>JVMTI 的运用</title>
-    <link>http://PTrain666.github.io/posts/jvmti/</link>
+    <link>http://PTrainbow.github.io/posts/jvmti/</link>
     <pubDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/jvmti/</guid>
+    <guid>http://PTrainbow.github.io/posts/jvmti/</guid>
     <description><![CDATA[​ 文档 https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn JVMTI 可以做什么 一些重要的功能包括： 重新定义类。 跟踪对象分配和垃圾回收过程。 遵循对象的引用树，遍历堆中的所有对象。 检查 Java 调用堆栈。 暂停（]]></description>
 </item><item>
     <title>Baseline Profile</title>
-    <link>http://PTrain666.github.io/posts/Baseline-Profile/</link>
+    <link>http://PTrainbow.github.io/posts/Baseline-Profile/</link>
     <pubDate>Fri, 14 Oct 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/Baseline-Profile/</guid>
+    <guid>http://PTrainbow.github.io/posts/Baseline-Profile/</guid>
     <description><![CDATA[​ Baseline Profile Baseline Profile 可以用于 Andorid 8.0 以上系统的性能优化 原理简单来说还是 dex2oat 那一套东西，但是我们可以自己收集热点代码，生成对应的二进制文件，加速执行 想要使用，]]></description>
 </item><item>
     <title>macOS 打包机大小写问题，导致的 crash</title>
-    <link>http://PTrain666.github.io/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/</link>
+    <link>http://PTrainbow.github.io/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/</link>
     <pubDate>Thu, 22 Sep 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/</guid>
+    <guid>http://PTrainbow.github.io/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/</guid>
     <description><![CDATA[今天遇到了个神奇的问题！ 测试反馈某一个渠道包，运行时 crash，其他渠道包都没问题 因为我们的渠道包的代码本质上是一样的，出现一个包有问题，其]]></description>
 </item><item>
     <title>dl_iterate_phdr 的 ANR 问题</title>
-    <link>http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</link>
+    <link>http://PTrainbow.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</link>
     <pubDate>Sat, 20 Aug 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrain666.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</guid>
+    <guid>http://PTrainbow.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</guid>
     <description><![CDATA[最近一直在修改一个库，这个库是基于字节开源的 memory-leak-detector 修改的 由于近期增加了一系列的 hook，hook 方法众多，且几乎全量 hook 了所有 so，导致启动时会有]]></description>
 </item></channel>
 </rss>
