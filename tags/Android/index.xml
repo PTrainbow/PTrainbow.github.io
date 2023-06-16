@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 29 Mar 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 16 Jun 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>GC/JIT 抑制</title>
+    <link>http://PTrainbow.github.io/posts/GC/JIT-%E6%8A%91%E5%88%B6/</link>
+    <pubDate>Fri, 16 Jun 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/GC/JIT-%E6%8A%91%E5%88%B6/</guid>
+    <description><![CDATA[概述 所谓 Android GC/JIT 抑制，即是将 Android GC(部分)/JIT Task 处理任务的过程(Run 方法) hook，强行 sleep 一段时间。因为 JIT 和 GC 目前均为单线程执行，所以没有]]></description>
+</item><item>
     <title>Fresco Bitmap 潜在问题</title>
     <link>http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/</link>
     <pubDate>Wed, 29 Mar 2023 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/</guid>
     <description><![CDATA[​最近同事在升级 Andorid13 遇到了包体积变化的问题！ 具体问题：分支 A 编译产出 APK 体积为 110M，而基于分支 A 修改代码，适配 了Android13 后，体积为]]></description>
-</item><item>
-    <title>JNI HOOK</title>
-    <link>http://PTrainbow.github.io/posts/JNI-Hook/</link>
-    <pubDate>Fri, 05 Aug 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/JNI-Hook/</guid>
-    <description><![CDATA[简介 JNI hook 是指: hook JNIEnv 提供的众多方法 正常来说，是没有这方面的需求的。但是，对于低版本的 Android 存在一些 JNI Local Reference 的溢出，超过 512 个便会触发 crash 所以，最好有一种]]></description>
 </item></channel>
 </rss>
