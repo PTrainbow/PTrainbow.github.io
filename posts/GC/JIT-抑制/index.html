@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/GC\/JIT-%E6%8A%91%E5%88%B6\/art_gc.png",
                             "width":  625 ,
                             "height":  284 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1336 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  1340 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/GC\/JIT-%E6%8A%91%E5%88%B6\/","datePublished": "2023-06-16T00:00:00+00:00","dateModified": "2023-06-16T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">GC/JIT 抑制</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-06-16">2023-06-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1336 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-06-16">2023-06-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1340 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -140,7 +140,7 @@
 </nav></div>
             </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>所谓 Android <code>GC/JIT 抑制</code>，即是将 Android GC(部分)/JIT Task 处理任务的过程(Run 方法) hook，强行 sleep 一段时间。因为 JIT 和 GC 目前均为单线程执行，所以没有并发问题，也刚好阻塞后续任务。</p>
-<p>github 非官方实现(可以说问题很大)：
+<p>github 非官方实现(提供思路，但有一些问题)：
 <a href="https://github.com/RicardoJiang/android-performance/blob/main/startup-optimize/src/main/cpp/StartUpOptimize.cpp" target="_blank" rel="noopener noreffer">https://github.com/RicardoJiang/android-performance/blob/main/startup-optimize/src/main/cpp/StartUpOptimize.cpp</a></p>
 <h3 id="抑制目的">抑制目的</h3>
 <p>减少启动阶段系统的 CPU 使用，预期有一些冷启动收益。</p>
