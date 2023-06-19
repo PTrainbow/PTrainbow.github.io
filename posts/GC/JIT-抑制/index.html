@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/GC\/JIT-%E6%8A%91%E5%88%B6\/art_gc.png",
                             "width":  625 ,
                             "height":  284 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1340 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  1338 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/GC\/JIT-%E6%8A%91%E5%88%B6\/","datePublished": "2023-06-16T00:00:00+00:00","dateModified": "2023-06-16T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">GC/JIT 抑制</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-06-16">2023-06-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1340 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-06-16">2023-06-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1338 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -133,7 +133,12 @@
       </ul>
     </li>
     <li><a href="#基础理论">基础理论</a></li>
-    <li><a href="#gc-抑制实现">GC 抑制实现</a></li>
+    <li><a href="#gc-抑制实现">GC 抑制实现</a>
+      <ul>
+        <li><a href="#上述代码问题">上述代码问题</a></li>
+        <li><a href="#最终使用方案">最终使用方案</a></li>
+      </ul>
+    </li>
     <li><a href="#jit-抑制实现">JIT 抑制实现</a></li>
     <li><a href="#源码">源码</a></li>
   </ul>
@@ -160,12 +165,12 @@
 <li>如何查看一个函数的符号？<br>
 nm 等各种命令</li>
 <li>如何 hook 一个 native 函数？什么时候可以 PLT？什么时候不可以？为什么有这么多的 xxx_dlfcn 的实现？<br>
-一时半会说不清楚，知道 xdl <a href="https://github.com/hexhacking/xDL/blob/master/README.zh-CN.md" target="_blank" rel="noopener noreffer">https://github.com/hexhacking/xDL/blob/master/README.zh-CN.md</a> 处理了什么问题
-看懂 xhook/bhook  https://github.com/bytedance/bhook/blob/main/doc/overview.zh-CN.md</li>
+一时半会说不清楚，知道 <a href="https://github.com/hexhacking/xDL/blob/master/README.zh-CN.md" target="_blank" rel="noopener noreffer">xdl</a>  处理了什么问题
+看懂 <a href="https://github.com/bytedance/bhook/blob/main/doc/overview.zh-CN.md" target="_blank" rel="noopener noreffer">xhook/bhook</a></li>
 </ol>
 <h2 id="gc-抑制实现">GC 抑制实现</h2>
 <p>先看一下 github 版本的实现，其实现和抖音分享中所说的步骤一致，通过虚函数表找到 ConcurrentGCTask 的 Run 函数，然后替换函数</p>
-<p><strong>上述代码问题：</strong></p>
+<h3 id="上述代码问题">上述代码问题</h3>
 <ol>
 <li>libart.so 的路径问题<br>
 其实 libart.so 各个版本不一致，这种路径为低版本情况，高版本直接 crash，handle 也没有判空。那么我们难道要分版本获取 libart.so？</li>
@@ -175,21 +180,22 @@ hookRun 中使用了 originFun(thread)，originFun 类型为(void(<em>)(void</em
 <li>ConcurrentGCTask 和 ConcurrentGCTask.Run 符号问题<br>
 Android 5.x 版本不存在 ConcurrentGCTask。符号的问题，我们最好是各个版本源码 和 libart.so nm 看一下，libart.so 可以通过模拟器去拿到</li>
 <li>库选择<br>
-enhanced_dlfcn 这个可以使用，但是你 libart 的路径问题，可能需要自己处理一下，比如 /apex/xxxx 版本也有不同。<br>
-但是其实 xdl 也已经帮忙实现了类似功能。
+enhanced_dlfcn 这个可以使用，但是 libart 的路径问题，可能需要自己处理一下，比如 /apex/xxxx 版本也有不同。<br>
 查找虚函数表和最后 replace 的过程，可以看出作者调研了很多。<br>
 但是其实，我们知道函数符号的情况下，可以直接 inlinehook 任意方法，省去各种函数查找替换的过程。<br>
-当然 inlinehook 可能稳定性差了一些，但是 shadowhook 应该也是广泛使用的一种 inlinehook 库，作者也是 xcrash/xdl/xhook/bhook 等等的作者，nativebitmap 也已经使用了类似功能，可以线上实验关注一下稳定性，如果有稳定性问题，大不了再切回 xdl。</li>
+当然 inlinehook 可能稳定性差了一些，且<code>不支持 armeabi</code>(但是目前 armeabi 量级非常稀少)，但是 shadowhook 应该也是广泛使用的一种 inlinehook 库，作者也是 xcrash/xdl/xhook/bhook 等等的作者，nativebitmap 也已经使用了类似功能，可以线上实验关注一下稳定性，如果有稳定性问题，那就再还原逻辑。</li>
 </ol>
-<p>最终使用 inline hook 分版本 hook 不同函数，省去 libart 路径处理，查找函数和替换的处理</p>
-<p>存储 originGC，即是原函数指针。在 hook 方法体中调用即可</p>
-<p>注意 func 类型，双参数不是单参数，是类成员方法</p>
+<h3 id="最终使用方案">最终使用方案</h3>
+<p>使用 inline hook 分版本 hook 不同函数，省去 libart 路径处理，查找函数和替换的处理</p>
+<p>存储 originGC，即是原函数指针，在 hook 方法体中调用即可</p>
+<p><code>注意 func 类型，双参数不是单参数，是类成员方法  </code></p>
 <h2 id="jit-抑制实现">JIT 抑制实现</h2>
-<p>同 GC 抑制，只是 hook 的函数符号不同罢了，很简单。</p>
-<p>至于抖音提到的 global reference 越界的问题，不知道在表述什么问题。<br>
-如果是说 global reference overflow 的话，感觉很怪，global reference 的限制很高，一般 51200<br>
-且 JitCompileTask 析构函数中会删掉 global ref，不知道为何要费劲心力的把这行代码抹掉，可能是看了源码的注释？想让低版本和高版本一样被优化？<br>
-感觉没有必要，如果强行想实现的话，对于 inlinehook 没有什么办法，只能 hook 构造函数，在调用构造函数以后，自己手动调用 DeleteClobalRef kclass=null 了</p>
+<p>同 GC 抑制，只是 hook 的函数符号不同罢了。</p>
+<p>至于抖音提到的 <code>global reference 越界的问题</code>，不知道在表述什么问题。</p>
+<p>如果是说 global reference overflow 的话，感觉很怪。</p>
+<p>因为 global reference 的限制很高，一般 51200</p>
+<p>且 JitCompileTask 析构函数中会删掉 global ref，不知道为何要费劲心力的把这行代码抹掉，可能是看了源码的注释？想让低版本和高版本一样被优化？</p>
+<p>感觉没有必要，如果强行想实现的话，对于 inlinehook 没有什么办法，只能 hook 构造函数，在调用构造函数以后，自己手动调用 DeleteClobalRef kclass=null 了</p>
 <h2 id="源码">源码</h2>
 <p>GC 文章： <a href="http://lihaizhou.top/2021/10/27/%E5%AF%B9Android-S-ART-GC%E7%9A%84%E6%BA%90%E7%A0%81%E6%A2%B3%E7%90%86/#/%E5%AF%B9%E5%BA%94%E7%94%A8%E5%BD%B1%E5%93%8D%E7%A8%8B%E5%BA%A6%E5%88%92%E5%88%86" target="_blank" rel="noopener noreffer">GC源码分析</a></p>
 <p>本文示例代码：<a href="https://github.com/PTrainbow/GcJitDelay" target="_blank" rel="noopener noreffer">GC/JIT Delay</a></p>
