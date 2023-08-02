@@ -3,7 +3,14 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 16 Jun 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 02 Aug 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>20230802 随笔</title>
+    <link>http://PTrainbow.github.io/posts/20230802-%E9%9A%8F%E7%AC%94/</link>
+    <pubDate>Wed, 02 Aug 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/20230802-%E9%9A%8F%E7%AC%94/</guid>
+    <description><![CDATA[最近，台风杜苏芮导致的北京洪水席卷了各大媒体，大家都争相报道 作为一个中国人，我们当然知道，报道出来的视频，已经是加了一层“滤镜”的了，真实情]]></description>
+</item><item>
     <title>GC/JIT 抑制</title>
     <link>http://PTrainbow.github.io/posts/GC/JIT-%E6%8A%91%E5%88%B6/</link>
     <pubDate>Fri, 16 Jun 2023 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/Baseline-Profile/</guid>
     <description><![CDATA[​ Baseline Profile Baseline Profile 可以用于 Andorid 8.0 以上系统的性能优化 原理简单来说还是 dex2oat 那一套东西，但是我们可以自己收集热点代码，生成对应的二进制文件，加速执行 想要使用，]]></description>
-</item><item>
-    <title>macOS 打包机大小写问题，导致的 crash</title>
-    <link>http://PTrainbow.github.io/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/</link>
-    <pubDate>Thu, 22 Sep 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/</guid>
-    <description><![CDATA[今天遇到了个神奇的问题！ 测试反馈某一个渠道包，运行时 crash，其他渠道包都没问题 因为我们的渠道包的代码本质上是一样的，出现一个包有问题，其]]></description>
 </item></channel>
 </rss>
