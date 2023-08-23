@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>ToyJVM 学习 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="ToyJVM 学习" />
+<meta property="og:description" content="前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser &#43; interpreter 吧)的代码，学到了一些计算机基础的东西。 比如，我写代码这么久，甚至不知道 double 的内存结构" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-08-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-08-23T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png"/>
+<meta name="twitter:title" content="ToyJVM 学习"/>
+<meta name="twitter:description" content="前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser &#43; interpreter 吧)的代码，学到了一些计算机基础的东西。 比如，我写代码这么久，甚至不知道 double 的内存结构"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/" /><link rel="prev" href="http://PTrainbow.github.io/posts/Elk-JSEngine-%E5%AD%A6%E4%B9%A0/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "ToyJVM 学习",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrainbow.github.io\/posts\/ToyJVM-%E5%AD%A6%E4%B9%A0\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrainbow.github.io\/posts\/ToyJVM-%E5%AD%A6%E4%B9%A0\/JVM-Model.png",
+                            "width":  711 ,
+                            "height":  776 
+                        }],"genre": "posts","keywords": "C\/C\u002b\u002b","wordcount":  1681 ,
+        "url": "http:\/\/PTrainbow.github.io\/posts\/ToyJVM-%E5%AD%A6%E4%B9%A0\/","datePublished": "2023-08-23T00:00:00+00:00","dateModified": "2023-08-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">ToyJVM 学习</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-08-23">2023-08-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1681 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png"
+        data-srcset="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png, /posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png 1.5x, /posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png 2x"
+        data-sizes="auto"
+        alt="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png"
+        title="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#class-的概念">Class 的概念</a></li>
+    <li><a href="#栈帧的概念">栈帧的概念</a></li>
+    <li><a href="#heap-的概念">Heap 的概念</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser + interpreter 吧)的代码，学到了一些计算机基础的东西。</p>
+<p>比如，我写代码这么久，甚至不知道 double 的内存结构和 7FF 代表什么。比如，因为没有系统学习过编译原理等等，没有 opcode 相关的概念，如何设计 interpreter(又想回去读书了···)。</p>
+<p>当然了，我的本职是一名 Android 开发，Java/Kotlin 才是主语言，且 ART 和 openJDK 源码是开源的，都是学习的宝库，所以我也偶尔研究一下工作中遇到的相关代码。</p>
+<p>不过，看过 ART 和 JVM 相关源码的人都知道，这部分代码经历多年发展和各种高端优化，除非你是专业领域人员，否则一时半会难以读懂。</p>
+<p>所幸，总有爱学习爱研究的大佬们，为我们抽丝剥茧，找到精髓，ToyJVM 我觉得就是一个很好的学习教程(总共1~2千行代码)</p>
+<h2 id="class-的概念">Class 的概念</h2>
+<p>既然 ToyJVM 可以运行简单的标准的 class 文件，那么一定有 class 文件格式的解析，通过这部分代码，更加了解 class 文件格式</p>
+<p><a href="https://docs.oracle.com/javase/specs/jvms/se11/html/jvms-4.html" target="_blank" rel="noopener noreffer">JVM 文档</a></p>
+<p>ToyJVM 代码(多了个 initalized，似乎也没用)：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">ClassFile</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span>       <span class="n">magic</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span>       <span class="n">minor_version</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span>       <span class="n">major_version</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span>       <span class="n">constant_pool_count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cp_info</span><span class="o">*</span>       <span class="n">constant_pool</span><span class="p">;</span> <span class="c1">//[constant_pool_count-1]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint16_t</span>       <span class="n">access_flags</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span>       <span class="n">this_class</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span>       <span class="n">super_class</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span>       <span class="n">interfaces_count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span><span class="o">*</span>      <span class="n">interfaces</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span>       <span class="n">fields_count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">field_info</span><span class="o">*</span>    <span class="n">fields</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span>       <span class="n">methods_count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">method_info</span><span class="o">*</span>   <span class="n">methods</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span>       <span class="n">attributes_count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">attribute_info</span><span class="o">*</span> <span class="n">attributes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint8_t</span> <span class="n">initalized</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="n">ClassFile</span><span class="p">;</span>
+</span></span></code></pre></div><p>当然，真实代码肯定不是这么简单了，真的加载一个 class， 又需要 ClassLoader，这又是一个十分复杂的过程。</p>
+<p>因为目的只是简单的执行相关的代码，也不考虑 jni 等相关调用。</p>
+<p>核心只有几个问题</p>
+<ol>
+<li>
+<p>如何解析 class<br>
+这里使用 fread 按照 class 格式读取。不过动态大小的直接使用了指针。感觉也可以直接使用 mmap。<br>
+constant_pool = cp_info * constant_pool_count<br>
+其余类似，均是 struct * count 结构排列<br>
+每个 struct 中有各自的内存结构，详见 <a href="https://docs.oracle.com/javase/specs/jvms/se11/html/jvms-4.html" target="_blank" rel="noopener noreffer">JVM 文档</a></p>
+</li>
+<li>
+<p>如何找到一个 method<br>
+class 中有 method_info 结构，通过 method 的 name_index 可以去 constant pool 中查找(class 是一个紧凑结构，所有的字符串都是存在一起的，如果有相同字符串其实是公用的) method 名称，然后通过 descriptor 确定唯一 method_info(因为可能有重载)</p>
+</li>
+<li>
+<p>method 中的 code 如何运行<br>
+这就是 opcode 和 stack frames(栈帧) 的概念了</p>
+</li>
+</ol>
+<h2 id="栈帧的概念">栈帧的概念</h2>
+<p>像很多时候，我们面试的时候可能会被问到相关的“八股问题”，网络上也有各种文章来讲解什么是栈帧，但是往往都是一些理论模型，模糊不清</p>
+<p>ToyJVM 中代码实现了栈帧的概念，且和理论模型十分接近。</p>
+<p><a href="https://docs.oracle.com/javase/specs/jvms/se11/html/jvms-2.html#jvms-2.6" target="_blank" rel="noopener noreffer">JVM 文档</a> 介绍，Frames 中存在几个概念：</p>
+<ol>
+<li>Local Variables 本地变量</li>
+<li>Operand Stacks 操作栈</li>
+<li>Dynamic Linking 动态链接</li>
+<li>Others</li>
+</ol>
+<p>ToyJVM 中的代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">Frame</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LocalVariable</span><span class="o">*</span> <span class="n">localVariables</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">Stack</span><span class="o">*</span> <span class="n">operandStack</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">Machine</span><span class="o">*</span> <span class="n">machine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">ClassFile</span><span class="o">*</span> <span class="n">classRef</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">pc</span><span class="p">;</span> <span class="c1">// program counter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Code_attribute</span><span class="o">*</span> <span class="n">code</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//A run-time constant pool is a per-class or per-interface run-time representation of the constant_pool table in a class file (§4.4).
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//It contains several kinds of constants, ranging from numeric literals known at compile-time to method and field references that must be resolved at run-time.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">Frame</span><span class="p">;</span>
+</span></span></code></pre></div><p>因为还要知道当前的指令执行到哪里了，所以多了一个 pc 计数器</p>
+<p>首先，明确一个概念，一个 method 在 class 中体现为多条指令，存储在 Code_attribute 的 code[] 中</p>
+<p>那么虚拟机如何运行方法的 code[]? 如何传参？获取返回值？</p>
+<p>这就是栈帧的作用了</p>
+<p>以 toyJVM 举例</p>
+<p>找到 Main 方法以后，找到其 code[]，创建 stack frame，压入 JVM stack，然后通过 pc 遍历执行所有指令，每一个指令(opcode) 又有各自的处理方式，又是一块对应的知识。根据各自 opcode 执行对应指令，或者，寻找对应的照约定所存在位置的值。这些操作都会在 operandStack 中完成。</p>
+<p>然后执行到 return 的 opcode 后，如果还有其他指令(不考虑 try-catch 之类的)，说明还有其他方法调用。此时，还要将当前的 operanStack 中的值，或者是调用方法所需要的 local variables 值等 copy 到一个新的 stack frame，然后 destroy 当前 frame，new stack frame 然后压栈。</p>
+<p>如此往复。</p>
+<p>当然，我们也注意到 stack frame 中 operandStack 本身的大小有限制，如果超过了指定大小，也会出现经典的 StackOverflow</p>
+<h2 id="heap-的概念">Heap 的概念</h2>
+<p>ToyJVM 中只有一个十分简单的 heap，并没有任何 gc 相关的逻辑，不然整体的代码量肯定又会大涨</p>
+<p>但是，如同 Elk 的 heap 一样，我们脑海中已经有了一个实体的概念。</p>
+<p>VM 有自己的内存分配器，有自己的 heap，然后我们可以基于自己的内存分配逻辑，来记录整体 VM 的内存占用，如果辅以合理的 gc 算法，其实也就成了一个最基本的 VM 的内存模块。</p>
+<p>当然，这里有各种各样的细节问题。比如：</p>
+<ol>
+<li>JVM 的并发 gc，如何保证 gc 发生的同时，其他线程不会继续使用该对象？</li>
+<li>我们面试的八股文中的 copy 算法，两片内存空间，用于 gc 时对象的复制和内存碎片整理，那么随着对象的移动，又怎么保证我们的对象引用一直是正确的？</li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>截止目前，我对于 VM 的学习，甚至不是冰山中的一角，只是冰山中的一块冰。但是，对于这方面的基础知识，越来越扎实。</p>
+<p>希望某一天我可以自己写一个完整的 JS Engine。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023-08-23</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/C/C&#43;&#43;/">C/C&#43;&#43;</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/Elk-JSEngine-%E5%AD%A6%E4%B9%A0/" class="prev" rel="prev" title="Elk JSEngine 学习"><i class="fas fa-angle-left fa-fw"></i>Elk JSEngine 学习</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2023-08-23T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"ToyJVM 学习"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

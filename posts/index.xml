@@ -3,7 +3,14 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 19 Aug 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 23 Aug 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>ToyJVM 学习</title>
+    <link>http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/</link>
+    <pubDate>Wed, 23 Aug 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/</guid>
+    <description><![CDATA[前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser + interpreter 吧)的代码，学到了一些计算机基础的东西。 比如，我写代码这么久，甚至不知道 double 的内存结构]]></description>
+</item><item>
     <title>Elk JSEngine 学习</title>
     <link>http://PTrainbow.github.io/posts/Elk-JSEngine-%E5%AD%A6%E4%B9%A0/</link>
     <pubDate>Sat, 19 Aug 2023 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</guid>
     <description><![CDATA[​ 前言 最近一直在治理 OOM 问题，OOM 问题分为多种，其中有一种的原因是 java heap 空间不足 这种 OOM 多发生于低版本手机，或者是存在严重的内存泄漏的高版本手机]]></description>
-</item><item>
-    <title>JVMTI 的运用</title>
-    <link>http://PTrainbow.github.io/posts/jvmti/</link>
-    <pubDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/jvmti/</guid>
-    <description><![CDATA[​ 文档 https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn JVMTI 可以做什么 一些重要的功能包括： 重新定义类。 跟踪对象分配和垃圾回收过程。 遵循对象的引用树，遍历堆中的所有对象。 检查 Java 调用堆栈。 暂停（]]></description>
 </item></channel>
 </rss>
