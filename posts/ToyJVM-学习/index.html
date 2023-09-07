@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/ToyJVM-%E5%AD%A6%E4%B9%A0\/JVM-Model.png",
                             "width":  711 ,
                             "height":  776 
-                        }],"genre": "posts","keywords": "C\/C\u002b\u002b","wordcount":  1681 ,
+                        }],"genre": "posts","keywords": "C\/C\u002b\u002b","wordcount":  1693 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/ToyJVM-%E5%AD%A6%E4%B9%A0\/","datePublished": "2023-08-23T00:00:00+00:00","dateModified": "2023-08-23T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">ToyJVM 学习</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-08-23">2023-08-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1681 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-08-23">2023-08-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1693 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -209,7 +209,7 @@ class 中有 method_info 结构，通过 method 的 name_index 可以去 constan
 <p>找到 Main 方法以后，找到其 code[]，创建 stack frame，压入 JVM stack，然后通过 pc 遍历执行所有指令，每一个指令(opcode) 又有各自的处理方式，又是一块对应的知识。根据各自 opcode 执行对应指令，或者，寻找对应的照约定所存在位置的值。这些操作都会在 operandStack 中完成。</p>
 <p>然后执行到 return 的 opcode 后，如果还有其他指令(不考虑 try-catch 之类的)，说明还有其他方法调用。此时，还要将当前的 operanStack 中的值，或者是调用方法所需要的 local variables 值等 copy 到一个新的 stack frame，然后 destroy 当前 frame，new stack frame 然后压栈。</p>
 <p>如此往复。</p>
-<p>当然，我们也注意到 stack frame 中 operandStack 本身的大小有限制，如果超过了指定大小，也会出现经典的 StackOverflow</p>
+<p>当然，无论 stack frame，还是stack frame 中 operandStack 本身的大小有限制，如果超过了指定大小，也会有对应的栈溢出异常</p>
 <h2 id="heap-的概念">Heap 的概念</h2>
 <p>ToyJVM 中只有一个十分简单的 heap，并没有任何 gc 相关的逻辑，不然整体的代码量肯定又会大涨</p>
 <p>但是，如同 Elk 的 heap 一样，我们脑海中已经有了一个实体的概念。</p>
