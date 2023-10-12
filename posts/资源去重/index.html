@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>资源去重 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="资源去重" />
+<meta property="og:description" content="最近不知道为什么，我司又开始缩减包体积了，在这个 app 都 100-200M 的年代，在这个 5G 遥遥领先的年代，不知道卷个啥？ 那问题不大，既然有需求，我们照做便是 前置" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-10-12T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png"/>
+<meta name="twitter:title" content="资源去重"/>
+<meta name="twitter:description" content="最近不知道为什么，我司又开始缩减包体积了，在这个 app 都 100-200M 的年代，在这个 5G 遥遥领先的年代，不知道卷个啥？ 那问题不大，既然有需求，我们照做便是 前置"/>
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/" /><link rel="prev" href="http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "资源去重",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrainbow.github.io\/posts\/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrainbow.github.io\/posts\/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D\/arsc.png",
+                            "width":  1796 ,
+                            "height":  1706 
+                        }],"genre": "posts","keywords": "Android","wordcount":  2012 ,
+        "url": "http:\/\/PTrainbow.github.io\/posts\/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D\/","datePublished": "2023-10-12T00:00:00+00:00","dateModified": "2023-10-12T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">资源去重</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-10-12">2023-10-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2012 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png"
+        data-srcset="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png, /posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png 1.5x, /posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png 2x"
+        data-sizes="auto"
+        alt="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png"
+        title="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前置思考">前置思考</a>
+      <ul>
+        <li><a href="#各个-module-引用了相同的资源会怎样">各个 module 引用了相同的资源会怎样</a></li>
+        <li><a href="#资源文件如何通过资源-id-引用到的">资源文件如何通过资源 id 引用到的？</a></li>
+        <li><a href="#如何去重">如何去重？</a></li>
+      </ul>
+    </li>
+    <li><a href="#andresguard-资源去重">AndResGuard 资源去重</a>
+      <ul>
+        <li><a href="#andresguard-有两种集成模式">AndResGuard 有两种集成模式</a></li>
+        <li><a href="#andresguard-做了什么事情">AndResGuard 做了什么事情</a></li>
+        <li><a href="#andresguard是怎么去重的">AndResGuard是怎么去重的</a></li>
+      </ul>
+    </li>
+    <li><a href="#android-官方的资源压缩">Android 官方的资源压缩</a></li>
+    <li><a href="#自己写一个去重插件">自己写一个去重插件</a>
+      <ul>
+        <li><a href="#几个坑点">几个坑点</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>最近不知道为什么，我司又开始缩减包体积了，在这个 app 都 100-200M 的年代，在这个 5G 遥遥领先的年代，不知道卷个啥？</p>
+<p>那问题不大，既然有需求，我们照做便是</p>
+<h2 id="前置思考">前置思考</h2>
+<p>Android 包体积由多方面构成，这个我之前的文章里也有说过，所以包体积缩减的手段有很多，这个就不一一介绍了</p>
+<p>我们今天主要来思考几个问题：</p>
+<h3 id="各个-module-引用了相同的资源会怎样">各个 module 引用了相同的资源会怎样</h3>
+<p>这在大型工程中实际非常常见，经常有一些 UI 想要复用，但是因为其可能是别人 module 私有的，所以有很多同学会选择 copy 一份资源到自己的 module 下使用。<br>
+这就会造成一个问题，文件是同一份文件，只是文件名不同，然后资源打包的时候，一起被打进 apk 中</p>
+<h3 id="资源文件如何通过资源-id-引用到的">资源文件如何通过资源 id 引用到的？</h3>
+<p>这就不得不说 arsc 文件了，我们可以用 android studio 打开 arsc 文件。其可视化的结构类似一个表格
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/arsc_table.png"
+        data-srcset="/img/in-post/arsc_table.png, /img/in-post/arsc_table.png 1.5x, /img/in-post/arsc_table.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/arsc_table.png"
+        title="/img/in-post/arsc_table.png" /><br>
+通过资源 id 找到其对应的 name 和 对应的真实资源文件</p>
+<h3 id="如何去重">如何去重？</h3>
+<p>由上可知，假如我们存在两个相同内容、名称不同的资源，那么其在 arsc 表中存在两条记录，类似如下：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>名称</th>
+<th>资源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id1</td>
+<td>name1</td>
+<td>resource1</td>
+</tr>
+<tr>
+<td>id2</td>
+<td>name2</td>
+<td>resource2</td>
+</tr>
+</tbody>
+</table>
+<p>如果，我们让 name2 指向 resource1，arsc 修改为如下：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>名称</th>
+<th>资源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id1</td>
+<td>name1</td>
+<td>resource1</td>
+</tr>
+<tr>
+<td>id2</td>
+<td>name2</td>
+<td>resource1</td>
+</tr>
+</tbody>
+</table>
+<p>然后将 resource2 删除是不是就好了呢？</p>
+<p>理论上是没问题的</p>
+<p>那么实际又该怎么操作呢？这就需要我们了解资源打包的过程了</p>
+<h2 id="andresguard-资源去重">AndResGuard 资源去重</h2>
+<p>AndResGuard 是微信开源的资源压缩方案，他的年代比较久远，但是在如此久远的时间，微信的开发就已经在做这种事情了，实在是太卷了···</p>
+<h3 id="andresguard-有两种集成模式">AndResGuard 有两种集成模式</h3>
+<p>一种是 gradle plugin 方式集成，这种方法因为年久失修，gradle plugin api 改变的问题，似乎已经无法再高版本 agp 上使用了(不过好像也有人在个人版本持续维护，但是其实作用不大，因为只是在处理 api 问题，其实资源打包的过程也与之前不一样了，后面我们再来说)</p>
+<p>另一种是 jar 包的集成方式，这种方法倒是不存在 agp 的兼容问题。但是处理的逻辑在新版本都是存在一些小问题的。</p>
+<h3 id="andresguard-做了什么事情">AndResGuard 做了什么事情</h3>
+<p>其实是将 APK 重新解压，如果开启了 merge 功能，它会去重资源，重写 arsc 文件，然后重新打包签名 APK。</p>
+<p>在打包的过程中，会把许多资源作为可压缩对象(ZipEntry 有自己的属性，标志其是否可压缩)，所以最终的压缩包更小(因为官方有很多资源并没有压缩，AndResGuard 基本全压缩，arsc 文件也压缩，所以后续高版本有个和官方冲突的 arsc 禁止压缩的问题，会导致 apk 无法安装)</p>
+<h3 id="andresguard是怎么去重的">AndResGuard是怎么去重的</h3>
+<p>通过对比资源的 MD5，进而像之前说的一样，修改 arsc 文件实现</p>
+<p>首先，修改 arsc 文件是第一个难点，因为需要了解其文件结构。不过 AndResGuard 似乎是自己实现了一套 decoder。但是，这个 decoder 有一些问题。比如，如果存在多个资源名指向同一个资源的时候，会抛出 IndexOutOfBounds 异常，类似这个 <a href="https://github.com/shwenzhang/AndResGuard/issues/203" target="_blank" rel="noopener noreffer">issue</a> 我也遇到了</p>
+<p>除此之外，当 agp 使用高版本的时候，资源去重的逻辑也是有点问题的</p>
+<p>因为高版本 agp 自己存在一个 optimizeResourceTask，这个 task 执行以后，资源不会再像以前一样位于 res/drawable/test1.png，而是变为 res/ABC.png。总结就是：名称被混淆、路径变成一级目录</p>
+<p>而 AndResGuard 源码中有一部分根据资源名取判断资源的 type。举个例子 ABC.png 的 type 老版本，因为其路径为 res/drawable 则会被判断为 drawable。而新版本 type 会被判断为 ABC.png。这导致了 merge 功能在高版本上其实是基本失效的</p>
+<p>这也是为什么我自己写了一个插件的原因</p>
+<p>其实，也可以基于 AndResGuard 修改，但是奈何其源码过于复杂，包括有一些魔法数字，感觉不理解吃透，很容易翻车。而且，在别人的代码里修改，总有一种不稳的感觉。</p>
+<p>最终，在网络上看到了 <a href="https://tech.meituan.com/2017/04/07/android-shrink-overall-solution.html" target="_blank" rel="noopener noreffer">美团的包体积缩减手段</a> 和 <a href="https://github.com/PPTing/ApkMonitorPlugin/tree/master" target="_blank" rel="noopener noreffer">APKMonitor</a> 插件相关的文章，虽然他们也都是适配的旧版本 AGP，但是为我提供了一个处理 ARSC 文件的好思路，就是 <a href="https://github.com/madisp/android-chunk-utils" target="_blank" rel="noopener noreffer">android-chrunk-utils</a> 库</p>
+<p>那么，已经有了可以随意修改 arsc 文件的库，我们只需要找到对应 task，然后注入自己的 action 就好了。action 里的逻辑也是重复说了很多遍的：找到重复的资源，修改 arsc 文件</p>
+<p>这里需要知道一个额外知识点，android 的资源打包后是一个 .ap_ 的文件。这个文件其实就是一个 zip，最终我们需要对其进行解压和重新压缩</p>
+<h2 id="android-官方的资源压缩">Android 官方的资源压缩</h2>
+<p>正如国内在以前狂卷包体积一样，谷歌官方也开始卷包体积了，所以 AGP 高版本自带了资源混淆功能，这个前面也说了</p>
+<p>不过，不确定这里为什么没有直接帮忙把资源去重之类的也做了。查看了 AGP 的更新文档，说是可以开启一个实验属性，打开新的 resource shrinker，但是我使用了以后，并没有进一步的体积缩减</p>
+<p>而且 color 资源的路径，似乎因为一些历史原因，会单独保留下来，源码中也是这么写的</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/agp_resource_shrinker.png"
+        data-srcset="/img/in-post/agp_resource_shrinker.png, /img/in-post/agp_resource_shrinker.png 1.5x, /img/in-post/agp_resource_shrinker.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/agp_resource_shrinker.png"
+        title="/img/in-post/agp_resource_shrinker.png" /></p>
+<h2 id="自己写一个去重插件">自己写一个去重插件</h2>
+<p>主逻辑参考自 <a href="https://github.com/PPTing/ApkMonitorPlugin/tree/master" target="_blank" rel="noopener noreffer">APKMonitor</a></p>
+<p>不过，也没啥好创新的，除了一些 api 的修修改、输出文件的修改其他大概没什么问题</p>
+<p>逻辑也很简单</p>
+<p>首先找到 .ap_ 文件，读取该 zip 文件，找到相同的文件，记录下来</p>
+<p>使用 chrunk-utils 库，读取 arsc 文件，将相同的文件的值指向同一份资源</p>
+<p>重写 arsc 文件</p>
+<p>删除相同的资源文件</p>
+<p>重新 zip 压缩为 .ap_ 文件</p>
+<h3 id="几个坑点">几个坑点</h3>
+<ol>
+<li>
+<p>高版本 AGP Task 不要去找 processResources，而是去找 OptimizeResources</p>
+</li>
+<li>
+<p>如果工程配置了 splits abi，一次产生多个 apk，那么会存在多个 .ap_ 文件，我们需要对每个 ap 文件都处理一遍</p>
+</li>
+</ol>
+<p>代码如下：<a href="https://github.com/PTrainbow/ResourceChecker" target="_blank" rel="noopener noreffer">github</a></p>
+<h2 id="参考">参考</h2>
+<ol>
+<li><a href="https://tech.meituan.com/2017/04/07/android-shrink-overall-solution.html" target="_blank" rel="noopener noreffer">美团的包体积缩减手段</a></li>
+<li><a href="https://github.com/PPTing/ApkMonitorPlugin/tree/master" target="_blank" rel="noopener noreffer">APKMonitor</a></li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023-10-12</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/" class="prev" rel="prev" title="ToyJVM 学习"><i class="fas fa-angle-left fa-fw"></i>ToyJVM 学习</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2023-10-12T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"资源去重"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

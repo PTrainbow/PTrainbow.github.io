@@ -3,7 +3,14 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 16 Jun 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 12 Oct 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>资源去重</title>
+    <link>http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/</link>
+    <pubDate>Thu, 12 Oct 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/</guid>
+    <description><![CDATA[最近不知道为什么，我司又开始缩减包体积了，在这个 app 都 100-200M 的年代，在这个 5G 遥遥领先的年代，不知道卷个啥？ 那问题不大，既然有需求，我们照做便是 前置]]></description>
+</item><item>
     <title>GC/JIT 抑制</title>
     <link>http://PTrainbow.github.io/posts/GC/JIT-%E6%8A%91%E5%88%B6/</link>
     <pubDate>Fri, 16 Jun 2023 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/dl_iterate_phdr-%E7%9A%84-ANR-%E9%97%AE%E9%A2%98/</guid>
     <description><![CDATA[最近一直在修改一个库，这个库是基于字节开源的 memory-leak-detector 修改的 由于近期增加了一系列的 hook，hook 方法众多，且几乎全量 hook 了所有 so，导致启动时会有]]></description>
-</item><item>
-    <title>NDK 导致的包体积问题</title>
-    <link>http://PTrainbow.github.io/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/</link>
-    <pubDate>Thu, 11 Aug 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/</guid>
-    <description><![CDATA[​最近同事在升级 Andorid13 遇到了包体积变化的问题！ 具体问题：分支 A 编译产出 APK 体积为 110M，而基于分支 A 修改代码，适配 了Android13 后，体积为]]></description>
 </item></channel>
 </rss>
