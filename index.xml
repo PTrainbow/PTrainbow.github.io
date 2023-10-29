@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 12 Oct 2023 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 29 Oct 2023 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrainbow.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>20231029 随笔</title>
+    <link>http://PTrainbow.github.io/posts/20231029-%E9%9A%8F%E7%AC%94/</link>
+    <pubDate>Sun, 29 Oct 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/20231029-%E9%9A%8F%E7%AC%94/</guid>
+    <description><![CDATA[因为工作和生活的事情，最近让自己变的很抑郁，甚至每天下班必须要散步，晚上一定要听歌，不然就会胡思乱想，觉得人生没有意义。有时候觉得自己每天耗]]></description>
+</item><item>
     <title>资源去重</title>
     <link>http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/</link>
     <pubDate>Thu, 12 Oct 2023 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/JNI-Pending-Exception/</guid>
     <description><![CDATA[今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception 但是为什么会走到我的代码中？这]]></description>
-</item><item>
-    <title>forkdump 触发的神奇 bug</title>
-    <link>http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</link>
-    <pubDate>Wed, 04 Jan 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</guid>
-    <description><![CDATA[​ 最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起 最近]]></description>
 </item></channel>
 </rss>
