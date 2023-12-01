@@ -9,7 +9,7 @@
     <pubDate>Mon, 27 Nov 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/20231127-fp-unwind/</guid>
-    <description><![CDATA[最近，在卷一个我觉得意义不大、没什么用、但又有点技术含量的事情，fp 回溯 为什么要搞呢？ 核心原因，并不是大家对于 fp unwind 的普遍认知：速度快。而是，]]></description>
+    <description><![CDATA[为了公司内部写一篇软文，所以这篇文章重写了一下~~ 正文 今天给大家分享一种 arm64 平台下栈回溯的方式 —— fp(frame pointer) 回溯，同时会介绍一些基础概念和实现原理 首]]></description>
 </item><item>
     <title>20231114 随笔</title>
     <link>http://PTrainbow.github.io/posts/20231114-%E9%9A%8F%E7%AC%94/</link>
