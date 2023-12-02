@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/20231127-fp-unwind\/fp_unwind.png",
                             "width":  1184 ,
                             "height":  1075 
-                        }],"genre": "posts","keywords": "C\/C\u002b\u002b","wordcount":  2601 ,
+                        }],"genre": "posts","keywords": "C\/C\u002b\u002b","wordcount":  2649 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/20231127-fp-unwind\/","datePublished": "2023-11-27T00:00:00+00:00","dateModified": "2023-11-27T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">fp unwind</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-11-27">2023-11-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2601 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-11-27">2023-11-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2649 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -178,11 +178,11 @@
 <p>如果是 c++ 函数，还可能有异常相关的内容，这里就不多说了(<strong>所以 c++ 的异常抛出和捕获是如何实现的？java 呢？</strong>)</p>
 </blockquote>
 <h2 id="frame-pointer-的原理">frame pointer 的原理</h2>
-<p>当我们的编译参数加上 fno-omit-frame-pointer 时，编译器会帮我们保留 frame pointer 相关指令</p>
+<p>当我们的编译参数加上 fno-omit-frame-pointer 时，编译器会帮我们保留 frame pointer 相关指令(所以 fp 回溯，依赖链路上的 so 都开启了相应的编译参数)</p>
 <p>以下分析也均基于此</p>
 <h3 id="arm64-寄存器">arm64 寄存器</h3>
 <p>了解 frame pointer，也要先了解 arm64 寄存器</p>
-<p>如下：<br>
+<p>如下(copy from <a href="https://learn.microsoft.com/zh-cn/cpp/build/arm64-windows-abi-conventions?view=msvc-170" target="_blank" rel="noopener noreffer">learn.microsoft</a>)：<br>
 AArch64 体系结构支持 32 个整数寄存器(还有 PC 和 SP)</p>
 <table>
 <thead>
