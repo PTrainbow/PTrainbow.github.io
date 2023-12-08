@@ -3,7 +3,14 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 27 Nov 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 08 Dec 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Kotlin/Native</title>
+    <link>http://PTrainbow.github.io/posts/20231208-Kotlin-Native/</link>
+    <pubDate>Fri, 08 Dec 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/20231208-Kotlin-Native/</guid>
+    <description><![CDATA[最近 KMP 或者说 KMM 在移动端挺火，我非常好奇它是如何跨端的 看了一下官方文档，只知道是通过 LLVM 把 Kotlin 转为 IR 再转为目标平台二进制。这部分我目前还没去分析，]]></description>
+</item><item>
     <title>fp unwind</title>
     <link>http://PTrainbow.github.io/posts/20231127-fp-unwind/</link>
     <pubDate>Mon, 27 Nov 2023 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
     <description><![CDATA[前言 最近遇到了一个有意思的问题，为了让首页更快的展示出来，将首页的请求提前到了 Application onCreate 阶段。但是带来了一个问题，请求的频次大大增加了，且对于后端]]></description>
-</item><item>
-    <title>RN 和 fbjni</title>
-    <link>http://PTrainbow.github.io/posts/RN-%E5%92%8C-fbjni/</link>
-    <pubDate>Wed, 26 Apr 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/RN-%E5%92%8C-fbjni/</guid>
-    <description><![CDATA[前言 最近帮 RN 业务方查内存泄漏问题，发现了 fbjni 这个库挺有意思的 正好借助 RN 源码例子，讲述一下 fbjni 是如何控制 java 和 c++ 层对象的生命周期的 源码阅读 下面会贴一]]></description>
 </item></channel>
 </rss>

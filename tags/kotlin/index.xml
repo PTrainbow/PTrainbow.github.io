@@ -3,7 +3,14 @@
         <title>kotlin - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/kotlin/</link>
         <description>kotlin - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 24 Jan 2021 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/kotlin/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 08 Dec 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/kotlin/" rel="self" type="application/rss+xml" /><item>
+    <title>Kotlin/Native</title>
+    <link>http://PTrainbow.github.io/posts/20231208-Kotlin-Native/</link>
+    <pubDate>Fri, 08 Dec 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/20231208-Kotlin-Native/</guid>
+    <description><![CDATA[最近 KMP 或者说 KMM 在移动端挺火，我非常好奇它是如何跨端的 看了一下官方文档，只知道是通过 LLVM 把 Kotlin 转为 IR 再转为目标平台二进制。这部分我目前还没去分析，]]></description>
+</item><item>
     <title>Kotlin Coroutines VS Goroutines</title>
     <link>http://PTrainbow.github.io/posts/2021-01-24-Kotlin-Coroutines-VS-Goroutines/</link>
     <pubDate>Sun, 24 Jan 2021 00:00:00 &#43;0000</pubDate>

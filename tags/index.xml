@@ -3,7 +3,14 @@
         <title>Tags - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/</link>
         <description>Tags - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 14 Nov 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 08 Dec 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+    <title>kotlin</title>
+    <link>http://PTrainbow.github.io/tags/kotlin/</link>
+    <pubDate>Fri, 08 Dec 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/tags/kotlin/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
     <title>杂</title>
     <link>http://PTrainbow.github.io/tags/%E6%9D%82/</link>
     <pubDate>Tue, 14 Nov 2023 00:00:00 &#43;0000</pubDate>
@@ -30,13 +37,6 @@
     <pubDate>Sun, 07 Feb 2021 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/tags/Java/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>kotlin</title>
-    <link>http://PTrainbow.github.io/tags/kotlin/</link>
-    <pubDate>Sun, 24 Jan 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/tags/kotlin/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>代码规范</title>

@@ -17,7 +17,7 @@
 <meta name="twitter:title" content="fp unwind"/>
 <meta name="twitter:description" content="为了公司内部写一篇软文，所以这篇文章重写了一下~~ 正文 今天给大家分享一种 arm64 平台下栈回溯的方式 —— fp(frame pointer) 回溯，同时会介绍一些基础概念和实现原理 首"/>
 <meta name="application-name" content="北邙山之光的 Blog">
-<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/20231127-fp-unwind/" /><link rel="prev" href="http://PTrainbow.github.io/posts/20231114-%E9%9A%8F%E7%AC%94/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/20231127-fp-unwind/" /><link rel="prev" href="http://PTrainbow.github.io/posts/20231114-%E9%9A%8F%E7%AC%94/" /><link rel="next" href="http://PTrainbow.github.io/posts/20231208-Kotlin-Native/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -31,7 +31,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/20231127-fp-unwind\/fp_unwind.png",
                             "width":  1184 ,
                             "height":  1075 
-                        }],"genre": "posts","keywords": "C\/C\u002b\u002b","wordcount":  2649 ,
+                        }],"genre": "posts","keywords": "C\/C\u002b\u002b","wordcount":  2641 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/20231127-fp-unwind\/","datePublished": "2023-11-27T00:00:00+00:00","dateModified": "2023-11-27T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -109,7 +109,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">fp unwind</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-11-27">2023-11-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2649 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-11-27">2023-11-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2641 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -170,10 +170,8 @@
 <p>其次，我们还要知道一个点：<strong>栈是往低地址拓展的</strong></p>
 <p>那么一个 c 函数的调用过程究竟是怎样的呢？<br>
 如果，要完全的讲通一个 c 函数的调用过程，还是十分复杂的<br>
-要涉及到调用约定(calling convention)。入参怎么存？存在哪？返回值呢？<br>
-如果对这块感兴趣，可以研究一下 libffi<br>
-一句话略过，就是按照 cpu 手册来存取<br>
-抛开这些，后面我们会一起分析一下 arm64 下的简单的 c 函数的调用情况</p>
+参数存取部分，就要涉及到调用约定(calling convention)，因为各架构下的规则是不一致的，这块没法细说，只能靠熟读 cpu 手册 <br>
+抛开这些，我们下面可以一起分析一下 arm64 下的简单的 c 函数的调用情况</p>
 <blockquote>
 <p>如果是 c++ 函数，还可能有异常相关的内容，这里就不多说了(<strong>所以 c++ 的异常抛出和捕获是如何实现的？java 呢？</strong>)</p>
 </blockquote>
@@ -416,7 +414,8 @@ AArch64 体系结构支持 32 个整数寄存器(还有 PC 和 SP)</p>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/20231114-%E9%9A%8F%E7%AC%94/" class="prev" rel="prev" title="20231114 随笔"><i class="fas fa-angle-left fa-fw"></i>20231114 随笔</a></div>
+    <div class="post-nav"><a href="/posts/20231114-%E9%9A%8F%E7%AC%94/" class="prev" rel="prev" title="20231114 随笔"><i class="fas fa-angle-left fa-fw"></i>20231114 随笔</a>
+            <a href="/posts/20231208-Kotlin-Native/" class="next" rel="next" title="Kotlin/Native">Kotlin/Native<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
