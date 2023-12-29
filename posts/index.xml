@@ -3,7 +3,14 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 08 Dec 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 29 Dec 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>20231229 随笔</title>
+    <link>http://PTrainbow.github.io/posts/20231229-%E9%9A%8F%E7%AC%94/</link>
+    <pubDate>Fri, 29 Dec 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/20231229-%E9%9A%8F%E7%AC%94/</guid>
+    <description><![CDATA[最近一个月的经历太离谱了，以至于我不得不写一篇流水账来记录一下 总的来说，突出一个喜忧参半 喜的是：碰到了好多，毕业就未见的同学，大家聊聊理想，]]></description>
+</item><item>
     <title>Kotlin/Native</title>
     <link>http://PTrainbow.github.io/posts/20231208-Kotlin-Native/</link>
     <pubDate>Fri, 08 Dec 2023 00:00:00 &#43;0000</pubDate>
@@ -66,12 +73,5 @@
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/GC/JIT-%E6%8A%91%E5%88%B6/</guid>
     <description><![CDATA[概述 所谓 Android GC/JIT 抑制，即是将 Android GC(部分)/JIT Task 处理任务的过程(Run 方法) hook，强行 sleep 一段时间。因为 JIT 和 GC 目前均为单线程执行，所以没有]]></description>
-</item><item>
-    <title>再再再看 startActivity 启动流程</title>
-    <link>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link>
-    <pubDate>Fri, 19 May 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
-    <description><![CDATA[前言 最近遇到了一个有意思的问题，为了让首页更快的展示出来，将首页的请求提前到了 Application onCreate 阶段。但是带来了一个问题，请求的频次大大增加了，且对于后端]]></description>
 </item></channel>
 </rss>
