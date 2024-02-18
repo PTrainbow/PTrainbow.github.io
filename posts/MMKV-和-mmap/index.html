@@ -8,13 +8,12 @@
         <title>MMKV 和 mmap - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="MMKV 和 mmap" />
 <meta property="og:description" content="前言 最近看了点 MMKV 的代码，其核心就是通过 mmap 来读写文件。当然还有多进程、序列化、扩容重排 key等问题(这些随便找篇文章都有讲)。本文主要通过 mmap 实" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrainbow.github.io/posts/MMKV-%E5%92%8C-mmap/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/MMKV-%E5%92%8C-mmap/mmap.png"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://PTrainbow.github.io/posts/MMKV-%E5%92%8C-mmap/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/MMKV-%E5%92%8C-mmap/mmap.png" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-02-26T00:00:00+00:00" />
 <meta property="article:modified_time" content="2021-02-26T00:00:00+00:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://PTrainbow.github.io/posts/MMKV-%E5%92%8C-mmap/mmap.png"/>
-<meta name="twitter:title" content="MMKV 和 mmap"/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://PTrainbow.github.io/posts/MMKV-%E5%92%8C-mmap/mmap.png" /><meta name="twitter:title" content="MMKV 和 mmap"/>
 <meta name="twitter:description" content="前言 最近看了点 MMKV 的代码，其核心就是通过 mmap 来读写文件。当然还有多进程、序列化、扩容重排 key等问题(这些随便找篇文章都有讲)。本文主要通过 mmap 实"/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/MMKV-%E5%92%8C-mmap/" /><link rel="prev" href="http://PTrainbow.github.io/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/" /><link rel="next" href="http://PTrainbow.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
@@ -143,8 +142,8 @@
 <p>具体包括 <code>mmap 函数的使用</code> 和 <code>如何扩展文件大小</code></p>
 <h2 id="mmap-是什么">mmap() 是什么</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/mman.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">void</span> <span class="o">*</span><span class="nf">mmap</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">length</span><span class="p">,</span> <span class="kt">int</span> <span class="n">prot</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="n">off_t</span> <span class="n">offset</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">munmap</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">length</span><span class="p">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">void</span> <span class="o">*</span><span class="nf">mmap</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">length</span><span class="p">,</span> <span class="kt">int</span> <span class="n">prot</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">offset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">munmap</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">length</span><span class="p">);</span>
 </span></span></code></pre></div><blockquote>
 <p><code>mmap()</code> creates a new mapping in the virtual address space of the
 calling process.  The starting address for the new mapping is
@@ -170,22 +169,22 @@ method of creating a new mapping.</p>
 <p>其实就一个 c 文件~</p>
 <p>主逻辑</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// open 打开或者创建文件
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="n">O_RDWR</span> <span class="o">|</span> <span class="n">O_CREAT</span><span class="p">,</span> <span class="mo">0777</span><span class="p">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">fd</span> <span class="o">=</span> <span class="nf">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="n">O_RDWR</span> <span class="o">|</span> <span class="n">O_CREAT</span><span class="p">,</span> <span class="mo">0777</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 获取一页的内存大小
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">pageSize</span> <span class="o">=</span> <span class="n">getpagesize</span><span class="p">();</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">pageSize</span> <span class="o">=</span> <span class="nf">getpagesize</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 如果需要，改变文件大小到 pageSize 整数倍
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ftruncate</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">mmapSize</span><span class="p">)</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nf">ftruncate</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">mmapSize</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// mmap 映射
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">mmapPointer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="n">mmap</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">mmapSize</span><span class="p">,</span> <span class="n">PROT_READ</span> <span class="o">|</span> <span class="n">PROT_WRITE</span><span class="p">,</span> <span class="n">MAP_SHARED</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">mmapPointer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="nf">mmap</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">mmapSize</span><span class="p">,</span> <span class="n">PROT_READ</span> <span class="o">|</span> <span class="n">PROT_WRITE</span><span class="p">,</span> <span class="n">MAP_SHARED</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 获取真实的文件内容的长度到 offset
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">memcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">offset</span><span class="p">,</span> <span class="n">mmapPointer</span><span class="p">,</span> <span class="n">offsetSize</span><span class="p">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nf">memcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">offset</span><span class="p">,</span> <span class="n">mmapPointer</span><span class="p">,</span> <span class="n">offsetSize</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 写入数据到内存中(这里也包含扩容的过程)
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">memcpy</span><span class="p">(</span><span class="n">mmapPointer</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">offsetSize</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nf">memcpy</span><span class="p">(</span><span class="n">mmapPointer</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">offsetSize</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="nf">strlen</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 更新 offset
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">memcpy</span><span class="p">(</span><span class="n">mmapPointer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">offset</span><span class="p">,</span> <span class="n">offsetSize</span><span class="p">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nf">memcpy</span><span class="p">(</span><span class="n">mmapPointer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">offset</span><span class="p">,</span> <span class="n">offsetSize</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 释放资源
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">munmap</span><span class="p">(</span><span class="n">mmapPointer</span><span class="p">,</span> <span class="n">mmapSize</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nf">munmap</span><span class="p">(</span><span class="n">mmapPointer</span><span class="p">,</span> <span class="n">mmapSize</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
 </span></span></code></pre></div><p>首先我们打开一个文件获得文件描述符，然后通过 getpagesize 获得一个页的大小，然后使用 <code>ftruncate 改变文件大小</code>，之后通过 mmap 映射，mmapPointer 即是文件内容在内存的首地址。</p>
 <blockquote>
 <p>如果 mmap 设置的 size 比本身文件内容要大，会有什么效果？<br>
@@ -234,7 +233,7 @@ method of creating a new mapping.</p>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

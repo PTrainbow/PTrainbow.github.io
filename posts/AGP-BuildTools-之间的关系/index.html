@@ -8,13 +8,12 @@
         <title>AGP BuildTools 之间的关系 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="AGP BuildTools 之间的关系" />
 <meta property="og:description" content="​发现一个有趣的问题： 今天同事突然问我：“你看这个什么情况，我没使用 resGuard 相关的资源混淆的东西啊，打出来的包为什么资源被混淆了？” 因为他们在做 AGP7.0" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrainbow.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/android.png"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://PTrainbow.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/android.png" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-06-23T00:00:00+00:00" />
 <meta property="article:modified_time" content="2022-06-23T00:00:00+00:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://PTrainbow.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/android.png"/>
-<meta name="twitter:title" content="AGP BuildTools 之间的关系"/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://PTrainbow.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/android.png" /><meta name="twitter:title" content="AGP BuildTools 之间的关系"/>
 <meta name="twitter:description" content="​发现一个有趣的问题： 今天同事突然问我：“你看这个什么情况，我没使用 resGuard 相关的资源混淆的东西啊，打出来的包为什么资源被混淆了？” 因为他们在做 AGP7.0"/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/" /><link rel="prev" href="http://PTrainbow.github.io/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/" /><link rel="next" href="http://PTrainbow.github.io/posts/dex-%E5%92%8C-mmap/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
@@ -174,7 +173,7 @@
 </span></span><span class="line"><span class="cl">            <span class="n">creationConfig</span><span class="p">.</span><span class="n">taskContainer</span><span class="p">.</span><span class="n">packageAndroidTask</span> <span class="p">=</span> <span class="n">taskProvider</span>
 </span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">useOptimizedResources</span> <span class="p">=</span> <span class="p">!</span><span class="n">creationConfig</span><span class="p">.</span><span class="n">debuggable</span> <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">                    <span class="p">!</span><span class="n">creationConfig</span><span class="p">.</span><span class="n">variantType</span><span class="p">.</span><span class="n">isForTesting</span> <span class="o">&amp;&amp;</span>
-</span></span><span class="line"><span class="cl">                    <span class="n">creationConfig</span><span class="p">.</span><span class="n">services</span><span class="p">.</span><span class="n">projectOptions</span><span class="p">[</span><span class="n">BooleanOption</span><span class="p">.</span><span class="n">ENABLE_RESOURCE_OPTIMIZATIONS</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">creationConfig</span><span class="p">.</span><span class="n">services</span><span class="p">.</span><span class="n">projectOptions</span><span class="p">[</span><span class="nc">BooleanOption</span><span class="p">.</span><span class="n">ENABLE_RESOURCE_OPTIMIZATIONS</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">operationRequest</span> <span class="p">=</span> <span class="n">creationConfig</span><span class="p">.</span><span class="n">artifacts</span><span class="p">.</span><span class="n">use</span><span class="p">(</span><span class="n">taskProvider</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">                    <span class="p">.</span><span class="n">wiredWithDirectories</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">                            <span class="n">PackageAndroidArtifact</span><span class="o">::</span><span class="n">getResourceFiles</span><span class="p">,</span>
@@ -182,16 +181,16 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">            <span class="n">transformationRequest</span> <span class="p">=</span> <span class="k">when</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">                <span class="n">useOptimizedResources</span> <span class="o">-&gt;</span> <span class="n">operationRequest</span><span class="p">.</span><span class="n">toTransformMany</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">                        <span class="n">InternalArtifactType</span><span class="p">.</span><span class="n">OPTIMIZED_PROCESSED_RES</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                        <span class="n">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nc">InternalArtifactType</span><span class="p">.</span><span class="n">OPTIMIZED_PROCESSED_RES</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nc">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">                        <span class="n">outputDirectory</span><span class="p">.</span><span class="n">absolutePath</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">                <span class="n">useResourceShrinker</span> <span class="o">-&gt;</span> <span class="n">operationRequest</span><span class="p">.</span><span class="n">toTransformMany</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">                        <span class="n">InternalArtifactType</span><span class="p">.</span><span class="n">SHRUNK_PROCESSED_RES</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                        <span class="n">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nc">InternalArtifactType</span><span class="p">.</span><span class="n">SHRUNK_PROCESSED_RES</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nc">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">                        <span class="n">outputDirectory</span><span class="p">.</span><span class="n">absolutePath</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">                <span class="k">else</span> <span class="o">-&gt;</span> <span class="n">operationRequest</span><span class="p">.</span><span class="n">toTransformMany</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">                        <span class="n">InternalArtifactType</span><span class="p">.</span><span class="n">PROCESSED_RES</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">                        <span class="n">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nc">InternalArtifactType</span><span class="p">.</span><span class="n">PROCESSED_RES</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nc">ArtifactType</span><span class="p">.</span><span class="n">APK</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">                        <span class="n">outputDirectory</span><span class="p">.</span><span class="n">absolutePath</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="p">}</span>
 </span></span></code></pre></div><p>于是发现了 ENABLE_RESOURCE_OPTIMIZATIONS 开关的值，决定了 OPTIMIZED_PROCESSED_RES 的值，那么继续搜索 OPTIMIZED_PROCESSED_RES</p>
@@ -307,7 +306,7 @@ Change-Id: I9cacafe1d17800d673566b2d61b0b88f3fb8d60c
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

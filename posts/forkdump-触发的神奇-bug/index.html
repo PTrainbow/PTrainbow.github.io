@@ -8,13 +8,12 @@
         <title>forkdump 触发的神奇 bug - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="forkdump 触发的神奇 bug" />
 <meta property="og:description" content="​ 最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起 最近" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/fork.jpg"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/fork.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-01-04T00:00:00+00:00" />
 <meta property="article:modified_time" content="2023-01-04T00:00:00+00:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/fork.jpg"/>
-<meta name="twitter:title" content="forkdump 触发的神奇 bug"/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/fork.jpg" /><meta name="twitter:title" content="forkdump 触发的神奇 bug"/>
 <meta name="twitter:description" content="​ 最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起 最近"/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/" /><link rel="prev" href="http://PTrainbow.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/" /><link rel="next" href="http://PTrainbow.github.io/posts/JNI-Pending-Exception/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
@@ -139,7 +138,7 @@
 </span></span><span class="line"><span class="cl">    <span class="c1">// fork 进程
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">int</span> <span class="n">pid</span> <span class="p">=</span> <span class="n">suspendAndFork</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// 随便打印一行 log，触发一个 stringbuilder 方法
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Log</span><span class="p">.</span><span class="n">i</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s2">&#34;test!&#34;</span> <span class="p">+</span> <span class="n">dumpRes</span><span class="p">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nc">Log</span><span class="p">.</span><span class="n">i</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s2">&#34;test!&#34;</span> <span class="p">+</span> <span class="n">dumpRes</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">pid</span> <span class="o">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// dump 
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">dumpHprofData</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
@@ -149,7 +148,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">dumpRes</span> <span class="p">=</span> <span class="n">resumeAndWait</span><span class="p">(</span><span class="n">pid</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Log</span><span class="p">.</span><span class="n">e</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s2">&#34;dump failed caused by &#34;</span> <span class="p">+</span> <span class="n">e</span><span class="p">.</span><span class="n">toString</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Log</span><span class="p">.</span><span class="n">e</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s2">&#34;dump failed caused by &#34;</span> <span class="p">+</span> <span class="n">e</span><span class="p">.</span><span class="n">toString</span><span class="p">());</span>
 </span></span><span class="line"><span class="cl">    <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>上述代码是 java 层的部分代码</p>
@@ -194,7 +193,7 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

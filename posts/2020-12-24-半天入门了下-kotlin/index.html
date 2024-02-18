@@ -8,14 +8,12 @@
         <title>半天入门了下 kotlin - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="半天入门了下 kotlin" />
 <meta property="og:description" content="最近好多人都在用 kotlin 了，我真实接触并且使用 kotlin 的时候是 2019 年。那个时候也依葫芦画瓢写了一篇《lateinit 和 by lazy 》的文章 但是，当时写代码还是停留" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrainbow.github.io/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/" /><meta property="og:image" content="http://PTrainbow.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://PTrainbow.github.io/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/" /><meta property="og:image" content="http://PTrainbow.github.io/logo.png" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-12-24T00:00:00+00:00" />
 <meta property="article:modified_time" content="2020-12-24T00:00:00+00:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://PTrainbow.github.io/logo.png"/>
-
-<meta name="twitter:title" content="半天入门了下 kotlin"/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://PTrainbow.github.io/logo.png" /><meta name="twitter:title" content="半天入门了下 kotlin"/>
 <meta name="twitter:description" content="最近好多人都在用 kotlin 了，我真实接触并且使用 kotlin 的时候是 2019 年。那个时候也依葫芦画瓢写了一篇《lateinit 和 by lazy 》的文章 但是，当时写代码还是停留"/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/" /><link rel="prev" href="http://PTrainbow.github.io/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" /><link rel="next" href="http://PTrainbow.github.io/posts/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
@@ -193,13 +191,13 @@
 </span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="py">mPlcEntryDataAdapter</span><span class="p">:</span> <span class="n">PlcEntryDataAdapter</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">getLayoutView</span><span class="p">()</span> <span class="o">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mStyleView</span> <span class="p">=</span> <span class="n">FlexStyleUtils</span><span class="p">.</span><span class="n">addStyleViewToParent</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mStyleView</span> <span class="p">=</span> <span class="nc">FlexStyleUtils</span><span class="p">.</span><span class="n">addStyleViewToParent</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">        <span class="n">rootView</span> <span class="k">as</span> <span class="n">RelativeLayout</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">        <span class="n">getLayoutView</span><span class="p">()</span><span class="o">!!</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">        <span class="n">getContainerId</span><span class="p">())</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">mPlcEntryDataAdapter</span><span class="o">?.</span><span class="n">actionType</span> <span class="o">==</span> <span class="n">PlcEntryStyleInfo</span><span class="p">.</span><span class="n">ActionType</span><span class="p">.</span><span class="n">APP_DOWNLOAD</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">mPlcEntryDataAdapter</span><span class="o">?.</span><span class="n">actionType</span> <span class="o">==</span> <span class="nc">PlcEntryStyleInfo</span><span class="p">.</span><span class="nc">ActionType</span><span class="p">.</span><span class="n">APP_DOWNLOAD</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">mDownloadActionObserver</span><span class="p">.</span><span class="n">onNext</span><span class="p">(</span><span class="k">false</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>你会发现有很多的 <code>？？？？？</code>，居然还有 <code>！！！！</code>。<br>
@@ -211,12 +209,12 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">var</span> <span class="py">config</span><span class="p">:</span> <span class="n">AlbumDetectionConfig</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
 </span></span><span class="line"><span class="cl"><span class="k">override</span> <span class="k">fun</span> <span class="nf">onStartCommand</span><span class="p">(</span><span class="n">intent</span><span class="p">:</span> <span class="n">Intent</span><span class="p">?,</span> <span class="n">flags</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">startId</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">Int</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">config</span> <span class="p">=</span> <span class="n">intent</span><span class="o">?.</span><span class="n">let</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">IntentUtils</span><span class="p">.</span><span class="n">getSerializableExtra</span><span class="p">&lt;</span><span class="n">AlbumDetectionConfig</span><span class="p">&gt;(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">IntentUtils</span><span class="p">.</span><span class="n">getSerializableExtra</span><span class="p">&lt;</span><span class="n">AlbumDetectionConfig</span><span class="p">&gt;(</span>
 </span></span><span class="line"><span class="cl">            <span class="k">it</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">            <span class="n">AlbumDetectInitModuleALBUM_DETECTION_CONFIG_KEY</span>
 </span></span><span class="line"><span class="cl">            <span class="p">)}</span><span class="o">?:</span>
 </span></span><span class="line"><span class="cl">            <span class="n">emitter</span><span class="p">.</span><span class="n">onError</span><span class="p">(</span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s2">&#34;AlbumDetectionConfig must not be null!!&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">    <span class="n">VideoInfo</span><span class="p">.</span><span class="n">buildVideoInfo</span><span class="p">(</span><span class="n">config</span><span class="o">!!</span><span class="p">,</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">VideoInfo</span><span class="p">.</span><span class="n">buildVideoInfo</span><span class="p">(</span><span class="n">config</span><span class="o">!!</span><span class="p">,</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>这里因为 intent 可空，所以 config 可空，又因为 buildVideoInfo 接收非空类型，所以我们只能用 <code>!!</code>，或者 lateinit，但是 lateinit 只能用于声明全局变量，很多时候我们只需要一个局部变量，所以很多时候只能使用 var 和 <code>!!</code></p>
 <p>在上面的代码里，我们又会发现了两个诡异的东西 <code>let</code> 和 <code>?:</code></p>
@@ -266,15 +264,15 @@ android 中也很常见 object: interface {}<br>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">A</span><span class="p">.</span><span class="n">a</span> <span class="c1">// ok
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">A</span><span class="p">.</span><span class="n">a</span><span class="p">()</span> <span class="c1">// ok
+</span></span><span class="line"><span class="cl">    <span class="nc">A</span><span class="p">.</span><span class="n">a</span> <span class="c1">// ok
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nc">A</span><span class="p">.</span><span class="n">a</span><span class="p">()</span> <span class="c1">// ok
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></div><p>这就跟 java 中的静态方法调用写法一致，但是实际 A 是个单例类，当你从 java 代码中调用时会明显发现不对劲。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="n">A</span><span class="o">.</span><span class="na">a</span><span class="o">();</span> <span class="c1">// error
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">A</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">.</span><span class="na">a</span><span class="o">();</span> <span class="c1">// ok
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
-</span></span></code></pre></div><p>这里就很明显了吧，其实就是一个单例类而已。而 companion object 同理，在 java 中调用时要用 A.Companion 来调用。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">A</span><span class="p">.</span><span class="na">a</span><span class="p">();</span><span class="w"> </span><span class="c1">// error</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">A</span><span class="p">.</span><span class="na">INSTANCE</span><span class="p">.</span><span class="na">a</span><span class="p">();</span><span class="w"> </span><span class="c1">// ok</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>这里就很明显了吧，其实就是一个单例类而已。而 companion object 同理，在 java 中调用时要用 A.Companion 来调用。</p>
 <p>这里就有了另一个注解 @Jvmtatic，如果你加上了这个注解，那么编译器会在外部帮你生成一个真实的 java static 方法或者成员变量，那么你在 java 代码中调用的时候，就不需要 A.Companion 了，可以直接 A.a()！</p>
 <h3 id="数据类和密封类">数据类和密封类</h3>
 <p>数据类就是 <code>data</code> 关键字来声明，只是帮我们生成了一些常用的方法仅此而已。<br>
@@ -340,7 +338,7 @@ android 中也很常见 object: interface {}<br>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

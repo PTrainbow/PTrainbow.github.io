@@ -8,13 +8,12 @@
         <title>好玩的 Kotlin - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="好玩的 Kotlin" />
 <meta property="og:description" content="​ 前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C&#43;&#43; 被我暂时搁置了 最近本来是打算捡起来 C&#43;&#43; 的(也" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrainbow.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://PTrainbow.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-05-12T00:00:00+00:00" />
 <meta property="article:modified_time" content="2021-05-12T00:00:00+00:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://PTrainbow.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg"/>
-<meta name="twitter:title" content="好玩的 Kotlin"/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://PTrainbow.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg" /><meta name="twitter:title" content="好玩的 Kotlin"/>
 <meta name="twitter:description" content="​ 前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C&#43;&#43; 被我暂时搁置了 最近本来是打算捡起来 C&#43;&#43; 的(也"/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/" /><link rel="prev" href="http://PTrainbow.github.io/posts/%E6%96%AD%E6%9B%B4%E4%BA%86/" /><link rel="next" href="http://PTrainbow.github.io/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
@@ -182,7 +181,7 @@
 </span></span><span class="line"><span class="cl"><span class="err">​</span>
 </span></span><span class="line"><span class="cl">      <span class="n">title</span><span class="p">(</span><span class="s2">&#34;设备重置&#34;</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">action</span><span class="p">(</span><span class="s2">&#34;设置新机（真机体验） &gt;&gt;&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">context</span><span class="p">.</span><span class="n">startTestNewDeviceActivity</span><span class="p">()</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="n">action</span><span class="p">(</span><span class="s2">&#34;清除应用数据&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">TestNewDeviceUtils</span><span class="p">.</span><span class="n">showClearDataDialog</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">action</span><span class="p">(</span><span class="s2">&#34;清除应用数据&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="nc">TestNewDeviceUtils</span><span class="p">.</span><span class="n">showClearDataDialog</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">        <span class="n">action</span><span class="p">(</span><span class="s2">&#34;手机垃圾清理&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">context</span><span class="p">.</span><span class="n">startGrowthCleanerActivity</span><span class="p">()</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">      <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -223,8 +222,8 @@ eg:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="n">row</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl"><span class="err">​</span>
 </span></span><span class="line"><span class="cl">  <span class="n">layout</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">      <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">MATCH_PARENT</span><span class="p">,</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">LinearLayout</span><span class="p">.</span><span class="nc">LayoutParams</span><span class="p">.</span><span class="n">MATCH_PARENT</span><span class="p">,</span> <span class="nc">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span>
 </span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="n">WRAP_CONTENT</span>
 </span></span><span class="line"><span class="cl">    <span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
@@ -232,7 +231,7 @@ eg:</p>
 </span></span><span class="line"><span class="cl">  <span class="n">text</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">text</span> <span class="p">=</span> <span class="s2">&#34;hello world 1&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">textSize</span> <span class="p">=</span> <span class="m">16f</span>
-</span></span><span class="line"><span class="cl">    <span class="n">gravity</span> <span class="p">=</span> <span class="n">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gravity</span> <span class="p">=</span> <span class="nc">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>不知道最顶层的 context 怎么处理，所以我干脆传了个 this(Activity) 进去。</p>
@@ -245,13 +244,13 @@ eg:</p>
 </span></span><span class="line"><span class="cl"><span class="err">​</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 其实就是个 LinearLayout
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">open</span> <span class="k">class</span> <span class="nc">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">LinearLayout</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">fun</span> <span class="nf">layout</span><span class="p">(</span><span class="n">function</span> <span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fun</span> <span class="nf">layout</span><span class="p">(</span><span class="n">function</span> <span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="nc">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">layoutParams</span> <span class="p">=</span> <span class="n">function</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="err">​</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// row 函数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">fun</span> <span class="nf">row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">Row</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">):</span><span class="n">Row</span> <span class="p">{</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">fun</span> <span class="nf">row</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nc">Row</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">):</span><span class="n">Row</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="py">row</span> <span class="p">=</span> <span class="n">Row</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="n">row</span><span class="p">.</span><span class="n">body</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">row</span>
@@ -269,7 +268,7 @@ eg:</p>
 </span></span><span class="line"><span class="cl"><span class="c1">// 加一个通用的 text 方法
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">open</span> <span class="k">class</span> <span class="nc">ViewGroupDSL</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">LinearLayout</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="c1">// 增加一个 text 方法
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">fun</span> <span class="nf">text</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Text</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">):</span> <span class="n">Text</span> <span class="p">{</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">fun</span> <span class="nf">text</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="nc">Text</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">):</span> <span class="n">Text</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">textView</span> <span class="p">=</span> <span class="n">Text</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">textView</span><span class="p">.</span><span class="n">body</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="n">addView</span><span class="p">(</span><span class="n">textView</span><span class="p">)</span>
@@ -292,7 +291,7 @@ eg:</p>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl">  
 </span></span><span class="line"><span class="cl">  <span class="c1">// 加一个 layout 方法
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">fun</span> <span class="nf">layout</span><span class="p">(</span><span class="n">function</span> <span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">)</span> <span class="p">{</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">fun</span> <span class="nf">layout</span><span class="p">(</span><span class="n">function</span> <span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="nc">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">layoutParams</span> <span class="p">=</span> <span class="n">function</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -300,7 +299,7 @@ eg:</p>
 </span></span><span class="line"><span class="cl"><span class="n">row</span><span class="p">(</span><span class="n">params1</span><span class="p">,</span> <span class="n">params2</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="c1">// row 本身的参数，感觉这么传参数很挫
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">layout</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span><span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">MATCH_PARENT</span><span class="p">,</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span><span class="nc">LinearLayout</span><span class="p">.</span><span class="nc">LayoutParams</span><span class="p">.</span><span class="n">MATCH_PARENT</span><span class="p">,</span> <span class="nc">LinearLayout</span><span class="p">.</span><span class="nc">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="err">​</span>
 </span></span><span class="line"><span class="cl">  <span class="c1">// text 方法
@@ -308,21 +307,21 @@ eg:</p>
 </span></span><span class="line"><span class="cl">    <span class="c1">// this 就是 TextView
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">text</span> <span class="p">=</span> <span class="s2">&#34;hello world 1&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">textSize</span> <span class="p">=</span> <span class="m">20f</span>
-</span></span><span class="line"><span class="cl">    <span class="n">gravity</span> <span class="p">=</span> <span class="n">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gravity</span> <span class="p">=</span> <span class="nc">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
 </span></span><span class="line"><span class="cl"><span class="err">​</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// text 的 layout params，感觉很挫
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">layout</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="py">layoutParams</span> <span class="p">=</span> <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">        <span class="n">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span><span class="p">,</span> <span class="n">LinearLayout</span>
-</span></span><span class="line"><span class="cl">          <span class="p">.</span><span class="n">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span>
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="py">layoutParams</span> <span class="p">=</span> <span class="nc">LinearLayout</span><span class="p">.</span><span class="n">LayoutParams</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">LinearLayout</span><span class="p">.</span><span class="nc">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span><span class="p">,</span> <span class="n">LinearLayout</span>
+</span></span><span class="line"><span class="cl">          <span class="p">.</span><span class="nc">LayoutParams</span><span class="p">.</span><span class="n">WRAP_CONTENT</span>
 </span></span><span class="line"><span class="cl">      <span class="p">)</span>
-</span></span><span class="line"><span class="cl">      <span class="n">layoutParams</span><span class="p">.</span><span class="n">gravity</span> <span class="p">=</span> <span class="n">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
+</span></span><span class="line"><span class="cl">      <span class="n">layoutParams</span><span class="p">.</span><span class="n">gravity</span> <span class="p">=</span> <span class="nc">Gravity</span><span class="p">.</span><span class="n">CENTER</span>
 </span></span><span class="line"><span class="cl">      <span class="n">layoutParams</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="err">​</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// text 的 click 方法
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">click</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="n">Toast</span><span class="p">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&#34;hello world&#34;</span><span class="p">,</span> <span class="n">Toast</span><span class="p">.</span><span class="n">LENGTH_SHORT</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Toast</span><span class="p">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&#34;hello world&#34;</span><span class="p">,</span> <span class="nc">Toast</span><span class="p">.</span><span class="n">LENGTH_SHORT</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -365,7 +364,7 @@ eg:</p>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

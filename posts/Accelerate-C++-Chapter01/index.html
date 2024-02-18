@@ -8,13 +8,12 @@
         <title>Accelerate C&#43;&#43; Chapter01 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="Accelerate C&#43;&#43; Chapter01" />
 <meta property="og:description" content="Exercises Exercise 1-1 Are the following definitions valid? Why or why not? const std::string hello = &#34;Hello&#34;; const std::string message = hello &#43; &#34;, world&#34; &#43; &#34;!&#34;; 编译正确。std::string 重写了 &#43; 操作符 Exercise 1-2 Are the following definitions valid? Why or why not? const std::string exclam = &#34;!&#34;; const std::string message =" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrainbow.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://PTrainbow.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-06-30T00:00:00+00:00" />
 <meta property="article:modified_time" content="2022-06-30T00:00:00+00:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://PTrainbow.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png"/>
-<meta name="twitter:title" content="Accelerate C&#43;&#43; Chapter01"/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://PTrainbow.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png" /><meta name="twitter:title" content="Accelerate C&#43;&#43; Chapter01"/>
 <meta name="twitter:description" content="Exercises Exercise 1-1 Are the following definitions valid? Why or why not? const std::string hello = &#34;Hello&#34;; const std::string message = hello &#43; &#34;, world&#34; &#43; &#34;!&#34;; 编译正确。std::string 重写了 &#43; 操作符 Exercise 1-2 Are the following definitions valid? Why or why not? const std::string exclam = &#34;!&#34;; const std::string message ="/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/Accelerate-C&#43;&#43;-Chapter01/" /><link rel="prev" href="http://PTrainbow.github.io/posts/%E7%AC%AC%E4%BA%94%E5%B9%B4/" /><link rel="next" href="http://PTrainbow.github.io/posts/pthread-%E7%9B%91%E5%90%AC/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
@@ -192,7 +191,7 @@
 <blockquote>
 <p>Is this program valid? If so, what does it do? If not, say why not, and rewrite it to be valid.</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt; </span><span class="cp">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"> 
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
@@ -211,7 +210,7 @@
 <blockquote>
 <p>What does the following program do if, when it asks you for input, you type two names (for example, Samuel Beckett)? Predict the behavior before running the program, then try it.</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt; </span><span class="cp">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"> 
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
@@ -292,7 +291,7 @@ const 优先作用于左边，左边没有信息，才会作用于右边</p>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

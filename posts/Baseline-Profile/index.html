@@ -8,13 +8,12 @@
         <title>Baseline Profile - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="Baseline Profile" />
 <meta property="og:description" content="​ Baseline Profile Baseline Profile 可以用于 Andorid 8.0 以上系统的性能优化 原理简单来说还是 dex2oat 那一套东西，但是我们可以自己收集热点代码，生成对应的二进制文件，加速执行 想要使用，" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrainbow.github.io/posts/Baseline-Profile/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/Baseline-Profile/baselineprofile_workflow.png"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://PTrainbow.github.io/posts/Baseline-Profile/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/Baseline-Profile/baselineprofile_workflow.png" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-10-14T00:00:00+00:00" />
 <meta property="article:modified_time" content="2022-10-14T00:00:00+00:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://PTrainbow.github.io/posts/Baseline-Profile/baselineprofile_workflow.png"/>
-<meta name="twitter:title" content="Baseline Profile"/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://PTrainbow.github.io/posts/Baseline-Profile/baselineprofile_workflow.png" /><meta name="twitter:title" content="Baseline Profile"/>
 <meta name="twitter:description" content="​ Baseline Profile Baseline Profile 可以用于 Andorid 8.0 以上系统的性能优化 原理简单来说还是 dex2oat 那一套东西，但是我们可以自己收集热点代码，生成对应的二进制文件，加速执行 想要使用，"/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/Baseline-Profile/" /><link rel="prev" href="http://PTrainbow.github.io/posts/macOS-%E5%A4%A7%E5%B0%8F%E5%86%99%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%97%B6-crash/" /><link rel="next" href="http://PTrainbow.github.io/posts/jvmti/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
@@ -161,7 +160,7 @@
 </span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">parameters</span><span class="p">.</span><span class="n">obfuscationMappingFile</span><span class="p">.</span><span class="n">isPresent</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">                <span class="n">ObfuscationMap</span><span class="p">(</span><span class="n">parameters</span><span class="p">.</span><span class="n">obfuscationMappingFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">ObfuscationMap</span><span class="p">.</span><span class="n">Empty</span>
+</span></span><span class="line"><span class="cl">                <span class="nc">ObfuscationMap</span><span class="p">.</span><span class="n">Empty</span>
 </span></span><span class="line"><span class="cl">            <span class="p">},</span>
 </span></span><span class="line"><span class="cl">            <span class="c1">//need to rename dex files with sequential numbers the same way [DexIncrementalRenameManager] does
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">parameters</span><span class="p">.</span><span class="n">dexFolders</span><span class="p">.</span><span class="n">asFileTree</span><span class="p">.</span><span class="n">files</span><span class="p">.</span><span class="n">sortedWith</span><span class="p">(</span><span class="n">DexFileComparator</span><span class="p">()).</span><span class="n">map</span> <span class="p">{</span>
@@ -170,12 +169,12 @@
 </span></span><span class="line"><span class="cl">    <span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// the P compiler is always used, the server side will transcode if necessary.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">parameters</span><span class="p">.</span><span class="n">binaryArtProfileOutputFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">.</span><span class="n">outputStream</span><span class="p">().</span><span class="n">use</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">artProfile</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="k">it</span><span class="p">,</span> <span class="n">ArtProfileSerializer</span><span class="p">.</span><span class="n">V0_1_0_P</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">artProfile</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="k">it</span><span class="p">,</span> <span class="nc">ArtProfileSerializer</span><span class="p">.</span><span class="n">V0_1_0_P</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1">// create the metadata for N and above.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">parameters</span><span class="p">.</span><span class="n">binaryArtProfileMetadataOutputFile</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">asFile</span><span class="p">.</span><span class="n">outputStream</span><span class="p">().</span><span class="n">use</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">artProfile</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="k">it</span><span class="p">,</span> <span class="n">ArtProfileSerializer</span><span class="p">.</span><span class="n">METADATA_FOR_N</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">artProfile</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="k">it</span><span class="p">,</span> <span class="nc">ArtProfileSerializer</span><span class="p">.</span><span class="n">METADATA_FOR_N</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>可以看到其中使用了 obfuscationMap，进一步查看 ArtProfile 的生成，会发现使用了 deobfuscate 方法，源码如下</p>
@@ -255,7 +254,7 @@
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

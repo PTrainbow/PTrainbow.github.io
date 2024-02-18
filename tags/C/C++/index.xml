@@ -19,10 +19,10 @@
     <description><![CDATA[前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser + interpreter 吧)的代码，学到了一些计算机基础的东西。 比如，我写代码这么久，甚至不知道 double 的内存结构]]></description>
 </item><item>
     <title>Elk JSEngine 学习</title>
-    <link>http://PTrainbow.github.io/posts/Elk-JSEngine-%E5%AD%A6%E4%B9%A0/</link>
+    <link>http://PTrainbow.github.io/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/</link>
     <pubDate>Sat, 19 Aug 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/Elk-JSEngine-%E5%AD%A6%E4%B9%A0/</guid>
+    <guid>http://PTrainbow.github.io/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/</guid>
     <description><![CDATA[一直想学习一下如何写一个 VM，但是苦于各种成熟 VM 代码量庞大，阅读困难，无从学起 即使 lua 的古老版本的代码，对于我这种没有任何编译背景和语言设计背]]></description>
 </item><item>
     <title>Accelerate C&#43;&#43; Chapter01</title>

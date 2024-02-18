@@ -8,13 +8,12 @@
         <title>Handler Looper MQ 的几个问题 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="Handler Looper MQ 的几个问题" />
 <meta property="og:description" content="前言 Handler、Looper、MessageQueue 是老生常谈的话题了，你可能会觉得没什么好讲的啊，网上文章也一堆。 这里我有几个问题问" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrainbow.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/epoll.png"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://PTrainbow.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/epoll.png" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-03-04T00:00:00+00:00" />
 <meta property="article:modified_time" content="2021-03-04T00:00:00+00:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://PTrainbow.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/epoll.png"/>
-<meta name="twitter:title" content="Handler Looper MQ 的几个问题"/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://PTrainbow.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/epoll.png" /><meta name="twitter:title" content="Handler Looper MQ 的几个问题"/>
 <meta name="twitter:description" content="前言 Handler、Looper、MessageQueue 是老生常谈的话题了，你可能会觉得没什么好讲的啊，网上文章也一堆。 这里我有几个问题问"/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/" /><link rel="prev" href="http://PTrainbow.github.io/posts/MMKV-%E5%92%8C-mmap/" /><link rel="next" href="http://PTrainbow.github.io/posts/ReferenceQueue-and-GC/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
@@ -167,34 +166,34 @@
 <p>Handler 有众多传递事件的方法</p>
 <p>诸如： sendMessage()、post() 等等</p>
 <p>不过这些方法最终都汇聚于一个方法 enqueueMessage()</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">enqueueMessage</span><span class="o">(</span><span class="n">MessageQueue</span> <span class="n">queue</span><span class="o">,</span> <span class="n">Message</span> <span class="n">msg</span><span class="o">,</span> <span class="kt">long</span> <span class="n">uptimeMillis</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// this 就是 Handler 对象
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">msg</span><span class="o">.</span><span class="na">target</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">mAsynchronous</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">msg</span><span class="o">.</span><span class="na">setAsynchronous</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">queue</span><span class="o">.</span><span class="na">enqueueMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">,</span> <span class="n">uptimeMillis</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>Handler 的构造函数也有多个</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"> <span class="kd">public</span> <span class="nf">Handler</span><span class="o">(</span><span class="n">Looper</span> <span class="n">looper</span><span class="o">,</span> <span class="n">Callback</span> <span class="n">callback</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">async</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mLooper</span> <span class="o">=</span> <span class="n">looper</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mQueue</span> <span class="o">=</span> <span class="n">looper</span><span class="o">.</span><span class="na">mQueue</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mCallback</span> <span class="o">=</span> <span class="n">callback</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mAsynchronous</span> <span class="o">=</span> <span class="n">async</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="nf">Handler</span><span class="o">(</span><span class="n">Callback</span> <span class="n">callback</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">async</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 省略
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">mLooper</span> <span class="o">=</span> <span class="n">Looper</span><span class="o">.</span><span class="na">myLooper</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">mLooper</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span>
-</span></span><span class="line"><span class="cl">            <span class="s">&#34;Can&#39;t create handler inside thread &#34;</span> <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">                    <span class="o">+</span> <span class="s">&#34; that has not called Looper.prepare()&#34;</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mQueue</span> <span class="o">=</span> <span class="n">mLooper</span><span class="o">.</span><span class="na">mQueue</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mCallback</span> <span class="o">=</span> <span class="n">callback</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mAsynchronous</span> <span class="o">=</span> <span class="n">async</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>通过以上可知，Handler 初始化要么当前线程已经存在 Looper，要么自己绑定一个 Looper。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">enqueueMessage</span><span class="p">(</span><span class="n">MessageQueue</span><span class="w"> </span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="n">Message</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">uptimeMillis</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// this 就是 Handler 对象</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">msg</span><span class="p">.</span><span class="na">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mAsynchronous</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">msg</span><span class="p">.</span><span class="na">setAsynchronous</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">enqueueMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">uptimeMillis</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>Handler 的构造函数也有多个</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="nf">Handler</span><span class="p">(</span><span class="n">Looper</span><span class="w"> </span><span class="n">looper</span><span class="p">,</span><span class="w"> </span><span class="n">Callback</span><span class="w"> </span><span class="n">callback</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">async</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">mLooper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">looper</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">mQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">looper</span><span class="p">.</span><span class="na">mQueue</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">mCallback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">callback</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">mAsynchronous</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">async</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">public</span><span class="w"> </span><span class="nf">Handler</span><span class="p">(</span><span class="n">Callback</span><span class="w"> </span><span class="n">callback</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">async</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 省略</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">mLooper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Looper</span><span class="p">.</span><span class="na">myLooper</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mLooper</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="s">&#34;Can&#39;t create handler inside thread &#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="o">+</span><span class="w"> </span><span class="s">&#34; that has not called Looper.prepare()&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">mQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mLooper</span><span class="p">.</span><span class="na">mQueue</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">mCallback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">callback</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">mAsynchronous</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">async</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>通过以上可知，Handler 初始化要么当前线程已经存在 Looper，要么自己绑定一个 Looper。</p>
 <p>主线程的 Looper 在 AcitivityThread.main 方法(App 进程创建的时候)已经通过 Looper.prepareMainLooper() 创建完成了。</p>
 <p>那么，当然是可以在主线程创建多个 Handler 绑定到同一个 Looper(MQ 与 Looper 相对应)的，这些 Handler.enqueueMessage() 方法均是往同一个 Looper 所对应的同一个 MQ 里发送消息。</p>
 <p>但是可以看到 enqueueMessage() 时，每一个 Message 对象的 target 属性都被设置为了发送此消息的 Handler(见上方源码)，所以谁发的 Message 谁自己处理，这当然也是合情合理的。</p>
@@ -205,60 +204,60 @@
 <h3 id="question-2">Question 2</h3>
 <p>Looper.loop() 众所周知是一个死循环，但是细看代码你会发现一些问题</p>
 <p>loop() 方法部分源码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Message</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="na">next</span><span class="o">();</span> <span class="c1">// might block
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">msg</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// No message indicates that the message queue is quitting.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 省略
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
-</span></span></code></pre></div><p>省略了很多代码，只看这个 queue.next() 方法，发现只要 msg == null 就 return 了，不就退出了？但是不会出现这种情况，后面说原因。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">for</span><span class="w"> </span><span class="p">(;;)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Message</span><span class="w"> </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">next</span><span class="p">();</span><span class="w"> </span><span class="c1">// might block</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">msg</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// No message indicates that the message queue is quitting.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 省略</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>省略了很多代码，只看这个 queue.next() 方法，发现只要 msg == null 就 return 了，不就退出了？但是不会出现这种情况，后面说原因。</p>
 <h4 id="looperquit">Looper.quit()</h4>
 <p>先看看 quit() 方法，其实它调用的是 MQ.quit() 方法，可以传一个 safe 参数判断是否管理剩余的消息。具体的代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">quit</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">safe</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(!</span><span class="n">mQuitAllowed</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span><span class="s">&#34;Main thread not allowed to quit.&#34;</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">mQuitting</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">        <span class="o">}</span>
-</span></span><span class="line"><span class="cl">        <span class="n">mQuitting</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">safe</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">removeAllFutureMessagesLocked</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">removeAllMessagesLocked</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">        <span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="c1">// We can assume mPtr != 0 because mQuitting was previously false.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">nativeWake</span><span class="o">(</span><span class="n">mPtr</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>通过源码会发现 mQuitAllowed 这个值，如果是 false, 就是不让 Looper 退出直接抛出异常，且这个参数是 Looper 初始化时传入的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">void</span><span class="w"> </span><span class="nf">quit</span><span class="p">(</span><span class="kt">boolean</span><span class="w"> </span><span class="n">safe</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">mQuitAllowed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalStateException</span><span class="p">(</span><span class="s">&#34;Main thread not allowed to quit.&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mQuitting</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">mQuitting</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">safe</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">removeAllFutureMessagesLocked</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">removeAllMessagesLocked</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// We can assume mPtr != 0 because mQuitting was previously false.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">nativeWake</span><span class="p">(</span><span class="n">mPtr</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>通过源码会发现 mQuitAllowed 这个值，如果是 false, 就是不让 Looper 退出直接抛出异常，且这个参数是 Looper 初始化时传入的。</p>
 <p>所以，其实即使我们想要 <code>主动</code> 调用 quit() 方法让 Looper 退出，也要看创建 Looper 时的 <code>mQuitAllowed</code> 参数。MainLooper 此处就是 false，所以没法调 quit 方法。</p>
 <h4 id="queuenext-为什么不会是-null">queue.next() 为什么不会是 null</h4>
 <p>先看代码：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Message</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">final</span> <span class="kt">long</span> <span class="n">ptr</span> <span class="o">=</span> <span class="n">mPtr</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">ptr</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">pendingIdleHandlerCount</span> <span class="o">=</span> <span class="o">-</span><span class="n">1</span><span class="o">;</span> <span class="c1">// -1 only during first iteration
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">nextPollTimeoutMillis</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">nextPollTimeoutMillis</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">Binder</span><span class="o">.</span><span class="na">flushPendingCommands</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">        <span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="n">nativePollOnce</span><span class="o">(</span><span class="n">ptr</span><span class="o">,</span> <span class="n">nextPollTimeoutMillis</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 省略
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
-</span></span></code></pre></div><p>mPtr 如果为 0 自然返回 null，但是正常情况下这个不可能的，因为 mPtr 是 MQ 初始化时调用的 nativeInit 返回的一个 NativeMQ 指针。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Message</span><span class="w"> </span><span class="nf">next</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mPtr</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ptr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pendingIdleHandlerCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// -1 only during first iteration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">nextPollTimeoutMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">0</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(;;)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nextPollTimeoutMillis</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">Binder</span><span class="p">.</span><span class="na">flushPendingCommands</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">nativePollOnce</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">nextPollTimeoutMillis</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 省略</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>mPtr 如果为 0 自然返回 null，但是正常情况下这个不可能的，因为 mPtr 是 MQ 初始化时调用的 nativeInit 返回的一个 NativeMQ 指针。</p>
 <p>后面的代码均包含在了 for 死循环中，且只会 return 实体 message，而 nativePollOnce 最终会调用到 epoll_wait() 而使得线程被挂起休眠，具体查看问题3。</p>
 <p>所以除非有什么系统故障，否则 Looper 要么因为取不到消息而休眠，要么就返回一个非空消息。</p>
 <blockquote>
@@ -406,7 +405,7 @@ pollOnce() 不会一直跳不出，只要有事件到来，都能跳出死循环
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
