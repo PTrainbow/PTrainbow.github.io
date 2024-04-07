@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 01 Apr 2024 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 07 Apr 2024 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrainbow.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>成都之旅</title>
+    <link>http://PTrainbow.github.io/posts/%E6%88%90%E9%83%BD%E4%B9%8B%E6%97%85/</link>
+    <pubDate>Sun, 07 Apr 2024 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/%E6%88%90%E9%83%BD%E4%B9%8B%E6%97%85/</guid>
+    <description><![CDATA[现在是 2024.4.8 3:46，我还是久久不能入睡 4.7 从成都回来以后，整个人都不太想工作，心心念念的都是成都的美食和夜市~~ 当然，也见到了剑网三的小伙伴，这]]></description>
+</item><item>
     <title>LearnJVM 重启</title>
     <link>http://PTrainbow.github.io/posts/LearnJVM-%E9%87%8D%E5%90%AF/</link>
     <pubDate>Mon, 01 Apr 2024 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/GC/JIT-%E6%8A%91%E5%88%B6/</guid>
     <description><![CDATA[概述 所谓 Android GC/JIT 抑制，即是将 Android GC(部分)/JIT Task 处理任务的过程(Run 方法) hook，强行 sleep 一段时间。因为 JIT 和 GC 目前均为单线程执行，所以没有]]></description>
-</item><item>
-    <title>再再再看 startActivity 启动流程</title>
-    <link>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link>
-    <pubDate>Fri, 19 May 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
-    <description><![CDATA[前言 最近遇到了一个有意思的问题，为了让首页更快的展示出来，将首页的请求提前到了 Application onCreate 阶段。但是带来了一个问题，请求的频次大大增加了，且对于后端]]></description>
 </item></channel>
 </rss>
