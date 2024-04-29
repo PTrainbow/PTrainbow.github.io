@@ -3,7 +3,14 @@
         <title>Java - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Java/</link>
         <description>Java - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 01 Apr 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Java/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 29 Apr 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Java/" rel="self" type="application/rss+xml" /><item>
+    <title>LearnJVM 有趣的发现</title>
+    <link>http://PTrainbow.github.io/posts/LearnJVM-%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%91%E7%8E%B0/</link>
+    <pubDate>Mon, 29 Apr 2024 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/LearnJVM-%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%91%E7%8E%B0/</guid>
+    <description><![CDATA[为了兑现自己立下的 flag 🤣，这两天刚好假期前，继续实现 JVM 打算定个小目标：每个月更新一次 LearnJVM 这个项目 第五章的指令好多好多，所以还在不断地 copy &amp; paste 实现的]]></description>
+</item><item>
     <title>LearnJVM 重启</title>
     <link>http://PTrainbow.github.io/posts/LearnJVM-%E9%87%8D%E5%90%AF/</link>
     <pubDate>Mon, 01 Apr 2024 00:00:00 &#43;0000</pubDate>
