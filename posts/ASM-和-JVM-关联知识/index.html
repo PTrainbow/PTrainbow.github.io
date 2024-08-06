@@ -30,7 +30,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86\/asm.jpg",
                             "width":  1540 ,
                             "height":  594 
-                        }],"genre": "posts","keywords": "Java","wordcount":  4241 ,
+                        }],"genre": "posts","keywords": "Java","wordcount":  4222 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86\/","datePublished": "2024-07-21T00:00:00+00:00","dateModified": "2024-07-21T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -108,7 +108,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">ASM 和 JVM 关联知识</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2024-07-21">2024-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4241 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2024-07-21">2024-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4222 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -151,8 +151,9 @@
 <li>增大日志缓存大小</li>
 <li>治理无用日志</li>
 </ol>
-<p>对于1，改个参数就完事儿了，实际这也是最有效的办法。对于2，这得深入业务，往往就是一些扯皮和甩锅的事情</p>
-<p>但是，“追求极致”的价值观告诉我们，处理一个问题，那就要围绕这个问题建设一系列的工具，比如：日志出问题了，能主动发现吗？有无用日志，那能不能直接知道哪里是无用的？等等多种卷法，这也是所谓 “思考” 的体现(😁)</p>
+<p>对于1，改个参数就完事儿了，实际这也是最有效的办法。<br>
+对于2，这得深入业务，往往就是一些扯皮和甩锅的事情</p>
+<p>但是，<code>“追求极致”</code>的价值观告诉我们，处理一个问题，那就要围绕这个问题建设一系列的工具，比如：日志出问题了，能主动发现吗？有无用日志，那能不能直接知道哪里是无用的？等等多种卷法，这也是所谓 <code>“思考”</code> 的体现</p>
 <p>那折中的办法，就是各个业务自己使用自己的日志实例打印日志(日志后续是可以合并的)，如果有业务方日志频繁打印也只是覆盖自己的日志，自己去处理</p>
 <p>随之而来的就是另一个问题，如何修改这部分的代码呢？</p>
 <p>也很简单：</p>
@@ -162,8 +163,9 @@
 </ol>
 <p>对于1，简单直接，没有二义性，但是收到了反对意见：log 方法在 base 中，多包依赖，不可以含有业务任何属性。</p>
 <p>那就只能走2了，于是才有了今天这篇文章</p>
-<p>好吧，简单总结一下要做的事情：</p>
+<p>简单总结一下要做的事情：</p>
 <p>在编译期，将所有的 Log.v/d/i/w/e(tag, msg) 等方法，修改为 LogV2.v/d/i/w/e(biz, tag, msg)，也就是加上了一个 biz 参数</p>
+<p>这个本身可以使用 lancet 简单解决，但是 lancet 会导致所有新增的 api 为 public，并且 biz 的值需要存储在内存之中。所以，最终自己实现一个类似简单版 lancet 功能的插件</p>
 <h2 id="前置知识">前置知识</h2>
 <h3 id="1方法调用和栈帧的通用概念">1.方法调用和栈帧的通用概念</h3>
 <p>不知道大家有没有想过：一个方法究竟是怎么调用另一个方法的？</p>
@@ -417,11 +419,10 @@ operand_stack[0] = StringBuilderRef</p>
 </span></span><span class="line"><span class="cl">   
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h2 id="总结">总结</h2>
-<p>之前默默做过一个 <a href="https://github.com/PTrainbow/LearnJVM" target="_blank" rel="noopener noreffer">toy jvm</a>，在实现 opcode 的时候，把 LOAD 和 STORE 系列的指令实现了，但是当时感悟不深，也没啥记忆，只记得有这些个指令，需要在 local variable slot 和 operand stack 上反复移动</p>
+<p>之前默默做过一个 <a href="https://github.com/PTrainbow/LearnJVM" target="_blank" rel="noopener noreffer">toy jvm</a>，在实现 opcode 的时候，把 LOAD 和 STORE 系列的指令实现了，只记得有这些个指令，需要在 local variable slot 和 operand stack 上反复移动</p>
 <p>如今，通过 ASM 又进行了加深理解</p>
-<p>其实，当时在实现 LOAD 和 STORE 指令的时候，还有类型区分，比如 LONG 需要两个字节。再比如，GOTO 指令的实现等等</p>
-<p>虽然，在互联网公司技术真的没用。虽然，即使不在互联网公司，技术也真的没用。虽然，这些技术早已成熟多年，浪费心神了解以后也没什么现实收益，还不如学学 cuda？</p>
-<p>取悦自己，喜欢什么就干什么</p>
+<p>其实，在实现 LOAD 和 STORE 指令的时候，还有类型区分，比如 LONG 需要两个字节。再比如，GOTO 指令的实现 offset 跳转等等</p>
+<p>希望次篇文章对于初次使用 asm 的程序猿有所帮助</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
