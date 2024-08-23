@@ -13,7 +13,7 @@ Android 中使用 Yoga
 通过
 compile &#39;com.facebook.yoga.android:yoga-layout:1.5.0&#39;
 compile &#39;com.facebook.yoga:yoga:1.5.0&#39;
-即可使用，反正我是忽略了他那个什么 BUCK，看了半天没看懂规则···" />
+即可使用" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://PTrainbow.github.io/posts/2018-02-02-yoga-%E5%92%8C-flexbox/" /><meta property="og:image" content="http://PTrainbow.github.io/logo.png" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-02-02T00:00:00+00:00" />
@@ -28,7 +28,7 @@ Android 中使用 Yoga
 通过
 compile &#39;com.facebook.yoga.android:yoga-layout:1.5.0&#39;
 compile &#39;com.facebook.yoga:yoga:1.5.0&#39;
-即可使用，反正我是忽略了他那个什么 BUCK，看了半天没看懂规则···"/>
+即可使用"/>
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/2018-02-02-yoga-%E5%92%8C-flexbox/" /><link rel="next" href="http://PTrainbow.github.io/posts/2018-04-10-Go-Template/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
@@ -39,7 +39,7 @@ compile &#39;com.facebook.yoga:yoga:1.5.0&#39;
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrainbow.github.io\/posts\/2018-02-02-yoga-%E5%92%8C-flexbox\/"
-        },"genre": "posts","keywords": "JavaScript","wordcount":  961 ,
+        },"genre": "posts","keywords": "JavaScript","wordcount":  932 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2018-02-02-yoga-%E5%92%8C-flexbox\/","datePublished": "2018-02-02T00:00:00+00:00","dateModified": "2018-02-02T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -117,7 +117,7 @@ compile &#39;com.facebook.yoga:yoga:1.5.0&#39;
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Yoga 和 Flexbox</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-02-02">2018-02-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 961 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-02-02">2018-02-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 932 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -145,13 +145,13 @@ facebook 开源的布局框架，支持多种语言</p>
 <p>通过</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">compile</span><span class="w"> </span><span class="err">&#39;</span><span class="n">com</span><span class="p">.</span><span class="na">facebook</span><span class="p">.</span><span class="na">yoga</span><span class="p">.</span><span class="na">android</span><span class="p">:</span><span class="n">yoga</span><span class="o">-</span><span class="n">layout</span><span class="p">:</span><span class="n">1</span><span class="p">.</span><span class="na">5</span><span class="p">.</span><span class="na">0</span><span class="err">&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">compile</span><span class="w"> </span><span class="err">&#39;</span><span class="n">com</span><span class="p">.</span><span class="na">facebook</span><span class="p">.</span><span class="na">yoga</span><span class="p">:</span><span class="n">yoga</span><span class="p">:</span><span class="n">1</span><span class="p">.</span><span class="na">5</span><span class="p">.</span><span class="na">0</span><span class="err">&#39;</span><span class="w">
-</span></span></span></code></pre></div><p>即可使用，反正我是忽略了他那个什么 BUCK，看了半天没看懂规则···</p>
+</span></span></span></code></pre></div><p>即可使用</p>
 <h3 id="优点">优点</h3>
-<p>可以使用 flexbox 布局的形式来写移动端布局，可以统一 android 和 ios 布局，react-native 底层似乎也是用的 yoga</p>
+<p>可以使用 flexbox 布局的形式来写移动端布局，可以统一 android 和 ios 布局，react-native 底层也是用的 yoga</p>
 <h3 id="问题">问题</h3>
 <p>对于 android 的支持，可以使用提供的 YogaLayout 和 VirtualYogaLayout,但是这仅仅限于使用 xml 书写布局的时候。代码书写需要注意一些 addView 的小问题，否则会不显示。</p>
 <h3 id="原因">原因</h3>
-<p>YogaLayout 底层是依靠的 YogaNode 涉及到 c++ 层的一些布局算法吧，我没有看。通过一个 view 对应一个 node，形式一个 node 树。然后根据相应的 android 的 view 树一一设置参数，从而达到了相应的布局效果。</p>
+<p>YogaLayout 底层是依靠的 YogaNode，涉及到 c++ 层的一些 flexbox 布局算法。通过一个 view 对应一个 node，形式一个 node 树。然后根据相应的 android 的 view 树一一设置参数，从而达到了相应的布局效果。</p>
 <p>但是如果我们使用代码书写布局的时候，就有各种问题。</p>
 <ol>
 <li>
