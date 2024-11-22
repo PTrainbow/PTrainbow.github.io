@@ -3,9 +3,16 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 21 Jul 2024 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 22 Nov 2024 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrainbow.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>2024提前总结</title>
+    <link>http://PTrainbow.github.io/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/</link>
+    <pubDate>Fri, 22 Nov 2024 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/</guid>
+    <description><![CDATA[为什么选这个奇怪的时间写下这篇文章呢？因为我终于确定了一个 offer 了吧（当然后续可能也有幺蛾子，比如小米 offer call 以后，又说没有 hc，雷总···你们招人]]></description>
+</item><item>
     <title>ASM 和 JVM 关联知识</title>
     <link>http://PTrainbow.github.io/posts/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86/</link>
     <pubDate>Sun, 21 Jul 2024 00:00:00 &#43;0000</pubDate>
@@ -68,12 +75,5 @@
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/</guid>
     <description><![CDATA[一直想学习一下如何写一个 VM，但是苦于各种成熟 VM 代码量庞大，阅读困难，无从学起 即使 lua 的古老版本的代码，对于我这种没有任何编译背景和语言设计背]]></description>
-</item><item>
-    <title>GC/JIT 抑制</title>
-    <link>http://PTrainbow.github.io/posts/GC/JIT-%E6%8A%91%E5%88%B6/</link>
-    <pubDate>Fri, 16 Jun 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/GC/JIT-%E6%8A%91%E5%88%B6/</guid>
-    <description><![CDATA[概述 所谓 Android GC/JIT 抑制，即是将 Android GC(部分)/JIT Task 处理任务的过程(Run 方法) hook，强行 sleep 一段时间。因为 JIT 和 GC 目前均为单线程执行，所以没有]]></description>
 </item></channel>
 </rss>
