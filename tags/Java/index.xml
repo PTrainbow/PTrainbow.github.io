@@ -9,48 +9,68 @@
     <pubDate>Sun, 21 Jul 2024 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86/</guid>
-    <description><![CDATA[背景 最近做日志治理(其实也没啥治理的)，发现日志存活时间很短，因为各个业务方的日志汇总在一个实例里，有任何无用日志频繁打印，都会把日志覆盖掉]]></description>
+    <description><![CDATA[<h2 id="背景">背景</h2>
+<p>最近做日志治理(其实也没啥治理的)，发现日志存活时间很短，因为各个业务方的日志汇总在一个实例里，有任何无用日志频繁打印，都会把日志覆盖掉</p>
+<p>那其实，治理的办法也很简单：</p>]]></description>
 </item><item>
     <title>LearnJVM 有趣的发现</title>
     <link>http://PTrainbow.github.io/posts/LearnJVM-%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%91%E7%8E%B0/</link>
     <pubDate>Mon, 29 Apr 2024 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/LearnJVM-%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%91%E7%8E%B0/</guid>
-    <description><![CDATA[为了兑现自己立下的 flag 🤣，这两天刚好假期前，继续实现 JVM 打算定个小目标：每个月更新一次 LearnJVM 这个项目 第五章的指令好多好多，所以还在不断地 copy &amp; paste 实现的]]></description>
+    <description><![CDATA[<p>为了兑现自己立下的 flag 🤣，这两天刚好假期前，继续实现 JVM</p>
+<blockquote>
+<p>打算定个小目标：每个月更新一次 LearnJVM 这个项目</p>
+</blockquote>
+<p>第五章的指令好多好多，所以还在不断地 copy &amp; paste</p>
+<p>实现的途中发现了 ICONST_X 指令很有意思，如下图：</p>]]></description>
 </item><item>
     <title>LearnJVM 重启</title>
     <link>http://PTrainbow.github.io/posts/LearnJVM-%E9%87%8D%E5%90%AF/</link>
     <pubDate>Mon, 01 Apr 2024 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/LearnJVM-%E9%87%8D%E5%90%AF/</guid>
-    <description><![CDATA[虽然今天是愚人节，但是还是要立下 flag，重启 JVM 项目 之前，一方面想学习 rust，一方面也想更深入的理解 JVM，于是这么一个项目就诞生了 源码来]]></description>
+    <description><![CDATA[<p>虽然今天是愚人节，但是还是要立下 flag，重启 <a href="https://github.com/PTrainbow/LearnJVM" target="_blank" rel="noopener noreffer">JVM 项目</a></p>
+<p>之前，一方面想学习 rust，一方面也想更深入的理解 JVM，于是这么一个项目就诞生了</p>
+<p>源码来自 《自己动手写Java虚拟机》，我将 go 翻译为 rust(但是因为很多 rust 概念刚接触，写的结构很凌乱，也都不是最佳实践，只求编译通过)</p>]]></description>
 </item><item>
     <title>工作中遇到的代码反例</title>
     <link>http://PTrainbow.github.io/posts/2021-02-07-%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8F%8D%E4%BE%8B/</link>
     <pubDate>Sun, 07 Feb 2021 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2021-02-07-%E5%B7%A5%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8F%8D%E4%BE%8B/</guid>
-    <description><![CDATA[前言 最近一直都是 copy 工程师和 scapegoat 工程师 不过也发现了一些些问题，也用来警示自己以后写代码 尽量 考虑全面(人无完人···) 反例1-下次进入 App，回到]]></description>
+    <description><![CDATA[<h2 id="前言">前言</h2>
+<p>最近一直都是 copy 工程师和 scapegoat 工程师</p>
+<p>不过也发现了一些些问题，也用来警示自己以后写代码 <code>尽量</code> 考虑全面(人无完人···)</p>
+<h2 id="反例1-下次进入-app回到上次退出的页面">反例1-下次进入 App，回到上次退出的页面</h2>
+<p>如下图</p>
+<p></p>]]></description>
 </item><item>
     <title>Java 泛型的见解</title>
     <link>http://PTrainbow.github.io/posts/2021-02-01-Java-%E6%B3%9B%E5%9E%8B%E7%9A%84%E8%A7%81%E8%A7%A3/</link>
     <pubDate>Mon, 01 Feb 2021 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2021-02-01-Java-%E6%B3%9B%E5%9E%8B%E7%9A%84%E8%A7%81%E8%A7%A3/</guid>
-    <description><![CDATA[前言 写 RecyclerView 的 Adapter 时，感觉到了泛型理解不够深刻，也不够熟练，看了几天的泛型文档 https://docs.oracle.com/javase/tutorial/java/generics/index.html 下面的总结均是对于文档的学习和一些代码示例的运行。 为什么要使用泛型]]></description>
+    <description><![CDATA[<h2 id="前言">前言</h2>
+<p>写 RecyclerView 的 Adapter 时，感觉到了泛型理解不够深刻，也不够熟练，看了几天的泛型文档</p>
+<p><a href="https://docs.oracle.com/javase/tutorial/java/generics/index.html" target="_blank" rel="noopener noreffer">https://docs.oracle.com/javase/tutorial/java/generics/index.html</a></p>
+<p>下面的总结均是对于文档的学习和一些代码示例的运行。</p>
+<h2 id="为什么要使用泛型">为什么要使用泛型</h2>
+<h3 id="代码复用">代码复用</h3>
+<p>通常的代码复用是提取一个公共参数的函数，函数中的参数传的是各种不同的值。泛型也是类似，只不过泛型可以用于定义 class、interface、method 等等，泛型传递的是不同的 type。</p>]]></description>
 </item><item>
     <title>Java 匿名内部类</title>
     <link>http://PTrainbow.github.io/posts/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/</link>
     <pubDate>Thu, 21 Jan 2021 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/</guid>
-    <description><![CDATA[最近看了一些程序语言的设计，语言的本质等等···接触到了一些神奇的名词，协变与逆变（Covariance and contravariance） 等等]]></description>
+    <description><![CDATA[<p>最近看了一些程序语言的设计，语言的本质等等···接触到了一些神奇的名词，<code>协变与逆变（Covariance and contravariance）</code> 等等。</p>]]></description>
 </item><item>
     <title>RxJava doOnNext 歪打正着</title>
     <link>http://PTrainbow.github.io/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/</link>
     <pubDate>Tue, 18 Feb 2020 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/</guid>
-    <description><![CDATA[来到了快手，代码是真滴乱。RxJava 到处甩，然后又炫技式的使用，冗余各种复杂逻辑，且有些地方使用并不规范，只不过没有出问题。配合自制 MVPs 架构]]></description>
+    <description><![CDATA[<p>来到了快手，代码是真滴乱。RxJava 到处甩，然后又炫技式的使用，冗余各种复杂逻辑，且有些地方使用并不规范，只不过没有出问题。配合自制 MVPs 架构，又秀了一波依赖注入，全是注解，导致我刚看代码时，完全凌乱了，重点是没有任何文档，对新人极不友好，且我认为，代码不应该这样写。</p>]]></description>
 </item></channel>
 </rss>

@@ -5,64 +5,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>久违的更新之链接 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="久违的更新之链接" />
-<meta property="og:description" content="一个c文件调用另一个c文件的方法，如何找到？
-hello.h
-#ifndef HELLO
-#define HELLO
-int fn_c(int x_local);
-#endif
-hello.c
-/* 这是一个存在于程序别处的某个全局变量的声明 */
-extern int z_global;
+        <title>久违的更新之链接 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/">
+  <meta property="og:site_name" content="北邙山之光的 Blog">
+  <meta property="og:title" content="久违的更新之链接">
+  <meta property="og:description" content="一个c文件调用另一个c文件的方法，如何找到？ hello.h
+#ifndef HELLO #define HELLO int fn_c(int x_local); #endif hello.c
+/* 这是一个存在于程序别处的某个全局变量的声明 */ extern int z_global; /* 这是一个函数的定义，函数参数可以认为是局部变量 */ int fn_c(int x_local) { return (z_global &#43; x_local); } hello_main.c
+#include&#34;hello.h&#34; #include&lt;stdio.h&gt; int z_global = 1; int main(int argc, char *argv[]) { printf(&#34;%d&#34;, fn_c(10)); return 0; }">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2018-12-26T00:00:00+00:00">
+    <meta property="article:modified_time" content="2018-12-26T00:00:00+00:00">
+    <meta property="article:tag" content="基础">
+    <meta property="og:image" content="http://PTrainbow.github.io/logo.png">
 
-/* 这是一个函数的定义，函数参数可以认为是局部变量 */
-int fn_c(int x_local)
-{
-    return (z_global &#43; x_local);
-}
-hello_main.c
-#include&#34;hello.h&#34;
-#include&lt;stdio.h&gt;
-int z_global = 1;
-int main(int argc, char *argv[])
-{
-    printf(&#34;%d&#34;, fn_c(10));
-    return 0;
-}
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrainbow.github.io/posts/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/" /><meta property="og:image" content="http://PTrainbow.github.io/logo.png" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-12-26T00:00:00+00:00" />
-<meta property="article:modified_time" content="2018-12-26T00:00:00+00:00" />
-
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="http://PTrainbow.github.io/logo.png" /><meta name="twitter:title" content="久违的更新之链接"/>
-<meta name="twitter:description" content="一个c文件调用另一个c文件的方法，如何找到？
-hello.h
-#ifndef HELLO
-#define HELLO
-int fn_c(int x_local);
-#endif
-hello.c
-/* 这是一个存在于程序别处的某个全局变量的声明 */
-extern int z_global;
-
-/* 这是一个函数的定义，函数参数可以认为是局部变量 */
-int fn_c(int x_local)
-{
-    return (z_global &#43; x_local);
-}
-hello_main.c
-#include&#34;hello.h&#34;
-#include&lt;stdio.h&gt;
-int z_global = 1;
-int main(int argc, char *argv[])
-{
-    printf(&#34;%d&#34;, fn_c(10));
-    return 0;
-}
-"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://PTrainbow.github.io/logo.png">
+  <meta name="twitter:title" content="久违的更新之链接">
+  <meta name="twitter:description" content="一个c文件调用另一个c文件的方法，如何找到？ hello.h
+#ifndef HELLO #define HELLO int fn_c(int x_local); #endif hello.c
+/* 这是一个存在于程序别处的某个全局变量的声明 */ extern int z_global; /* 这是一个函数的定义，函数参数可以认为是局部变量 */ int fn_c(int x_local) { return (z_global &#43; x_local); } hello_main.c
+#include&#34;hello.h&#34; #include&lt;stdio.h&gt; int z_global = 1; int main(int argc, char *argv[]) { printf(&#34;%d&#34;, fn_c(10)); return 0; }">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/" /><link rel="prev" href="http://PTrainbow.github.io/posts/2018-08-29-Recyclerview-Measure/" /><link rel="next" href="http://PTrainbow.github.io/posts/2019-05-22-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-%E5%92%8C-mmap/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
@@ -91,7 +55,9 @@ int main(int argc, char *argv[])
             <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/posts/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/" selected>简体中文</option></select>
+                    </a><span class="menu-item search" id="search-desktop">
                         <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
                         <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
                             <i class="fas fa-search fa-fw"></i>
@@ -136,7 +102,11 @@ int main(int argc, char *argv[])
                     </a>
                 </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
                 <i class="fas fa-adjust fa-fw"></i>
-            </a></div>
+            </a>
+                <a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/posts/2018-12-26-%E4%B9%85%E8%BF%9D%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B9%8B%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/" selected>简体中文</option></select>
+                </a>
+        </div>
     </div>
 </header>
 <div class="search-dropdown desktop">
@@ -247,7 +217,7 @@ int main(int argc, char *argv[])
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

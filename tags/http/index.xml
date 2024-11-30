@@ -1,28 +1,36 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>http - 标签 - 北邙山之光的 Blog</title>
+        <title>Http - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/http/</link>
-        <description>http - 标签 - 北邙山之光的 Blog</description>
+        <description>Http - 标签 - 北邙山之光的 Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 26 Jul 2019 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/http/" rel="self" type="application/rss+xml" /><item>
     <title>HTTP CORS</title>
     <link>http://PTrainbow.github.io/posts/2019-07-26-HTTP-CORS/</link>
     <pubDate>Fri, 26 Jul 2019 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2019-07-26-HTTP-CORS/</guid>
-    <description><![CDATA[CORS 跨域资源共享(CORS) 是一种机制，它使用额外的 HTTP 头来告诉浏览器 让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当]]></description>
+    <description><![CDATA[<h2 id="cors">CORS</h2>
+<blockquote>
+<p>跨域资源共享(CORS) 是一种机制，它使用额外的 HTTP 头来告诉浏览器  让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当一个资源从与该资源本身所在的服务器不同的域、协议或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。<br>
+<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS" target="_blank" rel="noopener noreffer">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS</a></p>]]></description>
 </item><item>
     <title>OPTIONS 请求</title>
     <link>http://PTrainbow.github.io/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/</link>
     <pubDate>Thu, 25 Jul 2019 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/</guid>
-    <description><![CDATA[问题描述 第一次跟前端H5对接，结果请求不通，交流才知道，他们先发一个 OPTIONS 请求，然后再发送真实请求，而我这边后台只对 GET 请求做了处理 说出来不怕丢人]]></description>
+    <description><![CDATA[<h2 id="问题描述">问题描述</h2>
+<p>第一次跟前端H5对接，结果请求不通，交流才知道，他们先发一个 OPTIONS 请求，然后再发送真实请求，而我这边后台只对 GET 请求做了处理</p>
+<p>说出来不怕丢人，我还真的不知道有 OPTIONS 请求，复习一下相关知识</p>]]></description>
 </item><item>
     <title>Http Post FormData</title>
     <link>http://PTrainbow.github.io/posts/2019-07-02-Http-Post-FormData/</link>
     <pubDate>Tue, 02 Jul 2019 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2019-07-02-Http-Post-FormData/</guid>
-    <description><![CDATA[问题描述 需要上传一张图片到我们的对象存储服务器，对方给了接口协议。 需使用 post 请求，Content-Type 为 multipart/form-data 且 key = filecontent，v]]></description>
+    <description><![CDATA[<h2 id="问题描述">问题描述</h2>
+<p>需要上传一张图片到我们的对象存储服务器，对方给了接口协议。</p>
+<p>需使用 post 请求，Content-Type 为 multipart/form-data</p>
+<p>且 key = filecontent，value 就是文件内容</p>]]></description>
 </item></channel>
 </rss>

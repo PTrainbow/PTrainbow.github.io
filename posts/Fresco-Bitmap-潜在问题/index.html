@@ -5,16 +5,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>Fresco Bitmap 潜在问题 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="Fresco Bitmap 潜在问题" />
-<meta property="og:description" content="最近发现线上有一些 used recycled bitmap crash 似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么 其实我觉得主要是造轮子的对于轮子本身理解不够" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/" /><meta property="og:image" content="http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-03-29T00:00:00+00:00" />
-<meta property="article:modified_time" content="2023-03-29T00:00:00+00:00" />
+        <title>Fresco Bitmap 潜在问题 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/">
+  <meta property="og:site_name" content="北邙山之光的 Blog">
+  <meta property="og:title" content="Fresco Bitmap 潜在问题">
+  <meta property="og:description" content="最近发现线上有一些 used recycled bitmap crash
+似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么
+其实我觉得主要是造轮子的对于轮子本身理解不够深刻，导致的问题">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-03-29T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-03-29T00:00:00+00:00">
+    <meta property="article:tag" content="Android">
+    <meta property="og:image" content="http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png">
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png" /><meta name="twitter:title" content="Fresco Bitmap 潜在问题"/>
-<meta name="twitter:description" content="最近发现线上有一些 used recycled bitmap crash 似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么 其实我觉得主要是造轮子的对于轮子本身理解不够"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png">
+  <meta name="twitter:title" content="Fresco Bitmap 潜在问题">
+  <meta name="twitter:description" content="最近发现线上有一些 used recycled bitmap crash
+似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么
+其实我觉得主要是造轮子的对于轮子本身理解不够深刻，导致的问题">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/" /><link rel="prev" href="http://PTrainbow.github.io/posts/JNI-Pending-Exception/" /><link rel="next" href="http://PTrainbow.github.io/posts/RN-%E5%92%8C-fbjni/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
@@ -48,7 +58,9 @@
             <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/" selected>简体中文</option></select>
+                    </a><span class="menu-item search" id="search-desktop">
                         <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
                         <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
                             <i class="fas fa-search fa-fw"></i>
@@ -93,7 +105,11 @@
                     </a>
                 </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
                 <i class="fas fa-adjust fa-fw"></i>
-            </a></div>
+            </a>
+                <a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/" selected>简体中文</option></select>
+                </a>
+        </div>
     </div>
 </header>
 <div class="search-dropdown desktop">
@@ -283,7 +299,7 @@ SharedReference 类似 shared_ptr，内部是一个引用计数，如果计数�
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

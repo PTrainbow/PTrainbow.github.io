@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
     <head>
-	<meta name="generator" content="Hugo 0.122.0">
+	<meta name="generator" content="Hugo 0.139.0">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="北邙山之光的 Blog" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="http://PTrainbow.github.io/" /><meta property="og:image" content="http://PTrainbow.github.io/logo.png" />
+        <title>北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/">
+  <meta property="og:site_name" content="北邙山之光的 Blog">
+  <meta property="og:title" content="北邙山之光的 Blog">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="website">
+    <meta property="og:image" content="http://PTrainbow.github.io/logo.png">
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="http://PTrainbow.github.io/logo.png" /><meta name="twitter:title" content="北邙山之光的 Blog"/>
-<meta name="twitter:description" content=""/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://PTrainbow.github.io/logo.png">
+  <meta name="twitter:title" content="北邙山之光的 Blog">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/" /><link rel="alternate" href="/index.xml" type="application/rss+xml" title="北邙山之光的 Blog">
     <link rel="feed" href="/index.xml" type="application/rss+xml" title="北邙山之光的 Blog"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
@@ -32,7 +34,9 @@
             <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/" selected>简体中文</option></select>
+                    </a><span class="menu-item search" id="search-desktop">
                         <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
                         <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
                             <i class="fas fa-search fa-fw"></i>
@@ -77,7 +81,11 @@
                     </a>
                 </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
                 <i class="fas fa-adjust fa-fw"></i>
-            </a></div>
+            </a>
+                <a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/" selected>简体中文</option></select>
+                </a>
+        </div>
     </div>
 </header>
 <div class="search-dropdown desktop">
@@ -90,54 +98,80 @@
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">再来看 Activity 启动流程</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-12-07">2020-12-07</time></span></div><div class="content">很久之前的一篇 Activity 启动流程 当时刚毕业，有很多错误和没有理解，今天重新写一篇比较完整的，源码基于 Android 9.0 1.概览 startActivity 流程，主要涉及 APP 进程和 Activi</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-12-07">2020-12-07</time></span></div><div class="content"><p>很久之前的一篇 <a href="../2017-10-26-Activity-%e5%90%af%e5%8a%a8%e8%bf%87%e7%a8%8b" rel="">Activity 启动流程</a> 当时刚毕业，有很多错误和没有理解，今天重新写一篇比较完整的，源码基于 Android 9.0</p>
+<h2 id="1概览">1.概览</h2>
+<p>startActivity 流程，主要涉及 APP 进程和 ActivityManagerService(简写为 AMS，system_process 为其所在进程名) 之间的 IPC 通信</p></div><div class="post-footer">
         <a href="/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/">FFmpeg 简易播放器</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-07-31">2020-07-31</time></span></div><div class="content">1.FFmpeg 和 SDL 下载 可以直接去官网下载源码自己编译或者下载已经编译好的版本 比如我直接用 brew install ffmpeg &ndash;with-sdl2 之后 /usr/local/Cellar 下就会有 ffmpeg 和 sdl2 了 2.开发环境 这里使用的是 MacOS + CLion 随便</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-07-31">2020-07-31</time></span></div><div class="content"><h3 id="1ffmpeg-和-sdl-下载">1.FFmpeg 和 SDL 下载</h3>
+<p>可以直接去官网下载源码自己编译或者下载已经编译好的版本</p>
+<p>比如我直接用</p>
+<blockquote>
+<p>brew install ffmpeg &ndash;with-sdl2</p>
+</blockquote>
+<p>之后 /usr/local/Cellar  下就会有 ffmpeg 和 sdl2 了</p>
+<h3 id="2开发环境">2.开发环境</h3>
+<p>这里使用的是 MacOS + CLion</p>
+<p>随便新建一个空工程就好，写好 CMakeLists 就好</p></div><div class="post-footer">
         <a href="/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2020-05-18-Android-%E7%84%A6%E7%82%B9/">Android 焦点</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-05-18">2020-05-18</time></span></div><div class="content">最近在做 Android TV，和手机 APP 不同的是，TV 大都需要依赖遥控器来改变焦点而不是 Touch 事件(除非你的屏幕可以触控~~) Leanback 当时做 TV 项目搜到的资料都是它，但</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-05-18">2020-05-18</time></span></div><div class="content"><p>最近在做 Android TV，和手机 APP 不同的是，TV 大都需要依赖遥控器来改变焦点而不是 Touch 事件(除非你的屏幕可以触控~~)</p>
+<h2 id="leanback">Leanback</h2>
+<p>当时做 TV 项目搜到的资料都是它，但是没几个人细讲，我也不打算细讲···<br>
+因为这个库需要你自己去源码编译，有很多东西写死了，或者不是 public 的，而且不一定符合你们设计的审美~~<br>
+我们最后就是用源码编译搞的，只用了一个 VerticalGridView, 还改了一些东西。</p></div><div class="post-footer">
         <a href="/posts/2020-05-18-Android-%E7%84%A6%E7%82%B9/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2020-03-21-SingleTask-%E8%A1%80%E6%A1%88/">SingleTask 血案</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-03-21">2020-03-21</time></span></div><div class="content">最近还是在做小包的需求(什么是小包···就是功能和体积的阉割版)，测试提了个 bug，说主站的 APP，打开详情页，回到后台，再重新打开 APP，</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-03-21">2020-03-21</time></span></div><div class="content"><p>最近还是在做小包的需求(什么是小包···就是功能和体积的阉割版)，测试提了个 bug，说主站的 APP，打开详情页，回到后台，再重新打开 APP，会回到详情页。而小包回到了首页。</p></div><div class="post-footer">
         <a href="/posts/2020-03-21-SingleTask-%E8%A1%80%E6%A1%88/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2020-03-20-%E4%BB%A3%E7%A0%81%E4%B8%8D%E8%A7%84%E8%8C%83%E7%9A%84%E5%85%B8%E5%9E%8B%E7%A4%BA%E4%BE%8B/">代码不规范的典型示例</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-03-20">2020-03-20</time></span></div><div class="content">之前听过一个分享，代码的哲学其实就是处理复杂度问题。 应用开发中，不需要什么奇技淫巧，好的代码往往通俗易懂，副作用更低。差的代码往往会给人造成</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-03-20">2020-03-20</time></span></div><div class="content"><p>之前听过一个分享，代码的哲学其实就是处理复杂度问题。</p>
+<p>应用开发中，不需要什么奇技淫巧，好的代码往往通俗易懂，副作用更低。差的代码往往会给人造成困惑，引发各种问题</p></div><div class="post-footer">
         <a href="/posts/2020-03-20-%E4%BB%A3%E7%A0%81%E4%B8%8D%E8%A7%84%E8%8C%83%E7%9A%84%E5%85%B8%E5%9E%8B%E7%A4%BA%E4%BE%8B/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">代码规范</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/">RxJava doOnNext 歪打正着</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-02-18">2020-02-18</time></span></div><div class="content">来到了快手，代码是真滴乱。RxJava 到处甩，然后又炫技式的使用，冗余各种复杂逻辑，且有些地方使用并不规范，只不过没有出问题。配合自制 MVPs 架构</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-02-18">2020-02-18</time></span></div><div class="content"><p>来到了快手，代码是真滴乱。RxJava 到处甩，然后又炫技式的使用，冗余各种复杂逻辑，且有些地方使用并不规范，只不过没有出问题。配合自制 MVPs 架构，又秀了一波依赖注入，全是注解，导致我刚看代码时，完全凌乱了，重点是没有任何文档，对新人极不友好，且我认为，代码不应该这样写。</p></div><div class="post-footer">
         <a href="/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Java/">Java</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2019-11-20-Promise/">Promise</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2019-11-20">2019-11-20</time></span></div><div class="content">如今写了很多门语言之后越来越有感触，事件驱动的设计离不开各种异步调用。比如 Android 中主线程如今已经不允许发送网络请求等等，这时候都需要一些异步回调</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2019-11-20">2019-11-20</time></span></div><div class="content"><p>如今写了很多门语言之后越来越有感触，事件驱动的设计离不开各种异步调用。比如 Android 中主线程如今已经不允许发送网络请求等等，这时候都需要一些异步回调。而在前端也是如此，但是前端8成以上的工程师能做的原理性的东西很少。<br>
+首先 JsCore 改不了吧？水平有限！其次，CSS 的解析改不了吧？写各种 loader，各种插件已经很牛逼了，我感觉那些 webpack 相关的东西，至今我也不是很懂，只是会用。所以大部分人都关注在业务开发上。<br>
+而客户端的工程师还有很多其他的事情研究，比如热更新啊、性能优化啊等等。<br>
+我觉得没有好坏之分，但是前端在代码架构上或者一些设计上我觉得更优秀，客户端相比很落后。比如双向绑定，redux 等思想。再比如这个 promise，虽然客户端也有可以处理这种事情的东西，比如 RxJava、RxAndroid 等等，但是感觉没这么直接，RxJava 也要不停 subscribeOn、observeOn 等等，或者你说你写个 compose，但是还是那样，不直观不直接。</p></div><div class="post-footer">
         <a href="/posts/2019-11-20-Promise/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/JavaScript/">JavaScript</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2019-08-08-%E5%86%8D%E6%9D%A5%E7%9C%8B%E7%9C%8B-WMS/">再来看看 WMS</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2019-08-08">2019-08-08</time></span></div><div class="content">这几天想重新研究研究一些 Android Framework 相关的东西，看到了 WindowManagerService(WMS)，产生了一些疑问。 getSystemServ</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2019-08-08">2019-08-08</time></span></div><div class="content"><p>这几天想重新研究研究一些 Android Framework 相关的东西，看到了 WindowManagerService(WMS)，产生了一些疑问。</p>
+<h2 id="getsystemservicewindow获取的是什么">getSystemService(&ldquo;window&rdquo;)获取的是什么</h2>
+<p>很多人说是，WMS 的代理对象，可是目前我看的 android-28 的源码，发现并不是这样。</p></div><div class="post-footer">
         <a href="/posts/2019-08-08-%E5%86%8D%E6%9D%A5%E7%9C%8B%E7%9C%8B-WMS/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2019-07-26-HTTP-CORS/">HTTP CORS</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2019-07-26">2019-07-26</time></span></div><div class="content">CORS 跨域资源共享(CORS) 是一种机制，它使用额外的 HTTP 头来告诉浏览器 让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2019-07-26">2019-07-26</time></span></div><div class="content"><h2 id="cors">CORS</h2>
+<blockquote>
+<p>跨域资源共享(CORS) 是一种机制，它使用额外的 HTTP 头来告诉浏览器  让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当一个资源从与该资源本身所在的服务器不同的域、协议或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。<br>
+<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS" target="_blank" rel="noopener noreffer">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS</a></p></div><div class="post-footer">
         <a href="/posts/2019-07-26-HTTP-CORS/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%9F%BA%E7%A1%80/">基础</a>,&nbsp;<a href="/tags/http/">http</a></div></div>
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%9F%BA%E7%A1%80/">基础</a>,&nbsp;<a href="/tags/http/">Http</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/">OPTIONS 请求</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2019-07-25">2019-07-25</time></span></div><div class="content">问题描述 第一次跟前端H5对接，结果请求不通，交流才知道，他们先发一个 OPTIONS 请求，然后再发送真实请求，而我这边后台只对 GET 请求做了处理 说出来不怕丢人</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2019-07-25">2019-07-25</time></span></div><div class="content"><h2 id="问题描述">问题描述</h2>
+<p>第一次跟前端H5对接，结果请求不通，交流才知道，他们先发一个 OPTIONS 请求，然后再发送真实请求，而我这边后台只对 GET 请求做了处理</p>
+<p>说出来不怕丢人，我还真的不知道有 OPTIONS 请求，复习一下相关知识</p></div><div class="post-footer">
         <a href="/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%9F%BA%E7%A1%80/">基础</a>,&nbsp;<a href="/tags/http/">http</a></div></div>
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%9F%BA%E7%A1%80/">基础</a>,&nbsp;<a href="/tags/http/">Http</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
@@ -162,7 +196,7 @@
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

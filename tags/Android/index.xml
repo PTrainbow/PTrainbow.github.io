@@ -9,69 +9,104 @@
     <pubDate>Fri, 23 Feb 2024 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/maven-publish-dependency/</guid>
-    <description><![CDATA[​今天 pull 工程，发现有个库的源码看不到，在 gradle external libraries 中也找不到，只能找到一个 api 接口层的代码 于是，就研究了一下原因 pom 文件 我们在向 maven 发布 aar 时，会生成对]]></description>
+    <description><![CDATA[<p>​今天 pull 工程，发现有个库的源码看不到，在 gradle external libraries 中也找不到，只能找到一个 api 接口层的代码</p>
+<p>于是，就研究了一下原因</p>
+<h2 id="pom-文件">pom 文件</h2>
+<p>我们在向 maven 发布 aar 时，会生成对应的 pom 文件，告诉我们具体依赖哪些额外 lib</p>]]></description>
 </item><item>
     <title>资源去重</title>
     <link>http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/</link>
     <pubDate>Thu, 12 Oct 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/</guid>
-    <description><![CDATA[最近不知道为什么，我司又开始缩减包体积了，在这个 app 都 100-200M 的年代，在这个 5G 遥遥领先的年代，不知道卷个啥？ 那问题不大，既然有需求，我们照做便是 前置]]></description>
+    <description><![CDATA[<p>最近不知道为什么，我司又开始缩减包体积了，在这个 app 都 100-200M 的年代，在这个 5G 遥遥领先的年代，不知道卷个啥？</p>
+<p>那问题不大，既然有需求，我们照做便是</p>
+<h2 id="前置思考">前置思考</h2>
+<p>Android 包体积由多方面构成，这个我之前的文章里也有说过，所以包体积缩减的手段有很多，这个就不一一介绍了</p>]]></description>
 </item><item>
     <title>GC/JIT 抑制</title>
     <link>http://PTrainbow.github.io/posts/GC/JIT-%E6%8A%91%E5%88%B6/</link>
     <pubDate>Fri, 16 Jun 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/GC/JIT-%E6%8A%91%E5%88%B6/</guid>
-    <description><![CDATA[概述 所谓 Android GC/JIT 抑制，即是将 Android GC(部分)/JIT Task 处理任务的过程(Run 方法) hook，强行 sleep 一段时间。因为 JIT 和 GC 目前均为单线程执行，所以没有]]></description>
+    <description><![CDATA[<h2 id="概述">概述</h2>
+<p>所谓 Android <code>GC/JIT 抑制</code>，即是将 Android GC(部分)/JIT Task 处理任务的过程(Run 方法) hook，强行 sleep 一段时间。因为 JIT 和 GC 目前均为单线程执行，所以没有并发问题，也刚好阻塞后续任务。</p>]]></description>
 </item><item>
     <title>再再再看 startActivity 启动流程</title>
     <link>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link>
     <pubDate>Fri, 19 May 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
-    <description><![CDATA[前言 最近遇到了一个有意思的问题，为了让首页更快的展示出来，将首页的请求提前到了 Application onCreate 阶段。但是带来了一个问题，请求的频次大大增加了，且对于后端]]></description>
+    <description><![CDATA[<h2 id="前言">前言</h2>
+<p>最近遇到了一个有意思的问题，为了让首页更快的展示出来，将首页的请求提前到了 Application onCreate 阶段。但是带来了一个问题，请求的频次大大增加了，且对于后端来说，首页的请求还是比较消耗资源的。</p>]]></description>
 </item><item>
     <title>RN 和 fbjni</title>
     <link>http://PTrainbow.github.io/posts/RN-%E5%92%8C-fbjni/</link>
     <pubDate>Wed, 26 Apr 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/RN-%E5%92%8C-fbjni/</guid>
-    <description><![CDATA[前言 最近帮 RN 业务方查内存泄漏问题，发现了 fbjni 这个库挺有意思的 正好借助 RN 源码例子，讲述一下 fbjni 是如何控制 java 和 c++ 层对象的生命周期的 源码阅读 下面会贴一]]></description>
+    <description><![CDATA[<h2 id="前言">前言</h2>
+<p>最近帮 RN 业务方查内存泄漏问题，发现了 fbjni 这个库挺有意思的</p>
+<p>正好借助 RN 源码例子，讲述一下 fbjni 是如何控制 java 和 c++ 层对象的生命周期的</p>
+<h2 id="源码阅读">源码阅读</h2>
+<p>下面会贴一些 RN 中的源码 和 fbjni 的源码，不用关心 RN 源码中的对象是做什么的，我们这里只关注对象如何被创建和如何被释放的</p>]]></description>
 </item><item>
     <title>Fresco Bitmap 潜在问题</title>
     <link>http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/</link>
     <pubDate>Wed, 29 Mar 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/</guid>
-    <description><![CDATA[最近发现线上有一些 used recycled bitmap crash 似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么 其实我觉得主要是造轮子的对于轮子本身理解不够]]></description>
+    <description><![CDATA[<p>最近发现线上有一些 used recycled bitmap crash</p>
+<p>似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么</p>
+<p>其实我觉得主要是造轮子的对于轮子本身理解不够深刻，导致的问题</p>]]></description>
 </item><item>
     <title>JNI Pending Exception</title>
     <link>http://PTrainbow.github.io/posts/JNI-Pending-Exception/</link>
     <pubDate>Thu, 23 Feb 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/JNI-Pending-Exception/</guid>
-    <description><![CDATA[今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception 但是为什么会走到我的代码中？这]]></description>
+    <description><![CDATA[<p>今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception</p>
+<p>但是为什么会走到我的代码中？这就是个巧合的事情了</p>]]></description>
 </item><item>
     <title>forkdump 触发的神奇 bug</title>
     <link>http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</link>
     <pubDate>Wed, 04 Jan 2023 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</guid>
-    <description><![CDATA[​ 最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起 最近]]></description>
+    <description><![CDATA[<p>​
+最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor</p>
+<p>koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起</p>
+<p>最近在修改的时候无意间触发了一个神奇的 bug</p>]]></description>
 </item><item>
     <title>NativeBitmap 实现</title>
     <link>http://PTrainbow.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</link>
     <pubDate>Sat, 31 Dec 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</guid>
-    <description><![CDATA[​ 前言 最近一直在治理 OOM 问题，OOM 问题分为多种，其中有一种的原因是 java heap 空间不足 这种 OOM 多发生于低版本手机，或者是存在严重的内存泄漏的高版本手机]]></description>
+    <description><![CDATA[<p>​</p>
+<h2 id="前言">前言</h2>
+<p>最近一直在治理 OOM 问题，OOM 问题分为多种，其中有一种的原因是 java heap 空间不足</p>
+<p>这种 OOM 多发生于低版本手机，或者是存在严重的内存泄漏的高版本手机</p>
+<p>现在很多 APP minSdk 都升级到了 21， 这时候低版本 Bitmap 一直分配在 java heap 中，是内存大户，一张大图占用10M级别的内存很正常。而一些低版本的 java heap 只有 128/256M，很容易就 OOM</p>]]></description>
 </item><item>
     <title>JVMTI 的运用</title>
     <link>http://PTrainbow.github.io/posts/jvmti/</link>
     <pubDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/jvmti/</guid>
-    <description><![CDATA[​ 文档 https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn JVMTI 可以做什么 一些重要的功能包括： 重新定义类。 跟踪对象分配和垃圾回收过程。 遵循对象的引用树，遍历堆中的所有对象。 检查 Java 调用堆栈。 暂停（]]></description>
+    <description><![CDATA[<p>​</p>
+<h2 id="文档">文档</h2>
+<p><a href="https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn" target="_blank" rel="noopener noreffer">https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn</a></p>
+<p></p>
+<h2 id="jvmti-可以做什么">JVMTI 可以做什么</h2>
+<p>一些重要的功能包括：</p>
+<ol>
+<li>重新定义类。</li>
+<li>跟踪对象分配和垃圾回收过程。</li>
+<li>遵循对象的引用树，遍历堆中的所有对象。</li>
+<li>检查 Java 调用堆栈。</li>
+<li>暂停（和恢复）所有线程。</li>
+</ol>
+<p>其实远远不止，详情查看文档 <a href="https://docs.oracle.com/javase/8/docs/platform/jvmti/jvmti.html#architecture" target="_blank" rel="noopener noreffer">https://docs.oracle.com/javase/8/docs/platform/jvmti/jvmti.html#architecture</a></p>]]></description>
 </item></channel>
 </rss>

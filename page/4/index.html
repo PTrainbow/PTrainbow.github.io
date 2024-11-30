@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
     <head>
-	<meta name="generator" content="Hugo 0.122.0">
+	<meta name="generator" content="Hugo 0.139.0">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:title" content="北邙山之光的 Blog" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="http://PTrainbow.github.io/" /><meta property="og:image" content="http://PTrainbow.github.io/logo.png" />
+        <title>北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/">
+  <meta property="og:site_name" content="北邙山之光的 Blog">
+  <meta property="og:title" content="北邙山之光的 Blog">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="website">
+    <meta property="og:image" content="http://PTrainbow.github.io/logo.png">
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="http://PTrainbow.github.io/logo.png" /><meta name="twitter:title" content="北邙山之光的 Blog"/>
-<meta name="twitter:description" content=""/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://PTrainbow.github.io/logo.png">
+  <meta name="twitter:title" content="北邙山之光的 Blog">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/" /><link rel="alternate" href="/index.xml" type="application/rss+xml" title="北邙山之光的 Blog">
     <link rel="feed" href="/index.xml" type="application/rss+xml" title="北邙山之光的 Blog"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
@@ -32,7 +34,9 @@
             <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/" selected>简体中文</option></select>
+                    </a><span class="menu-item search" id="search-desktop">
                         <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
                         <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
                             <i class="fas fa-search fa-fw"></i>
@@ -77,7 +81,11 @@
                     </a>
                 </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
                 <i class="fas fa-adjust fa-fw"></i>
-            </a></div>
+            </a>
+                <a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/" selected>简体中文</option></select>
+                </a>
+        </div>
     </div>
 </header>
 <div class="search-dropdown desktop">
@@ -99,7 +107,10 @@
         title="/posts/FragmentManager.commit/fragment.png" /></a>
         </div><h1 class="single-title" itemprop="name headline">
         <a href="/posts/FragmentManager.commit/">fragmentManager.commit 的一些潜在问题</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-03-10">2022-03-10</time></span></div><div class="content">​ 前言 最近被 shadow 和 跨进程的 router 搞得头疼，感觉这俩框架跨进程部分写的略微有点混乱。 如果是纯用反射传 className，那就跨进程传字符串，然后再分</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-03-10">2022-03-10</time></span></div><div class="content"><p>​</p>
+<h2 id="前言">前言</h2>
+<p>最近被 shadow 和 跨进程的 router 搞得头疼，感觉这俩框架跨进程部分写的略微有点混乱。</p>
+<p>如果是纯用反射传 className，那就跨进程传字符串，然后再分发咯 = handleMessage 呗，应该写的比较聚合才对。</p></div><div class="post-footer">
         <a href="/posts/FragmentManager.commit/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -113,7 +124,78 @@
         title="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg" /></a>
         </div><h1 class="single-title" itemprop="name headline">
         <a href="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/">包体积优化的一些总结</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-03-10">2022-03-10</time></span></div><div class="content">​ 前言 最近一直在搞包体积的优化，有点点心得 并且在优化的过程中发现了原有工程的各种问题，这里总结一下。 包体积优化的一些手段 Dex 优化 R8 和 ProGuard 配置优化</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-03-10">2022-03-10</time></span></div><div class="content"><p>​</p>
+<h2 id="前言">前言</h2>
+<p>最近一直在搞包体积的优化，有点点心得</p>
+<p>并且在优化的过程中发现了原有工程的各种问题，这里总结一下。</p>
+<h2 id="包体积优化的一些手段">包体积优化的一些手段</h2>
+<h3 id="dex-优化">Dex 优化</h3>
+<h4 id="r8--和--proguard-配置优化">R8  和  ProGuard 配置优化</h4>
+<ol>
+<li>R8 目前已经是默认的编译优化工具，只需要 minifyEnable = true
+<ol>
+<li>基础功能
+<ol>
+<li>code shrink  删减</li>
+<li>obfuscation 混淆</li>
+<li>optimization  优化</li>
+</ol>
+</li>
+<li>R8 fullMode 模式
+<ol>
+<li>包体积还可以继续缩减</li>
+<li>遇到的问题  [R8 fullMode Constructor 问题]
+<ol>
+<li>Gson 解析问题</li>
+<li>kotlin data class</li>
+</ol>
+</li>
+<li>解决办法
+<ol>
+<li>-keepclasseswithmembers class * {
+<!-- raw HTML omitted -->(&hellip;);
+@com.google.gson.annotations.SerializedName <!-- raw HTML omitted -->;
+}</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>ProGuard 配置优化<br>
+proGuard 描述了代码混淆和删减的规则，代码删减直接缩减 dex 体积，代码混淆会使类名、方法名、变量名更短从而缩减 dex 体积。<br>
+目前 proGuard 配置存在的一些问题：
+<ol>
+<li>重复<br>
+-keepclassmembers class <strong>.entities.</strong> { <em>; }<br>
+-keepclassmembers class com.xingin.xhs.model.entities.</em>* { *;}<br>
+// 范围很大<br>
+-keep @Kotlin.Metadata class * { *; }</li>
+<li>删除 kotlin metadata 注解
+<ol>
+<li>kotlin metadata keep 规则导致所有 kotlin 代码被 keep</li>
+<li>引发了一些负负反而得正的潜在问题(Gson 解析)</li>
+</ol>
+</li>
+<li>删除 kotlin Intrinsics</li>
+<li>优化 optimize 并没有开启
+<ol>
+<li>-dontoptimize：删除这条 keep 规则，才会开启 R8 的代码优化</li>
+<li>optimize 的副作用：插件化打包的内联问题</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>隐性存在的反射大家没有在意<br>
+需要 Gson 解析的类的成员变量被混淆了，到底对于解析有没有影响？
+<ol>
+<li>Gson 的解析，默认依赖反射，除非有注解</li>
+<li>反射效率和启动耗事问题</li>
+</ol>
+</li>
+</ol>
+<h4 id="rclass-优化">R.class 优化</h4>
+<p>R.class 内的值，可以直接内联</p></div><div class="post-footer">
         <a href="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -127,7 +209,11 @@
         title="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg" /></a>
         </div><h1 class="single-title" itemprop="name headline">
         <a href="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/">不太优雅的治理 MMKV FD 的方式</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-12-23">2021-12-23</time></span></div><div class="content">​ 前言 最近看了很多 fd 的问题，在一些机型上 fd 数量超过 1024 便会抛出 OOM。 mmkv 正常是没什么问题的，但是如果使用了过多实例，也是会占用一部分的 fd。 mmkv</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-12-23">2021-12-23</time></span></div><div class="content"><p>​</p>
+<h2 id="前言">前言</h2>
+<p>最近看了很多 fd 的问题，在一些机型上 fd 数量超过 1024 便会抛出 OOM。</p>
+<p>mmkv 正常是没什么问题的，但是如果使用了过多实例，也是会占用一部分的 fd。</p>
+<p>mmkv 每一个实例会持有两个 fd(如果你没有释放过的话)，在一个大工程里，很有可能同时存在 30+ 的 mmkv 实例，也就是 60+ 的 fd，因为每个业务可能都想有自己的 mmkv 实例(文件)，甚至同一个业务下的子逻辑也想有自己的 mmkv 实例，加上 java 程序员从不考虑资源释放问题(me too)，这也进一步加剧了 fd 不够用···最终 OOM</p></div><div class="post-footer">
         <a href="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -141,7 +227,18 @@
         title="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg" /></a>
         </div><h1 class="single-title" itemprop="name headline">
         <a href="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/">记一次 Fresco 和 AutoSize 导致的 Bitmap 问题</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-12-23">2021-12-23</time></span></div><div class="content">​ 前言 不知道大家使用 Fresco 时，有没有遇到过这种情况呢？ 一些文章上是说，导致的原因是在设置了 圆角 的情况下，设置错了 ScaleType 导致图片不能铺满整个 View，</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-12-23">2021-12-23</time></span></div><div class="content"><p>​</p>
+<h2 id="前言">前言</h2>
+<p>不知道大家使用 Fresco 时，有没有遇到过这种情况呢？</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/fresco-vs-autosize/round_corner.png"
+        data-srcset="/img/in-post/fresco-vs-autosize/round_corner.png, /img/in-post/fresco-vs-autosize/round_corner.png 1.5x, /img/in-post/fresco-vs-autosize/round_corner.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/fresco-vs-autosize/round_corner.png"
+        title="/img/in-post/fresco-vs-autosize/round_corner.png" /></p>
+<p>一些文章上是说，导致的原因是在设置了 <code>圆角</code> 的情况下，设置错了 ScaleType 导致图片不能铺满整个 View，进而出现了图中的情况。</p></div><div class="post-footer">
         <a href="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -155,7 +252,9 @@
         title="/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/android-profiler.png" /></a>
         </div><h1 class="single-title" itemprop="name headline">
         <a href="/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/">一次 CPU 问题的排查</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-10-15">2021-10-15</time></span></div><div class="content">前言 最近来了个新环境，做了第一个需求——直播答题。 这边的风格大致就是：先在能使用的库的基础上快速完成需求，整个开发时间大概在2-3周，客户端</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-10-15">2021-10-15</time></span></div><div class="content"><h2 id="前言">前言</h2>
+<p>最近来了个新环境，做了第一个需求——<strong><code>直播答题</code></strong>。</p>
+<p>这边的风格大致就是：先在能使用的库的基础上快速完成需求，整个开发时间大概在2-3周，<code>客户端总共俩人</code>，我主要负责直播间内的业务逻辑。</p></div><div class="post-footer">
         <a href="/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -169,7 +268,13 @@
         title="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/coroutines_cover.png" /></a>
         </div><h1 class="single-title" itemprop="name headline">
         <a href="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/">再看 Kotlin Coroutines</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-05-30">2021-05-30</time></span></div><div class="content">前言 https://www.youtube.com/watch?v=Mj5P47F6nJg 这个演讲太棒了，演讲人是 Roman Elizarov - Project Lead for the Kotlin Programming Language 按照他的 PPT 我自己总结了一下 Kotlin Coroutines Design Story 首先 kotlin 的协程库 = 线程池 + 任务调度，但是这个调度过程比较复</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-05-30">2021-05-30</time></span></div><div class="content"><h2 id="前言">前言</h2>
+<p><a href="https://www.youtube.com/watch?v=Mj5P47F6nJg" target="_blank" rel="noopener noreffer">https://www.youtube.com/watch?v=Mj5P47F6nJg</a></p>
+<p>这个演讲太棒了，演讲人是 Roman Elizarov - Project Lead for the Kotlin Programming Language</p>
+<p>按照他的 PPT 我自己总结了一下</p>
+<h2 id="kotlin-coroutines-design-story">Kotlin Coroutines Design Story</h2>
+<p>首先 kotlin 的协程库 = 线程池 + 任务调度，但是这个调度过程比较复杂，而且整个过程也并没有直接接管 JVM 或者 操作系统层面的东西，所以也没有 go routines 的神奇的抢占调度。
+然后只有一个关键字 suspend, suspend 函数机制</p></div><div class="post-footer">
         <a href="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -183,7 +288,11 @@
         title="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg" /></a>
         </div><h1 class="single-title" itemprop="name headline">
         <a href="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/">好玩的 Kotlin</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-05-12">2021-05-12</time></span></div><div class="content">​ 前言 又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。 C/C++ 被我暂时搁置了 最近本来是打算捡起来 C++ 的(也</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-05-12">2021-05-12</time></span></div><div class="content"><p>​</p>
+<h2 id="前言">前言</h2>
+<p>又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。</p>
+<h3 id="cc-被我暂时搁置了">C/C++ 被我暂时搁置了</h3>
+<p>最近本来是打算捡起来 C++ 的(也 Hello World 了一下 Rust，这个语言感觉对于以前写 Java 的人来说， 看起来理解起来都好别扭啊···)。</p></div><div class="post-footer">
         <a href="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -197,7 +306,8 @@
         title="/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/multi_platform_base_3.jpg" /></a>
         </div><h1 class="single-title" itemprop="name headline">
         <a href="/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/">给你科普科普跨端</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-03-27">2021-03-27</time></span></div><div class="content">前言 鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从0到1的写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-03-27">2021-03-27</time></span></div><div class="content"><h2 id="前言">前言</h2>
+<p>鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从0到1的写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过 Weex，对于跨端研究过一阵，所以来科普一下。</p></div><div class="post-footer">
         <a href="/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -211,7 +321,8 @@
         title="/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/rxjava_all.jpg" /></a>
         </div><h1 class="single-title" itemprop="name headline">
         <a href="/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/">一个简单的 RxJava 例子解读</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-03-20">2021-03-20</time></span></div><div class="content">前言 RxJava 是一个经常让人出错的库，有的同事第一次接触完全搞不懂，个人感觉是没抓住核心的理念(其实我个人对于 RxJava 是有偏见的)，抓住核心的理念应该会很</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-03-20">2021-03-20</time></span></div><div class="content"><h2 id="前言">前言</h2>
+<p>RxJava 是一个经常让人出错的库，有的同事第一次接触完全搞不懂，个人感觉是没抓住核心的理念(其实我个人对于 RxJava 是有偏见的)，抓住核心的理念应该会很好理解，其实就是一个事件流的问题。</p></div><div class="post-footer">
         <a href="/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -225,7 +336,8 @@
         title="/posts/ReferenceQueue-and-GC/referenceq.png" /></a>
         </div><h1 class="single-title" itemprop="name headline">
         <a href="/posts/ReferenceQueue-and-GC/">ReferenceQueue and Rumtime.gc()</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-03-12">2021-03-12</time></span></div><div class="content">前言 内存泄漏对于日常简单的业务开发而言 很常见也不常见(如果你还是说 Handler 那一套的话，除非你使用 Handler 做 timer，否则 总有一个时间 会释放所谓的内部类</div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-03-12">2021-03-12</time></span></div><div class="content"><h2 id="前言">前言</h2>
+<p>内存泄漏对于日常简单的业务开发而言 <code>很常见也不常见</code>(如果你还是说 <code>Handler</code> 那一套的话，除非你使用 <code>Handler 做 timer</code>，否则 <code>总有一个时间</code> 会释放所谓的内部类引用的 Activity 等对象)。一般作为业务开发能制造内存泄漏的情景，我遇到的有几种(当然可能存在更多的情况)：</p></div><div class="post-footer">
         <a href="/posts/ReferenceQueue-and-GC/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
@@ -258,7 +370,7 @@
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.122.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
