@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Kotlin Native CInterop - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/">
+  <meta property="og:site_name" content="北邙山之光的 Blog">
+  <meta property="og:title" content="Kotlin Native CInterop">
+  <meta property="og:description" content="最近在搞 k/n 鸿蒙的适配，也是有一些前人踩过坑，但是都没有开源，还是要自己埋头钻研
+这部分后续会给一个详细文档吧
+今天主要来介绍 kotlin/native 中的 cinterop
+其实，在编译 kotlin/native 编译器，生成编译器需要的 platformLib 时，我就已经看到了 cinterop。他通过 kotlin/native 工程中声明的一些 .def 文件，编译过后都变成了标准的 kotlin 的跨平台库(klib) 格式">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-07T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-01-07T00:00:00+00:00">
+    <meta property="article:tag" content="Android">
+    <meta property="og:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/kotlin-native.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/kotlin-native.png">
+  <meta name="twitter:title" content="Kotlin Native CInterop">
+  <meta name="twitter:description" content="最近在搞 k/n 鸿蒙的适配，也是有一些前人踩过坑，但是都没有开源，还是要自己埋头钻研
+这部分后续会给一个详细文档吧
+今天主要来介绍 kotlin/native 中的 cinterop
+其实，在编译 kotlin/native 编译器，生成编译器需要的 platformLib 时，我就已经看到了 cinterop。他通过 kotlin/native 工程中声明的一些 .def 文件，编译过后都变成了标准的 kotlin 的跨平台库(klib) 格式">
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/" /><link rel="prev" href="http://PTrainbow.github.io/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Kotlin Native CInterop",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-Cinterop\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-Cinterop\/kotlin-native.png",
+                            "width":  2144 ,
+                            "height":  612 
+                        }],"genre": "posts","keywords": "Android","wordcount":  1864 ,
+        "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-Cinterop\/","datePublished": "2025-01-07T00:00:00+00:00","dateModified": "2025-01-07T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/posts/Kotlin-Native-Cinterop/" selected>简体中文</option></select>
+                    </a><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a>
+                <a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/posts/Kotlin-Native-Cinterop/" selected>简体中文</option></select>
+                </a>
+        </div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Kotlin Native CInterop</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-01-07">2025-01-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1864 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/Kotlin-Native-Cinterop/kotlin-native.png"
+        data-srcset="/posts/Kotlin-Native-Cinterop/kotlin-native.png, /posts/Kotlin-Native-Cinterop/kotlin-native.png 1.5x, /posts/Kotlin-Native-Cinterop/kotlin-native.png 2x"
+        data-sizes="auto"
+        alt="/posts/Kotlin-Native-Cinterop/kotlin-native.png"
+        title="/posts/Kotlin-Native-Cinterop/kotlin-native.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#cinterop-效果简介">cinterop 效果简介</a></li>
+    <li><a href="#cinterop-原理">cinterop 原理</a>
+      <ul>
+        <li><a href="#clang-编译器">Clang 编译器</a></li>
+        <li><a href="#kotlin-metadata">Kotlin Metadata</a></li>
+        <li><a href="#cstubbc">cstub.bc</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>最近在搞 k/n 鸿蒙的适配，也是有一些前人踩过坑，但是都没有开源，还是要自己埋头钻研</p>
+<p>这部分后续会给一个详细文档吧</p>
+<p>今天主要来介绍 kotlin/native 中的 cinterop</p>
+<p>其实，在编译 kotlin/native 编译器，生成编译器需要的 platformLib 时，我就已经看到了 cinterop。他通过 kotlin/native 工程中声明的一些 .def 文件，编译过后都变成了标准的 kotlin 的跨平台库(klib) 格式</p>
+<p>cinterop 是一个 kotlin/native 提供的工具（源码也在，我们最终编译整个编译器后，dist/bin 下也会产生 cinterop 的可执行文件），他可以自动的产生一个 c/c++ lib 和 kotlin 之间的 binding（胶水代码），同时也是编译产出 kotlin 的跨平台库(klib) 的工具</p>
+<p>klib 的基本格式如下(后续会讲解 .knm 和 .bc 这两个最重要的东西)：
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/knm.png"
+        data-srcset="/img/in-post/knm.png, /img/in-post/knm.png 1.5x, /img/in-post/knm.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/knm.png"
+        title="/img/in-post/knm.png" /></p>
+<h2 id="cinterop-效果简介">cinterop 效果简介</h2>
+<p>就以上图中的 platform.linux 提供给我们的能力为例</p>
+<p>platform.linux 是 kotlin/native 编译器内部自带的，已经编译好了的 klib，其依赖为 linux 声明的 linux.def 生成</p>
+<p>有了这个 klib，我们可以直接在 kotlin 中调用很多 linux 平台的函数，比如 epoll_create 等(下图就是部分 linux 的 kotlin 函数，同时这个文件就是上图 klib 中的 .knm 文件解析以后的样子)</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/cinterop_linux.png"
+        data-srcset="/img/in-post/cinterop_linux.png, /img/in-post/cinterop_linux.png 1.5x, /img/in-post/cinterop_linux.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/cinterop_linux.png"
+        title="/img/in-post/cinterop_linux.png" /></p>
+<p>这时候，就应该有一个非常大的疑问：</p>
+<p>这些 kotlin 代码是怎么生成出来的？</p>
+<h2 id="cinterop-原理">cinterop 原理</h2>
+<p>由上面我们知道，cinterop 生成的 kotlin/c 的胶水代码其实就在 .knm 文件中，有了这个文件，我们就可以在 kotlin 世界中，import platform.linux，然后调用 epoll 函数</p>
+<p>epoll 或者说 linux 平台的相关函数，都声明在各自的头文件中</p>
+<p>下面是 linux.def 文件，它告知了需要导出哪些头文件的内容给 kotlin 调用</p>
+<pre tabindex="0"><code>// linux.def
+package = platform.linux
+headers = aio.h aliases.h a.out.h argp.h argz.h byteswap.h cpio.h crypt.h \
+	elf.h endian.h envz.h error.h execinfo.h features.h fmtmsg.h \
+	fpu_control.h \
+	fstab.h _G_config.h gconv.h glob.h gnu-versions.h \
+	gshadow.h ieee754.h ifaddrs.h langinfo.h lastlog.h \
+	libintl.h libio.h link.h malloc.h mcheck.h mntent.h \
+	monetary.h mqueue.h \
+	nl_types.h nss.h obstack.h \
+	printf.h pty.h re_comp.h \
+	spawn.h stab.h stdio_ext.h syscall.h \
+	tar.h termio.h thread_db.h ttyent.h ulimit.h \
+	ustat.h utmpx.h values.h wait.h wordexp.h \
+	arpa/ftp.h arpa/inet.h arpa/nameser_compat.h \
+	arpa/nameser.h arpa/telnet.h arpa/tftp.h \
+	netinet/if_ether.h net/if_packet.h \
+	netinet/ether.h linux/in6.h netpacket/packet.h \
+	sys/acct.h sys/bitypes.h sys/cdefs.h \
+	sys/dir.h sys/epoll.h sys/errno.h \
+	sys/eventfd.h sys/fcntl.h \
+	sys/file.h sys/fsuid.h sys/gmon.h sys/gmon_out.h \
+	sys/inotify.h sys/kd.h sys/klog.h sys/mount.h \
+	sys/msg.h sys/mtio.h sys/param.h sys/pci.h \
+	sys/personality.h sys/prctl.h sys/procfs.h sys/profil.h \
+	sys/raw.h sys/reboot.h sys/resource.h \
+	sys/sem.h sys/sendfile.h sys/signalfd.h sys/signal.h \
+	sys/socket.h sys/socketvar.h sys/soundcard.h sys/statfs.h \
+	sys/statvfs.h sys/stropts.h sys/swap.h sys/syscall.h \
+	sys/sysctl.h sys/sysinfo.h sys/syslog.h sys/sysmacros.h sys/termios.h \
+	sys/timeb.h sys/timerfd.h sys/timex.h sys/ttychars.h \
+	sys/ttydefaults.h sys/types.h sys/ucontext.h sys/uio.h \
+	sys/ultrasound.h sys/un.h sys/unistd.h sys/user.h \
+	sys/ustat.h utime.h sys/utsname.h sys/vfs.h sys/vlimit.h \
+	sys/vt.h sys/vtimes.h sys/xattr.h
+
+headers.x64 = stdc-predef.h uchar.h sys/auxv.h sys/fanotify.h
+headers.arm64 = stdc-predef.h uchar.h sys/auxv.h sys/fanotify.h
+
+compilerOpts = -D_ANSI_SOURCE -D_POSIX_C_SOURCE=199309 -D_BSD_SOURCE -D_XOPEN_SOURCE=700
+depends = posix
+</code></pre><p>那么，问题又来了，头文件又是如何一步一步生成 kotlin 代码的呢？</p>
+<h3 id="clang-编译器">Clang 编译器</h3>
+<p>clang 可以用于解析 c/c++ 源码</p>
+<p>那么，当接收到一个 .h 头文件后，cinterop 会使用 clang 编译器来解析 .h 文件(详情参考 org.jetbrains.kotlin.native.interop.indexer.NativeIndex.kt 周围关联的各种逻辑)</p>
+<p>具体怎么做到的呢？</p>
+<p>因为其依赖了 llvm，并且在编译器层面，给 llvm c++ api 建立了一层 jni，这样可以直接使用 kotlin 代码调用 llvm 函数，如 clang_createTranslationUnit 为例:</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/llvm_jni_1.png"
+        data-srcset="/img/in-post/llvm_jni_1.png, /img/in-post/llvm_jni_1.png 1.5x, /img/in-post/llvm_jni_1.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/llvm_jni_1.png"
+        title="/img/in-post/llvm_jni_1.png" />
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/llvm_jni_2.png"
+        data-srcset="/img/in-post/llvm_jni_2.png, /img/in-post/llvm_jni_2.png 1.5x, /img/in-post/llvm_jni_2.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/llvm_jni_2.png"
+        title="/img/in-post/llvm_jni_2.png" />
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/llvm_jni_3.png"
+        data-srcset="/img/in-post/llvm_jni_3.png, /img/in-post/llvm_jni_3.png 1.5x, /img/in-post/llvm_jni_3.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/llvm_jni_3.png"
+        title="/img/in-post/llvm_jni_3.png" />
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/llvm_jni_4.png"
+        data-srcset="/img/in-post/llvm_jni_4.png, /img/in-post/llvm_jni_4.png 1.5x, /img/in-post/llvm_jni_4.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/llvm_jni_4.png"
+        title="/img/in-post/llvm_jni_4.png" /></p>
+<p>这样子，我们就可以在 kotlin 的世界中，使用 llvm 的函数（这里是运行在 java 环境下的标准 kotlin）</p>
+<p>clang 有一系列的 api 可以用于解析源码文件，上述的 createTranslationUnit 就是一个类似 init 的 api，然后有各种解析方法声明、变量等等的方法(源码过多，可以详见  llvm index.h 头文件中的一些注释介绍 和 sample 代码)</p>
+<p>通过，这一步，可以将 .h 全部转化为 clang ast</p>
+<h3 id="kotlin-metadata">Kotlin Metadata</h3>
+<p>拿到 clang 解析完的 AST 后，我们需要进一步生成对应的 kotlin 描述</p>
+<p>AST 会被整理到 NativeIndex 中，比如方法声明就存在了 functions 中， FunctionDecl 结构如下图：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/function_decl.png"
+        data-srcset="/img/in-post/function_decl.png, /img/in-post/function_decl.png 1.5x, /img/in-post/function_decl.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/function_decl.png"
+        title="/img/in-post/function_decl.png" /></p>
+<p>但是，这里依然只是一个对于 c/c++ 方法的描述</p>
+<p>还需要 StubIrBuilder 来生成 kotlin 的描述</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/stubir.png"
+        data-srcset="/img/in-post/stubir.png, /img/in-post/stubir.png 1.5x, /img/in-post/stubir.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/stubir.png"
+        title="/img/in-post/stubir.png" /></p>
+<p>这里还有一些对于 oc 的特殊处理，经过这一步以后，类型和声明相关的描述已经摆脱了 c/c++ clang 的世界，此时得到的是 StubIrElement(FunctionStub impl StubIrElement)</p>
+<p>这里，其实对应的 kotlin 方法的描述已经生成，但是只是一个中间描述，还不是标准的 kotlin 描述。比如下图中的 方法名、方法参数、返回类型等等，已经存在</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/stubIr_functions.png"
+        data-srcset="/img/in-post/stubIr_functions.png, /img/in-post/stubIr_functions.png 1.5x, /img/in-post/stubIr_functions.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/stubIr_functions.png"
+        title="/img/in-post/stubIr_functions.png" /></p>
+<p>之后，通过 StubIrMetaDataEmitter 将这些 StubIrElement 又做了一层转换，转换为了 kotlin metadata，这里就是标准的 kotlin 世界了。比如 FunctionStub 会被转为 KmFunction</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/km_function.png"
+        data-srcset="/img/in-post/km_function.png, /img/in-post/km_function.png 1.5x, /img/in-post/km_function.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/km_function.png"
+        title="/img/in-post/km_function.png" /></p>
+<p>最终，会序列化变为我们 klib 图中的 .knm 文件</p>
+<p>TODO: 调用 .knm 文件中生成的方法，如何编译的时候不报错的？</p>
+<h3 id="cstubbc">cstub.bc</h3>
+<p>.bc 文件是 llvm ir 生成的 bitcode</p>
+<p>为什么需要 .bc？</p>
+<p>因为我们在 kotlin 调用 c 方法时，实际有一层中间的胶水代码，这部分代码会被编译为 bitcode</p>
+<p>我们可以使用 llvm-dis 查看，会发现我们例子中的 epoll_create 相关的方法声明 epoll_create_warpper263(下图是 linux platform 的 cstub.bc 的部分内容)</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/cstub_bc.png"
+        data-srcset="/img/in-post/cstub_bc.png, /img/in-post/cstub_bc.png 1.5x, /img/in-post/cstub_bc.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/cstub_bc.png"
+        title="/img/in-post/cstub_bc.png" /></p>
+<p>这里其实有个小疑问，为啥是 epoll_create_wrapper263？</p>
+<p>围绕这个诡异的 wrapper 我们还发现了一个函数指针</p>
+<p>@knifunptr_platform_linux273_epoll_create = local_unnamed_addr global i8* bitcast (i32 (i32)* @platform_linux_epoll_create_wrapper263 to i8*), align 8，这又是啥？</p>
+<p>其实，我们在 .knm 中看到的 epoll_create，最终调用的就是 knifunptr_platform_linux273_epoll_create，然后 knifunptr_platform_linux273_epoll_create 其实就是一个函数指针调用到 wrapper263，wrapper263 进一步调用了真正的 epoll_create</p>
+<p>而且，wrapper263 是一个内联函数，最终应该是会被优化掉的</p>
+<p>所以，最终我们使用 klib 产生目标平台的二进制时，写完的 kotlin 代码(包括对于 c/c++ lib 的一些调用)，都会被编译器解析变成 kotlin backend ir，然后变成 llvm ir ，生成 bitcode，然后和我们胶水代码的 bitcode 还有 k/n runtime 相关的 bitcode 合并，最终生成一个对应平台的二进制文件</p>
+<p>而当我们只是产生 klib 的时候，只会生成  klib 的标准格式(比较重要的是 .bc 和 .knm)</p>
+<h2 id="总结">总结</h2>
+<p>如下图(c 暴露给 kotlin 视角)</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/cinterop_summary.png"
+        data-srcset="/img/in-post/cinterop_summary.png, /img/in-post/cinterop_summary.png 1.5x, /img/in-post/cinterop_summary.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/cinterop_summary.png"
+        title="/img/in-post/cinterop_summary.png" /></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-01-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/" class="prev" rel="prev" title="2024提前总结"><i class="fas fa-angle-left fa-fw"></i>2024提前总结</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.140.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-01-07T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Kotlin Native CInterop"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

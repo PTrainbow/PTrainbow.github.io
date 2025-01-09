@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
     <head>
-	<meta name="generator" content="Hugo 0.139.0">
+	<meta name="generator" content="Hugo 0.140.1">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
@@ -97,6 +97,23 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/Kotlin-Native-Cinterop/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/Kotlin-Native-Cinterop/kotlin-native.png"
+        data-srcset="/posts/Kotlin-Native-Cinterop/kotlin-native.png, /posts/Kotlin-Native-Cinterop/kotlin-native.png 1.5x, /posts/Kotlin-Native-Cinterop/kotlin-native.png 2x"
+        data-sizes="auto"
+        alt="/posts/Kotlin-Native-Cinterop/kotlin-native.png"
+        title="/posts/Kotlin-Native-Cinterop/kotlin-native.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/Kotlin-Native-Cinterop/">Kotlin Native CInterop</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-01-07">2025-01-07</time></span></div><div class="content"><p>最近在搞 k/n 鸿蒙的适配，也是有一些前人踩过坑，但是都没有开源，还是要自己埋头钻研</p>
+<p>这部分后续会给一个详细文档吧</p>
+<p>今天主要来介绍 kotlin/native 中的 cinterop</p>
+<p>其实，在编译 kotlin/native 编译器，生成编译器需要的 platformLib 时，我就已经看到了 cinterop。他通过 kotlin/native 工程中声明的一些 .def 文件，编译过后都变成了标准的 kotlin 的跨平台库(klib) 格式</p></div><div class="post-footer">
+        <a href="/posts/Kotlin-Native-Cinterop/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -225,21 +242,6 @@
 <p>比如，我写代码这么久，甚至不知道 double 的内存结构和 7FF 代表什么。比如，因为没有系统学习过编译原理等等，没有 opcode 相关的概念，如何设计 interpreter(又想回去读书了···)。</p></div><div class="post-footer">
         <a href="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/C/C&#43;&#43;/">C/C&#43;&#43;</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/js_engine.png"
-        data-srcset="/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/js_engine.png, /posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/js_engine.png 1.5x, /posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/js_engine.png 2x"
-        data-sizes="auto"
-        alt="/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/js_engine.png"
-        title="/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/js_engine.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/">Elk JSEngine 学习</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-08-19">2023-08-19</time></span></div><div class="content"><p>一直想学习一下如何写一个 VM，但是苦于各种成熟 VM 代码量庞大，阅读困难，无从学起</p>
-<p>即使 lua 的古老版本的代码，对于我这种没有任何编译背景和语言设计背景的人来说，很难理解源码在写什么、在处理什么问题</p></div><div class="post-footer">
-        <a href="/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/C/C&#43;&#43;/">C/C&#43;&#43;</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">
                         <a href="/">1</a>
@@ -256,12 +258,12 @@
                     <span class="page-link" aria-hidden="true">&hellip;</span>
                 </li><li class="page-item ">
                     <span class="page-link">
-                        <a href="/page/7/">7</a>
+                        <a href="/page/8/">8</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.140.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

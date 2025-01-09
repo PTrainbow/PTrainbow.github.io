@@ -3,7 +3,17 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 22 Nov 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 07 Jan 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Kotlin Native CInterop</title>
+    <link>http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/</link>
+    <pubDate>Tue, 07 Jan 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/</guid>
+    <description><![CDATA[<p>最近在搞 k/n 鸿蒙的适配，也是有一些前人踩过坑，但是都没有开源，还是要自己埋头钻研</p>
+<p>这部分后续会给一个详细文档吧</p>
+<p>今天主要来介绍 kotlin/native 中的 cinterop</p>
+<p>其实，在编译 kotlin/native 编译器，生成编译器需要的 platformLib 时，我就已经看到了 cinterop。他通过 kotlin/native 工程中声明的一些 .def 文件，编译过后都变成了标准的 kotlin 的跨平台库(klib) 格式</p>]]></description>
+</item><item>
     <title>2024提前总结</title>
     <link>http://PTrainbow.github.io/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/</link>
     <pubDate>Fri, 22 Nov 2024 00:00:00 &#43;0000</pubDate>
@@ -87,13 +97,5 @@
     <guid>http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/</guid>
     <description><![CDATA[<p>前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser + interpreter 吧)的代码，学到了一些计算机基础的东西。</p>
 <p>比如，我写代码这么久，甚至不知道 double 的内存结构和 7FF 代表什么。比如，因为没有系统学习过编译原理等等，没有 opcode 相关的概念，如何设计 interpreter(又想回去读书了···)。</p>]]></description>
-</item><item>
-    <title>Elk JSEngine 学习</title>
-    <link>http://PTrainbow.github.io/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/</link>
-    <pubDate>Sat, 19 Aug 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/</guid>
-    <description><![CDATA[<p>一直想学习一下如何写一个 VM，但是苦于各种成熟 VM 代码量庞大，阅读困难，无从学起</p>
-<p>即使 lua 的古老版本的代码，对于我这种没有任何编译背景和语言设计背景的人来说，很难理解源码在写什么、在处理什么问题</p>]]></description>
 </item></channel>
 </rss>

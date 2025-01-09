@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
     <head>
-	<meta name="generator" content="Hugo 0.139.0">
+	<meta name="generator" content="Hugo 0.140.1">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
@@ -97,6 +97,21 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/ReferenceQueue-and-GC/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/ReferenceQueue-and-GC/referenceq.png"
+        data-srcset="/posts/ReferenceQueue-and-GC/referenceq.png, /posts/ReferenceQueue-and-GC/referenceq.png 1.5x, /posts/ReferenceQueue-and-GC/referenceq.png 2x"
+        data-sizes="auto"
+        alt="/posts/ReferenceQueue-and-GC/referenceq.png"
+        title="/posts/ReferenceQueue-and-GC/referenceq.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/ReferenceQueue-and-GC/">ReferenceQueue and Rumtime.gc()</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-03-12">2021-03-12</time></span></div><div class="content"><h2 id="前言">前言</h2>
+<p>内存泄漏对于日常简单的业务开发而言 <code>很常见也不常见</code>(如果你还是说 <code>Handler</code> 那一套的话，除非你使用 <code>Handler 做 timer</code>，否则 <code>总有一个时间</code> 会释放所谓的内部类引用的 Activity 等对象)。一般作为业务开发能制造内存泄漏的情景，我遇到的有几种(当然可能存在更多的情况)：</p></div><div class="post-footer">
+        <a href="/posts/ReferenceQueue-and-GC/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/Handler-Looper-MQ-%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -207,12 +222,6 @@
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-01-21">2021-01-21</time></span></div><div class="content"><p>最近看了一些程序语言的设计，语言的本质等等···接触到了一些神奇的名词，<code>协变与逆变（Covariance and contravariance）</code> 等等。</p></div><div class="post-footer">
         <a href="/posts/2021-01-21-java-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Java/">Java</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/">半天入门了下 kotlin</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-12-24">2020-12-24</time></span></div><div class="content"><p>最近好多人都在用 kotlin 了，我真实接触并且使用 kotlin 的时候是 2019 年。那个时候也依葫芦画瓢写了一篇《lateinit 和 by lazy 》的文章</p>
-<p>但是，当时写代码还是停留在 if-else、 for 循环等等，跟 java 代码没什么区别，所以并没有深入的理解。</p></div><div class="post-footer">
-        <a href="/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/kotlin/">Kotlin</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
@@ -239,10 +248,14 @@
                     <span class="page-link">
                         <a href="/page/7/">7</a>
                     </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/page/8/">8</a>
+                    </span>
                 </li></ul></div></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.140.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

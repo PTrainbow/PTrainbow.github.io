@@ -3,7 +3,17 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 23 Feb 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 07 Jan 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>Kotlin Native CInterop</title>
+    <link>http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/</link>
+    <pubDate>Tue, 07 Jan 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/</guid>
+    <description><![CDATA[<p>最近在搞 k/n 鸿蒙的适配，也是有一些前人踩过坑，但是都没有开源，还是要自己埋头钻研</p>
+<p>这部分后续会给一个详细文档吧</p>
+<p>今天主要来介绍 kotlin/native 中的 cinterop</p>
+<p>其实，在编译 kotlin/native 编译器，生成编译器需要的 platformLib 时，我就已经看到了 cinterop。他通过 kotlin/native 工程中声明的一些 .def 文件，编译过后都变成了标准的 kotlin 的跨平台库(klib) 格式</p>]]></description>
+</item><item>
     <title>maven publish dependency</title>
     <link>http://PTrainbow.github.io/posts/maven-publish-dependency/</link>
     <pubDate>Fri, 23 Feb 2024 00:00:00 &#43;0000</pubDate>
@@ -88,25 +98,5 @@
 <p>最近一直在治理 OOM 问题，OOM 问题分为多种，其中有一种的原因是 java heap 空间不足</p>
 <p>这种 OOM 多发生于低版本手机，或者是存在严重的内存泄漏的高版本手机</p>
 <p>现在很多 APP minSdk 都升级到了 21， 这时候低版本 Bitmap 一直分配在 java heap 中，是内存大户，一张大图占用10M级别的内存很正常。而一些低版本的 java heap 只有 128/256M，很容易就 OOM</p>]]></description>
-</item><item>
-    <title>JVMTI 的运用</title>
-    <link>http://PTrainbow.github.io/posts/jvmti/</link>
-    <pubDate>Wed, 02 Nov 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/jvmti/</guid>
-    <description><![CDATA[<p>​</p>
-<h2 id="文档">文档</h2>
-<p><a href="https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn" target="_blank" rel="noopener noreffer">https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn</a></p>
-<p></p>
-<h2 id="jvmti-可以做什么">JVMTI 可以做什么</h2>
-<p>一些重要的功能包括：</p>
-<ol>
-<li>重新定义类。</li>
-<li>跟踪对象分配和垃圾回收过程。</li>
-<li>遵循对象的引用树，遍历堆中的所有对象。</li>
-<li>检查 Java 调用堆栈。</li>
-<li>暂停（和恢复）所有线程。</li>
-</ol>
-<p>其实远远不止，详情查看文档 <a href="https://docs.oracle.com/javase/8/docs/platform/jvmti/jvmti.html#architecture" target="_blank" rel="noopener noreffer">https://docs.oracle.com/javase/8/docs/platform/jvmti/jvmti.html#architecture</a></p>]]></description>
 </item></channel>
 </rss>
