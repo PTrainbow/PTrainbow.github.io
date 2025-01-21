@@ -31,13 +31,13 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-1" class="typeit"></span></a>
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre">🐒</span><span id="id-1" class="typeit"></span></a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
                         <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/" selected>简体中文</option></select>
                     </a><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <input type="text" placeholder="搜索失效了哈！建议放弃" id="search-input-desktop">
                         <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
                             <i class="fas fa-search fa-fw"></i>
                         </a>
@@ -57,7 +57,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre"><i class='far fa-dizzy'></i></span><span id="id-2" class="typeit"></span></a>
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre">🐒</span><span id="id-2" class="typeit"></span></a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -65,7 +65,7 @@
         </div>
         <div class="menu" id="menu-mobile"><div class="search-wrapper">
                     <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <input type="text" placeholder="搜索失效了哈！建议放弃" id="search-input-mobile">
                         <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
                             <i class="fas fa-search fa-fw"></i>
                         </a>
@@ -97,6 +97,24 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg"
+        data-srcset="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg, /posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg 1.5x, /posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg"
+        title="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/">Kotlin Native 解析</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-01-21">2025-01-21</time></span></div><div class="content"><p>最近，终于跑通了 kotlin-native 在鸿蒙上的 demo！</p>
+<h2 id="前置知识">前置知识</h2>
+<h3 id="kotlin-multiplatform">kotlin multiplatform</h3>
+<p>kotlin multiplatform 是 jetbrains 推出来的跨端方案，渲染通过 compose(skia)，逻辑通过 kotlin。</p>
+<p>逻辑这块在 iOS/linux 等平台依靠的是 <code>kotlin-native</code> 编译器，将 kotlin 代码直接编译成了对应平台的二进制，而在 jvm 平台则直接转为 java bytecode</p></div><div class="post-footer">
+        <a href="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/Kotlin-Native-Cinterop/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -227,21 +245,6 @@
 <p>Android 包体积由多方面构成，这个我之前的文章里也有说过，所以包体积缩减的手段有很多，这个就不一一介绍了</p></div><div class="post-footer">
         <a href="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png"
-        data-srcset="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png, /posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png 1.5x, /posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png 2x"
-        data-sizes="auto"
-        alt="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png"
-        title="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/">ToyJVM 学习</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-08-23">2023-08-23</time></span></div><div class="content"><p>前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser + interpreter 吧)的代码，学到了一些计算机基础的东西。</p>
-<p>比如，我写代码这么久，甚至不知道 double 的内存结构和 7FF 代表什么。比如，因为没有系统学习过编译原理等等，没有 opcode 相关的概念，如何设计 interpreter(又想回去读书了···)。</p></div><div class="post-footer">
-        <a href="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/C/C&#43;&#43;/">C/C&#43;&#43;</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">
                         <a href="/">1</a>

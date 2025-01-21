@@ -3,7 +3,18 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 07 Jan 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 21 Jan 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>Kotlin Native 解析</title>
+    <link>http://PTrainbow.github.io/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/</link>
+    <pubDate>Tue, 21 Jan 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/</guid>
+    <description><![CDATA[<p>最近，终于跑通了 kotlin-native 在鸿蒙上的 demo！</p>
+<h2 id="前置知识">前置知识</h2>
+<h3 id="kotlin-multiplatform">kotlin multiplatform</h3>
+<p>kotlin multiplatform 是 jetbrains 推出来的跨端方案，渲染通过 compose(skia)，逻辑通过 kotlin。</p>
+<p>逻辑这块在 iOS/linux 等平台依靠的是 <code>kotlin-native</code> 编译器，将 kotlin 代码直接编译成了对应平台的二进制，而在 jvm 平台则直接转为 java bytecode</p>]]></description>
+</item><item>
     <title>Kotlin Native CInterop</title>
     <link>http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/</link>
     <pubDate>Tue, 07 Jan 2025 00:00:00 &#43;0000</pubDate>
@@ -87,16 +98,5 @@
 最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor</p>
 <p>koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起</p>
 <p>最近在修改的时候无意间触发了一个神奇的 bug</p>]]></description>
-</item><item>
-    <title>NativeBitmap 实现</title>
-    <link>http://PTrainbow.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</link>
-    <pubDate>Sat, 31 Dec 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</guid>
-    <description><![CDATA[<p>​</p>
-<h2 id="前言">前言</h2>
-<p>最近一直在治理 OOM 问题，OOM 问题分为多种，其中有一种的原因是 java heap 空间不足</p>
-<p>这种 OOM 多发生于低版本手机，或者是存在严重的内存泄漏的高版本手机</p>
-<p>现在很多 APP minSdk 都升级到了 21， 这时候低版本 Bitmap 一直分配在 java heap 中，是内存大户，一张大图占用10M级别的内存很正常。而一些低版本的 java heap 只有 128/256M，很容易就 OOM</p>]]></description>
 </item></channel>
 </rss>

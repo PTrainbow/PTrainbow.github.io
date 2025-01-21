@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Kotlin Native 解析 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/">
+  <meta property="og:site_name" content="北邙山之光的 Blog">
+  <meta property="og:title" content="Kotlin Native 解析">
+  <meta property="og:description" content="最近，终于跑通了 kotlin-native 在鸿蒙上的 demo！
+前置知识 kotlin multiplatform kotlin multiplatform 是 jetbrains 推出来的跨端方案，渲染通过 compose(skia)，逻辑通过 kotlin。
+逻辑这块在 iOS/linux 等平台依靠的是 kotlin-native 编译器，将 kotlin 代码直接编译成了对应平台的二进制，而在 jvm 平台则直接转为 java bytecode">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-01-21T00:00:00+00:00">
+    <meta property="article:tag" content="Android">
+    <meta property="og:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg">
+  <meta name="twitter:title" content="Kotlin Native 解析">
+  <meta name="twitter:description" content="最近，终于跑通了 kotlin-native 在鸿蒙上的 demo！
+前置知识 kotlin multiplatform kotlin multiplatform 是 jetbrains 推出来的跨端方案，渲染通过 compose(skia)，逻辑通过 kotlin。
+逻辑这块在 iOS/linux 等平台依靠的是 kotlin-native 编译器，将 kotlin 代码直接编译成了对应平台的二进制，而在 jvm 平台则直接转为 java bytecode">
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/" /><link rel="prev" href="http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Kotlin Native 解析",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E8%A7%A3%E6%9E%90\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E8%A7%A3%E6%9E%90\/kmp_target.jpg",
+                            "width":  1200 ,
+                            "height":  672 
+                        }],"genre": "posts","keywords": "Android","wordcount":  850 ,
+        "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E8%A7%A3%E6%9E%90\/","datePublished": "2025-01-21T00:00:00+00:00","dateModified": "2025-01-21T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre">🐒</span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/" selected>简体中文</option></select>
+                    </a><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索失效了哈！建议放弃" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre">🐒</span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索失效了哈！建议放弃" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a>
+                <a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/" selected>简体中文</option></select>
+                </a>
+        </div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Kotlin Native 解析</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-01-21">2025-01-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 850 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg"
+        data-srcset="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg, /posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg 1.5x, /posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg"
+        title="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前置知识">前置知识</a>
+      <ul>
+        <li><a href="#kotlin-multiplatform">kotlin multiplatform</a></li>
+        <li><a href="#交叉编译">交叉编译</a></li>
+        <li><a href="#llvmclang">llvm/clang</a></li>
+      </ul>
+    </li>
+    <li><a href="#原理">原理</a>
+      <ul>
+        <li><a href="#klib--cinterop">klib &amp; cinterop</a></li>
+        <li><a href="#kotlin---kotlin-ir---llvm-ir---bc">kotlin -&gt; kotlin ir -&gt; llvm ir -&gt; .bc</a></li>
+        <li><a href="#bc---o---so--target-binary">.bc -&gt; .o -&gt; .so = target binary</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>最近，终于跑通了 kotlin-native 在鸿蒙上的 demo！</p>
+<h2 id="前置知识">前置知识</h2>
+<h3 id="kotlin-multiplatform">kotlin multiplatform</h3>
+<p>kotlin multiplatform 是 jetbrains 推出来的跨端方案，渲染通过 compose(skia)，逻辑通过 kotlin。</p>
+<p>逻辑这块在 iOS/linux 等平台依靠的是 <code>kotlin-native</code> 编译器，将 kotlin 代码直接编译成了对应平台的二进制，而在 jvm 平台则直接转为 java bytecode</p>
+<p><strong>以下文章，只是分析 <code>kotlin/native</code> 这一分支的实现原理</strong></p>
+<p>这个图，简洁的展示了其中的原理</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/kn_llvm.png"
+        data-srcset="/img/in-post/kn_llvm.png, /img/in-post/kn_llvm.png 1.5x, /img/in-post/kn_llvm.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/kn_llvm.png"
+        title="/img/in-post/kn_llvm.png" /></p>
+<p>思考 kotlin/native 相关的几个问题</p>
+<ol>
+<li>kotlin 代码怎么直接就变成了二进制了？</li>
+<li>kotlin 代码怎么直接调用到对应平台的 c 函数的，比如 linux epoll 之类的函数的？(理论上这是隔离的两个世界)</li>
+<li>kotlin 运行在 jvm 环境的时候，有垃圾回收器帮我们处理内存问题，那现在变成二进制没有了 jvm，内存问题怎么办？</li>
+</ol>
+<h3 id="交叉编译">交叉编译</h3>
+<p>我们经常在 macOS 上进行 android 开发，我们使用 android studio 配置好 ndk，就可以将 c 代码编译成 linux 平台的二进制 elf</p>
+<p>这个平时感受不到，但是细思是不是有点奇怪呢？为啥 macOS 上可以编译出来 linux 平台的东西？</p>
+<p>这就是<code>交叉编译器</code>的功劳了</p>
+<p>同时，牵扯出来另一个问题，一个程序运行到底需要什么？</p>
+<p>我们凭什么可以直接调用 malloc/epoll？这些代码我们工程中并没有</p>
+<p><code>libc</code> 又是什么？bionic-libc glibc musl-libc 又是什么？</p>
+<p><code>linker</code> 又做了什么？</p>
+<h3 id="llvmclang">llvm/clang</h3>
+<p>llvm 是一个编译器框架，clang 是 llvm 工程搞出来的 c/c++ 编译前端</p>
+<p>llvm 有自己的 <code>ir</code>，也有自己的 ir 解释器，iOS 有的热修复通过下发 ir 来实现。同时 llvm 有非常多的 ir 优化，做编译优化</p>
+<p>llvm 本身支持交叉编译，通过 ir 可以转换为对应平台的二进制</p>
+<p><code>.bc</code> = bitcode 是 ir 的二进制存储格式</p>
+<h2 id="原理">原理</h2>
+<h3 id="klib--cinterop">klib &amp; cinterop</h3>
+<p>kmp 可以让我们在 kotlin 中调用到 platform 的 api，比如 iOS NSLog，linux epoll 等等</p>
+<p>但是，我们仅仅是在写 kotlin 代码，怎么调到的呢？如果是 jvm 环境，倒是可以用 jni 做绑定，但是最终我们写的 kotlin 代码会生成一个二进制，并不是 jvm 环境，又何谈 jni 呢？而且这段代码还要被编译到各个平台上，就更不行了，除非 kmp 自带个 jre，那包体直接起飞了(所以说到这里，如果不考虑包体和启动的问题的话，我们完全可以直接各个平台起个 java 进程···)</p>
+<p>于是，klib 和 cinterop 随之而生了！</p>
+<p>先说结论，cinterop 会把 c/c++ lib 的 .h 头文件，使用 clang 做解析</p>
+<h4 id="llvm-api">llvm api</h4>
+<p>TODO</p>
+<h3 id="kotlin---kotlin-ir---llvm-ir---bc">kotlin -&gt; kotlin ir -&gt; llvm ir -&gt; .bc</h3>
+<p>TODO</p>
+<h4 id="kotlin-runtime">kotlin runtime</h4>
+<p>TODO</p>
+<h3 id="bc---o---so--target-binary">.bc -&gt; .o -&gt; .so = target binary</h3>
+<p>TODO</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-01-21</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/Kotlin-Native-Cinterop/" class="prev" rel="prev" title="Kotlin Native CInterop"><i class="fas fa-angle-left fa-fw"></i>Kotlin Native CInterop</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.140.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-01-21T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Kotlin Native 解析"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
