@@ -40,7 +40,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E8%A7%A3%E6%9E%90\/kmp_target.jpg",
                             "width":  1200 ,
                             "height":  672 
-                        }],"genre": "posts","keywords": "Android","wordcount":  850 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  2406 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E8%A7%A3%E6%9E%90\/","datePublished": "2025-01-21T00:00:00+00:00","dateModified": "2025-01-21T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -124,8 +124,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Kotlin Native 解析</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-01-21">2025-01-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 850 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-01-21">2025-01-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2406 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -151,8 +151,7 @@
     <li><a href="#原理">原理</a>
       <ul>
         <li><a href="#klib--cinterop">klib &amp; cinterop</a></li>
-        <li><a href="#kotlin---kotlin-ir---llvm-ir---bc">kotlin -&gt; kotlin ir -&gt; llvm ir -&gt; .bc</a></li>
-        <li><a href="#bc---o---so--target-binary">.bc -&gt; .o -&gt; .so = target binary</a></li>
+        <li><a href="#kotlin---so">kotlin -&gt; .so</a></li>
       </ul>
     </li>
   </ul>
@@ -179,32 +178,225 @@
 <li>kotlin 运行在 jvm 环境的时候，有垃圾回收器帮我们处理内存问题，那现在变成二进制没有了 jvm，内存问题怎么办？</li>
 </ol>
 <h3 id="交叉编译">交叉编译</h3>
-<p>我们经常在 macOS 上进行 android 开发，我们使用 android studio 配置好 ndk，就可以将 c 代码编译成 linux 平台的二进制 elf</p>
-<p>这个平时感受不到，但是细思是不是有点奇怪呢？为啥 macOS 上可以编译出来 linux 平台的东西？</p>
+<p>我们经常在 macOS 上进行 android 开发，我们使用 android studio 配置好 ndk，就可以将 c 代码编译成 linux 平台的二进制 elf。这个平时感受不到，但是细思是不是有点奇怪呢？为啥 macOS 上可以编译出来 linux 平台的东西？</p>
 <p>这就是<code>交叉编译器</code>的功劳了</p>
 <p>同时，牵扯出来另一个问题，一个程序运行到底需要什么？</p>
-<p>我们凭什么可以直接调用 malloc/epoll？这些代码我们工程中并没有</p>
-<p><code>libc</code> 又是什么？bionic-libc glibc musl-libc 又是什么？</p>
-<p><code>linker</code> 又做了什么？</p>
+<p>同时，牵扯出来另另一个问题，我们凭什么可以直接调用 malloc/epoll？这些代码我们工程中并没有，只是导了个头文件</p>
+<p>同时，牵扯出来另另另一个问题，<code>libc</code> 又是什么？bionic-libc glibc musl-libc 又是什么？<code>linker</code> 又做了什么？</p>
 <h3 id="llvmclang">llvm/clang</h3>
+<p>kotlin-native 编译器，大量依赖了 llvm 相关功能</p>
 <p>llvm 是一个编译器框架，clang 是 llvm 工程搞出来的 c/c++ 编译前端</p>
-<p>llvm 有自己的 <code>ir</code>，也有自己的 ir 解释器，iOS 有的热修复通过下发 ir 来实现。同时 llvm 有非常多的 ir 优化，做编译优化</p>
+<p>llvm 有自己的 <code>ir</code>，也有自己的 ir 解释器，iOS 有的热修复通过下发 ir 来实现</p>
 <p>llvm 本身支持交叉编译，通过 ir 可以转换为对应平台的二进制</p>
 <p><code>.bc</code> = bitcode 是 ir 的二进制存储格式</p>
+<p>kotlin-native 跨平台有一个很关键的步骤，就是将 kotlin 代码转换为 bitcode，然后使用 llvm link，再使用 clang 编译为对应平台二进制。</p>
 <h2 id="原理">原理</h2>
 <h3 id="klib--cinterop">klib &amp; cinterop</h3>
-<p>kmp 可以让我们在 kotlin 中调用到 platform 的 api，比如 iOS NSLog，linux epoll 等等</p>
-<p>但是，我们仅仅是在写 kotlin 代码，怎么调到的呢？如果是 jvm 环境，倒是可以用 jni 做绑定，但是最终我们写的 kotlin 代码会生成一个二进制，并不是 jvm 环境，又何谈 jni 呢？而且这段代码还要被编译到各个平台上，就更不行了，除非 kmp 自带个 jre，那包体直接起飞了(所以说到这里，如果不考虑包体和启动的问题的话，我们完全可以直接各个平台起个 java 进程···)</p>
-<p>于是，klib 和 cinterop 随之而生了！</p>
-<p>先说结论，cinterop 会把 c/c++ lib 的 .h 头文件，使用 clang 做解析</p>
+<p>kotlin-native 可以让我们在 kotlin 中调用到 platform 的 api，比如 iOS NSLog，linux epoll 等等</p>
+<p>但是，我们仅仅是在写 kotlin 代码，这是如何做到的？</p>
+<p>如果是 jvm 环境，倒是可以用 jni 做绑定，但是 kotlin-native 并不是 jvm 环境，可能是 iOS/Linux/MacOs 等等，又何谈 jni 呢？除非自带个 jre？那包体太大</p>
+<blockquote>
+<p>其实，说到这里，如果不考虑包体和启动的问题的话，我们完全可以直接各个平台起个 java 进程，当然这种启动和执行可能性能较差。但是，是不是也可以直接使用 <code>graalvm aot 产生的二进制</code>呢？岂不是类似？</p>
+</blockquote>
+<p>所以，搞了 klib 和 cinterop</p>
+<p>先说结论，cinterop 会把 c lib(<code>c++不可以</code>) 的 .h 头文件，使用 clang 做解析，然后转为 kotlin 供给 kotlin 调用</p>
+<p>简单版本的原理 debug 走过一遍 <a href="https://njuptrain.site/posts/Kotlin-Native-Cinterop/" target="_blank" rel="noopener noreffer">https://njuptrain.site/posts/Kotlin-Native-Cinterop/</a></p>
+<blockquote>
+<p>💡注意💡<br>
+因为 cinterop 只会处理标准c头文件。所以，如果你想使用 kotlin 直接调用如 libmmkv.so(c++ lib)，是不可以的。需要增加一层 c wrapper</p>
+</blockquote>
 <h4 id="llvm-api">llvm api</h4>
-<p>TODO</p>
-<h3 id="kotlin---kotlin-ir---llvm-ir---bc">kotlin -&gt; kotlin ir -&gt; llvm ir -&gt; .bc</h3>
-<p>TODO</p>
-<h4 id="kotlin-runtime">kotlin runtime</h4>
-<p>TODO</p>
-<h3 id="bc---o---so--target-binary">.bc -&gt; .o -&gt; .so = target binary</h3>
-<p>TODO</p>
+<p>cinterop 在解析头文件时，使用了很多 llvm/clang 的 api(还没去研究)</p>
+<p>看一些 api 说明，大概就是将 .h 做翻译，是不是常量？是不是一个方法？等等</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/kni.png"
+        data-srcset="/img/in-post/kni.png, /img/in-post/kni.png 1.5x, /img/in-post/kni.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/kni.png"
+        title="/img/in-post/kni.png" /></p>
+<p>收集到这些基础的描述信息以后，使用 kotlin metadata 生成一一对应的 kotlin 代码
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/stubir.png"
+        data-srcset="/img/in-post/stubir.png, /img/in-post/stubir.png 1.5x, /img/in-post/stubir.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/stubir.png"
+        title="/img/in-post/stubir.png" /></p>
+<h3 id="kotlin---so">kotlin -&gt; .so</h3>
+<p>在开发 kmp lib 的时候，我们都是书写的 kotlin 代码，最终又是怎么能够运行到对应平台的呢？</p>
+<p>其实是依靠 kotlin 编译器，处理 kotlin 源文件，转化为 kotlin ir，再一一映射为 llvm ir，最终交叉编译为目标平台二进制</p>
+<h4 id="生成-bitcode">生成 bitcode</h4>
+<p>如何生成 bitcode？</p>
+<p>kotlin 代码会通过 kotlin 前端编译器，转化为 kotlin ir，kotlin ir 最终序列化，存储在 klib 中</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/runfrontend.png"
+        data-srcset="/img/in-post/runfrontend.png, /img/in-post/runfrontend.png 1.5x, /img/in-post/runfrontend.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/runfrontend.png"
+        title="/img/in-post/runfrontend.png" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/psiToIr.png"
+        data-srcset="/img/in-post/psiToIr.png, /img/in-post/psiToIr.png 1.5x, /img/in-post/psiToIr.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/psiToIr.png"
+        title="/img/in-post/psiToIr.png" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/toKlib.png"
+        data-srcset="/img/in-post/toKlib.png, /img/in-post/toKlib.png 1.5x, /img/in-post/toKlib.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/toKlib.png"
+        title="/img/in-post/toKlib.png" /></p>
+<p>之后，通过 kotlin 后端编译器，将 kotlin ir 优化为 lower ir，lower ir 再一一映射到 llvm ir，生成 bitcode</p>
+<blockquote>
+<p>这里其实也是比较复杂的，没有看的比较详细。<br>
+其中包含：<br>
+1.konanIrLinker 处理 klib dependency 的反序列化<br>
+2.形成 irModule。两个 module，最终合并为 out.bc<br>
+3.生成 c api header</p>
+</blockquote>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/runbackend.png"
+        data-srcset="/img/in-post/runbackend.png, /img/in-post/runbackend.png 1.5x, /img/in-post/runbackend.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/runbackend.png"
+        title="/img/in-post/runbackend.png" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/afterlowering.png"
+        data-srcset="/img/in-post/afterlowering.png, /img/in-post/afterlowering.png 1.5x, /img/in-post/afterlowering.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/afterlowering.png"
+        title="/img/in-post/afterlowering.png" /></p>
+<h4 id="生成-target-binary">生成 target binary</h4>
+<p>在上面的 runAfterLowerings 的 compileAndLink 最终生成对应平台二进制</p>
+<blockquote>
+<p>其中，上面的 compileModule 方法特别重要<br>
+compileModule 内部的 runBackendCodegen 会根据 kotlin ir 使用 llvm 生成对应 llvm ir</p>
+</blockquote>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/compileModule.png"
+        data-srcset="/img/in-post/compileModule.png, /img/in-post/compileModule.png 1.5x, /img/in-post/compileModule.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/compileModule.png"
+        title="/img/in-post/compileModule.png" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/backendCodegen.png"
+        data-srcset="/img/in-post/backendCodegen.png, /img/in-post/backendCodegen.png 1.5x, /img/in-post/backendCodegen.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/backendCodegen.png"
+        title="/img/in-post/backendCodegen.png" /></p>
+<p>runAfterLowerings 的最后一行 compileAndLink，使用 clang 将 compileModule 产生的 bitcode 编译为 .o，然后使用 llvm 链接生成对应平台的二进制</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/compileAndLink.png"
+        data-srcset="/img/in-post/compileAndLink.png, /img/in-post/compileAndLink.png 1.5x, /img/in-post/compileAndLink.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/compileAndLink.png"
+        title="/img/in-post/compileAndLink.png" /></p>
+<p>以鸿蒙平台为例：</p>
+<p>编译命令
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/ohos_1.png"
+        data-srcset="/img/in-post/ohos_1.png, /img/in-post/ohos_1.png 1.5x, /img/in-post/ohos_1.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/ohos_1.png"
+        title="/img/in-post/ohos_1.png" /></p>
+<p>链接命令<br>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/ohos_2.png"
+        data-srcset="/img/in-post/ohos_2.png, /img/in-post/ohos_2.png 1.5x, /img/in-post/ohos_2.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/ohos_2.png"
+        title="/img/in-post/ohos_2.png" /></p>
+<h4 id="platform-libs">platform libs</h4>
+<p>由上面所说，我们已经可以将 kotlin 代码转为 bitcode 进而转换为二进制了，但是，还有一个问题！怎么调用平台特殊能力？怎么调用通用的底层能力？</p>
+<p>比如，iOS/android 可能有个特殊的辅助能力？怎么在 kotlin 中直接调用？<br>
+比如，假设我们想用 kotlin 从零写一个跨端的网络库，posix 标准的 api 又怎么在 kotlin 中调用？</p>
+<p>这些基础的 platform lib，kotlin-native 编译器已经帮我准备好了，就是 platformLibs 模块</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/platform_libs.png"
+        data-srcset="/img/in-post/platform_libs.png, /img/in-post/platform_libs.png 1.5x, /img/in-post/platform_libs.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/platform_libs.png"
+        title="/img/in-post/platform_libs.png" /></p>
+<p>如果要增加平台能力，则需要增加对应的 def 文件声明，然后 cinterop 会帮忙处理 def 文件，生成对应的 klib</p>
+<p>原理就是 cinterop 的原理</p>
+<blockquote>
+<p>def 文件是 cinterop 生成 klib 必需的文件<br>
+主要作用是：<br>
+1.配置需要导入哪些 c lib 的方法到 kotlin 中<br>
+2.配置导入到 kotlin 中以后的包名<br>
+3.配置 c lib 的编译参数和链接参数<br>
+4.也可以在 def 文件写一些 c 代码做一些辅助功能</p>
+</blockquote>
+<p>一个导入 鸿蒙 napi 到 kotlin 中的例子</p>
+<pre tabindex="0"><code>// kotlin 中使用的包名
+package = platform.napi
+// 导入 napi_api.h 必要的所有头文件
+headers = napi/native_api.h node_api.h node_api_types.h js_native_api_types.h js_native_api.h
+// napi 所需要的 so
+linkerOpts = -lace_napi.z
+// 依赖哪个模块
+depends = posix
+</code></pre><p>有上述的 def 文件，cinterop 就可以帮我们生成一个 napi 的 klib，我们在 kotlin 中可以使用鸿蒙的 napi c 方法</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">register</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">memScoped</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">module</span> <span class="p">=</span> <span class="n">alloc</span><span class="p">&lt;</span><span class="n">napi_module</span><span class="p">&gt;().</span><span class="n">apply</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">nm_version</span> <span class="p">=</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">nm_flags</span> <span class="p">=</span> <span class="m">0u</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">nm_filename</span> <span class="p">=</span> <span class="k">null</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">nm_register_func</span> <span class="p">=</span> <span class="n">staticCFunction</span><span class="p">(</span><span class="o">::</span><span class="n">Init</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">nm_modname</span> <span class="p">=</span> <span class="s2">&#34;hello&#34;</span><span class="p">.</span><span class="n">cstr</span><span class="p">.</span><span class="n">ptr</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// napi module 注册方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 现在可以直接在 kotlin 中调用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">napi_module_register</span><span class="p">(</span><span class="n">module</span><span class="p">.</span><span class="n">ptr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="kotlin-runtime">kotlin runtime</h4>
+<p>因为 kotlin 代码本身是运行在 jvm 环境下，jvm 有 garbage collector，所以我们不用显式的去 free 某个 object</p>
+<p>但是，当 kotlin 代码转为运行在对应平台的二进制时，如果没有显式的 free，那就会有内存问题。所以 kotlin runtime 就是为了处理这个事情。</p>
+<p>他有自己的 内存分配器 和 garbage collector，这部分操作应该是在 kotlin ir 转为 llvm ir 后，使用 llvm ir 插桩实现的</p>
+<p>这样，我们写代码仍然没有管内存的释放，但是最终代码会被插桩，内存的分配都会使用 kotlin runtime 的内存分配器，后台有垃圾回收线程，辅助处理内存问题</p>
+<blockquote>
+<p>llvm ir 插桩这块比较复杂，相当于 kotlin runtime 自己实现了一个简易垃圾回收器，自己也要定义 safe point，用于内存检测</p>
+</blockquote>
+<p>在 kotlin-native 源码中，kotlin runtime 是一块 c++ 代码，这部分代码在编译 kotlin 编译器时，已经转换为了 runtime.bc。当我们写 kotlin 代码，使用 kotlin-native 将它编译成为二进制时，编译器会把我们的 kotlin 代码生成的 bitcode 和 runtime bitcode 最终合并为 out.bc。之后就是上面的 kotlin -&gt; so 的过程了</p>
+<blockquote>
+<p>这里显然也有一个问题，如果我们用 kotlin 写了多个跨端库，岂不是每个库中都存在 runtime 这块冗余的代码了？gc 线程会有多个么？</p>
+</blockquote>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/runtime_multi.png"
+        data-srcset="/img/in-post/runtime_multi.png, /img/in-post/runtime_multi.png 1.5x, /img/in-post/runtime_multi.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/runtime_multi.png"
+        title="/img/in-post/runtime_multi.png" /></p>
+<p>目前看，似乎会</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
