@@ -42,7 +42,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-Cinterop\/kotlin-native.png",
                             "width":  2144 ,
                             "height":  612 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1864 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  1842 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-Cinterop\/","datePublished": "2025-01-07T00:00:00+00:00","dateModified": "2025-01-07T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -126,7 +126,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Kotlin Native CInterop</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-01-07">2025-01-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1864 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-01-07">2025-01-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1842 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -158,7 +158,7 @@
 <p>这部分后续会给一个详细文档吧</p>
 <p>今天主要来介绍 kotlin/native 中的 cinterop</p>
 <p>其实，在编译 kotlin/native 编译器，生成编译器需要的 platformLib 时，我就已经看到了 cinterop。他通过 kotlin/native 工程中声明的一些 .def 文件，编译过后都变成了标准的 kotlin 的跨平台库(klib) 格式</p>
-<p>cinterop 是一个 kotlin/native 提供的工具（源码也在，我们最终编译整个编译器后，dist/bin 下也会产生 cinterop 的可执行文件），他可以自动的产生一个 c/c++ lib 和 kotlin 之间的 binding（胶水代码），同时也是编译产出 kotlin 的跨平台库(klib) 的工具</p>
+<p>cinterop 是一个 kotlin/native 提供的工具（由 kotlin 工程源码编译产生），他可以自动的产生一个 <del>c/c++</del>(<strong>只能是 c</strong>) lib 和 kotlin 之间的 binding（胶水代码），同时也是编译产出 kotlin 的跨平台库(klib) 的工具</p>
 <p>klib 的基本格式如下(后续会讲解 .knm 和 .bc 这两个最重要的东西)：
 <img
         class="lazyload"
@@ -169,8 +169,8 @@
         alt="/img/in-post/knm.png"
         title="/img/in-post/knm.png" /></p>
 <h2 id="cinterop-效果简介">cinterop 效果简介</h2>
-<p>就以上图中的 platform.linux 提供给我们的能力为例</p>
-<p>platform.linux 是 kotlin/native 编译器内部自带的，已经编译好了的 klib，其依赖为 linux 声明的 linux.def 生成</p>
+<p>以上图中的 platform.linux 提供给我们的能力为例</p>
+<p>platform.linux 是 kotlin/native 编译器内部自带的，已经编译好了的 klib，其依赖 linux 声明的 linux.def 生成</p>
 <p>有了这个 klib，我们可以直接在 kotlin 中调用很多 linux 平台的函数，比如 epoll_create 等(下图就是部分 linux 的 kotlin 函数，同时这个文件就是上图 klib 中的 .knm 文件解析以后的样子)</p>
 <p><img
         class="lazyload"
@@ -289,7 +289,7 @@ depends = posix
         data-sizes="auto"
         alt="/img/in-post/stubir.png"
         title="/img/in-post/stubir.png" /></p>
-<p>这里还有一些对于 oc 的特殊处理，经过这一步以后，类型和声明相关的描述已经摆脱了 c/c++ clang 的世界，此时得到的是 StubIrElement(FunctionStub impl StubIrElement)</p>
+<p>这里还有一些对于 oc 的特殊处理，经过这一步以后，类型和声明相关的描述已经摆脱了 c 的世界，此时得到的是 StubIrElement(FunctionStub impl StubIrElement)</p>
 <p>这里，其实对应的 kotlin 方法的描述已经生成，但是只是一个中间描述，还不是标准的 kotlin 描述。比如下图中的 方法名、方法参数、返回类型等等，已经存在</p>
 <p><img
         class="lazyload"
