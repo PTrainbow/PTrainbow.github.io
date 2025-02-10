@@ -42,7 +42,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-Cinterop\/kotlin-native.png",
                             "width":  2144 ,
                             "height":  612 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1842 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  1821 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-Cinterop\/","datePublished": "2025-01-07T00:00:00+00:00","dateModified": "2025-01-07T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -126,7 +126,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Kotlin Native CInterop</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-01-07">2025-01-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1842 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-01-07">2025-01-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1821 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -232,7 +232,7 @@ depends = posix
 <p>clang 可以用于解析 c/c++ 源码</p>
 <p>那么，当接收到一个 .h 头文件后，cinterop 会使用 clang 编译器来解析 .h 文件(详情参考 org.jetbrains.kotlin.native.interop.indexer.NativeIndex.kt 周围关联的各种逻辑)</p>
 <p>具体怎么做到的呢？</p>
-<p>因为其依赖了 llvm，并且在编译器层面，给 llvm c++ api 建立了一层 jni，这样可以直接使用 kotlin 代码调用 llvm 函数，如 clang_createTranslationUnit 为例:</p>
+<p>因为其依赖了 llvm，并且在编译器层面，给 llvm c++ api 建立了一层 kni，这样可以直接使用 kotlin 代码调用 llvm 函数，如 clang_createTranslationUnit 为例:</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -265,7 +265,7 @@ depends = posix
         data-sizes="auto"
         alt="/img/in-post/llvm_jni_4.png"
         title="/img/in-post/llvm_jni_4.png" /></p>
-<p>这样子，我们就可以在 kotlin 的世界中，使用 llvm 的函数（这里是运行在 java 环境下的标准 kotlin）</p>
+<p>这样子，我们就可以在 kotlin 的世界中，使用 llvm 的函数</p>
 <p>clang 有一系列的 api 可以用于解析源码文件，上述的 createTranslationUnit 就是一个类似 init 的 api，然后有各种解析方法声明、变量等等的方法(源码过多，可以详见  llvm index.h 头文件中的一些注释介绍 和 sample 代码)</p>
 <p>通过，这一步，可以将 .h 全部转化为 clang ast</p>
 <h3 id="kotlin-metadata">Kotlin Metadata</h3>
