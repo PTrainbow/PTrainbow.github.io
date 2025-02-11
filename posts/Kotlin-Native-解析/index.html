@@ -194,7 +194,7 @@
 <h3 id="klib--cinterop">klib &amp; cinterop</h3>
 <p>kotlin-native 可以让我们在 kotlin 中调用到 platform 的 api，比如 iOS NSLog，linux epoll 等等</p>
 <p>但是，我们仅仅是在写 kotlin 代码，这是如何做到的？</p>
-<p>如果是 jvm 环境，倒是可以用 jni 做绑定，但是 kotlin-native 并不是 jvm 环境，可能是 iOS/Linux/MacOs 等等，又何谈 jni 呢？除非自带个 jre？那包体太大</p>
+<p>如果是 jvm 环境，倒是可以用 jni 做绑定，但是 kotlin-native 并不是 jvm 环境，可能是 iOS/Linux/MacOS 等等，又何谈 jni 呢？除非自带个 jre？那包体太大</p>
 <blockquote>
 <p>其实，说到这里，如果不考虑包体和启动的问题的话，我们完全可以直接各个平台起个 java 进程，当然这种启动和执行可能性能较差。但是，是不是也可以直接使用 <code>graalvm aot 产生的二进制</code>呢？岂不是类似？</p>
 </blockquote>
