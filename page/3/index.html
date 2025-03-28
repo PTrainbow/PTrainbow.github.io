@@ -97,6 +97,40 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/jvmti/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/jvmti/artti.png"
+        data-srcset="/posts/jvmti/artti.png, /posts/jvmti/artti.png 1.5x, /posts/jvmti/artti.png 2x"
+        data-sizes="auto"
+        alt="/posts/jvmti/artti.png"
+        title="/posts/jvmti/artti.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/jvmti/">JVMTI 的运用</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-11-02">2022-11-02</time></span></div><div class="content"><p>​</p>
+<h2 id="文档">文档</h2>
+<p><a href="https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn" target="_blank" rel="noopener noreffer">https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn</a></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/artti.png"
+        data-srcset="/img/in-post/artti.png, /img/in-post/artti.png 1.5x, /img/in-post/artti.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/artti.png"
+        title="/img/in-post/artti.png" /></p>
+<h2 id="jvmti-可以做什么">JVMTI 可以做什么</h2>
+<p>一些重要的功能包括：</p>
+<ol>
+<li>重新定义类。</li>
+<li>跟踪对象分配和垃圾回收过程。</li>
+<li>遵循对象的引用树，遍历堆中的所有对象。</li>
+<li>检查 Java 调用堆栈。</li>
+<li>暂停（和恢复）所有线程。</li>
+</ol>
+<p>其实远远不止，详情查看文档 <a href="https://docs.oracle.com/javase/8/docs/platform/jvmti/jvmti.html#architecture" target="_blank" rel="noopener noreffer">https://docs.oracle.com/javase/8/docs/platform/jvmti/jvmti.html#architecture</a></p></div><div class="post-footer">
+        <a href="/posts/jvmti/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/Baseline-Profile/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -257,25 +291,6 @@
 <p>今天同事突然问我：“你看这个什么情况，我没使用 resGuard 相关的资源混淆的东西啊，打出来的包为什么<code>资源被混淆了</code>？”</p>
 <p>因为他们在做 AGP7.0 的升级，AGP 的升级往往又带着各种 buildTools 的升级，而 aapt2 又是 buildTools 的一部分，那我肯定是往这方面怀疑。</p></div><div class="post-footer">
         <a href="/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/operating-system.jpg"
-        data-srcset="/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/operating-system.jpg, /posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/operating-system.jpg 1.5x, /posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/operating-system.jpg 2x"
-        data-sizes="auto"
-        alt="/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/operating-system.jpg"
-        title="/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/operating-system.jpg" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">xv6 macOS 运行环境</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-06-14">2022-06-14</time></span></div><div class="content"><p>​</p>
-<h2 id="前言">前言</h2>
-<p>oh，技术真的浮躁，也真的没用~~</p>
-<p>来看个有意思的例子：</p>
-<blockquote>
-<p>fastjson2  FASTJSON2是FASTJSON项目的重要升级，目标是为 <code>下一个十年</code> 提供一个高性能的JSON库</p></div><div class="post-footer">
-        <a href="/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">

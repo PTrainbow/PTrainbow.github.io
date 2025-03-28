@@ -3,7 +3,15 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 10 Feb 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 28 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>Kotlin Native 梳理</title>
+    <link>http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/</link>
+    <pubDate>Fri, 28 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/</guid>
+    <description><![CDATA[<p>最近一直在搞 kmp 对于 鸿蒙 ohos 的适配工作，对于整个 kotlin/native 了解的愈发全面了</p>
+<p>因为之前是基于 kotlin 1.9.24(llvm 11.1.0) 增加对于 ohos 适配，但是后续发现 1.9.24 无法适配 xcode16。 所以，如今切换成了 kotlin 2.0.21(llvm 11.1.10)</p>]]></description>
+</item><item>
     <title>Kotlin Native 解析</title>
     <link>http://PTrainbow.github.io/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/</link>
     <pubDate>Mon, 10 Feb 2025 00:00:00 &#43;0000</pubDate>
@@ -88,15 +96,5 @@
     <guid>http://PTrainbow.github.io/posts/JNI-Pending-Exception/</guid>
     <description><![CDATA[<p>今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception</p>
 <p>但是为什么会走到我的代码中？这就是个巧合的事情了</p>]]></description>
-</item><item>
-    <title>forkdump 触发的神奇 bug</title>
-    <link>http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</link>
-    <pubDate>Wed, 04 Jan 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</guid>
-    <description><![CDATA[<p>​
-最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor</p>
-<p>koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起</p>
-<p>最近在修改的时候无意间触发了一个神奇的 bug</p>]]></description>
 </item></channel>
 </rss>
