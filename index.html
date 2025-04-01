@@ -96,55 +96,11 @@
 </div>
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/n.jpg"
-        data-srcset="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/n.jpg, /posts/Kotlin-Native-%E6%A2%B3%E7%90%86/n.jpg 1.5x, /posts/Kotlin-Native-%E6%A2%B3%E7%90%86/n.jpg 2x"
-        data-sizes="auto"
-        alt="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/n.jpg"
-        title="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/n.jpg" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/">Kotlin Native 梳理</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-03-28">2025-03-28</time></span></div><div class="content"><p>最近一直在搞 kmp 对于 鸿蒙 ohos 的适配工作，对于整个 kotlin/native 了解的愈发全面了</p>
-<p>因为之前是基于 kotlin 1.9.24(llvm 11.1.0) 增加对于 ohos 适配，但是后续发现 1.9.24 无法适配 xcode16。 所以，如今切换成了 kotlin 2.0.21(llvm 11.1.10)</p></div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-03-28">2025-03-28</time></span></div><div class="content"><p>最近在 kotlin/native 上适配鸿蒙，感觉坑很多。而且 kotlin/native 相当于用 kotlin 写 c/c++，出现内存问题，一样挠头</p>
+<p>其次，kotlin/native 因为要适配 iOS 的 platform，和 xcode 绑定的也很死，同时自己又和 llvm 绑定的很死，编译的时候有各种问题，比如 kotlin 1.9.x 没法和 xcode16 一起使用···</p></div><div class="post-footer">
         <a href="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg"
-        data-srcset="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg, /posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg 1.5x, /posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg 2x"
-        data-sizes="auto"
-        alt="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg"
-        title="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/kmp_target.jpg" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/">Kotlin Native 解析</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-02-10">2025-02-10</time></span></div><div class="content"><p>最近，终于跑通了 kotlin-native 在鸿蒙上的 demo！</p>
-<h2 id="前置知识">前置知识</h2>
-<h3 id="kotlin-multiplatform">kotlin multiplatform</h3>
-<p>kotlin multiplatform 是 jetbrains 推出来的跨端方案，渲染通过 compose(skia)，逻辑通过 kotlin。</p>
-<p>逻辑这块在 iOS/linux 等平台依靠的是 <code>kotlin-native</code> 编译器，将 kotlin 代码直接编译成了对应平台的二进制，而在 jvm 平台则直接转为 java bytecode</p></div><div class="post-footer">
-        <a href="/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/Kotlin-Native-Cinterop/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/Kotlin-Native-Cinterop/kotlin-native.png"
-        data-srcset="/posts/Kotlin-Native-Cinterop/kotlin-native.png, /posts/Kotlin-Native-Cinterop/kotlin-native.png 1.5x, /posts/Kotlin-Native-Cinterop/kotlin-native.png 2x"
-        data-sizes="auto"
-        alt="/posts/Kotlin-Native-Cinterop/kotlin-native.png"
-        title="/posts/Kotlin-Native-Cinterop/kotlin-native.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/Kotlin-Native-Cinterop/">Kotlin Native CInterop</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-01-07">2025-01-07</time></span></div><div class="content"><p>最近在搞 k/n 鸿蒙的适配，也是有一些前人踩过坑，但是都没有开源，还是要自己埋头钻研</p>
-<p>这部分后续会给一个详细文档吧</p>
-<p>今天主要来介绍 kotlin/native 中的 cinterop</p>
-<p>其实，在编译 kotlin/native 编译器，生成编译器需要的 platformLib 时，我就已经看到了 cinterop。他通过 kotlin/native 工程中声明的一些 .def 文件，编译过后都变成了标准的 kotlin 的跨平台库(klib) 格式</p></div><div class="post-footer">
-        <a href="/posts/Kotlin-Native-Cinterop/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/"><img
@@ -242,6 +198,38 @@
 <p>首先，我们需要知道栈回溯是做什么的？<br>
 其实就是用于获取当前 thread 的调用堆栈的</p></div><div class="post-footer">
         <a href="/posts/20231127-fp-unwind/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/C/C&#43;&#43;/">C/C&#43;&#43;</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png"
+        data-srcset="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png, /posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png 1.5x, /posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png 2x"
+        data-sizes="auto"
+        alt="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png"
+        title="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/">资源去重</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-10-12">2023-10-12</time></span></div><div class="content"><p>最近不知道为什么，我司又开始缩减包体积了，在这个 app 都 100-200M 的年代，在这个 5G 遥遥领先的年代，不知道卷个啥？</p>
+<p>那问题不大，既然有需求，我们照做便是</p>
+<h2 id="前置思考">前置思考</h2>
+<p>Android 包体积由多方面构成，这个我之前的文章里也有说过，所以包体积缩减的手段有很多，这个就不一一介绍了</p></div><div class="post-footer">
+        <a href="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png"
+        data-srcset="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png, /posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png 1.5x, /posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png 2x"
+        data-sizes="auto"
+        alt="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png"
+        title="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/">ToyJVM 学习</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-08-23">2023-08-23</time></span></div><div class="content"><p>前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser + interpreter 吧)的代码，学到了一些计算机基础的东西。</p>
+<p>比如，我写代码这么久，甚至不知道 double 的内存结构和 7FF 代表什么。比如，因为没有系统学习过编译原理等等，没有 opcode 相关的概念，如何设计 interpreter(又想回去读书了···)。</p></div><div class="post-footer">
+        <a href="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/C/C&#43;&#43;/">C/C&#43;&#43;</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">

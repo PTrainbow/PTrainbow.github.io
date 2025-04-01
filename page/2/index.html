@@ -97,38 +97,6 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png"
-        data-srcset="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png, /posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png 1.5x, /posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png 2x"
-        data-sizes="auto"
-        alt="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png"
-        title="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/">资源去重</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-10-12">2023-10-12</time></span></div><div class="content"><p>最近不知道为什么，我司又开始缩减包体积了，在这个 app 都 100-200M 的年代，在这个 5G 遥遥领先的年代，不知道卷个啥？</p>
-<p>那问题不大，既然有需求，我们照做便是</p>
-<h2 id="前置思考">前置思考</h2>
-<p>Android 包体积由多方面构成，这个我之前的文章里也有说过，所以包体积缩减的手段有很多，这个就不一一介绍了</p></div><div class="post-footer">
-        <a href="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png"
-        data-srcset="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png, /posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png 1.5x, /posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png 2x"
-        data-sizes="auto"
-        alt="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png"
-        title="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/JVM-Model.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/">ToyJVM 学习</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-08-23">2023-08-23</time></span></div><div class="content"><p>前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser + interpreter 吧)的代码，学到了一些计算机基础的东西。</p>
-<p>比如，我写代码这么久，甚至不知道 double 的内存结构和 7FF 代表什么。比如，因为没有系统学习过编译原理等等，没有 opcode 相关的概念，如何设计 interpreter(又想回去读书了···)。</p></div><div class="post-footer">
-        <a href="/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/C/C&#43;&#43;/">C/C&#43;&#43;</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -256,6 +224,58 @@
 <p>这种 OOM 多发生于低版本手机，或者是存在严重的内存泄漏的高版本手机</p>
 <p>现在很多 APP minSdk 都升级到了 21， 这时候低版本 Bitmap 一直分配在 java heap 中，是内存大户，一张大图占用10M级别的内存很正常。而一些低版本的 java heap 只有 128/256M，很容易就 OOM</p></div><div class="post-footer">
         <a href="/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/jvmti/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/jvmti/artti.png"
+        data-srcset="/posts/jvmti/artti.png, /posts/jvmti/artti.png 1.5x, /posts/jvmti/artti.png 2x"
+        data-sizes="auto"
+        alt="/posts/jvmti/artti.png"
+        title="/posts/jvmti/artti.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/jvmti/">JVMTI 的运用</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-11-02">2022-11-02</time></span></div><div class="content"><p>​</p>
+<h2 id="文档">文档</h2>
+<p><a href="https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn" target="_blank" rel="noopener noreffer">https://source.android.com/docs/core/runtime/art-ti?hl=zh-cn</a></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/artti.png"
+        data-srcset="/img/in-post/artti.png, /img/in-post/artti.png 1.5x, /img/in-post/artti.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/artti.png"
+        title="/img/in-post/artti.png" /></p>
+<h2 id="jvmti-可以做什么">JVMTI 可以做什么</h2>
+<p>一些重要的功能包括：</p>
+<ol>
+<li>重新定义类。</li>
+<li>跟踪对象分配和垃圾回收过程。</li>
+<li>遵循对象的引用树，遍历堆中的所有对象。</li>
+<li>检查 Java 调用堆栈。</li>
+<li>暂停（和恢复）所有线程。</li>
+</ol>
+<p>其实远远不止，详情查看文档 <a href="https://docs.oracle.com/javase/8/docs/platform/jvmti/jvmti.html#architecture" target="_blank" rel="noopener noreffer">https://docs.oracle.com/javase/8/docs/platform/jvmti/jvmti.html#architecture</a></p></div><div class="post-footer">
+        <a href="/posts/jvmti/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/Baseline-Profile/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/Baseline-Profile/baselineprofile_workflow.png"
+        data-srcset="/posts/Baseline-Profile/baselineprofile_workflow.png, /posts/Baseline-Profile/baselineprofile_workflow.png 1.5x, /posts/Baseline-Profile/baselineprofile_workflow.png 2x"
+        data-sizes="auto"
+        alt="/posts/Baseline-Profile/baselineprofile_workflow.png"
+        title="/posts/Baseline-Profile/baselineprofile_workflow.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/Baseline-Profile/">Baseline Profile</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-10-14">2022-10-14</time></span></div><div class="content"><p>​</p>
+<h2 id="baseline-profile">Baseline Profile</h2>
+<p>Baseline Profile 可以用于 Andorid 8.0 以上系统的性能优化</p>
+<p>原理简单来说还是 dex2oat 那一套东西，但是我们可以自己收集热点代码，生成对应的二进制文件，加速执行</p>
+<p>想要使用，查阅 <a href="https://developer.android.com/topic/performance/baselineprofiles/overview" target="_blank" rel="noopener noreffer">https://developer.android.com/topic/performance/baselineprofiles/overview</a> 即可</p></div><div class="post-footer">
+        <a href="/posts/Baseline-Profile/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">

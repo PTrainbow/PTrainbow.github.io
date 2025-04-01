@@ -9,29 +9,8 @@
     <pubDate>Fri, 28 Mar 2025 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/</guid>
-    <description><![CDATA[<p>最近一直在搞 kmp 对于 鸿蒙 ohos 的适配工作，对于整个 kotlin/native 了解的愈发全面了</p>
-<p>因为之前是基于 kotlin 1.9.24(llvm 11.1.0) 增加对于 ohos 适配，但是后续发现 1.9.24 无法适配 xcode16。 所以，如今切换成了 kotlin 2.0.21(llvm 11.1.10)</p>]]></description>
-</item><item>
-    <title>Kotlin Native 解析</title>
-    <link>http://PTrainbow.github.io/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/</link>
-    <pubDate>Mon, 10 Feb 2025 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/Kotlin-Native-%E8%A7%A3%E6%9E%90/</guid>
-    <description><![CDATA[<p>最近，终于跑通了 kotlin-native 在鸿蒙上的 demo！</p>
-<h2 id="前置知识">前置知识</h2>
-<h3 id="kotlin-multiplatform">kotlin multiplatform</h3>
-<p>kotlin multiplatform 是 jetbrains 推出来的跨端方案，渲染通过 compose(skia)，逻辑通过 kotlin。</p>
-<p>逻辑这块在 iOS/linux 等平台依靠的是 <code>kotlin-native</code> 编译器，将 kotlin 代码直接编译成了对应平台的二进制，而在 jvm 平台则直接转为 java bytecode</p>]]></description>
-</item><item>
-    <title>Kotlin Native CInterop</title>
-    <link>http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/</link>
-    <pubDate>Tue, 07 Jan 2025 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/Kotlin-Native-Cinterop/</guid>
-    <description><![CDATA[<p>最近在搞 k/n 鸿蒙的适配，也是有一些前人踩过坑，但是都没有开源，还是要自己埋头钻研</p>
-<p>这部分后续会给一个详细文档吧</p>
-<p>今天主要来介绍 kotlin/native 中的 cinterop</p>
-<p>其实，在编译 kotlin/native 编译器，生成编译器需要的 platformLib 时，我就已经看到了 cinterop。他通过 kotlin/native 工程中声明的一些 .def 文件，编译过后都变成了标准的 kotlin 的跨平台库(klib) 格式</p>]]></description>
+    <description><![CDATA[<p>最近在 kotlin/native 上适配鸿蒙，感觉坑很多。而且 kotlin/native 相当于用 kotlin 写 c/c++，出现内存问题，一样挠头</p>
+<p>其次，kotlin/native 因为要适配 iOS 的 platform，和 xcode 绑定的也很死，同时自己又和 llvm 绑定的很死，编译的时候有各种问题，比如 kotlin 1.9.x 没法和 xcode16 一起使用···</p>]]></description>
 </item><item>
     <title>2024提前总结</title>
     <link>http://PTrainbow.github.io/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/</link>
@@ -98,5 +77,23 @@
 <p>今天给大家分享一种 arm64 平台下栈回溯的方式 —— fp(frame pointer) 回溯，同时会介绍一些基础概念和实现原理</p>
 <p>首先，我们需要知道栈回溯是做什么的？<br>
 其实就是用于获取当前 thread 的调用堆栈的</p>]]></description>
+</item><item>
+    <title>资源去重</title>
+    <link>http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/</link>
+    <pubDate>Thu, 12 Oct 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/</guid>
+    <description><![CDATA[<p>最近不知道为什么，我司又开始缩减包体积了，在这个 app 都 100-200M 的年代，在这个 5G 遥遥领先的年代，不知道卷个啥？</p>
+<p>那问题不大，既然有需求，我们照做便是</p>
+<h2 id="前置思考">前置思考</h2>
+<p>Android 包体积由多方面构成，这个我之前的文章里也有说过，所以包体积缩减的手段有很多，这个就不一一介绍了</p>]]></description>
+</item><item>
+    <title>ToyJVM 学习</title>
+    <link>http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/</link>
+    <pubDate>Wed, 23 Aug 2023 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/</guid>
+    <description><![CDATA[<p>前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser + interpreter 吧)的代码，学到了一些计算机基础的东西。</p>
+<p>比如，我写代码这么久，甚至不知道 double 的内存结构和 7FF 代表什么。比如，因为没有系统学习过编译原理等等，没有 opcode 相关的概念，如何设计 interpreter(又想回去读书了···)。</p>]]></description>
 </item></channel>
 </rss>
