@@ -3,9 +3,21 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 28 Mar 2025 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 08 Apr 2025 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrainbow.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>KSP For OHOS NAPI</title>
+    <link>http://PTrainbow.github.io/posts/2025-04-08-KSP/</link>
+    <pubDate>Tue, 08 Apr 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-04-08-KSP/</guid>
+    <description><![CDATA[<p>kotlin/native 适配鸿蒙，除了编译器方面的修改之外，还有比较重要的一部分就是 napi 代码的自动生成了</p>
+<p>kotlin/native 和 napi 的关系：</p>
+<blockquote>
+<p>kotlin/native 实际产物就是对应平台二进制，在 ohos 上就是 linux elf<br>
+ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类似 jni 的机制，其实就是 nodejs 的 napi 机制<br>
+所以，想从 arkts 调用 kotlin/native 的代码，其实就是要自己写一层 napi</p>]]></description>
+</item><item>
     <title>Kotlin Native 梳理</title>
     <link>http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/</link>
     <pubDate>Fri, 28 Mar 2025 00:00:00 &#43;0000</pubDate>
@@ -89,13 +101,5 @@
 <p>那问题不大，既然有需求，我们照做便是</p>
 <h2 id="前置思考">前置思考</h2>
 <p>Android 包体积由多方面构成，这个我之前的文章里也有说过，所以包体积缩减的手段有很多，这个就不一一介绍了</p>]]></description>
-</item><item>
-    <title>ToyJVM 学习</title>
-    <link>http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/</link>
-    <pubDate>Wed, 23 Aug 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/</guid>
-    <description><![CDATA[<p>前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser + interpreter 吧)的代码，学到了一些计算机基础的东西。</p>
-<p>比如，我写代码这么久，甚至不知道 double 的内存结构和 7FF 代表什么。比如，因为没有系统学习过编译原理等等，没有 opcode 相关的概念，如何设计 interpreter(又想回去读书了···)。</p>]]></description>
 </item></channel>
 </rss>

@@ -3,7 +3,19 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 28 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 08 Apr 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>KSP For OHOS NAPI</title>
+    <link>http://PTrainbow.github.io/posts/2025-04-08-KSP/</link>
+    <pubDate>Tue, 08 Apr 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-04-08-KSP/</guid>
+    <description><![CDATA[<p>kotlin/native 适配鸿蒙，除了编译器方面的修改之外，还有比较重要的一部分就是 napi 代码的自动生成了</p>
+<p>kotlin/native 和 napi 的关系：</p>
+<blockquote>
+<p>kotlin/native 实际产物就是对应平台二进制，在 ohos 上就是 linux elf<br>
+ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类似 jni 的机制，其实就是 nodejs 的 napi 机制<br>
+所以，想从 arkts 调用 kotlin/native 的代码，其实就是要自己写一层 napi</p>]]></description>
+</item><item>
     <title>Kotlin Native 梳理</title>
     <link>http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/</link>
     <pubDate>Fri, 28 Mar 2025 00:00:00 &#43;0000</pubDate>
@@ -85,16 +97,5 @@
 最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor</p>
 <p>koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起</p>
 <p>最近在修改的时候无意间触发了一个神奇的 bug</p>]]></description>
-</item><item>
-    <title>NativeBitmap 实现</title>
-    <link>http://PTrainbow.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</link>
-    <pubDate>Sat, 31 Dec 2022 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/</guid>
-    <description><![CDATA[<p>​</p>
-<h2 id="前言">前言</h2>
-<p>最近一直在治理 OOM 问题，OOM 问题分为多种，其中有一种的原因是 java heap 空间不足</p>
-<p>这种 OOM 多发生于低版本手机，或者是存在严重的内存泄漏的高版本手机</p>
-<p>现在很多 APP minSdk 都升级到了 21， 这时候低版本 Bitmap 一直分配在 java heap 中，是内存大户，一张大图占用10M级别的内存很正常。而一些低版本的 java heap 只有 128/256M，很容易就 OOM</p>]]></description>
 </item></channel>
 </rss>

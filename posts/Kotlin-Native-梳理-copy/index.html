@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>Kotlin Native 梳理 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/">
+        <title>Kotlin Native 梳理 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://localhost:1313/posts/Kotlin-Native-%E6%A2%B3%E7%90%86-copy/">
   <meta property="og:site_name" content="北邙山之光的 Blog">
   <meta property="og:title" content="Kotlin Native 梳理">
   <meta property="og:description" content="最近在 kotlin/native 上适配鸿蒙，感觉坑很多。而且 kotlin/native 相当于用 kotlin 写 c/c&#43;&#43;，出现内存问题，一样挠头
@@ -16,15 +16,15 @@
     <meta property="article:published_time" content="2025-03-28T00:00:00+00:00">
     <meta property="article:modified_time" content="2025-03-28T00:00:00+00:00">
     <meta property="article:tag" content="Android">
-    <meta property="og:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg">
+    <meta property="og:image" content="http://localhost:1313/logo.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg">
+  <meta name="twitter:image" content="http://localhost:1313/logo.png">
   <meta name="twitter:title" content="Kotlin Native 梳理">
   <meta name="twitter:description" content="最近在 kotlin/native 上适配鸿蒙，感觉坑很多。而且 kotlin/native 相当于用 kotlin 写 c/c&#43;&#43;，出现内存问题，一样挠头
 其次，kotlin/native 因为要适配 iOS 的 platform，和 xcode 绑定的也很死，同时自己又和 llvm 绑定的很死，编译的时候有各种问题，比如 kotlin 1.9.x 没法和 xcode16 一起使用···">
 <meta name="application-name" content="北邙山之光的 Blog">
-<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/" /><link rel="prev" href="http://PTrainbow.github.io/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/" /><link rel="next" href="http://PTrainbow.github.io/posts/2025-04-08-KSP/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://localhost:1313/posts/Kotlin-Native-%E6%A2%B3%E7%90%86-copy/" /><link rel="prev" href="http://localhost:1313/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -32,14 +32,9 @@
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E6%A2%B3%E7%90%86\/"
-        },"image": [{
-                            "@type": "ImageObject",
-                            "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E6%A2%B3%E7%90%86\/kotlin-native-compile-kt.jpg",
-                            "width":  3258 ,
-                            "height":  2398 
-                        }],"genre": "posts","keywords": "Android","wordcount":  607 ,
-        "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E6%A2%B3%E7%90%86\/","datePublished": "2025-03-28T00:00:00+00:00","dateModified": "2025-03-28T00:00:00+00:00","publisher": {
+            "@id": "http:\/\/localhost:1313\/posts\/Kotlin-Native-%E6%A2%B3%E7%90%86-copy\/"
+        },"genre": "posts","keywords": "Android","wordcount":  607 ,
+        "url": "http:\/\/localhost:1313\/posts\/Kotlin-Native-%E6%A2%B3%E7%90%86-copy\/","datePublished": "2025-03-28T00:00:00+00:00","dateModified": "2025-03-28T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
                 "@type": "Person",
@@ -57,7 +52,7 @@
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
-                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/" selected>简体中文</option></select>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86-copy/" selected>简体中文</option></select>
                     </a><span class="menu-item search" id="search-desktop">
                         <input type="text" placeholder="搜索失效了哈！建议放弃" id="search-input-desktop">
                         <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
@@ -105,7 +100,7 @@
                 <i class="fas fa-adjust fa-fw"></i>
             </a>
                 <a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
-                    <select class="language-select" onchange="location = this.value;"><option value="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/" selected>简体中文</option></select>
+                    <select class="language-select" onchange="location = this.value;"><option value="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86-copy/" selected>简体中文</option></select>
                 </a>
         </div>
     </div>
@@ -125,14 +120,7 @@
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-03-28">2025-03-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 607 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
             </div>
-        </div><div class="featured-image"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg"
-        data-srcset="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg, /posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg 1.5x, /posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg 2x"
-        data-sizes="auto"
-        alt="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg"
-        title="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+        </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
@@ -223,12 +211,9 @@ kotlin 官方自己兜了个底</p>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/" class="prev" rel="prev" title="2024提前总结"><i class="fas fa-angle-left fa-fw"></i>2024提前总结</a>
-            <a href="/posts/2025-04-08-KSP/" class="next" rel="next" title="KSP For OHOS NAPI">KSP For OHOS NAPI<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/" class="prev" rel="prev" title="Kotlin Native 梳理"><i class="fas fa-angle-left fa-fw"></i>Kotlin Native 梳理</a></div>
 </div>
-<div id="comments"><div id="gitalk" class="comment"></div><noscript>
-                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
-            </noscript></div></article></div>
+</article></div>
             </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.140.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
@@ -240,5 +225,5 @@ kotlin 官方自己兜了个底</p>
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-03-28T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Kotlin Native 梳理"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

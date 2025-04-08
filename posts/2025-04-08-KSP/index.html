@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>KSP For OHOS NAPI - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2025-04-08-KSP/">
+  <meta property="og:site_name" content="北邙山之光的 Blog">
+  <meta property="og:title" content="KSP For OHOS NAPI">
+  <meta property="og:description" content="kotlin/native 适配鸿蒙，除了编译器方面的修改之外，还有比较重要的一部分就是 napi 代码的自动生成了
+kotlin/native 和 napi 的关系：
+kotlin/native 实际产物就是对应平台二进制，在 ohos 上就是 linux elf
+ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类似 jni 的机制，其实就是 nodejs 的 napi 机制
+所以，想从 arkts 调用 kotlin/native 的代码，其实就是要自己写一层 napi">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-04-08T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-04-08T00:00:00+00:00">
+    <meta property="article:tag" content="Android">
+    <meta property="og:image" content="http://PTrainbow.github.io/posts/2025-04-08-KSP/lifecycle.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://PTrainbow.github.io/posts/2025-04-08-KSP/lifecycle.jpg">
+  <meta name="twitter:title" content="KSP For OHOS NAPI">
+  <meta name="twitter:description" content="kotlin/native 适配鸿蒙，除了编译器方面的修改之外，还有比较重要的一部分就是 napi 代码的自动生成了
+kotlin/native 和 napi 的关系：
+kotlin/native 实际产物就是对应平台二进制，在 ohos 上就是 linux elf
+ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类似 jni 的机制，其实就是 nodejs 的 napi 机制
+所以，想从 arkts 调用 kotlin/native 的代码，其实就是要自己写一层 napi">
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/2025-04-08-KSP/" /><link rel="prev" href="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "KSP For OHOS NAPI",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrainbow.github.io\/posts\/2025-04-08-KSP\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/PTrainbow.github.io\/posts\/2025-04-08-KSP\/lifecycle.jpg",
+                            "width":  2458 ,
+                            "height":  1442 
+                        }],"genre": "posts","keywords": "Android","wordcount":  2028 ,
+        "url": "http:\/\/PTrainbow.github.io\/posts\/2025-04-08-KSP\/","datePublished": "2025-04-08T00:00:00+00:00","dateModified": "2025-04-08T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre">🐒</span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/posts/2025-04-08-KSP/" selected>简体中文</option></select>
+                    </a><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索失效了哈！建议放弃" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre">🐒</span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索失效了哈！建议放弃" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a>
+                <a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/posts/2025-04-08-KSP/" selected>简体中文</option></select>
+                </a>
+        </div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">KSP For OHOS NAPI</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-04-08">2025-04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2028 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;
+            </div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2025-04-08-KSP/lifecycle.jpg"
+        data-srcset="/posts/2025-04-08-KSP/lifecycle.jpg, /posts/2025-04-08-KSP/lifecycle.jpg 1.5x, /posts/2025-04-08-KSP/lifecycle.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/2025-04-08-KSP/lifecycle.jpg"
+        title="/posts/2025-04-08-KSP/lifecycle.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一个-arkts-调用-kn-的例子">一个 ArkTs 调用 K/N 的例子</a></li>
+    <li><a href="#ksp-自动生成-napi-代码的方式">KSP 自动生成 NAPI 代码的方式</a>
+      <ul>
+        <li><a href="#手写-arkts">手写 arkts</a></li>
+        <li><a href="#对象映射">对象映射</a></li>
+      </ul>
+    </li>
+    <li><a href="#对象映射方案">对象映射方案</a>
+      <ul>
+        <li><a href="#kotlin-中使用-napi">Kotlin 中使用 NAPI</a></li>
+        <li><a href="#对象映射问题">对象映射问题</a></li>
+        <li><a href="#对象生命周期问题">对象生命周期问题</a></li>
+        <li><a href="#dts-生成问题">d.ts 生成问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#ksp-问题">KSP 问题</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>kotlin/native 适配鸿蒙，除了编译器方面的修改之外，还有比较重要的一部分就是 napi 代码的自动生成了</p>
+<p>kotlin/native 和 napi 的关系：</p>
+<blockquote>
+<p>kotlin/native 实际产物就是对应平台二进制，在 ohos 上就是 linux elf<br>
+ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类似 jni 的机制，其实就是 nodejs 的 napi 机制<br>
+所以，想从 arkts 调用 kotlin/native 的代码，其实就是要自己写一层 napi</p>
+</blockquote>
+<h2 id="一个-arkts-调用-kn-的例子">一个 ArkTs 调用 K/N 的例子</h2>
+<p>假如，我们在 kotlin/native 中存在一个方法 hello_world()</p>
+<p>想从 arkts 中调用，则需要注册 napi</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// 最终调用的 helloWorld
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="n">napi_value</span> <span class="nf">helloWorld</span><span class="p">(</span><span class="n">napi_env</span> <span class="n">env</span><span class="p">,</span> <span class="n">napi_callback_info</span> <span class="n">info</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// call k/n function
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">hello_world</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 如果涉及参数和返回值，还需要额外转换
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// napi_get_value_XXX;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// napi_create_XXX;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// init 注册 napi 方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">EXTERN_C_START</span>
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="n">napi_value</span> <span class="nf">Init</span><span class="p">(</span><span class="n">napi_env</span> <span class="n">env</span><span class="p">,</span> <span class="n">napi_value</span> <span class="n">exports</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">napi_property_descriptor</span> <span class="n">desc</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s">&#34;hello_world&#34;</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="n">helloWorld</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="n">napi_default</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 注册
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">napi_define_properties</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">exports</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">desc</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">desc</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">desc</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// module register func 会在 napi_module_register 后被回调
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="n">napi_module</span> <span class="n">demoModule</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">nm_version</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">nm_flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">nm_filename</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">nm_register_func</span> <span class="o">=</span> <span class="n">Init</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">nm_modname</span> <span class="o">=</span> <span class="s">&#34;entry&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">nm_priv</span> <span class="o">=</span> <span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="mi">0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">reserved</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// __attribute__((constructor)) 自动调用，触发 napi_module_register
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">extern</span> <span class="s">&#34;C&#34;</span> <span class="n">__attribute__</span><span class="p">((</span><span class="n">constructor</span><span class="p">))</span> <span class="kt">void</span> <span class="n">RegisterEntryModule</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="n">napi_module_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">demoModule</span><span class="p">);</span> <span class="p">}</span>
+</span></span></code></pre></div><p>由上可知，<strong><code>napi 的注册过程，需要写大量的 c++ 代码</code></strong>
+如果涉及参数和返回值更加繁琐，需要将 arkts 传来的参数转换为 c/c++ 类型，然后 c/c++ 得到的返回值再转换为 arkts 类型</p>
+<p>除此之外，在 arkts 侧，我们需要 <strong><code>d.ts</code></strong> 的声明文件，才能让编译器 happy，不报错</p>
+<p>而且，这部分代码大多是模板代码，如果可以 <strong><code>自动生成</code></strong>，那是极好的</p>
+<h2 id="ksp-自动生成-napi-代码的方式">KSP 自动生成 NAPI 代码的方式</h2>
+<p>KSP 就不多做介绍了，用于代替 kapt 来处理 kotlin 注解的一个工具。使用方法，参考官方文档即可。</p>
+<p>但是，这里有一个非常烦心的问题：</p>
+<p>假如，我们再 kotlin/native 中有一个成员方法如下：</p>
+<pre tabindex="0"><code>class MMKV {
+  fun setString(key: String, value: String) {
+
+  }
+}
+</code></pre><p>要怎么给他生成 napi 呢？</p>
+<h3 id="手写-arkts">手写 arkts</h3>
+<p>查看 ohos mmkv 的包，发现，ohos 上 mmkv 的 arkts 侧实现方式如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">class</span> <span class="nx">MMKV</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">nativeHandle</span>: <span class="kt">bigint</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="kr">static</span> <span class="nx">g_rootDir</span>: <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="kr">constructor</span><span class="p">(</span><span class="nx">handle</span>: <span class="kt">bigint</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">nativeHandle</span> <span class="o">=</span> <span class="nx">handle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 静态方法初始化后，存 handle 即 native ptr
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">public</span> <span class="kr">static</span> <span class="nx">initializeWithPath</span><span class="p">(</span><span class="nx">rootDir</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">MMKV</span><span class="p">.</span><span class="nx">g_rootDir</span> <span class="o">=</span> <span class="nx">rootDir</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">native</span><span class="p">.</span><span class="nx">initialize</span><span class="p">(</span><span class="nx">rootDir</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">MMKV</span><span class="p">.</span><span class="nx">g_rootDir</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 调用 setString 时，底层其实多传递了一个 handle
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">public</span> <span class="nx">setString</span><span class="p">(</span><span class="nx">key</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">value</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">expiration?</span>: <span class="kt">number</span><span class="p">)</span><span class="o">:</span> <span class="kr">boolean</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">native</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nativeHandle</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">expiration</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这样简单直接，但是，需要我们自己写 arkts 代码</p>
+<p>试想，如果我们用 kotlin/native 开发出来的 so，使用 ksp 生成了 napi 代码以后，还要自己再加一层 arkts 的代码，着实有些麻烦，而且 napi 代码还要做相应的适配</p>
+<h3 id="对象映射">对象映射</h3>
+<p>假如，我们 kotlin/native 的 mmkv 对象可以映射到一个 arkts 的对象上</p>
+<p>arkts 调用对应的方法时，转而调用 kotlin/native 的 mmkv 对象的相应方法，那就不需要我们写任何的 arkts 侧的代码了，如下图：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/arkts-kotlin-memory.jpg"
+        data-srcset="/img/in-post/arkts-kotlin-memory.jpg, /img/in-post/arkts-kotlin-memory.jpg 1.5x, /img/in-post/arkts-kotlin-memory.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/arkts-kotlin-memory.jpg"
+        title="/img/in-post/arkts-kotlin-memory.jpg" /></p>
+<p>这样，我们唯一需要添加的就是声明文件 d.ts 了</p>
+<p>不过，理想很丰满，现实很骨感，这里显然有生命周期的问题</p>
+<p>arkts 对象没有释放之前，kotlin 对象一定不可以释放，不然就会发生内存错误</p>
+<p>除此之外，类型转换是个巨大问题，kotlin/native 侧的 mmkv object 如何映射到 arkts object，同时 arkts object 还得有相应的方法存在，可以调用</p>
+<h2 id="对象映射方案">对象映射方案</h2>
+<p>参考了 kotlin/native 的一些分享，最终还是选择了对象映射的方案</p>
+<p>这种方案的好处是：使用方傻瓜式使用，kotlin 中怎么调用，arkts 侧就怎么调用</p>
+<p>难点在于：</p>
+<ol>
+<li>如何处理对象映射问题</li>
+<li>如何处理对象的生命周期</li>
+<li>d.ts 文件如何生成</li>
+</ol>
+<h3 id="kotlin-中使用-napi">Kotlin 中使用 NAPI</h3>
+<p>基于之前所说的 napi 的例子，我们知道，如果要注册一个 napi 我们需要写很多 c++ 代码，这部分代码通通调用的 napi 的函数，是一个标准 c 库</p>
+<p>而 kotlin/native 提供了 cinterop，使用它，可以从 kotlin 中直接调用 c 方法</p>
+<p>于是，我们可以使用 kotlin 代码来写 napi</p>
+<p>同时，ksp 可以用于处理注解信息，再配合 kotlin poet，我们就可以实现，基于注解自动生成 kotlin 写的 napi 嗲嘛</p>
+<h3 id="对象映射问题">对象映射问题</h3>
+<p>这其实是一个非常大的问题，我并没有很好的解法</p>
+<h4 id="基础类型">基础类型</h4>
+<p>基础类型十分简单，我们只需做对应转换即可</p>
+<p>也不用考虑生命周期问题，基础类型都是值</p>
+<h4 id="class-类型">class 类型</h4>
+<p>class 类型需要创建 object</p>
+<p>可以参考 napi_wrap 和 napi_unwrap，这个方法可以让 arkts 对象绑定一个 native 对象</p>
+<p>同时，为了维护一一对应关系，还需要存储 k/n object 和 arkts object weak ref的 map 关系</p>
+<p>然后在 arkts 侧的对象注册 finalize，当 arkts 对象回收时，unwrap 出 native 对象 free</p>
+<h4 id="泛型">泛型</h4>
+<p>目前，逆变协变什么的不知道怎么处理</p>
+<p>普通泛型的话，因为 kotlin 和 arkts 中的泛型都是假的，所以我们转换的时候，都用 Any 来代替，然后强转</p>
+<h4 id="函数类型">函数类型</h4>
+<p>目前没支持，还有 suspend 和 promise 的转换等等</p>
+<h3 id="对象生命周期问题">对象生命周期问题</h3>
+<p>前面的 class 类型已经解释过了，<code>详见文章开头的图 </code></p>
+<h3 id="dts-生成问题">d.ts 生成问题</h3>
+<p>目前，是通过 ksp 汇总时生成的</p>
+<h2 id="ksp-问题">KSP 问题</h2>
+<p>方案已经确定了，我们就需要使用 ksp 来实现对应的逻辑</p>
+<p>这里没有什么特别多要说的地方，就是要写非常多的类型转换的 utils 方法，同时要维护一个 map 映射关系</p>
+<p>有遇到几个奇怪的 ksp 的问题</p>
+<ol>
+<li>
+<p>ksp 无法跨模块收集信息<br>
+比如，我用 k/n 写了两个模块 a b，a 依赖 b，最终依靠 a 模块，想把所有的方法一次性汇总注册到 arkts 中(这又是另一个问题了，因为 如果两个模块分别打出两个 so，那么会重复打两份 k/n runtime，在运行时也会有两个 runtime 在运行，所以要打出一个 so，汇总注册)。<br>
+但是，ksp 只对当前模块负责，没法通过当前模块拿到依赖模块的信息(就是 b 模块通过 napi 生成的东西不可见)。<br>
+最终，通过一个奇怪的方法 <code>getDeclarationsFromPackage</code> 能拿到，传递 package 包名···</p>
+</li>
+<li>
+<p>ksp 无法获取到工程目录信息<br>
+比如，我要生成 index.d.ts 文件的时候，拿不到工程目录信息，要么就只能生成到 resource 目录下<br>
+但是，index.d.ts 对于 kotlin/native 本身是无意义的，arkts 侧才需要，resource 会被打包带进去<br>
+最终，干脆通过 generate file 的 absolute path，强行截取了一波工程目录，或者强制指定需要传递 index.d.ts 的路径参数···</p>
+</li>
+<li>
+<p>ksp 会多次运行 <br>
+当我们在处理注解信息的时候，ksp 会根据你的返回值，多次重复执行 processor，需要自己做判定</p>
+</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-04-08</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/" class="prev" rel="prev" title="Kotlin Native 梳理"><i class="fas fa-angle-left fa-fw"></i>Kotlin Native 梳理</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.140.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-04-08T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"KSP For OHOS NAPI"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
