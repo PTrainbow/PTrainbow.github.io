@@ -97,6 +97,22 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png"
+        data-srcset="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png, /posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png 1.5x, /posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png 2x"
+        data-sizes="auto"
+        alt="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png"
+        title="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/">Kotlin Native OHOS ASAN 适配</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-06-03">2025-06-03</time></span></div><div class="content"><p>本文主要介绍如何让 kotlin/native 在适配了鸿蒙平台后，开启 asan 功能(kotlin 版本基于 2.0.21)</p>
+<h2 id="asan-简介">ASAN 简介</h2>
+<p>ASAN（Address Sanitizer）是针对 C/C++ 的快速内存错误检测工具，在运行时检测 C/C++ 代码中的多种内存错误</p></div><div class="post-footer">
+        <a href="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/2025-04-08-KSP/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -227,23 +243,6 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
 其实就是用于获取当前 thread 的调用堆栈的</p></div><div class="post-footer">
         <a href="/posts/20231127-fp-unwind/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/C/C&#43;&#43;/">C/C&#43;&#43;</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png"
-        data-srcset="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png, /posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png 1.5x, /posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png 2x"
-        data-sizes="auto"
-        alt="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png"
-        title="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/arsc.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/">资源去重</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-10-12">2023-10-12</time></span></div><div class="content"><p>最近不知道为什么，我司又开始缩减包体积了，在这个 app 都 100-200M 的年代，在这个 5G 遥遥领先的年代，不知道卷个啥？</p>
-<p>那问题不大，既然有需求，我们照做便是</p>
-<h2 id="前置思考">前置思考</h2>
-<p>Android 包体积由多方面构成，这个我之前的文章里也有说过，所以包体积缩减的手段有很多，这个就不一一介绍了</p></div><div class="post-footer">
-        <a href="/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">
                         <a href="/">1</a>

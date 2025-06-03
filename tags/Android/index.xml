@@ -3,7 +3,16 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 08 Apr 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 03 Jun 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>Kotlin Native OHOS ASAN 适配</title>
+    <link>http://PTrainbow.github.io/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/</link>
+    <pubDate>Tue, 03 Jun 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/</guid>
+    <description><![CDATA[<p>本文主要介绍如何让 kotlin/native 在适配了鸿蒙平台后，开启 asan 功能(kotlin 版本基于 2.0.21)</p>
+<h2 id="asan-简介">ASAN 简介</h2>
+<p>ASAN（Address Sanitizer）是针对 C/C++ 的快速内存错误检测工具，在运行时检测 C/C++ 代码中的多种内存错误</p>]]></description>
+</item><item>
     <title>KSP For OHOS NAPI</title>
     <link>http://PTrainbow.github.io/posts/2025-04-08-KSP/</link>
     <pubDate>Tue, 08 Apr 2025 00:00:00 &#43;0000</pubDate>
@@ -87,15 +96,5 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
     <guid>http://PTrainbow.github.io/posts/JNI-Pending-Exception/</guid>
     <description><![CDATA[<p>今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception</p>
 <p>但是为什么会走到我的代码中？这就是个巧合的事情了</p>]]></description>
-</item><item>
-    <title>forkdump 触发的神奇 bug</title>
-    <link>http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</link>
-    <pubDate>Wed, 04 Jan 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/</guid>
-    <description><![CDATA[<p>​
-最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor</p>
-<p>koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起</p>
-<p>最近在修改的时候无意间触发了一个神奇的 bug</p>]]></description>
 </item></channel>
 </rss>
