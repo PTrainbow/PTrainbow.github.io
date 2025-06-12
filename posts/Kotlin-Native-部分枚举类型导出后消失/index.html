@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Kotlin Native 枚部分枚举类型导出后消失 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/">
+  <meta property="og:site_name" content="北邙山之光的 Blog">
+  <meta property="og:title" content="Kotlin Native 枚部分枚举类型导出后消失">
+  <meta property="og:description" content="背景 最近，腾讯 kuikly 开源了自己的 kotlin 编译器，支持了鸿蒙平台
+查看了一些他们的源码后，发现，他们做的一些优化和适配比较有借鉴意义。其中，符号导出、字符串优化 和 鸿蒙平台的 ndk 适配这块，最值得学习">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-06-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-06-12T00:00:00+00:00">
+    <meta property="article:tag" content="Android">
+    <meta property="og:image" content="http://PTrainbow.github.io/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://PTrainbow.github.io/logo.png">
+  <meta name="twitter:title" content="Kotlin Native 枚部分枚举类型导出后消失">
+  <meta name="twitter:description" content="背景 最近，腾讯 kuikly 开源了自己的 kotlin 编译器，支持了鸿蒙平台
+查看了一些他们的源码后，发现，他们做的一些优化和适配比较有借鉴意义。其中，符号导出、字符串优化 和 鸿蒙平台的 ndk 适配这块，最值得学习">
+<meta name="application-name" content="北邙山之光的 Blog">
+<meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/" /><link rel="prev" href="http://PTrainbow.github.io/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Kotlin Native 枚部分枚举类型导出后消失",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1\/"
+        },"genre": "posts","keywords": "Android","wordcount":  1636 ,
+        "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1\/","datePublished": "2025-06-12T00:00:00+00:00","dateModified": "2025-06-12T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "北邙山之光"},"author": {
+                "@type": "Person",
+                "name": "北邙山之光"
+            },"description": ""
+    }
+    </script><script data-ad-client="ca-pub-4814124987641317" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre">🐒</span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/" selected>简体中文</option></select>
+                    </a><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索失效了哈！建议放弃" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="北邙山之光的 Blog"><span class="header-title-pre">🐒</span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索失效了哈！建议放弃" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/PTrainbow" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a>
+                <a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/" selected>简体中文</option></select>
+                </a>
+        </div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Kotlin Native 枚部分枚举类型导出后消失</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-06-12">2025-06-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1636 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
+            </div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#枚举类型问题">枚举类型问题</a>
+      <ul>
+        <li><a href="#排查枚举类型丢失的原因">排查枚举类型丢失的原因</a></li>
+        <li><a href="#修复">修复</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="背景">背景</h2>
+<p>最近，腾讯 kuikly 开源了自己的 kotlin 编译器，支持了鸿蒙平台</p>
+<p>查看了一些他们的源码后，发现，他们做的一些优化和适配比较有借鉴意义。其中，符号导出、字符串优化 和 鸿蒙平台的 ndk 适配这块，最值得学习</p>
+<p>因为 kotlin 2.0.21 版本的 llvm 限制，我们当时使用的是 <code>ohos 3.X</code> 版本的 sdk。因此，native 能力适配，也是基于 ohos 3.X 版本中的头文件生成的 binding 代码，有很多新版本的功能用不了</p>
+<p>借鉴了 kuikly 的代码后，也想继续使用 clang/llvm 12，但是 sysroot 头文件、链接目录等等，都找 <code>ohos 5.X</code> 版本的 sdk，这样就可以使用新版本的 ohos sdk 提供的功能了</p>
+<h2 id="枚举类型问题">枚举类型问题</h2>
+<p>因为我们的 kotlin 编译器 和 kuikly 还不太相同，所以最终修改的代码也不太一致</p>
+<p>比如:</p>
+<ol>
+<li>我们编译器内部存在两个版本的 llvm，11.1.0 和 12.0.1，只有编译 ohos 时才使用 llvm 12<br>
+kuikly 统一使用了 llvm12</li>
+<li>我们处理 ohos sdk 依赖不太一致</li>
+</ol>
+<p>反正总归核心就是修改 <code>ClangArgs</code> 相关参数，还有 <code>Linker</code> 的动态库路径</p>
+<p>在修改过程中，我遇到了 stdlibc++ 的一些问题，特殊处理了一下。最终，成功编译了基于 <code>ohos 5.x</code> 版本的 kotlin 编译器。但是放到工程中，发现，一片红海报错</p>
+<p>和之前基于旧版本的 ohos sdk 生成的 klib  对比，发现 <code>丢失了一个枚举类型 napi_status</code>，进而其内部的 constant 也都不见了，如： napi_ok 等等</p>
+<p>如下图(左边是 ohos 5.x 版本生成的 klib，右边是 ohos 3.x)：<br>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/ohos-sdk.jpg"
+        data-srcset="/img/in-post/ohos-sdk.jpg, /img/in-post/ohos-sdk.jpg 1.5x, /img/in-post/ohos-sdk.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/ohos-sdk.jpg"
+        title="/img/in-post/ohos-sdk.jpg" /></p>
+<p>那么，解决问题，有两种方式</p>
+<ol>
+<li>修改 napi_status 所有的代码，改为 UInt，直接传 int 值</li>
+<li>想办法把 napi_status 再导出来</li>
+</ol>
+<p>因为，我们生成鸿蒙代码时，还有一部分 ksp 自动生成的代码，而且枚举类型没了，直接传值比较恶心，所以最终还是打算走 <code>方式 2</code></p>
+<h3 id="排查枚举类型丢失的原因">排查枚举类型丢失的原因</h3>
+<p>因为是在通过 cinterop 生成 klib 的过程中，发生的枚举类型丢失的问题，所以，要先了解 cinterop 的原理</p>
+<p>简单介绍一下就是：</p>
+<ol>
+<li>cinterop 通过 clang api 解析 .h，生成 clang ast</li>
+<li>基于 clang ast 生成 kotlin ir</li>
+<li>基于 kotlin ir 生成 serialized ir 和 cstubs.bc</li>
+</ol>
+<p>那显然，我们需要先看一下 clang 是否能正常的解析出 enum type，其次就是 clang ast 变成 kotlin ir 的时候，enum 还在不在</p>
+<p>clang 解析的过程在 <code>Index.kt</code> 相关代码中，经过 debug 发现，其能正常解析出 enum</p>
+<p>clang ast 生成 kotlin ir 在 <code>StubIrElementBuilders.kt</code> 相关代码中，其中 enum 的处理在 EnumStubBuilder，等过 debug 发现，基于 ohos 5.x 会丢失 enum</p>
+<h4 id="isstrictenum">isStrictEnum</h4>
+<p>基于之前的分析，我们发现在 EnumStubBuilder 运行后，napi_status 这个枚举不见了</p>
+<p>进一步 debug，发现其 isStrictEnum 判断返回了 false，进而走向了 Contants 分支，代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"> <span class="k">override</span> <span class="k">fun</span> <span class="nf">build</span><span class="p">():</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">StubIrElement</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(!</span><span class="n">context</span><span class="p">.</span><span class="n">isStrictEnum</span><span class="p">(</span><span class="n">enumDef</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 直接返回
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">return</span> <span class="n">generateEnumAsConstants</span><span class="p">(</span><span class="n">enumDef</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">constructorParameter</span> <span class="p">=</span> <span class="n">FunctionParameterStub</span><span class="p">(</span><span class="s2">&#34;value&#34;</span><span class="p">,</span> <span class="n">baseType</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">valueProperty</span> <span class="p">=</span> <span class="n">PropertyStub</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">name</span> <span class="p">=</span> <span class="s2">&#34;value&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">type</span> <span class="p">=</span> <span class="n">baseType</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">kind</span> <span class="p">=</span> <span class="nc">PropertyStub</span><span class="p">.</span><span class="nc">Kind</span><span class="p">.</span><span class="n">Val</span><span class="p">(</span><span class="nc">PropertyAccessor</span><span class="p">.</span><span class="nc">Getter</span><span class="p">.</span><span class="n">GetConstructorParameter</span><span class="p">(</span><span class="n">constructorParameter</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">                <span class="n">modality</span> <span class="p">=</span> <span class="nc">MemberStubModality</span><span class="p">.</span><span class="n">OPEN</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">origin</span> <span class="p">=</span> <span class="nc">StubOrigin</span><span class="p">.</span><span class="nc">Synthetic</span><span class="p">.</span><span class="n">EnumValueField</span><span class="p">(</span><span class="n">enumDef</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="n">isOverride</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">canonicalsByValue</span> <span class="p">=</span> <span class="n">enumDef</span><span class="p">.</span><span class="n">constants</span>
+</span></span><span class="line"><span class="cl">                <span class="p">.</span><span class="n">groupingBy</span> <span class="p">{</span> <span class="k">it</span><span class="p">.</span><span class="k">value</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">.</span><span class="n">reduce</span> <span class="p">{</span> <span class="n">_</span><span class="p">,</span> <span class="n">accumulator</span><span class="p">,</span> <span class="n">element</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="p">(</span><span class="n">element</span><span class="p">.</span><span class="n">isMoreCanonicalThan</span><span class="p">(</span><span class="n">accumulator</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">element</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">accumulator</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="err">(</span><span class="py">canonicalConstants</span><span class="p">,</span> <span class="n">aliasConstants</span><span class="p">)</span> <span class="p">=</span> <span class="n">enumDef</span><span class="p">.</span><span class="n">constants</span><span class="p">.</span><span class="n">partition</span> <span class="p">{</span> <span class="n">canonicalsByValue</span><span class="p">[</span><span class="k">it</span><span class="p">.</span><span class="k">value</span><span class="p">]</span> <span class="o">==</span> <span class="k">it</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 省略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="p">}</span>
+</span></span></code></pre></div><p>同时，研究了 isStrictEnum 判断逻辑后，发现，我们可以在 def 中指定 strict enum 配置，不过问题的根因目前还是没有找到</p>
+<p>那么，究竟为什么两个版本的 sdk 经过 clang 解析后，给出的 isStrictEnum 判断不一致呢？</p>
+<h4 id="isexplicitlydefined-和-hasexpression">isExplicitlyDefined 和 hasExpression</h4>
+<p>经过进一步 debug，发现两个版本的 isExplicitlyDefined 值不同，ohos 5.x 返回 true，而 3.x 返回 false，进而导致了 isStrictEnum 的结果不一样</p>
+<p>而 isExplicitlyDefined 又受到 clang 解析的影响，代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"> <span class="k">private</span> <span class="k">fun</span> <span class="nf">getEnumDefAt</span><span class="p">(</span><span class="n">cursor</span><span class="p">:</span> <span class="n">CValue</span><span class="p">&lt;</span><span class="n">CXCursor</span><span class="p">&gt;):</span> <span class="n">EnumDefImpl</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">clang_isCursorDefinition</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span> <span class="o">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">definitionCursor</span> <span class="p">=</span> <span class="n">clang_getCursorDefinition</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">clang_isCursorDefinition</span><span class="p">(</span><span class="n">definitionCursor</span><span class="p">)</span> <span class="o">!=</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">getEnumDefAt</span><span class="p">(</span><span class="n">definitionCursor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// FIXME(&#34;enum declaration without constants might be not a typedef, but a forward declaration instead&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">return</span> <span class="n">enumRegistry</span><span class="p">.</span><span class="n">getOrPut</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span> <span class="p">{</span> <span class="n">createEnumDefImpl</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">enumRegistry</span><span class="p">.</span><span class="n">getOrPut</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">enumDef</span> <span class="p">=</span> <span class="n">createEnumDefImpl</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">visitChildren</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span> <span class="p">{</span> <span class="n">childCursor</span><span class="p">,</span> <span class="n">_</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">clang_getCursorKind</span><span class="p">(</span><span class="n">childCursor</span><span class="p">)</span> <span class="o">==</span> <span class="nc">CXCursorKind</span><span class="p">.</span><span class="n">CXCursor_EnumConstantDecl</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">val</span> <span class="py">name</span> <span class="p">=</span> <span class="n">clang_getCursorSpelling</span><span class="p">(</span><span class="n">childCursor</span><span class="p">).</span><span class="n">convertAndDispose</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">val</span> <span class="py">value</span> <span class="p">=</span> <span class="n">clang_getEnumConstantDeclValue</span><span class="p">(</span><span class="n">childCursor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// isExplicitlyDefined 此处被赋值，值为 childCursor.hasExpressionChild()
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">val</span> <span class="py">constant</span> <span class="p">=</span> <span class="n">EnumConstant</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="n">isExplicitlyDefined</span> <span class="p">=</span> <span class="n">childCursor</span><span class="p">.</span><span class="n">hasExpressionChild</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">enumDef</span><span class="p">.</span><span class="n">constants</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">constant</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="nc">CXChildVisitResult</span><span class="p">.</span><span class="n">CXChildVisit_Continue</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">enumDef</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>那么 enum 丢掉的过程就非常清晰了:</p>
+<ol>
+<li>clang 在解析  5.X sdk 的 napi_status 这个枚举类型时，isExplicitlyDefined = hasExpressionChild = true -&gt; isStrictEnum = false</li>
+<li>clang 在解析  3.X sdk 的 napi_status 这个枚举类型时，isExplicitlyDefined = hasExpressionChild = false -&gt; isStrictEnum = true</li>
+</ol>
+<p>hasExpressionChild 为什么返回值会不一样呢？<br>
+通过查看 napi_status 所在头文件 js_native_api_types.h 后，恍然大悟，如下图：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/ohos-sdk-napi-status-h.jpg"
+        data-srcset="/img/in-post/ohos-sdk-napi-status-h.jpg, /img/in-post/ohos-sdk-napi-status-h.jpg 1.5x, /img/in-post/ohos-sdk-napi-status-h.jpg 2x"
+        data-sizes="auto"
+        alt="/img/in-post/ohos-sdk-napi-status-h.jpg"
+        title="/img/in-post/ohos-sdk-napi-status-h.jpg" /></p>
+<p>发现 5.x 版本的头文件，新增了三个枚举类型，但是莫名给枚举类型赋值了(按照顺序就是 22 23 24，没必要赋值)，进而造成了 hasExpressionChild 为 true</p>
+<h3 id="修复">修复</h3>
+<p>经过以上分析，问题就很简单了，让 isStrictEnum 返回 true 即可</p>
+<p>因为新增的枚举类型的顺序就是 22 23 24，所以可以直接把头文件里的赋值删掉，最终实现修复</p>
+<p>当然，应该也可以强行添加 strict enum 配置(未尝试)</p>
+<h2 id="总结">总结</h2>
+<p>之前对于 cinterop 这块了解的不是很详细</p>
+<p>通过排查这个问题，对于 cinterop 原理了解的非常透彻</p>
+<p>包括，klib 中的 kotlin ir 和 cstubs.bc 的生成过程和存在的必要性(为什么会有 cstubs.bc，其实是 binding 的 inline 代码)等等</p>
+<p>虽然，依然是无用的知识～～</p>
+<p>但是，也算是给自己的工作找了乐子～～</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-06-12</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/" class="prev" rel="prev" title="Kotlin Native OHOS ASAN 适配"><i class="fas fa-angle-left fa-fw"></i>Kotlin Native OHOS ASAN 适配</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.140.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-06-12T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Kotlin Native 枚部分枚举类型导出后消失"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

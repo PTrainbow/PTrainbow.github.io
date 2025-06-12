@@ -97,6 +97,22 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/android.png"
+        data-srcset="/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/android.png, /posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/android.png 1.5x, /posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/android.png 2x"
+        data-sizes="auto"
+        alt="/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/android.png"
+        title="/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/android.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/">AGP BuildTools 之间的关系</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-06-23">2022-06-23</time></span></div><div class="content"><p>​发现一个有趣的问题：</p>
+<p>今天同事突然问我：“你看这个什么情况，我没使用 resGuard 相关的资源混淆的东西啊，打出来的包为什么<code>资源被混淆了</code>？”</p>
+<p>因为他们在做 AGP7.0 的升级，AGP 的升级往往又带着各种 buildTools 的升级，而 aapt2 又是 buildTools 的一部分，那我肯定是往这方面怀疑。</p></div><div class="post-footer">
+        <a href="/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/xv6-macOS-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -327,24 +343,6 @@ proGuard 描述了代码混淆和删减的规则，代码删减直接缩减 dex 
 <p>首先 kotlin 的协程库 = 线程池 + 任务调度，但是这个调度过程比较复杂，而且整个过程也并没有直接接管 JVM 或者 操作系统层面的东西，所以也没有 go routines 的神奇的抢占调度。
 然后只有一个关键字 suspend, suspend 函数机制</p></div><div class="post-footer">
         <a href="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg"
-        data-srcset="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg, /posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg 1.5x, /posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg 2x"
-        data-sizes="auto"
-        alt="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg"
-        title="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/gujian.jpg" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/">好玩的 Kotlin</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-05-12">2021-05-12</time></span></div><div class="content"><p>​</p>
-<h2 id="前言">前言</h2>
-<p>又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。</p>
-<h3 id="cc-被我暂时搁置了">C/C++ 被我暂时搁置了</h3>
-<p>最近本来是打算捡起来 C++ 的(也 Hello World 了一下 Rust，这个语言感觉对于以前写 Java 的人来说， 看起来理解起来都好别扭啊···)。</p></div><div class="post-footer">
-        <a href="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
