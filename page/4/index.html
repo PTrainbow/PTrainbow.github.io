@@ -97,6 +97,25 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/dex-%E5%92%8C-mmap/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/dex-%E5%92%8C-mmap/jit-arch.png"
+        data-srcset="/posts/dex-%E5%92%8C-mmap/jit-arch.png, /posts/dex-%E5%92%8C-mmap/jit-arch.png 1.5x, /posts/dex-%E5%92%8C-mmap/jit-arch.png 2x"
+        data-sizes="auto"
+        alt="/posts/dex-%E5%92%8C-mmap/jit-arch.png"
+        title="/posts/dex-%E5%92%8C-mmap/jit-arch.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/dex-%E5%92%8C-mmap/">dex 和 mmap</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-06-29">2022-06-29</time></span></div><div class="content"><p>​</p>
+<h2 id="背景">背景</h2>
+<p>最近依葫芦画瓢搞了一个 dex2oat 的优化实验，用于冷启动场景</p>
+<p>全量编译的情况下，劣化 400ms，部分编译的情况下有大概 100ms(数据在逐渐缩小)</p>
+<h3 id="dex2oat-的现状">dex2oat 的现状</h3>
+<p>其实在 Android 10 以后，之前的 dex2oat 命令行已经失效了，目前能有效触发 dex2oat 的只能依靠 jit 强制编译命令</p></div><div class="post-footer">
+        <a href="/posts/dex-%E5%92%8C-mmap/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -323,26 +342,6 @@ proGuard 描述了代码混淆和删减的规则，代码删减直接缩减 dex 
 <p>最近来了个新环境，做了第一个需求——<strong><code>直播答题</code></strong>。</p>
 <p>这边的风格大致就是：先在能使用的库的基础上快速完成需求，整个开发时间大概在2-3周，<code>客户端总共俩人</code>，我主要负责直播间内的业务逻辑。</p></div><div class="post-footer">
         <a href="/posts/%E4%B8%80%E6%AC%A1-CPU-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8E%92%E6%9F%A5/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/coroutines_cover.png"
-        data-srcset="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/coroutines_cover.png, /posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/coroutines_cover.png 1.5x, /posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/coroutines_cover.png 2x"
-        data-sizes="auto"
-        alt="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/coroutines_cover.png"
-        title="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/coroutines_cover.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/">再看 Kotlin Coroutines</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-05-30">2021-05-30</time></span></div><div class="content"><h2 id="前言">前言</h2>
-<p><a href="https://www.youtube.com/watch?v=Mj5P47F6nJg" target="_blank" rel="noopener noreffer">https://www.youtube.com/watch?v=Mj5P47F6nJg</a></p>
-<p>这个演讲太棒了，演讲人是 Roman Elizarov - Project Lead for the Kotlin Programming Language</p>
-<p>按照他的 PPT 我自己总结了一下</p>
-<h2 id="kotlin-coroutines-design-story">Kotlin Coroutines Design Story</h2>
-<p>首先 kotlin 的协程库 = 线程池 + 任务调度，但是这个调度过程比较复杂，而且整个过程也并没有直接接管 JVM 或者 操作系统层面的东西，所以也没有 go routines 的神奇的抢占调度。
-然后只有一个关键字 suspend, suspend 函数机制</p></div><div class="post-footer">
-        <a href="/posts/%E5%86%8D%E7%9C%8B-Kotlin-Coroutines/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">

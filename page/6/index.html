@@ -97,6 +97,17 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2021-02-01-Java-%E6%B3%9B%E5%9E%8B%E7%9A%84%E8%A7%81%E8%A7%A3/">Java 泛型的见解</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-02-01">2021-02-01</time></span></div><div class="content"><h2 id="前言">前言</h2>
+<p>写 RecyclerView 的 Adapter 时，感觉到了泛型理解不够深刻，也不够熟练，看了几天的泛型文档</p>
+<p><a href="https://docs.oracle.com/javase/tutorial/java/generics/index.html" target="_blank" rel="noopener noreffer">https://docs.oracle.com/javase/tutorial/java/generics/index.html</a></p>
+<p>下面的总结均是对于文档的学习和一些代码示例的运行。</p>
+<h2 id="为什么要使用泛型">为什么要使用泛型</h2>
+<h3 id="代码复用">代码复用</h3>
+<p>通常的代码复用是提取一个公共参数的函数，函数中的参数传的是各种不同的值。泛型也是类似，只不过泛型可以用于定义 class、interface、method 等等，泛型传递的是不同的 type。</p></div><div class="post-footer">
+        <a href="/posts/2021-02-01-Java-%E6%B3%9B%E5%9E%8B%E7%9A%84%E8%A7%81%E8%A7%A3/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Java/">Java</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2021-01-24-Kotlin-Coroutines-VS-Goroutines/">Kotlin Coroutines VS Goroutines</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-01-24">2021-01-24</time></span></div><div class="content"><h2 id="前言">前言</h2>
 <p>最近一直在看 Kotlin 协程，因为以前也写过 Golang，所以试着去对比了一下，发现了很多好玩的事情。</p>
@@ -163,11 +174,6 @@
 <p>应用开发中，不需要什么奇技淫巧，好的代码往往通俗易懂，副作用更低。差的代码往往会给人造成困惑，引发各种问题</p></div><div class="post-footer">
         <a href="/posts/2020-03-20-%E4%BB%A3%E7%A0%81%E4%B8%8D%E8%A7%84%E8%8C%83%E7%9A%84%E5%85%B8%E5%9E%8B%E7%A4%BA%E4%BE%8B/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">代码规范</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/">RxJava doOnNext 歪打正着</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-02-18">2020-02-18</time></span></div><div class="content"><p>来到了快手，代码是真滴乱。RxJava 到处甩，然后又炫技式的使用，冗余各种复杂逻辑，且有些地方使用并不规范，只不过没有出问题。配合自制 MVPs 架构，又秀了一波依赖注入，全是注解，导致我刚看代码时，完全凌乱了，重点是没有任何文档，对新人极不友好，且我认为，代码不应该这样写。</p></div><div class="post-footer">
-        <a href="/posts/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Java/">Java</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>

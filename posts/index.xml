@@ -3,7 +3,17 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 12 Jun 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 30 Jun 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Android Studio Plugin 开发</title>
+    <link>http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/</link>
+    <pubDate>Mon, 30 Jun 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/</guid>
+    <description><![CDATA[<h2 id="背景">背景</h2>
+<p>最近，在搞 kmp 工程化的一些东西，因为官方不支持 ohos，所以其对应的 android studio plugin 也不支持 ohos</p>
+<p>比如：创建一个 module 等等，都不会自动携带 ohos 目录</p>
+<p>看了 kuikly 提供了一个 project 模板，但是没有提供 new module 的模板，所以，开始研究有关 new module 的插件开发</p>]]></description>
+</item><item>
     <title>Kotlin Native 部分枚举类型导出后消失</title>
     <link>http://PTrainbow.github.io/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/</link>
     <pubDate>Thu, 12 Jun 2025 00:00:00 &#43;0000</pubDate>
@@ -88,13 +98,5 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
 <p>于是，就研究了一下原因</p>
 <h2 id="pom-文件">pom 文件</h2>
 <p>我们在向 maven 发布 aar 时，会生成对应的 pom 文件，告诉我们具体依赖哪些额外 lib</p>]]></description>
-</item><item>
-    <title>Kotlin/Native</title>
-    <link>http://PTrainbow.github.io/posts/20231208-Kotlin-Native/</link>
-    <pubDate>Fri, 08 Dec 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/20231208-Kotlin-Native/</guid>
-    <description><![CDATA[<p>最近 KMP 或者说 KMM 在移动端挺火，我非常好奇它是如何跨端的</p>
-<p>看了一下官方文档，只知道是通过 LLVM 把 Kotlin 转为 IR 再转为目标平台二进制。这部分我目前还没去分析，因为 LLVM 相关的知识我实在知之甚少，后面也会去补足</p>]]></description>
 </item></channel>
 </rss>

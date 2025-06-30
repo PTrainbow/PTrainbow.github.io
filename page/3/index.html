@@ -97,6 +97,23 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/fork.jpg"
+        data-srcset="/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/fork.jpg, /posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/fork.jpg 1.5x, /posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/fork.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/fork.jpg"
+        title="/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/fork.jpg" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/">forkdump 触发的神奇 bug</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-01-04">2023-01-04</time></span></div><div class="content"><p>​
+最近在修改私有化的 hprof dump 的库，这个库因为当时对比了koom 和 tailor</p>
+<p>koom fork 子进程对应用影响小，但是 tailor 裁剪的 profile 文件更小，所以最终将两者结合在了一起</p>
+<p>最近在修改的时候无意间触发了一个神奇的 bug</p></div><div class="post-footer">
+        <a href="/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/NativeBitmap-%E5%AE%9E%E7%8E%B0/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -275,25 +292,6 @@
 </span></span></code></pre></div><p>编译报错。因为 “Hello” 为 const char *，并没有重载操作符，所以编译报错。</p></div><div class="post-footer">
         <a href="/posts/Accelerate-C&#43;&#43;-Chapter01/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/C/C&#43;&#43;/">C/C&#43;&#43;</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/dex-%E5%92%8C-mmap/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/dex-%E5%92%8C-mmap/jit-arch.png"
-        data-srcset="/posts/dex-%E5%92%8C-mmap/jit-arch.png, /posts/dex-%E5%92%8C-mmap/jit-arch.png 1.5x, /posts/dex-%E5%92%8C-mmap/jit-arch.png 2x"
-        data-sizes="auto"
-        alt="/posts/dex-%E5%92%8C-mmap/jit-arch.png"
-        title="/posts/dex-%E5%92%8C-mmap/jit-arch.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/dex-%E5%92%8C-mmap/">dex 和 mmap</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-06-29">2022-06-29</time></span></div><div class="content"><p>​</p>
-<h2 id="背景">背景</h2>
-<p>最近依葫芦画瓢搞了一个 dex2oat 的优化实验，用于冷启动场景</p>
-<p>全量编译的情况下，劣化 400ms，部分编译的情况下有大概 100ms(数据在逐渐缩小)</p>
-<h3 id="dex2oat-的现状">dex2oat 的现状</h3>
-<p>其实在 Android 10 以后，之前的 dex2oat 命令行已经失效了，目前能有效触发 dex2oat 的只能依靠 jit 强制编译命令</p></div><div class="post-footer">
-        <a href="/posts/dex-%E5%92%8C-mmap/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
