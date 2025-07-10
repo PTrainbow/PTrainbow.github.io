@@ -97,6 +97,21 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/JNI-Pending-Exception/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/JNI-Pending-Exception/jni_exception.png"
+        data-srcset="/posts/JNI-Pending-Exception/jni_exception.png, /posts/JNI-Pending-Exception/jni_exception.png 1.5x, /posts/JNI-Pending-Exception/jni_exception.png 2x"
+        data-sizes="auto"
+        alt="/posts/JNI-Pending-Exception/jni_exception.png"
+        title="/posts/JNI-Pending-Exception/jni_exception.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/JNI-Pending-Exception/">JNI Pending Exception</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-02-23">2023-02-23</time></span></div><div class="content"><p>今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception</p>
+<p>但是为什么会走到我的代码中？这就是个巧合的事情了</p></div><div class="post-footer">
+        <a href="/posts/JNI-Pending-Exception/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/forkdump-%E8%A7%A6%E5%8F%91%E7%9A%84%E7%A5%9E%E5%A5%87-bug/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -264,34 +279,6 @@
 <p>比较常用的是 create/join/detach 三个方法，后续的几个方法均是 pthread set/get 一些额外属性所需要的</p></div><div class="post-footer">
         <a href="/posts/pthread-%E7%9B%91%E5%90%AC/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/Accelerate-C&#43;&#43;-Chapter01/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png"
-        data-srcset="/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png, /posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png 1.5x, /posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png 2x"
-        data-sizes="auto"
-        alt="/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png"
-        title="/posts/Accelerate-C&#43;&#43;-Chapter01/c&#43;&#43;.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/Accelerate-C&#43;&#43;-Chapter01/">Accelerate C&#43;&#43; Chapter01</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-06-30">2022-06-30</time></span></div><div class="content"><p>Exercises</p>
-<h2 id="exercise-1-1">Exercise 1-1</h2>
-<blockquote>
-<p>Are the following definitions valid? Why or why not?</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">hello</span> <span class="o">=</span> <span class="s">&#34;Hello&#34;</span><span class="p">;</span>  
-</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">message</span> <span class="o">=</span> <span class="n">hello</span> <span class="o">+</span> <span class="s">&#34;, world&#34;</span> <span class="o">+</span> <span class="s">&#34;!&#34;</span><span class="p">;</span> 
-</span></span></code></pre></div><p>编译正确。std::string 重写了 + 操作符</p>
-<h2 id="exercise-1-2">Exercise 1-2</h2>
-<blockquote>
-<p>Are the following definitions valid? Why or why not?</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">exclam</span> <span class="o">=</span> <span class="s">&#34;!&#34;</span><span class="p">;</span>  
-</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">message</span> <span class="o">=</span> <span class="s">&#34;Hello&#34;</span> <span class="o">+</span> <span class="s">&#34;, world&#34;</span> <span class="o">+</span> <span class="n">exclam</span><span class="p">;</span>  
-</span></span></code></pre></div><p>编译报错。因为 “Hello” 为 const char *，并没有重载操作符，所以编译报错。</p></div><div class="post-footer">
-        <a href="/posts/Accelerate-C&#43;&#43;-Chapter01/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/C/C&#43;&#43;/">C/C&#43;&#43;</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>

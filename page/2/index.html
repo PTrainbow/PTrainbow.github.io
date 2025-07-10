@@ -97,6 +97,23 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/maven-publish-dependency/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/maven-publish-dependency/dependency_scope.jpg"
+        data-srcset="/posts/maven-publish-dependency/dependency_scope.jpg, /posts/maven-publish-dependency/dependency_scope.jpg 1.5x, /posts/maven-publish-dependency/dependency_scope.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/maven-publish-dependency/dependency_scope.jpg"
+        title="/posts/maven-publish-dependency/dependency_scope.jpg" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/maven-publish-dependency/">maven publish dependency</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-02-23">2024-02-23</time></span></div><div class="content"><p>​今天 pull 工程，发现有个库的源码看不到，在 gradle external libraries 中也找不到，只能找到一个 api 接口层的代码</p>
+<p>于是，就研究了一下原因</p>
+<h2 id="pom-文件">pom 文件</h2>
+<p>我们在向 maven 发布 aar 时，会生成对应的 pom 文件，告诉我们具体依赖哪些额外 lib</p></div><div class="post-footer">
+        <a href="/posts/maven-publish-dependency/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/20231208-Kotlin-Native/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -239,21 +256,6 @@
 <p>似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么</p>
 <p>其实我觉得主要是造轮子的对于轮子本身理解不够深刻，导致的问题</p></div><div class="post-footer">
         <a href="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/JNI-Pending-Exception/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/JNI-Pending-Exception/jni_exception.png"
-        data-srcset="/posts/JNI-Pending-Exception/jni_exception.png, /posts/JNI-Pending-Exception/jni_exception.png 1.5x, /posts/JNI-Pending-Exception/jni_exception.png 2x"
-        data-sizes="auto"
-        alt="/posts/JNI-Pending-Exception/jni_exception.png"
-        title="/posts/JNI-Pending-Exception/jni_exception.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/JNI-Pending-Exception/">JNI Pending Exception</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-02-23">2023-02-23</time></span></div><div class="content"><p>今天遇到了一个 jni pending exception，好在之前也遇到过，所以我当即就知道肯定是我这行 jni 调用之前就已经出现了 java exception</p>
-<p>但是为什么会走到我的代码中？这就是个巧合的事情了</p></div><div class="post-footer">
-        <a href="/posts/JNI-Pending-Exception/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">

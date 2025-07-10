@@ -3,9 +3,18 @@
         <title>北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/</link>
         <description>北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 30 Jun 2025 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 09 Jul 2025 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrainbow.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>KCP 开发</title>
+    <link>http://PTrainbow.github.io/posts/2025-07-09-KCP/</link>
+    <pubDate>Wed, 09 Jul 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-07-09-KCP/</guid>
+    <description><![CDATA[<p>最近，一直在搞 kmp(Kotlin Multiplatform)，这个框架出发点倒还可以，可以实现一码多端</p>
+<p>但是，路漫漫其修远兮，感觉就是在用 kotlin 写 c</p>
+<p>各种提效工具比较落后，文档比较稀少，需要自己去研究(国内大厂：研究 + 魔改 = 自研 = 世界领先)</p>]]></description>
+</item><item>
     <title>Android Studio Plugin 开发</title>
     <link>http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/</link>
     <pubDate>Mon, 30 Jun 2025 00:00:00 &#43;0000</pubDate>
@@ -90,15 +99,5 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
     <description><![CDATA[<p>虽然今天是愚人节，但是还是要立下 flag，重启 <a href="https://github.com/PTrainbow/LearnJVM" target="_blank" rel="noopener noreffer">JVM 项目</a></p>
 <p>之前，一方面想学习 rust，一方面也想更深入的理解 JVM，于是这么一个项目就诞生了</p>
 <p>源码来自 《自己动手写Java虚拟机》，我将 go 翻译为 rust(但是因为很多 rust 概念刚接触，写的结构很凌乱，也都不是最佳实践，只求编译通过)</p>]]></description>
-</item><item>
-    <title>maven publish dependency</title>
-    <link>http://PTrainbow.github.io/posts/maven-publish-dependency/</link>
-    <pubDate>Fri, 23 Feb 2024 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/maven-publish-dependency/</guid>
-    <description><![CDATA[<p>​今天 pull 工程，发现有个库的源码看不到，在 gradle external libraries 中也找不到，只能找到一个 api 接口层的代码</p>
-<p>于是，就研究了一下原因</p>
-<h2 id="pom-文件">pom 文件</h2>
-<p>我们在向 maven 发布 aar 时，会生成对应的 pom 文件，告诉我们具体依赖哪些额外 lib</p>]]></description>
 </item></channel>
 </rss>

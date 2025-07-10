@@ -3,7 +3,16 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 30 Jun 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 09 Jul 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>KCP 开发</title>
+    <link>http://PTrainbow.github.io/posts/2025-07-09-KCP/</link>
+    <pubDate>Wed, 09 Jul 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-07-09-KCP/</guid>
+    <description><![CDATA[<p>最近，一直在搞 kmp(Kotlin Multiplatform)，这个框架出发点倒还可以，可以实现一码多端</p>
+<p>但是，路漫漫其修远兮，感觉就是在用 kotlin 写 c</p>
+<p>各种提效工具比较落后，文档比较稀少，需要自己去研究(国内大厂：研究 + 魔改 = 自研 = 世界领先)</p>]]></description>
+</item><item>
     <title>Android Studio Plugin 开发</title>
     <link>http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/</link>
     <pubDate>Mon, 30 Jun 2025 00:00:00 &#43;0000</pubDate>
@@ -87,16 +96,5 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
     <guid>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
     <description><![CDATA[<h2 id="前言">前言</h2>
 <p>最近遇到了一个有意思的问题，为了让首页更快的展示出来，将首页的请求提前到了 Application onCreate 阶段。但是带来了一个问题，请求的频次大大增加了，且对于后端来说，首页的请求还是比较消耗资源的。</p>]]></description>
-</item><item>
-    <title>RN 和 fbjni</title>
-    <link>http://PTrainbow.github.io/posts/RN-%E5%92%8C-fbjni/</link>
-    <pubDate>Wed, 26 Apr 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/RN-%E5%92%8C-fbjni/</guid>
-    <description><![CDATA[<h2 id="前言">前言</h2>
-<p>最近帮 RN 业务方查内存泄漏问题，发现了 fbjni 这个库挺有意思的</p>
-<p>正好借助 RN 源码例子，讲述一下 fbjni 是如何控制 java 和 c++ 层对象的生命周期的</p>
-<h2 id="源码阅读">源码阅读</h2>
-<p>下面会贴一些 RN 中的源码 和 fbjni 的源码，不用关心 RN 源码中的对象是做什么的，我们这里只关注对象如何被创建和如何被释放的</p>]]></description>
 </item></channel>
 </rss>
