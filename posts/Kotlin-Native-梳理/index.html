@@ -16,10 +16,10 @@
     <meta property="article:published_time" content="2025-03-28T00:00:00+00:00">
     <meta property="article:modified_time" content="2025-03-28T00:00:00+00:00">
     <meta property="article:tag" content="Android">
-    <meta property="og:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg">
+    <meta property="og:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-llvm.jpg">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg">
+  <meta name="twitter:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-llvm.jpg">
   <meta name="twitter:title" content="Kotlin Native 梳理">
   <meta name="twitter:description" content="最近在 kotlin/native 上适配鸿蒙，感觉坑很多。而且 kotlin/native 相当于用 kotlin 写 c/c&#43;&#43;，出现内存问题，一样挠头
 其次，kotlin/native 因为要适配 iOS 的 platform，和 xcode 绑定的也很死，同时自己又和 llvm 绑定的很死，编译的时候有各种问题，比如 kotlin 1.9.x 没法和 xcode16 一起使用···">
@@ -35,9 +35,9 @@
             "@id": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E6%A2%B3%E7%90%86\/"
         },"image": [{
                             "@type": "ImageObject",
-                            "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E6%A2%B3%E7%90%86\/kotlin-native-compile-kt.jpg",
-                            "width":  3258 ,
-                            "height":  2398 
+                            "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E6%A2%B3%E7%90%86\/kotlin-native-compile-llvm.jpg",
+                            "width":  2142 ,
+                            "height":  1764 
                         }],"genre": "posts","keywords": "Android","wordcount":  607 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E6%A2%B3%E7%90%86\/","datePublished": "2025-03-28T00:00:00+00:00","dateModified": "2025-03-28T00:00:00+00:00","publisher": {
             "@type": "Organization",
@@ -128,11 +128,11 @@
         </div><div class="featured-image"><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg"
-        data-srcset="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg, /posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg 1.5x, /posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg 2x"
+        data-src="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-llvm.jpg"
+        data-srcset="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-llvm.jpg, /posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-llvm.jpg 1.5x, /posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-llvm.jpg 2x"
         data-sizes="auto"
-        alt="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg"
-        title="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-kt.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+        alt="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-llvm.jpg"
+        title="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-llvm.jpg" /></div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
@@ -186,11 +186,11 @@ kotlin 官方自己兜了个底</p>
 <img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="/img/in-post/kotlin-native-compile-kt.jpg"
-        data-srcset="/img/in-post/kotlin-native-compile-kt.jpg, /img/in-post/kotlin-native-compile-kt.jpg 1.5x, /img/in-post/kotlin-native-compile-kt.jpg 2x"
+        data-src="/img/in-post/all_in_one.png"
+        data-srcset="/img/in-post/all_in_one.png, /img/in-post/all_in_one.png 1.5x, /img/in-post/all_in_one.png 2x"
         data-sizes="auto"
-        alt="/img/in-post/kotlin-native-compile-kt.jpg"
-        title="/img/in-post/kotlin-native-compile-kt.jpg" /></p>
+        alt="/img/in-post/all_in_one.png"
+        title="/img/in-post/all_in_one.png" /></p>
 <h2 id="隔离-llvm-遇到的问题">隔离 llvm 遇到的问题</h2>
 <p><img
         class="lazyload"
