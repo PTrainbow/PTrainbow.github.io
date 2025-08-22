@@ -96,7 +96,14 @@
 </div>
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/LearnJVM-%E9%87%8D%E5%90%AF/">LearnJVM 重启</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-04-01">2024-04-01</time></span></div><div class="content"><p>虽然今天是愚人节，但是还是要立下 flag，重启 <a href="https://github.com/PTrainbow/LearnJVM" target="_blank" rel="noopener noreffer">JVM 项目</a></p>
+<p>之前，一方面想学习 rust，一方面也想更深入的理解 JVM，于是这么一个项目就诞生了</p>
+<p>源码来自 《自己动手写Java虚拟机》，我将 go 翻译为 rust(但是因为很多 rust 概念刚接触，写的结构很凌乱，也都不是最佳实践，只求编译通过)</p></div><div class="post-footer">
+        <a href="/posts/LearnJVM-%E9%87%8D%E5%90%AF/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Java/">Java</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/maven-publish-dependency/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -240,22 +247,6 @@
 <h2 id="源码阅读">源码阅读</h2>
 <p>下面会贴一些 RN 中的源码 和 fbjni 的源码，不用关心 RN 源码中的对象是做什么的，我们这里只关注对象如何被创建和如何被释放的</p></div><div class="post-footer">
         <a href="/posts/RN-%E5%92%8C-fbjni/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png"
-        data-srcset="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png, /posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png 1.5x, /posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png 2x"
-        data-sizes="auto"
-        alt="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png"
-        title="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/fresco_class.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/">Fresco Bitmap 潜在问题</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-03-29">2023-03-29</time></span></div><div class="content"><p>最近发现线上有一些 used recycled bitmap crash</p>
-<p>似乎是问题一直存在，但是近期版本增多了，不过不是我负责，也不好多说什么</p>
-<p>其实我觉得主要是造轮子的对于轮子本身理解不够深刻，导致的问题</p></div><div class="post-footer">
-        <a href="/posts/Fresco-Bitmap-%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">

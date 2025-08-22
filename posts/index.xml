@@ -3,7 +3,15 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 09 Jul 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 22 Aug 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>无感而发</title>
+    <link>http://PTrainbow.github.io/posts/2025-08-22-%E6%97%A0%E6%84%9F%E8%80%8C%E5%8F%91/</link>
+    <pubDate>Fri, 22 Aug 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-08-22-%E6%97%A0%E6%84%9F%E8%80%8C%E5%8F%91/</guid>
+    <description><![CDATA[<p>对于我的朋友们，我总是问什么说什么</p>
+<p>以前，我遇到过两个同事，他们的口吻十分相似。他们会问我一些敏感的问题或者技术核心的问题，我基本都是倾囊相授。然而，身份互换以后，我基本得到不任何有用的信息。这两个同事让我开始对别人有所保留(但是几乎也没啥保留···)，但是那些无关紧要的、不敏感的东西，似乎也无所谓</p>]]></description>
+</item><item>
     <title>KCP 开发</title>
     <link>http://PTrainbow.github.io/posts/2025-07-09-KCP/</link>
     <pubDate>Wed, 09 Jul 2025 00:00:00 &#43;0000</pubDate>
@@ -88,14 +96,5 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
 </blockquote>
 <p>第五章的指令好多好多，所以还在不断地 copy &amp; paste</p>
 <p>实现的途中发现了 ICONST_X 指令很有意思，如下图：</p>]]></description>
-</item><item>
-    <title>LearnJVM 重启</title>
-    <link>http://PTrainbow.github.io/posts/LearnJVM-%E9%87%8D%E5%90%AF/</link>
-    <pubDate>Mon, 01 Apr 2024 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/LearnJVM-%E9%87%8D%E5%90%AF/</guid>
-    <description><![CDATA[<p>虽然今天是愚人节，但是还是要立下 flag，重启 <a href="https://github.com/PTrainbow/LearnJVM" target="_blank" rel="noopener noreffer">JVM 项目</a></p>
-<p>之前，一方面想学习 rust，一方面也想更深入的理解 JVM，于是这么一个项目就诞生了</p>
-<p>源码来自 《自己动手写Java虚拟机》，我将 go 翻译为 rust(但是因为很多 rust 概念刚接触，写的结构很凌乱，也都不是最佳实践，只求编译通过)</p>]]></description>
 </item></channel>
 </rss>

@@ -97,6 +97,33 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/pthread-%E7%9B%91%E5%90%AC/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/pthread-%E7%9B%91%E5%90%AC/pthread.jpeg"
+        data-srcset="/posts/pthread-%E7%9B%91%E5%90%AC/pthread.jpeg, /posts/pthread-%E7%9B%91%E5%90%AC/pthread.jpeg 1.5x, /posts/pthread-%E7%9B%91%E5%90%AC/pthread.jpeg 2x"
+        data-sizes="auto"
+        alt="/posts/pthread-%E7%9B%91%E5%90%AC/pthread.jpeg"
+        title="/posts/pthread-%E7%9B%91%E5%90%AC/pthread.jpeg" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/pthread-%E7%9B%91%E5%90%AC/">pthread 监听</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-07-23">2022-07-23</time></span></div><div class="content"><h2 id="简介">简介</h2>
+<p>所谓的 native thread，其实就是只我们使用 c/c++ 做开发时，使用的 POSIX 标准的 pthread  </p>
+<p>pthread 函数在 libc 中，而 Android 中使用的是 <code>bionic libc</code>(不是 GNU libc) </p>
+<h2 id="pthread-常见方法">pthread 常见方法</h2>
+<ol>
+<li>pthread_create</li>
+<li>pthread_join</li>
+<li>pthread_detach</li>
+<li>pthread_exit</li>
+<li>pthread_getattr_np</li>
+<li>pthread_attr_init</li>
+<li>pthread_atter_getXXX</li>
+</ol>
+<p>比较常用的是 create/join/detach 三个方法，后续的几个方法均是 pthread set/get 一些额外属性所需要的</p></div><div class="post-footer">
+        <a href="/posts/pthread-%E7%9B%91%E5%90%AC/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/Accelerate-C&#43;&#43;-Chapter01/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -329,31 +356,6 @@ proGuard 描述了代码混淆和删减的规则，代码删减直接缩减 dex 
 <p>mmkv 正常是没什么问题的，但是如果使用了过多实例，也是会占用一部分的 fd。</p>
 <p>mmkv 每一个实例会持有两个 fd(如果你没有释放过的话)，在一个大工程里，很有可能同时存在 30+ 的 mmkv 实例，也就是 60+ 的 fd，因为每个业务可能都想有自己的 mmkv 实例(文件)，甚至同一个业务下的子逻辑也想有自己的 mmkv 实例，加上 java 程序员从不考虑资源释放问题(me too)，这也进一步加剧了 fd 不够用···最终 OOM</p></div><div class="post-footer">
         <a href="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg"
-        data-srcset="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg, /posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg 1.5x, /posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg 2x"
-        data-sizes="auto"
-        alt="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg"
-        title="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/fresco-autosize.jpg" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/">记一次 Fresco 和 AutoSize 导致的 Bitmap 问题</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-12-23">2021-12-23</time></span></div><div class="content"><p>​</p>
-<h2 id="前言">前言</h2>
-<p>不知道大家使用 Fresco 时，有没有遇到过这种情况呢？</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/img/in-post/fresco-vs-autosize/round_corner.png"
-        data-srcset="/img/in-post/fresco-vs-autosize/round_corner.png, /img/in-post/fresco-vs-autosize/round_corner.png 1.5x, /img/in-post/fresco-vs-autosize/round_corner.png 2x"
-        data-sizes="auto"
-        alt="/img/in-post/fresco-vs-autosize/round_corner.png"
-        title="/img/in-post/fresco-vs-autosize/round_corner.png" /></p>
-<p>一些文章上是说，导致的原因是在设置了 <code>圆角</code> 的情况下，设置错了 ScaleType 导致图片不能铺满整个 View，进而出现了图中的情况。</p></div><div class="post-footer">
-        <a href="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
