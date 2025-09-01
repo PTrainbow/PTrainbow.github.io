@@ -3,7 +3,15 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 09 Jul 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 01 Sep 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>转到 AI 项目</title>
+    <link>http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/</link>
+    <pubDate>Mon, 01 Sep 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/</guid>
+    <description><![CDATA[<h2 id="开头的碎碎念">开头的碎碎念</h2>
+<p>刚入职公司的时候，风风火火的搞了半年多的 KMP(Kotlin Multiplatform)，学到了非常多东西：LLVM、KSP(Kotlin Symbol Processor)、KCP(Kotlin Compiler Plugin)、 Kotlin IR 和 FIR、iOS Framework、后来为了搞 iOS 在 KMP 侧的热修还学了点 OC(Objective-C) 语法···</p>]]></description>
+</item><item>
     <title>KCP 开发</title>
     <link>http://PTrainbow.github.io/posts/2025-07-09-KCP/</link>
     <pubDate>Wed, 09 Jul 2025 00:00:00 &#43;0000</pubDate>
@@ -88,13 +96,5 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
     <guid>http://PTrainbow.github.io/posts/GC/JIT-%E6%8A%91%E5%88%B6/</guid>
     <description><![CDATA[<h2 id="概述">概述</h2>
 <p>所谓 Android <code>GC/JIT 抑制</code>，即是将 Android GC(部分)/JIT Task 处理任务的过程(Run 方法) hook，强行 sleep 一段时间。因为 JIT 和 GC 目前均为单线程执行，所以没有并发问题，也刚好阻塞后续任务。</p>]]></description>
-</item><item>
-    <title>再再再看 startActivity 启动流程</title>
-    <link>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link>
-    <pubDate>Fri, 19 May 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/%E5%86%8D%E5%86%8D%E5%86%8D%E7%9C%8B-startActivity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
-    <description><![CDATA[<h2 id="前言">前言</h2>
-<p>最近遇到了一个有意思的问题，为了让首页更快的展示出来，将首页的请求提前到了 Application onCreate 阶段。但是带来了一个问题，请求的频次大大增加了，且对于后端来说，首页的请求还是比较消耗资源的。</p>]]></description>
 </item></channel>
 </rss>

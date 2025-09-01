@@ -97,6 +97,24 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg"
+        data-srcset="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg, /posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg 1.5x, /posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg"
+        title="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/mmkv.jpg" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/">不太优雅的治理 MMKV FD 的方式</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-12-23">2021-12-23</time></span></div><div class="content"><p>​</p>
+<h2 id="前言">前言</h2>
+<p>最近看了很多 fd 的问题，在一些机型上 fd 数量超过 1024 便会抛出 OOM。</p>
+<p>mmkv 正常是没什么问题的，但是如果使用了过多实例，也是会占用一部分的 fd。</p>
+<p>mmkv 每一个实例会持有两个 fd(如果你没有释放过的话)，在一个大工程里，很有可能同时存在 30+ 的 mmkv 实例，也就是 60+ 的 fd，因为每个业务可能都想有自己的 mmkv 实例(文件)，甚至同一个业务下的子逻辑也想有自己的 mmkv 实例，加上 java 程序员从不考虑资源释放问题(me too)，这也进一步加剧了 fd 不够用···最终 OOM</p></div><div class="post-footer">
+        <a href="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -250,22 +268,6 @@
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-02-26">2021-02-26</time></span></div><div class="content"><h2 id="前言">前言</h2>
 <p>最近看了点 MMKV 的代码，其核心就是通过 mmap 来读写文件。当然还有多进程、序列化、扩容重排 key等问题(这些随便找篇文章都有讲)。本文主要通过 mmap 实现简单的文件的读写。</p></div><div class="post-footer">
         <a href="/posts/MMKV-%E5%92%8C-mmap/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/bundle_and_parcel.png"
-        data-srcset="/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/bundle_and_parcel.png, /posts/Bundle-Parcel-%E5%92%8C-ClassLoader/bundle_and_parcel.png 1.5x, /posts/Bundle-Parcel-%E5%92%8C-ClassLoader/bundle_and_parcel.png 2x"
-        data-sizes="auto"
-        alt="/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/bundle_and_parcel.png"
-        title="/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/bundle_and_parcel.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/">Bundle Parcel 和 ClassLoader</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-02-20">2021-02-20</time></span></div><div class="content"><h2 id="前言">前言</h2>
-<p>前几天看到同事在讨论 <code>动态代理</code> 和 <code>类加载器</code> 的一些问题，其实这些技术无论是客户端还是后端都已经用烂掉了。</p>
-<p>动态代理 <code>cglib</code> 和 <code>jdk.Proxy</code> 基本是 Java 后端面试的 &ldquo;八股&rdquo; 送分题。</p></div><div class="post-footer">
-        <a href="/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">

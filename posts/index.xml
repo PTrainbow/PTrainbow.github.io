@@ -3,7 +3,15 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 22 Aug 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 01 Sep 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>转到 AI 项目</title>
+    <link>http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/</link>
+    <pubDate>Mon, 01 Sep 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/</guid>
+    <description><![CDATA[<h2 id="开头的碎碎念">开头的碎碎念</h2>
+<p>刚入职公司的时候，风风火火的搞了半年多的 KMP(Kotlin Multiplatform)，学到了非常多东西：LLVM、KSP(Kotlin Symbol Processor)、KCP(Kotlin Compiler Plugin)、 Kotlin IR 和 FIR、iOS Framework、后来为了搞 iOS 在 KMP 侧的热修还学了点 OC(Objective-C) 语法···</p>]]></description>
+</item><item>
     <title>无感而发</title>
     <link>http://PTrainbow.github.io/posts/2025-08-22-%E6%97%A0%E6%84%9F%E8%80%8C%E5%8F%91/</link>
     <pubDate>Fri, 22 Aug 2025 00:00:00 &#43;0000</pubDate>
@@ -84,17 +92,5 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
     <description><![CDATA[<h2 id="背景">背景</h2>
 <p>最近做日志治理(其实也没啥治理的)，发现日志存活时间很短，因为各个业务方的日志汇总在一个实例里，有任何无用日志频繁打印，都会把日志覆盖掉</p>
 <p>那其实，治理的办法也很简单：</p>]]></description>
-</item><item>
-    <title>LearnJVM 有趣的发现</title>
-    <link>http://PTrainbow.github.io/posts/LearnJVM-%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%91%E7%8E%B0/</link>
-    <pubDate>Mon, 29 Apr 2024 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/LearnJVM-%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8F%91%E7%8E%B0/</guid>
-    <description><![CDATA[<p>为了兑现自己立下的 flag 🤣，这两天刚好假期前，继续实现 JVM</p>
-<blockquote>
-<p>打算定个小目标：每个月更新一次 LearnJVM 这个项目</p>
-</blockquote>
-<p>第五章的指令好多好多，所以还在不断地 copy &amp; paste</p>
-<p>实现的途中发现了 ICONST_X 指令很有意思，如下图：</p>]]></description>
 </item></channel>
 </rss>
