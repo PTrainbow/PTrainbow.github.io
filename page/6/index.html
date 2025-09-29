@@ -97,6 +97,21 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/MMKV-%E5%92%8C-mmap/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/MMKV-%E5%92%8C-mmap/mmap.png"
+        data-srcset="/posts/MMKV-%E5%92%8C-mmap/mmap.png, /posts/MMKV-%E5%92%8C-mmap/mmap.png 1.5x, /posts/MMKV-%E5%92%8C-mmap/mmap.png 2x"
+        data-sizes="auto"
+        alt="/posts/MMKV-%E5%92%8C-mmap/mmap.png"
+        title="/posts/MMKV-%E5%92%8C-mmap/mmap.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/MMKV-%E5%92%8C-mmap/">MMKV 和 mmap</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-02-26">2021-02-26</time></span></div><div class="content"><h2 id="前言">前言</h2>
+<p>最近看了点 MMKV 的代码，其核心就是通过 mmap 来读写文件。当然还有多进程、序列化、扩容重排 key等问题(这些随便找篇文章都有讲)。本文主要通过 mmap 实现简单的文件的读写。</p></div><div class="post-footer">
+        <a href="/posts/MMKV-%E5%92%8C-mmap/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/posts/Bundle-Parcel-%E5%92%8C-ClassLoader/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -188,20 +203,6 @@
 <h2 id="1概览">1.概览</h2>
 <p>startActivity 流程，主要涉及 APP 进程和 ActivityManagerService(简写为 AMS，system_process 为其所在进程名) 之间的 IPC 通信</p></div><div class="post-footer">
         <a href="/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/">FFmpeg 简易播放器</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-07-31">2020-07-31</time></span></div><div class="content"><h3 id="1ffmpeg-和-sdl-下载">1.FFmpeg 和 SDL 下载</h3>
-<p>可以直接去官网下载源码自己编译或者下载已经编译好的版本</p>
-<p>比如我直接用</p>
-<blockquote>
-<p>brew install ffmpeg &ndash;with-sdl2</p>
-</blockquote>
-<p>之后 /usr/local/Cellar  下就会有 ffmpeg 和 sdl2 了</p>
-<h3 id="2开发环境">2.开发环境</h3>
-<p>这里使用的是 MacOS + CLion</p>
-<p>随便新建一个空工程就好，写好 CMakeLists 就好</p></div><div class="post-footer">
-        <a href="/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">

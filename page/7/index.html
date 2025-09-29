@@ -97,6 +97,20 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/">FFmpeg 简易播放器</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-07-31">2020-07-31</time></span></div><div class="content"><h3 id="1ffmpeg-和-sdl-下载">1.FFmpeg 和 SDL 下载</h3>
+<p>可以直接去官网下载源码自己编译或者下载已经编译好的版本</p>
+<p>比如我直接用</p>
+<blockquote>
+<p>brew install ffmpeg &ndash;with-sdl2</p>
+</blockquote>
+<p>之后 /usr/local/Cellar  下就会有 ffmpeg 和 sdl2 了</p>
+<h3 id="2开发环境">2.开发环境</h3>
+<p>这里使用的是 MacOS + CLion</p>
+<p>随便新建一个空工程就好，写好 CMakeLists 就好</p></div><div class="post-footer">
+        <a href="/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2020-05-18-Android-%E7%84%A6%E7%82%B9/">Android 焦点</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-05-18">2020-05-18</time></span></div><div class="content"><p>最近在做 Android TV，和手机 APP 不同的是，TV 大都需要依赖遥控器来改变焦点而不是 Touch 事件(除非你的屏幕可以触控~~)</p>
 <h2 id="leanback">Leanback</h2>
@@ -159,36 +173,6 @@
 <p>且 key = filecontent，value 就是文件内容</p></div><div class="post-footer">
         <a href="/posts/2019-07-02-Http-Post-FormData/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%9F%BA%E7%A1%80/">基础</a>,&nbsp;<a href="/tags/http/">Http</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2019-06-23-H5-audio-%E6%A0%87%E7%AD%BE/">H5 audio 标签</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2019-06-23">2019-06-23</time></span></div><div class="content"><h3 id="背景">背景</h3>
-<p>没错，前端天才终于涉及了真正的前端h5页面！</p>
-<p>需求是优化一个两年前别人写的播放器！</p>
-<p>可是坑死我了···</p>
-<h3 id="audio">audio</h3>
-<ul>
-<li>几个重要的方法
-<ul>
-<li><code>play</code> 加载并播放音频或重新播放暂停的的音频</li>
-<li><code>pause</code> 暂停处于播放状态的音频文件</li>
-</ul>
-</li>
-<li>几个重要的回调
-<ul>
-<li><code>waiting</code> 无法直接播放，加载</li>
-<li><code>canplay</code> 缓冲至目前可播放状态</li>
-<li><code>play</code> play()和autoplay播放时</li>
-<li><code>timeupdate</code> 播放时间变化</li>
-<li><code>ended</code> 播放结束</li>
-</ul>
-</li>
-</ul>
-<h3 id="一个简单的播放器逻辑">一个简单的播放器逻辑</h3>
-<ul>
-<li>
-<p>一个友好的用户交互</p></div><div class="post-footer">
-        <a href="/posts/2019-06-23-H5-audio-%E6%A0%87%E7%AD%BE/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/JavaScript/">JavaScript</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>

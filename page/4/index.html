@@ -96,7 +96,22 @@
 </div>
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/android.png"
+        data-srcset="/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/android.png, /posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/android.png 1.5x, /posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/android.png 2x"
+        data-sizes="auto"
+        alt="/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/android.png"
+        title="/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/android.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/">NDK 导致的包体积问题</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-08-11">2022-08-11</time></span></div><div class="content"><p>​最近同事在升级 Andorid13 遇到了包体积变化的问题！</p>
+<p>具体问题：分支 A 编译产出 APK 体积为 110M，而基于分支 A 修改代码，适配 了Android13 后，体积为 160M，足足差了 50M</p></div><div class="post-footer">
+        <a href="/posts/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/JNI-Hook/">JNI HOOK</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-08-05">2022-08-05</time></span></div><div class="content"><h2 id="简介">简介</h2>
 <p>JNI hook 是指: hook JNIEnv 提供的众多方法</p>
@@ -261,91 +276,6 @@
 <p>最近被 shadow 和 跨进程的 router 搞得头疼，感觉这俩框架跨进程部分写的略微有点混乱。</p>
 <p>如果是纯用反射传 className，那就跨进程传字符串，然后再分发咯 = handleMessage 呗，应该写的比较聚合才对。</p></div><div class="post-footer">
         <a href="/posts/FragmentManager.commit/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg"
-        data-srcset="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg, /posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg 1.5x, /posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg 2x"
-        data-sizes="auto"
-        alt="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg"
-        title="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/apk_size.jpg" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/">包体积优化的一些总结</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022-03-10">2022-03-10</time></span></div><div class="content"><p>​</p>
-<h2 id="前言">前言</h2>
-<p>最近一直在搞包体积的优化，有点点心得</p>
-<p>并且在优化的过程中发现了原有工程的各种问题，这里总结一下。</p>
-<h2 id="包体积优化的一些手段">包体积优化的一些手段</h2>
-<h3 id="dex-优化">Dex 优化</h3>
-<h4 id="r8--和--proguard-配置优化">R8  和  ProGuard 配置优化</h4>
-<ol>
-<li>R8 目前已经是默认的编译优化工具，只需要 minifyEnable = true
-<ol>
-<li>基础功能
-<ol>
-<li>code shrink  删减</li>
-<li>obfuscation 混淆</li>
-<li>optimization  优化</li>
-</ol>
-</li>
-<li>R8 fullMode 模式
-<ol>
-<li>包体积还可以继续缩减</li>
-<li>遇到的问题  [R8 fullMode Constructor 问题]
-<ol>
-<li>Gson 解析问题</li>
-<li>kotlin data class</li>
-</ol>
-</li>
-<li>解决办法
-<ol>
-<li>-keepclasseswithmembers class * {
-<!-- raw HTML omitted -->(&hellip;);
-@com.google.gson.annotations.SerializedName <!-- raw HTML omitted -->;
-}</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>ProGuard 配置优化<br>
-proGuard 描述了代码混淆和删减的规则，代码删减直接缩减 dex 体积，代码混淆会使类名、方法名、变量名更短从而缩减 dex 体积。<br>
-目前 proGuard 配置存在的一些问题：
-<ol>
-<li>重复<br>
--keepclassmembers class <strong>.entities.</strong> { <em>; }<br>
--keepclassmembers class com.xingin.xhs.model.entities.</em>* { *;}<br>
-// 范围很大<br>
--keep @Kotlin.Metadata class * { *; }</li>
-<li>删除 kotlin metadata 注解
-<ol>
-<li>kotlin metadata keep 规则导致所有 kotlin 代码被 keep</li>
-<li>引发了一些负负反而得正的潜在问题(Gson 解析)</li>
-</ol>
-</li>
-<li>删除 kotlin Intrinsics</li>
-<li>优化 optimize 并没有开启
-<ol>
-<li>-dontoptimize：删除这条 keep 规则，才会开启 R8 的代码优化</li>
-<li>optimize 的副作用：插件化打包的内联问题</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>隐性存在的反射大家没有在意<br>
-需要 Gson 解析的类的成员变量被混淆了，到底对于解析有没有影响？
-<ol>
-<li>Gson 的解析，默认依赖反射，除非有注解</li>
-<li>反射效率和启动耗事问题</li>
-</ol>
-</li>
-</ol>
-<h4 id="rclass-优化">R.class 优化</h4>
-<p>R.class 内的值，可以直接内联</p></div><div class="post-footer">
-        <a href="/posts/%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">

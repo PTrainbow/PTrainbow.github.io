@@ -97,6 +97,16 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/">BumpPointerAllocator</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-09-29">2025-09-29</time></span></div><div class="content"><p>看一个简单的 <a href="https://github.com/cloudwu/bpa/blob/master/bpa.c" target="_blank" rel="noopener noreffer">bump pointer</a> 的实现</p>
+<blockquote>
+<p>github： <a href="https://github.com/cloudwu/bpa/blob/master/bpa.c" target="_blank" rel="noopener noreffer">https://github.com/cloudwu/bpa/blob/master/bpa.c</a></p>
+</blockquote>
+<p>代码都在上方链接中，还自带一个回收算法，回收算法也比较简单，就是一个压缩清理，还有一定的大小限制</p>
+<p>为了让整个分配的过程尽量快，作者使用了一个 slot 结构，O(1) 的方式就可以获取到内存数据，内存分配的过程最差是 O(MAX_SLOT)，整体还是挺高效的</p></div><div class="post-footer">
+        <a href="/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/">转到 AI 项目</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-09-01">2025-09-01</time></span></div><div class="content"><h2 id="开头的碎碎念">开头的碎碎念</h2>
 <p>刚入职公司的时候，风风火火的搞了半年多的 KMP(Kotlin Multiplatform)，学到了非常多东西：LLVM、KSP(Kotlin Symbol Processor)、KCP(Kotlin Compiler Plugin)、 Kotlin IR 和 FIR、iOS Framework、后来为了搞 iOS 在 KMP 侧的热修还学了点 OC(Objective-C) 语法···</p></div><div class="post-footer">
@@ -221,22 +231,6 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-11-22">2024-11-22</time></span></div><div class="content"><p>为什么选这个奇怪的时间写下这篇文章呢？因为我终于确定了一个 offer 了！（当然后续可能也有幺蛾子，比如小米 offer call 以后，又说没有 hc，雷总···你们招人也太奇怪了···）。然后，这段时间的经历实在让我脑壳子嗡嗡的，又做了一次人生的错误决定来到传说中的宇宙条，不过人生的魔抗叠厚了不少···</p></div><div class="post-footer">
         <a href="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%9D%82/">杂</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86/asm.jpg"
-        data-srcset="/posts/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86/asm.jpg, /posts/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86/asm.jpg 1.5x, /posts/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86/asm.jpg 2x"
-        data-sizes="auto"
-        alt="/posts/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86/asm.jpg"
-        title="/posts/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86/asm.jpg" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86/">ASM 和 JVM 关联知识</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-07-21">2024-07-21</time></span></div><div class="content"><h2 id="背景">背景</h2>
-<p>最近做日志治理(其实也没啥治理的)，发现日志存活时间很短，因为各个业务方的日志汇总在一个实例里，有任何无用日志频繁打印，都会把日志覆盖掉</p>
-<p>那其实，治理的办法也很简单：</p></div><div class="post-footer">
-        <a href="/posts/ASM-%E5%92%8C-JVM-%E5%85%B3%E8%81%94%E7%9F%A5%E8%AF%86/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Java/">Java</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">
                         <a href="/">1</a>
