@@ -3,7 +3,15 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 29 Sep 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 11 Nov 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>KMP 和 XCode26</title>
+    <link>http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/</link>
+    <pubDate>Tue, 11 Nov 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/</guid>
+    <description><![CDATA[<p>iOS 最近打包机已经升级 xcode26，突然出现了 kmp 相关的编译问题，包括一些头文件 not found 和 unresolved classifier 等等的问题</p>
+<p>因为，我们的 kotlin/native 编译器基于 kotlin 2.0.21 做了魔改，用于支持鸿蒙系统，而且整个主工程的 kotlin 也没法轻易升级，所以直接升级 kotlin 2.2.20 官方支持的 xcode26 版本，短时间是不现实的</p>]]></description>
+</item><item>
     <title>BumpPointerAllocator</title>
     <link>http://PTrainbow.github.io/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/</link>
     <pubDate>Mon, 29 Sep 2025 00:00:00 &#43;0000</pubDate>
@@ -90,15 +98,5 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
 <p>于是，就研究了一下原因</p>
 <h2 id="pom-文件">pom 文件</h2>
 <p>我们在向 maven 发布 aar 时，会生成对应的 pom 文件，告诉我们具体依赖哪些额外 lib</p>]]></description>
-</item><item>
-    <title>资源去重</title>
-    <link>http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/</link>
-    <pubDate>Thu, 12 Oct 2023 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/%E8%B5%84%E6%BA%90%E5%8E%BB%E9%87%8D/</guid>
-    <description><![CDATA[<p>最近不知道为什么，我司又开始缩减包体积了，在这个 app 都 100-200M 的年代，在这个 5G 遥遥领先的年代，不知道卷个啥？</p>
-<p>那问题不大，既然有需求，我们照做便是</p>
-<h2 id="前置思考">前置思考</h2>
-<p>Android 包体积由多方面构成，这个我之前的文章里也有说过，所以包体积缩减的手段有很多，这个就不一一介绍了</p>]]></description>
 </item></channel>
 </rss>

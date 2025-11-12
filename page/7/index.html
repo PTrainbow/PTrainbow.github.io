@@ -97,6 +97,13 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">再来看 Activity 启动流程</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-12-07">2020-12-07</time></span></div><div class="content"><p>很久之前的一篇 <a href="../2017-10-26-Activity-%e5%90%af%e5%8a%a8%e8%bf%87%e7%a8%8b" rel="">Activity 启动流程</a> 当时刚毕业，有很多错误和没有理解，今天重新写一篇比较完整的，源码基于 Android 9.0</p>
+<h2 id="1概览">1.概览</h2>
+<p>startActivity 流程，主要涉及 APP 进程和 ActivityManagerService(简写为 AMS，system_process 为其所在进程名) 之间的 IPC 通信</p></div><div class="post-footer">
+        <a href="/posts/2020-08-12-%E5%86%8D%E6%9D%A5%E7%9C%8B-Activity-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2020-07-31-ffmpeg-%E7%AE%80%E6%98%93%E6%92%AD%E6%94%BE%E5%99%A8/">FFmpeg 简易播放器</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2020-07-31">2020-07-31</time></span></div><div class="content"><h3 id="1ffmpeg-和-sdl-下载">1.FFmpeg 和 SDL 下载</h3>
 <p>可以直接去官网下载源码自己编译或者下载已经编译好的版本</p>
@@ -164,14 +171,6 @@
 <p>第一次跟前端H5对接，结果请求不通，交流才知道，他们先发一个 OPTIONS 请求，然后再发送真实请求，而我这边后台只对 GET 请求做了处理</p>
 <p>说出来不怕丢人，我还真的不知道有 OPTIONS 请求，复习一下相关知识</p></div><div class="post-footer">
         <a href="/posts/2019-07-25-OPTIONS-%E8%AF%B7%E6%B1%82/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%9F%BA%E7%A1%80/">基础</a>,&nbsp;<a href="/tags/http/">Http</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2019-07-02-Http-Post-FormData/">Http Post FormData</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2019-07-02">2019-07-02</time></span></div><div class="content"><h2 id="问题描述">问题描述</h2>
-<p>需要上传一张图片到我们的对象存储服务器，对方给了接口协议。</p>
-<p>需使用 post 请求，Content-Type 为 multipart/form-data</p>
-<p>且 key = filecontent，value 就是文件内容</p></div><div class="post-footer">
-        <a href="/posts/2019-07-02-Http-Post-FormData/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%9F%BA%E7%A1%80/">基础</a>,&nbsp;<a href="/tags/http/">Http</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">

@@ -96,7 +96,22 @@
 </div>
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/xcode26.png"
+        data-srcset="/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/xcode26.png, /posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/xcode26.png 1.5x, /posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/xcode26.png 2x"
+        data-sizes="auto"
+        alt="/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/xcode26.png"
+        title="/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/xcode26.png" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/">KMP 和 XCode26</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-11-11">2025-11-11</time></span></div><div class="content"><p>iOS 最近打包机已经升级 xcode26，突然出现了 kmp 相关的编译问题，包括一些头文件 not found 和 unresolved classifier 等等的问题</p>
+<p>因为，我们的 kotlin/native 编译器基于 kotlin 2.0.21 做了魔改，用于支持鸿蒙系统，而且整个主工程的 kotlin 也没法轻易升级，所以直接升级 kotlin 2.2.20 官方支持的 xcode26 版本，短时间是不现实的</p></div><div class="post-footer">
+        <a href="/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/">BumpPointerAllocator</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-09-29">2025-09-29</time></span></div><div class="content"><p>看一个简单的 <a href="https://github.com/cloudwu/bpa/blob/master/bpa.c" target="_blank" rel="noopener noreffer">bump pointer</a> 的实现</p>
 <blockquote>
@@ -217,20 +232,6 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
 <p>其次，kotlin/native 因为要适配 iOS 的 platform，和 xcode 绑定的也很死，同时自己又和 llvm 绑定的很死，编译的时候有各种问题，比如 kotlin 1.9.x 没法和 xcode16 一起使用···</p></div><div class="post-footer">
         <a href="/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/github_2024.jpg"
-        data-srcset="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/github_2024.jpg, /posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/github_2024.jpg 1.5x, /posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/github_2024.jpg 2x"
-        data-sizes="auto"
-        alt="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/github_2024.jpg"
-        title="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/github_2024.jpg" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/">2024提前总结</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-11-22">2024-11-22</time></span></div><div class="content"><p>为什么选这个奇怪的时间写下这篇文章呢？因为我终于确定了一个 offer 了！（当然后续可能也有幺蛾子，比如小米 offer call 以后，又说没有 hc，雷总···你们招人也太奇怪了···）。然后，这段时间的经历实在让我脑壳子嗡嗡的，又做了一次人生的错误决定来到传说中的宇宙条，不过人生的魔抗叠厚了不少···</p></div><div class="post-footer">
-        <a href="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%9D%82/">杂</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">
                         <a href="/">1</a>
