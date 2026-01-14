@@ -3,7 +3,16 @@
         <title>所有文章 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/posts/</link>
         <description>所有文章 | 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 11 Nov 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 12 Jan 2026 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>HashCode Equals 小坑</title>
+    <link>http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/</link>
+    <pubDate>Mon, 12 Jan 2026 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/</guid>
+    <description><![CDATA[<p>今天同事在旁边问我，&ldquo;哎？hashmap 为什么 hashcode 是 0 啊&rdquo;</p>
+<p>我猜：&ldquo;估计你是个空 map 吧&rdquo;</p>
+<p>果不其然，同事用的是一个空 map，不知道他经历了什么，总不至于把 hashmap 塞到 hashmap 里当 key 了吧？</p>]]></description>
+</item><item>
     <title>KMP 和 XCode26</title>
     <link>http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/</link>
     <pubDate>Tue, 11 Nov 2025 00:00:00 &#43;0000</pubDate>
@@ -88,13 +97,5 @@
 <p>kotlin/native 实际产物就是对应平台二进制，在 ohos 上就是 linux elf<br>
 ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类似 jni 的机制，其实就是 nodejs 的 napi 机制<br>
 所以，想从 arkts 调用 kotlin/native 的代码，其实就是要自己写一层 napi</p>]]></description>
-</item><item>
-    <title>Kotlin Native 梳理</title>
-    <link>http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/</link>
-    <pubDate>Fri, 28 Mar 2025 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/</guid>
-    <description><![CDATA[<p>最近在 kotlin/native 上适配鸿蒙，感觉坑很多。而且 kotlin/native 相当于用 kotlin 写 c/c++，出现内存问题，一样挠头</p>
-<p>其次，kotlin/native 因为要适配 iOS 的 platform，和 xcode 绑定的也很死，同时自己又和 llvm 绑定的很死，编译的时候有各种问题，比如 kotlin 1.9.x 没法和 xcode16 一起使用···</p>]]></description>
 </item></channel>
 </rss>

@@ -3,7 +3,16 @@
         <title>Android - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/Android/</link>
         <description>Android - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 11 Nov 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 12 Jan 2026 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/Android/" rel="self" type="application/rss+xml" /><item>
+    <title>HashCode Equals 小坑</title>
+    <link>http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/</link>
+    <pubDate>Mon, 12 Jan 2026 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/</guid>
+    <description><![CDATA[<p>今天同事在旁边问我，&ldquo;哎？hashmap 为什么 hashcode 是 0 啊&rdquo;</p>
+<p>我猜：&ldquo;估计你是个空 map 吧&rdquo;</p>
+<p>果不其然，同事用的是一个空 map，不知道他经历了什么，总不至于把 hashmap 塞到 hashmap 里当 key 了吧？</p>]]></description>
+</item><item>
     <title>KMP 和 XCode26</title>
     <link>http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/</link>
     <pubDate>Tue, 11 Nov 2025 00:00:00 &#43;0000</pubDate>
@@ -88,15 +97,5 @@ ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类�
     <guid>http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/</guid>
     <description><![CDATA[<p>最近在 kotlin/native 上适配鸿蒙，感觉坑很多。而且 kotlin/native 相当于用 kotlin 写 c/c++，出现内存问题，一样挠头</p>
 <p>其次，kotlin/native 因为要适配 iOS 的 platform，和 xcode 绑定的也很死，同时自己又和 llvm 绑定的很死，编译的时候有各种问题，比如 kotlin 1.9.x 没法和 xcode16 一起使用···</p>]]></description>
-</item><item>
-    <title>maven publish dependency</title>
-    <link>http://PTrainbow.github.io/posts/maven-publish-dependency/</link>
-    <pubDate>Fri, 23 Feb 2024 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/maven-publish-dependency/</guid>
-    <description><![CDATA[<p>​今天 pull 工程，发现有个库的源码看不到，在 gradle external libraries 中也找不到，只能找到一个 api 接口层的代码</p>
-<p>于是，就研究了一下原因</p>
-<h2 id="pom-文件">pom 文件</h2>
-<p>我们在向 maven 发布 aar 时，会生成对应的 pom 文件，告诉我们具体依赖哪些额外 lib</p>]]></description>
 </item></channel>
 </rss>
