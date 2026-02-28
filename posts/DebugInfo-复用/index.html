@@ -38,7 +38,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/DebugInfo-%E5%A4%8D%E7%94%A8\/android.png",
                             "width":  900 ,
                             "height":  500 
-                        }],"genre": "posts","keywords": "Android","wordcount":  2661 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  2656 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/DebugInfo-%E5%A4%8D%E7%94%A8\/","datePublished": "2022-04-17T00:00:00+00:00","dateModified": "2022-04-17T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -122,7 +122,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">DebugInfo 复用</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-04-17">2022-04-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2661 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-04-17">2022-04-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2656 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -156,10 +156,10 @@
 <p>百度：<a href="https://mp.weixin.qq.com/s/zEAwm0om8MPle6hgaizFGw" target="_blank" rel="noopener noreffer">https://mp.weixin.qq.com/s/zEAwm0om8MPle6hgaizFGw</a></p>
 <p>支付宝：<a href="https://juejin.cn/post/6844903712201277448" target="_blank" rel="noopener noreffer">https://juejin.cn/post/6844903712201277448</a></p>
 <p>也有一些文章针对于后面一篇支付宝的文章进行了二次分析和复制，似乎每篇文章都在纠结行号解析公式，贴出一段行号解析代码，然后就莫名结束了，让人头大，人云亦云，而两篇文章也没有具体的介绍</p>
-<p>当然，其实这块东西我觉得如果不是对于包体积有极致的要求，也完全没有必要做···但是看一看原理还是有那么一点点收货的(我断断续续看了一周，我觉得性价比很低，没学到什么东西)</p>
+<p>当然，其实这块东西我觉得如果不是对于包体积有极致的要求，也完全没有必要做……但是看一看原理还是有那么一点点收货的(我断断续续看了一周，我觉得性价比很低，没学到什么东西)</p>
 <p>题外话：</p>
 <blockquote>
-<p>支付宝的文章是很久以前的了，看得出对于优化方面，阿里似乎很多年期就是卷无可卷了···多年前就开始搞这些了···<br>
+<p>支付宝的文章是很久以前的了，看得出对于优化方面，阿里似乎很多年期就是卷无可卷了……多年前就开始搞这些了……<br>
 再看看如今的 Android 面试，全是一些 性能优化啊、JVM/ART啊、插件化啊 等等，听起来很“高大上”的技术。
 而往往这些东西，费劲千辛万苦卷出来以后，对于实际的作用并不大，或者随着 android 的快速变化，没法跟得上脚步，最终很多库就成了没人维护的状态~可以研究研究这些听起来“高大上”的技术，但是前提是基础知识足够扎实。当然了，如果你着急找工作，那赶紧背背“高大上”技术课文吧，不然似乎很难找得到工作~~<br>
 我现在总是发现很多“高工”对于计算机基础、或者对于一些 android 基础，甚至对于异步/同步，其实毛都不懂~~但是，你跟他聊聊“高大上”，他就可以蹦出几个“高大上”的词来，然后就可以开始一场驴头不对马嘴的“技术交流”，也是很滑稽。</p>
@@ -236,23 +236,23 @@
 <p>其实，虽然 debug_opcode 变多了，但是，只要是一个方法的 insns[] 长度 &lt; 65，都可以让那个方法的 debugInfo 指向这个 debugInfo，从而达到了复用的效果</p>
 <p><strong>怎么理解呢？</strong></p>
 <p>假设我们有两个方法，funcA(inssn.size = 65) 和 funcB(insns.size = 10)，假设修改前的 opcode 的情况是：</p>
-<pre tabindex="0"><code>funcA:  
-insns[0] ~ insns[14]  -&gt; line1   第 n 行代码对应的 insns 区间
-insns[15] ~ insns[19]  -&gt; line2
-···
-insns[xx] ~ insns[64]  -&gt; line10
-
-funcB
-insns[0] ~ insns[9]  -&gt; line1
-</code></pre><p>如果此时，虚拟机正在读取 funcA 或者 funcB 的 insns[8]，那我们可以推断出 funcA 和 funcB 都是第一行。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">funcA:  
+</span></span><span class="line"><span class="cl">insns[0] ~ insns[14]  -&gt; line1   第 n 行代码对应的 insns 区间
+</span></span><span class="line"><span class="cl">insns[15] ~ insns[19]  -&gt; line2
+</span></span><span class="line"><span class="cl">……
+</span></span><span class="line"><span class="cl">insns[xx] ~ insns[64]  -&gt; line10
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">funcB
+</span></span><span class="line"><span class="cl">insns[0] ~ insns[9]  -&gt; line1
+</span></span></code></pre></div><p>如果此时，虚拟机正在读取 funcA 或者 funcB 的 insns[8]，那我们可以推断出 funcA 和 funcB 都是第一行。</p>
 <p>而修改后，funcB 可以复用 funcA 的 opcode，都指向 funcA 的 opcode，情况如下：</p>
-<pre tabindex="0"><code>funcA 和 funcB: 
-insns[0]  -&gt; line0
-insns[1]  -&gt; line1
-insns[2]  -&gt; line2
-···
-insns[64]  -&gt; line64
-</code></pre><p>line 行号直接变成了 insns 的偏移量，</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">funcA 和 funcB: 
+</span></span><span class="line"><span class="cl">insns[0]  -&gt; line0
+</span></span><span class="line"><span class="cl">insns[1]  -&gt; line1
+</span></span><span class="line"><span class="cl">insns[2]  -&gt; line2
+</span></span><span class="line"><span class="cl">……
+</span></span><span class="line"><span class="cl">insns[64]  -&gt; line64
+</span></span></code></pre></div><p>line 行号直接变成了 insns 的偏移量，</p>
 <p>如果有很多个方法的 insns 都小于 65，那么就可以有很多个方法公用这一个 debugInfo，所以 debugInfo 里面的内容是增多了，但是因为复用，debugInfo 的总量是极具减少的！</p>
 <p><strong>那么行号怎么还原呢？</strong></p>
 <p>如果此时，虚拟机正在读取 insns[8]，我们只能推断出是第八行代码。</p>
@@ -300,5 +300,5 @@ insns[64]  -&gt; line64
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-04-17T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"DebugInfo 复用"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-04-17T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"DebugInfo 复用"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

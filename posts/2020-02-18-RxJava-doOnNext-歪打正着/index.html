@@ -31,7 +31,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrainbow.github.io\/posts\/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80\/"
-        },"genre": "posts","keywords": "Java","wordcount":  2190 ,
+        },"genre": "posts","keywords": "Java","wordcount":  2184 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2020-02-18-RxJava-doOnNext-%E6%AD%AA%E6%89%93%E6%AD%A3%E7%9D%80\/","datePublished": "2020-02-18T00:00:00+00:00","dateModified": "2020-02-18T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -115,7 +115,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">RxJava doOnNext 歪打正着</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-02-18">2020-02-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2190 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-02-18">2020-02-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2184 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -180,11 +180,11 @@ RxJava 提供了丰富的操作符，你想到的基本他都有，只是一个�
 按照之前的理解，是没有问题的，我没有进行网络线程切换，Android 中，则一定是在主线程中间进行了网络请求才对啊？
 于是看了看了 Retrofit + RxJava 的代码，主要就是 <code>CallAdapter</code> 的代码。发现在创建 <code>RxJava2CallAdapterFactory</code> 时，其实会传入一个 scheduler 的，这个<code>后面会调用 subscribeOn</code>。</p>
 <h3 id="更疑惑了">更疑惑了</h3>
-<p>都知道，如果<code>只设置 subscribeOn 而没有设置 observeOn</code>，那么会发生啥？就是后续操作你以为在<code>主线程</code>中的，全在<code>子线程</code>中（前面已经说了原因）,那么我的 doOnNext，岂不是···在子线程···，那么必定 crash 才对啊？？？<br>
-感觉打了个 log，发现我的 doOnNext 在主线程···彻底迷了</p>
+<p>都知道，如果<code>只设置 subscribeOn 而没有设置 observeOn</code>，那么会发生啥？就是后续操作你以为在<code>主线程</code>中的，全在<code>子线程</code>中（前面已经说了原因）,那么我的 doOnNext，岂不是……在子线程……，那么必定 crash 才对啊？？？<br>
+感觉打了个 log，发现我的 doOnNext 在主线程……彻底迷了</p>
 <h3 id="解惑">解惑</h3>
-<p>因为代码明天要提测了，所以我慌得不行，虽然没有 crash，但是搞不明白原因，一直很不踏实。最后没办法了，只好 debug 一步步看！这才发现了玄机···
-我只看了 retrofit-rxjava 库里的 <code>RxJava2CallAdapterFactory</code> 代码，谁知道快手自己<code>继承了一波 callAdapter.Factory</code>，来了个 CustomAdapterFactory···瞬间崩溃···然后代码都在里面，每次 buildObservable 的时候，都会调用 observeOn 和 subscribeOn 方法来切换线程，不需要你在外部指定。<br>
+<p>因为代码明天要提测了，所以我慌得不行，虽然没有 crash，但是搞不明白原因，一直很不踏实。最后没办法了，只好 debug 一步步看！这才发现了玄机……
+我只看了 retrofit-rxjava 库里的 <code>RxJava2CallAdapterFactory</code> 代码，谁知道快手自己<code>继承了一波 callAdapter.Factory</code>，来了个 CustomAdapterFactory……瞬间崩溃……然后代码都在里面，每次 buildObservable 的时候，都会调用 observeOn 和 subscribeOn 方法来切换线程，不需要你在外部指定。<br>
 所以前面的疑惑通通解决了</p>
 <h2 id="后怕">后怕</h2>
 <p>所以这次我的 doOnNext 纯粹是歪打正着，也正是因为内部封装的库函数帮忙做了线程切换，才会让我避免出现了线程问题而crash。</p>
@@ -250,5 +250,5 @@ RxJava 提供了丰富的操作符，你想到的基本他都有，只是一个�
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2020-02-18T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"RxJava doOnNext 歪打正着"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2020-02-18T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"RxJava doOnNext 歪打正着"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

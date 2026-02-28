@@ -21,7 +21,7 @@
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/ToyJVM-%E5%AD%A6%E4%B9%A0/</guid>
     <description><![CDATA[<p>前段时间看了下 Elk(十分简单的 JS VM，其实算是个 parser + interpreter 吧)的代码，学到了一些计算机基础的东西。</p>
-<p>比如，我写代码这么久，甚至不知道 double 的内存结构和 7FF 代表什么。比如，因为没有系统学习过编译原理等等，没有 opcode 相关的概念，如何设计 interpreter(又想回去读书了···)。</p>]]></description>
+<p>比如，我写代码这么久，甚至不知道 double 的内存结构和 7FF 代表什么。比如，因为没有系统学习过编译原理等等，没有 opcode 相关的概念，如何设计 interpreter(又想回去读书了……)。</p>]]></description>
 </item><item>
     <title>Elk JSEngine 学习</title>
     <link>http://PTrainbow.github.io/posts/Elk-JsEngine-%E5%AD%A6%E4%B9%A0/</link>

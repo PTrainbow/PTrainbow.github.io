@@ -33,7 +33,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrainbow.github.io\/posts\/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin\/"
-        },"genre": "posts","keywords": "kotlin","wordcount":  4007 ,
+        },"genre": "posts","keywords": "kotlin","wordcount":  4002 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin\/","datePublished": "2020-12-24T00:00:00+00:00","dateModified": "2020-12-24T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -117,7 +117,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">半天入门了下 kotlin</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-12-24">2020-12-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4007 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-12-24">2020-12-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4002 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -240,7 +240,7 @@
 </span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="k">value</span><span class="o">?.</span><span class="n">size</span><span class="p">()</span> <span class="o">?:</span> <span class="p">-</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span></code></pre></div><p>首先看这个写法，咋还能这么写？？？是的，他就是可以这么写，可以重写 get 和 set 方法。</p>
-<p>然后看 size 这个成员变量，这个成员变量是 val 声明的，但是···这不是随着 value 的值在变么？value 空了就是 -1，不是空就是 value 的大小。<code>一直以为 val 声明的就是 final 的变量，其实不然</code>···</p>
+<p>然后看 size 这个成员变量，这个成员变量是 val 声明的，但是……这不是随着 value 的值在变么？value 空了就是 -1，不是空就是 value 的大小。<code>一直以为 val 声明的就是 final 的变量，其实不然</code>……</p>
 <p>这其实是因为 kotlin 为我们生成了所有类成员变量的默认的 get set 方法，我们当然可以重写，我们声明的 val 只是声明了一个 final 的 get 方法仅此而已，而不是声明了一个 final 的成员变量，这个可以通过转 java 代码查看。</p>
 <p>好了，至此，搞懂这些，应该能看懂 60%-70% 的 kotlin 代码了吧~~</p>
 <h2 id="烦人的各种-scope-function">烦人的各种 Scope Function</h2>
@@ -290,7 +290,7 @@ android 中也很常见 object: interface {}<br>
 <p>这里就有了另一个注解 @Jvmtatic，如果你加上了这个注解，那么编译器会在外部帮你生成一个真实的 java static 方法或者成员变量，那么你在 java 代码中调用的时候，就不需要 A.Companion 了，可以直接 A.a()！</p>
 <h3 id="数据类和密封类">数据类和密封类</h3>
 <p>数据类就是 <code>data</code> 关键字来声明，只是帮我们生成了一些常用的方法仅此而已。<br>
-密封类其实也没啥，是个抽象类，不过被严格要求了子类声明位置(所以密封了嘛···)，这样可以对集成类型进行限制，算是一种代码设计层次的东西。</p>
+密封类其实也没啥，是个抽象类，不过被严格要求了子类声明位置(所以密封了嘛……)，这样可以对集成类型进行限制，算是一种代码设计层次的东西。</p>
 <h3 id="gettersetter-和-幕后字段">getter/setter 和 幕后字段</h3>
 <p>java 中我们要写 getter 和 setter，kotlin 中对于类型成员变量的方法和改变也是 getter 和 setter。<br>
 但是下面这段在 java 中看似没毛病的代码确是不行的~~</p>
@@ -313,12 +313,12 @@ android 中也很常见 object: interface {}<br>
 <p>但是，直接声明个 a，private set，外部不就不可以调用了吗？内部依旧可以</p>
 <h2 id="协程">协程</h2>
 <p>因为之前写过一段时间 go，go 也有 Goroutines，相类似的概念，但是 golang 可是自己写了一波调度器的，那 kotlin 如何实现的呢？</p>
-<p>未完待续···</p>
+<p>未完待续……</p>
 <hr>
 <p>2021.1.10 补充</p>
 <p>看了一波别人写的实现原理分析，源码也看了点，发现 kotlin 其实也是做了一套调度，帮忙更好的处理异步操作。</p>
 <p>那既然如此，只能去慢慢学 api 了，没有办法的。</p>
-<p>而且配上 kotlin 之后，加上 Android Architecture Components 那一套东西，帮你处理了很多生命周期和对象释放的问题等等···会让代码看起来十分简洁，不知道这算是对编程人员的要求更低了，还是要求更高了呢？</p>
+<p>而且配上 kotlin 之后，加上 Android Architecture Components 那一套东西，帮你处理了很多生命周期和对象释放的问题等等……会让代码看起来十分简洁，不知道这算是对编程人员的要求更低了，还是要求更高了呢？</p>
 <p>关于协程能否提升性能？这个看你怎么看 <code>协程</code> 这两个字了，如果你说的是 Goroutines，那确实可以提高性能，如果你说的是 kotlin 中的协程，不能，就是线程池而已。</p>
 <p>为什么有这些区别？主要在于协程的实现上的区别，其实本质的纯洁的协程和性能没有半毛钱关系，它只是一段可供调用的逻辑段，谈何性能呢？</p>
 <p>只不过，配合上线程，那么就能做到很多调度(也要看你怎么实现，但是这部分本身已经超出了最本质的协程的概念)，写出同步形式的异步代码。</p>
@@ -362,5 +362,5 @@ android 中也很常见 object: interface {}<br>
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2020-12-24T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"半天入门了下 kotlin"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2020-12-24T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"半天入门了下 kotlin"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

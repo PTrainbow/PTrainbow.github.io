@@ -10,7 +10,7 @@
   <meta property="og:title" content="H5 audio 标签">
   <meta property="og:description" content="背景 没错，前端天才终于涉及了真正的前端h5页面！
 需求是优化一个两年前别人写的播放器！
-可是坑死我了···
+可是坑死我了……
 audio 几个重要的方法 play 加载并播放音频或重新播放暂停的的音频 pause 暂停处于播放状态的音频文件 几个重要的回调 waiting 无法直接播放，加载 canplay 缓冲至目前可播放状态 play play()和autoplay播放时 timeupdate 播放时间变化 ended 播放结束 一个简单的播放器逻辑 一个友好的用户交互">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
@@ -25,7 +25,7 @@ audio 几个重要的方法 play 加载并播放音频或重新播放暂停的�
   <meta name="twitter:title" content="H5 audio 标签">
   <meta name="twitter:description" content="背景 没错，前端天才终于涉及了真正的前端h5页面！
 需求是优化一个两年前别人写的播放器！
-可是坑死我了···
+可是坑死我了……
 audio 几个重要的方法 play 加载并播放音频或重新播放暂停的的音频 pause 暂停处于播放状态的音频文件 几个重要的回调 waiting 无法直接播放，加载 canplay 缓冲至目前可播放状态 play play()和autoplay播放时 timeupdate 播放时间变化 ended 播放结束 一个简单的播放器逻辑 一个友好的用户交互">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/2019-06-23-H5-audio-%E6%A0%87%E7%AD%BE/" /><link rel="prev" href="http://PTrainbow.github.io/posts/2019-06-14-%E5%88%9D%E8%AF%86-webpack-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/" /><link rel="next" href="http://PTrainbow.github.io/posts/2019-07-02-Http-Post-FormData/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
@@ -37,7 +37,7 @@ audio 几个重要的方法 play 加载并播放音频或重新播放暂停的�
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrainbow.github.io\/posts\/2019-06-23-H5-audio-%E6%A0%87%E7%AD%BE\/"
-        },"genre": "posts","keywords": "JavaScript","wordcount":  892 ,
+        },"genre": "posts","keywords": "JavaScript","wordcount":  890 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2019-06-23-H5-audio-%E6%A0%87%E7%AD%BE\/","datePublished": "2019-06-23T00:00:00+00:00","dateModified": "2019-06-23T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -121,7 +121,7 @@ audio 几个重要的方法 play 加载并播放音频或重新播放暂停的�
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">H5 audio 标签</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-06-23">2019-06-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 892 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-06-23">2019-06-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 890 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -144,7 +144,7 @@ audio 几个重要的方法 play 加载并播放音频或重新播放暂停的�
             </div><div class="content" id="content"><h3 id="背景">背景</h3>
 <p>没错，前端天才终于涉及了真正的前端h5页面！</p>
 <p>需求是优化一个两年前别人写的播放器！</p>
-<p>可是坑死我了···</p>
+<p>可是坑死我了……</p>
 <h3 id="audio">audio</h3>
 <ul>
 <li>几个重要的方法
@@ -183,7 +183,7 @@ audio 几个重要的方法 play 加载并播放音频或重新播放暂停的�
 </li>
 <li>
 <p>坑二：想做个缓存播放的功能<br>
-逻辑很简单，每次暂停被调用，或者页面退出事件，<code>缓存播放进度进localstorage</code>，第一次进来的时候 load 一下缓存，问题却并不少···</p>
+逻辑很简单，每次暂停被调用，或者页面退出事件，<code>缓存播放进度进localstorage</code>，第一次进来的时候 load 一下缓存，问题却并不少……</p>
 <ul>
 <li>进度加载不了
 <ul>
@@ -238,5 +238,5 @@ audio 几个重要的方法 play 加载并播放音频或重新播放暂停的�
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2019-06-23T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"H5 audio 标签"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2019-06-23T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"H5 audio 标签"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

@@ -33,7 +33,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrainbow.github.io\/posts\/2020-03-20-%E4%BB%A3%E7%A0%81%E4%B8%8D%E8%A7%84%E8%8C%83%E7%9A%84%E5%85%B8%E5%9E%8B%E7%A4%BA%E4%BE%8B\/"
-        },"genre": "posts","keywords": "代码规范","wordcount":  1596 ,
+        },"genre": "posts","keywords": "代码规范","wordcount":  1593 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2020-03-20-%E4%BB%A3%E7%A0%81%E4%B8%8D%E8%A7%84%E8%8C%83%E7%9A%84%E5%85%B8%E5%9E%8B%E7%A4%BA%E4%BE%8B\/","datePublished": "2020-03-20T00:00:00+00:00","dateModified": "2020-03-20T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -117,7 +117,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">代码不规范的典型示例</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-03-20">2020-03-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1596 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-03-20">2020-03-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1593 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -129,12 +129,21 @@
   <ul>
     <li><a href="#案例分析1">案例分析1</a>
       <ul>
-        <li></li>
+        <li>
+          <ul>
+            <li><a href="#为什么这代码写的不好">为什么这代码写的不好</a></li>
+            <li><a href="#snackbar-位置错误的原因">snackBar 位置错误的原因</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#案例分析2">案例分析2</a>
       <ul>
-        <li></li>
+        <li>
+          <ul>
+            <li><a href="#问题现象">问题现象</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -163,13 +172,13 @@
 </ul>
 <h4 id="snackbar-位置错误的原因">snackBar 位置错误的原因</h4>
 <p>上面其实也已经说了，其实就是第三点，生命周期的问题。写 snackBar 的这个同事，他直接通过上面的函数获取到 activity 对象，然后 findViewById 获取 view，然后 view.getHeight() 获取偏移量，一通操作行云流水。然而，view.getHeight() 这个函数应届生都知道，它可能会是0。当 view 渲染完成，你获得的当然是正确高度，当 view 渲染未完成，自然是0。这就是为什么时而遮挡时而不遮挡的根本原因。</p>
-<p>这个变态的问题最终被我加了一些状态判断，尽可能的处理了一下。总结一下，就是写 getCurrentActivity 和 snackBar 的两个远古同事都犯了很严重的问题，但是我个人觉得还是前者危害更大，他这个静态方法会诱导很多人直接拿到 Activity 进行一些错误操作···</p>
+<p>这个变态的问题最终被我加了一些状态判断，尽可能的处理了一下。总结一下，就是写 getCurrentActivity 和 snackBar 的两个远古同事都犯了很严重的问题，但是我个人觉得还是前者危害更大，他这个静态方法会诱导很多人直接拿到 Activity 进行一些错误操作……</p>
 <h2 id="案例分析2">案例分析2</h2>
 <p>我还遇到了一个诡异的问题，是我在做一个需求的时候，这个需求是做小包。就是比如当前我们的 APP 版本号是 7.0，但是我们想做一个小包版本(体积和功能等缩减)，于是我们从一个 5.x 版本的分支 fork 了一份代码，缺又想迁移一些 7.0 的功能。<br>
 这里面问题很多，包括 support 包(5.x版本使用)和 androidx 包(7.x版本使用)问题，我本以为这些已经很恶心了，但当我编译通过，运行时 crash 时候，我才知道，摆在明面上的问题那都不是问题。</p>
 <h4 id="问题现象">问题现象</h4>
 <p>debug 包运行正常，release 包不正常，体现在侧边栏滑不动了。有经验的基本就一眼看穿，基本是编译时候的差异(最常见的: 混淆)，再看 log 抛的异常，FieldNotFoundException。</p>
-<p>因为代码不熟，而且大项目的编译过程···你们懂的，各种魔改，gradle 脚本里也是毫无注释，不知道他想干啥。</p>
+<p>因为代码不熟，而且大项目的编译过程……你们懂的，各种魔改，gradle 脚本里也是毫无注释，不知道他想干啥。</p>
 <p>所以只能靠猜。</p>
 <p>先通过异常定位到类 android.support.v4.widget.SlidingPaneLayout，乍一看毫无问题。这是 android support 包提供的类，为什么会抛 FieldNotFoundException 的异常。所以一开始我就没往混淆去想。</p>
 <ul>
@@ -187,7 +196,7 @@
 </li>
 </ul>
 <p><code>只有混淆了吧！</code></p>
-<p>还真是···然后我们来欣赏一段这个代码</p>
+<p>还真是……然后我们来欣赏一段这个代码</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">XXXXSlidingPaneLayout</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">android</span><span class="p">.</span><span class="na">support</span><span class="p">.</span><span class="na">v4</span><span class="p">.</span><span class="na">widget</span><span class="p">.</span><span class="na">SlidingPaneLayout</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="nf">XXXXSlidingPaneLayout</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">     </span><span class="c1">// 此处反射 try-catch</span><span class="w">
@@ -248,5 +257,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2020-03-20T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"代码不规范的典型示例"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2020-03-20T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"代码不规范的典型示例"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

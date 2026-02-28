@@ -38,7 +38,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/20231208-Kotlin-Native\/kmp.png",
                             "width":  1628 ,
                             "height":  666 
-                        }],"genre": "posts","keywords": "kotlin","wordcount":  1545 ,
+                        }],"genre": "posts","keywords": "kotlin","wordcount":  1543 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/20231208-Kotlin-Native\/","datePublished": "2023-12-08T00:00:00+00:00","dateModified": "2023-12-08T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -122,7 +122,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Kotlin/Native</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-12-08">2023-12-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1545 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-12-08">2023-12-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1543 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -211,8 +211,8 @@
         title="/img/in-post/kotlin_native_default_gc.jpg" /></p>
 <p>无论是 kmm demo 中 debugger 展示的线程名，还是 kotlin 官方文档中的介绍，都是说使用的 cms，为啥到这里变成了这个 parallel_mark_concurrent_sweep？</p>
 <p>还记得上面提到的源码目录么，这个东西的目录名字叫做 pmcs，并不是 cms，而且里面的代码就叫做 ParallelMarkConcurrentSweep.cpp，而且翻阅 konan config 发现，还真有 pmcs</p>
-<p>于是，彻底懵逼了，难道新版本的 kotlin 使用了 pmcs，kotlin 文档没来得及更新？反查自己的 kotlin 版本 1.9.20，已经非常新了，查阅 1.9.20 分支代码，默认仍然是 pmcs，但是 debugger 确确实实显示的是 cms···</p>
-<p>浪费了一天以后发现，目前 pmcs 和 cms 好像是一个东西···对比了一下代码也非常类似</p>
+<p>于是，彻底懵逼了，难道新版本的 kotlin 使用了 pmcs，kotlin 文档没来得及更新？反查自己的 kotlin 版本 1.9.20，已经非常新了，查阅 1.9.20 分支代码，默认仍然是 pmcs，但是 debugger 确确实实显示的是 cms……</p>
+<p>浪费了一天以后发现，目前 pmcs 和 cms 好像是一个东西……对比了一下代码也非常类似</p>
 <p>同时，看了一下历史提交，发现了一个非常搞笑的事情</p>
 <p><img
         class="lazyload"
@@ -285,5 +285,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2023-12-08T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Kotlin/Native"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2023-12-08T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Kotlin/Native"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

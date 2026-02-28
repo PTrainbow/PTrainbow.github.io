@@ -5,37 +5,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>HashCode Equals 小坑 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/">
+        <title>HashCode 与 Equals 小坑 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/">
   <meta property="og:site_name" content="北邙山之光的 Blog">
-  <meta property="og:title" content="HashCode Equals 小坑">
-  <meta property="og:description" content="今天同事在旁边问我，“哎？hashmap 为什么 hashcode 是 0 啊”
-我猜：“估计你是个空 map 吧”
-果不其然，同事用的是一个空 map，不知道他经历了什么，总不至于把 hashmap 塞到 hashmap 里当 key 了吧？">
+  <meta property="og:title" content="HashCode 与 Equals 小坑">
+  <meta property="og:description" content="同事问了一句：「HashMap 的 hashCode 为什么是 0？」
+我猜是空 map。果然，他用的就是一个空的 HashMap。于是顺带想到经典面试题 hashCode / equals，以及 Kotlin 的 data class 在这上面容易踩的坑，整理一下。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-01-12T00:00:00+00:00">
     <meta property="article:modified_time" content="2026-01-12T00:00:00+00:00">
     <meta property="article:tag" content="Android">
+    <meta property="article:tag" content="Kotlin">
+    <meta property="article:tag" content="Java">
     <meta property="og:image" content="http://PTrainbow.github.io/logo.png">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="http://PTrainbow.github.io/logo.png">
-  <meta name="twitter:title" content="HashCode Equals 小坑">
-  <meta name="twitter:description" content="今天同事在旁边问我，“哎？hashmap 为什么 hashcode 是 0 啊”
-我猜：“估计你是个空 map 吧”
-果不其然，同事用的是一个空 map，不知道他经历了什么，总不至于把 hashmap 塞到 hashmap 里当 key 了吧？">
+  <meta name="twitter:title" content="HashCode 与 Equals 小坑">
+  <meta name="twitter:description" content="同事问了一句：「HashMap 的 hashCode 为什么是 0？」
+我猜是空 map。果然，他用的就是一个空的 HashMap。于是顺带想到经典面试题 hashCode / equals，以及 Kotlin 的 data class 在这上面容易踩的坑，整理一下。">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/" /><link rel="prev" href="http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "HashCode Equals 小坑",
+        "headline": "HashCode 与 Equals 小坑",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrainbow.github.io\/posts\/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91\/"
-        },"genre": "posts","keywords": "Android","wordcount":  1017 ,
+        },"genre": "posts","keywords": "Android, Kotlin, Java","wordcount":  895 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91\/","datePublished": "2026-01-12T00:00:00+00:00","dateModified": "2026-01-12T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -117,10 +117,10 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">HashCode Equals 小坑</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animated flipInX">HashCode 与 Equals 小坑</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2026-01-12">2026-01-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1017 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2026-01-12">2026-01-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 895 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -129,17 +129,21 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#hashmaphashcode-和-equals">HashMap.hashCode() 和 equals</a></li>
-    <li><a href="#data-class">Data Class</a></li>
-    <li><a href="#总结">总结</a></li>
+    <li><a href="#一hashmap-的-hashcode-与-equals">一、HashMap 的 hashCode 与 equals</a></li>
+    <li><a href="#二kotlin-data-class-的坑">二、Kotlin Data Class 的坑</a>
+      <ul>
+        <li><a href="#21-用在-set-里按内容去重">2.1 用在 Set 里：按「内容」去重</a></li>
+        <li><a href="#22-用在-list-的-indexof按内容找下标">2.2 用在 List 的 indexOf：按「内容」找下标</a></li>
+      </ul>
+    </li>
+    <li><a href="#三总结">三、总结</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p>今天同事在旁边问我，&ldquo;哎？hashmap 为什么 hashcode 是 0 啊&rdquo;</p>
-<p>我猜：&ldquo;估计你是个空 map 吧&rdquo;</p>
-<p>果不其然，同事用的是一个空 map，不知道他经历了什么，总不至于把 hashmap 塞到 hashmap 里当 key 了吧？</p>
-<p>如此，让我想起了经典又无聊的面试题，hashcode 和 equals。同时，也让我想起了操蛋的 kotlin data class，那我们一一来看下</p>
-<h2 id="hashmaphashcode-和-equals">HashMap.hashCode() 和 equals</h2>
-<p>hashcode 和 equals 我们直接查看源码 AbstractMap，如下：</p>
+            </div><div class="content" id="content"><p>同事问了一句：「HashMap 的 hashCode 为什么是 0？」</p>
+<p>我猜是空 map。果然，他用的就是一个空的 <code>HashMap</code>。于是顺带想到经典面试题 hashCode / equals，以及 Kotlin 的 data class 在这上面容易踩的坑，整理一下。</p>
+<hr>
+<h2 id="一hashmap-的-hashcode-与-equals">一、HashMap 的 hashCode 与 equals</h2>
+<p>实现可以直接看 <code>AbstractMap</code> 的源码：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">hashCode</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">0</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Entry</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">entry</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">entrySet</span><span class="p">())</span><span class="w">
@@ -150,12 +154,10 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">equals</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">o</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">this</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">o</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;?</span><span class="p">,</span><span class="w"> </span><span class="o">?&gt;</span><span class="w"> </span><span class="n">m</span><span class="p">))</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">size</span><span class="p">())</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Entry</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">entrySet</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getKey</span><span class="p">();</span><span class="w">
@@ -168,57 +170,56 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">ClassCastException</span><span class="w"> </span><span class="n">unused</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">NullPointerException</span><span class="w"> </span><span class="n">unused</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">ClassCastException</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">NullPointerException</span><span class="w"> </span><span class="n">unused</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></div><p>所以，当 map 没有数据时，hashcode 自然而然也就是 0 了，同时 equals 和 hashcode 判断的都是具体的内容</p>
-<p>假如，这个时候你做了一件变态的事情，把 hashmap 当做 hashmap 的 key(当然现实应该没人这么搞)，如下：</p>
+</span></span></span></code></pre></div><p>要点：</p>
+<ul>
+<li><strong>空 map</strong>：没有 entry，累加结果就是 0，所以 <code>hashCode()</code> 为 0 是正常的。</li>
+<li><strong>equals</strong>：比较的是「键值对内容」，不是引用。</li>
+</ul>
+<p>所以若把 HashMap 当 key 用（现实中很少这么干），两个「内容相同」的 map 会算出相同 hashCode，并且 equals 为 true，在同一个 <code>Map&lt;Map..., V&gt;</code> 里只会保留一个条目，后 put 的会覆盖先 put 的。例如：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">map1</span> <span class="p">=</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">Any</span><span class="p">&gt;(</span><span class="s2">&#34;key1&#34;</span> <span class="n">to</span> <span class="s2">&#34;value1&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">map2</span> <span class="p">=</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">Any</span><span class="p">&gt;(</span><span class="s2">&#34;key1&#34;</span> <span class="n">to</span> <span class="s2">&#34;value1&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="c1">//    // 或者为空，或者内容的 hashcode 一致
-</span></span></span><span class="line"><span class="cl"><span class="c1">//    val map1 = mutableMapOf&lt;String, Any&gt;(&#34;key1&#34; to &#34;value1&#34;)
-</span></span></span><span class="line"><span class="cl"><span class="c1">//    val map2 = mutableMapOf&lt;String, Any&gt;(&#34;key1&#34; to &#34;value1&#34;)
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">val</span> <span class="py">map3</span> <span class="p">=</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">Map</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">Any</span><span class="p">&gt;,</span> <span class="n">Any</span><span class="p">&gt;()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">map3</span> <span class="p">=</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">Map</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">Any</span><span class="p">&gt;,</span> <span class="n">Any</span><span class="p">&gt;()</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">map3</span><span class="p">[</span><span class="n">map1</span><span class="p">]</span> <span class="p">=</span> <span class="s2">&#34;1&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">map3</span><span class="p">[</span><span class="n">map2</span><span class="p">]</span> <span class="p">=</span> <span class="s2">&#34;2&#34;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">println</span><span class="p">(</span><span class="n">map3</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>最终，这个 map 里都只有一个 item，也很好理解，hashcode 一致，同时，内容一致，也 equals 了，所以，被覆盖了</p>
-<p>这个应该正常没人会这么写，如果有这种神奇的场景，那也太···</p>
-<h2 id="data-class">Data Class</h2>
-<p>kotlin 提供了 data class 这么一种特殊类型，用时一时爽，用后火葬场</p>
-<p>当时，chatgpt 出来的时候，被别人忽悠去当免费劳动力，帮别人写个类似的东西，此时，就用上了 RecyclerView 和 List</p>
-<p>List 中的 item 当然就定义成 data class 了</p>
-<p>如：</p>
+</span></span><span class="line"><span class="cl">    <span class="n">println</span><span class="p">(</span><span class="n">map3</span><span class="p">)</span>  <span class="c1">// 只有一个 entry，map2 覆盖了 map1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>这种写法一般不推荐，了解原理即可。</p>
+<hr>
+<h2 id="二kotlin-data-class-的坑">二、Kotlin Data Class 的坑</h2>
+<p>Data class 自动生成 <code>equals</code> / <code>hashCode</code>，比较的是<strong>属性值</strong>，不是对象引用。用在集合或 <code>indexOf</code> 时，容易和「按引用区分」的直觉不符。</p>
+<h3 id="21-用在-set-里按内容去重">2.1 用在 Set 里：按「内容」去重</h3>
+<p>例如：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">data</span> <span class="k">class</span> <span class="nc">CustomData</span><span class="p">(</span><span class="k">val</span> <span class="py">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span>
-</span></span></code></pre></div><p>后来，忘记了什么需求了，好像是历史消息还是什么之类的，转成了 LinkedHashSet？</p>
-<p>总之，我们来看下面这段代码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">val</span> <span class="py">custom1</span> <span class="p">=</span> <span class="n">CustomData</span><span class="p">(</span><span class="s2">&#34;1&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="py">custom1</span> <span class="p">=</span> <span class="n">CustomData</span><span class="p">(</span><span class="s2">&#34;1&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="py">custom2</span> <span class="p">=</span> <span class="n">CustomData</span><span class="p">(</span><span class="s2">&#34;1&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="py">set</span> <span class="p">=</span> <span class="n">linkedSetOf</span><span class="p">&lt;</span><span class="n">CustomData</span><span class="p">&gt;()</span>
 </span></span><span class="line"><span class="cl"><span class="k">set</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">custom1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">set</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">custom2</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="p">(</span><span class="k">set</span><span class="p">)</span>
-</span></span></code></pre></div><p>试问，最终 set 里面有几个元素？答：1 个</p>
-<p>因为 data class 默认也帮忙重写了 hashCode &amp; equals 方法，也在比较内容，内容相同，所以只有 1 个元素</p>
-<p>同理，在使用 list 的时候， indexOf 有相似的问题，看如下代码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">val</span> <span class="py">list</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">&lt;</span><span class="n">CustomData</span><span class="p">&gt;()</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="p">(</span><span class="k">set</span><span class="p">)</span>  <span class="c1">// 只有 1 个元素：内容相同，equals 为 true，被去重
+</span></span></span></code></pre></div><p>Set 认为两个实例「相等」，所以只保留一个。</p>
+<h3 id="22-用在-list-的-indexof按内容找下标">2.2 用在 List 的 indexOf：按「内容」找下标</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">val</span> <span class="py">list</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">&lt;</span><span class="n">CustomData</span><span class="p">&gt;()</span>
 </span></span><span class="line"><span class="cl"><span class="n">list</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">custom1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">list</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">custom2</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">list</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">custom2</span><span class="p">)</span>
-</span></span></code></pre></div><p>此时 indexOf 返回的 index = 0，因为 indexOf 在不为 null 的情况下，也是使用的 equals 比较，而 data class 重写了 equals 比较内容</p>
-<h2 id="总结">总结</h2>
-<p>我们在使用 hashmap 和 判断 equals 时，特别要注意判断的对象的 hashcode 和 equals 方法，特别是 kotlin data class，使用范围很广，很多人忘记了 data class 比较的是具体的内容，而不是对象本身是不是同一个，而会产生一些奇奇怪怪的 bug 现象</p>
-<p>这本来是十分简单的问题，但是很多人并没有在意过，导致最终结果不符预期而百思不得其解(类似的还有 json 的反序列化 和 混淆问题，很多工作很久的人完全不注意，导致 release 包出问题，又傻傻找不到原因)</p>
+</span></span><span class="line"><span class="cl"><span class="n">list</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">custom2</span><span class="p">)</span>  <span class="c1">// 返回 0，因为 equals 比较内容，custom2 和 custom1 内容相同
+</span></span></span></code></pre></div><p><code>indexOf</code> 内部用 <code>equals</code> 比较，data class 的 <code>equals</code> 又是按属性来的，所以会匹配到第一个「内容相同」的元素（这里是 custom1），返回下标 0，而不是 1。若你心里想的是「按引用找第二个元素」，就会觉得结果不对。</p>
+<hr>
+<h2 id="三总结">三、总结</h2>
+<ul>
+<li>使用 <strong>HashMap</strong> 或任何依赖 <strong>equals / hashCode</strong> 的 API 时，要清楚：当前类型比较的是「引用」还是「内容」。</li>
+<li><strong>Kotlin data class</strong> 默认按「内容」比较，在 Set 去重、List 的 <code>indexOf</code>、以及把对象当 Map 的 key 时，都会按内容生效，容易和「两个不同对象」的直觉冲突，从而出现难以排查的 bug。</li>
+<li>这类问题本身不复杂，但若平时没注意 equals/hashCode 的语义，就会在 release、JSON 反序列化、混淆等场景里反复踩坑。</li>
+</ul>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -236,13 +237,13 @@
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/kotlin/">Kotlin</a>,&nbsp;<a href="/tags/Java/">Java</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/" class="prev" rel="prev" title="KMP 和 XCode26"><i class="fas fa-angle-left fa-fw"></i>KMP 和 XCode26</a></div>
+    <div class="post-nav"><a href="/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/" class="prev" rel="prev" title="KMP 和 Xcode 26 适配"><i class="fas fa-angle-left fa-fw"></i>KMP 和 Xcode 26 适配</a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
@@ -258,5 +259,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2026-01-12T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"HashCode Equals 小坑"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2026-01-12T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"HashCode 与 Equals 小坑"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

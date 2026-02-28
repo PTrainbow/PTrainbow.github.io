@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>IOS - 标签 - 北邙山之光的 Blog</title>
+        <link>http://PTrainbow.github.io/tags/iOS/</link>
+        <description>IOS - 标签 - 北邙山之光的 Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 11 Nov 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/iOS/" rel="self" type="application/rss+xml" /><item>
+    <title>KMP 和 Xcode 26 适配</title>
+    <link>http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/</link>
+    <pubDate>Tue, 11 Nov 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/</guid>
+    <description><![CDATA[<h2 id="背景">背景</h2>
+<p>iOS 打包机升级到 Xcode 26 后，KMP（Kotlin Multiplatform）相关工程开始出现编译错误，例如头文件 not found、unresolved classifier 等。</p>]]></description>
+</item></channel>
+</rss>

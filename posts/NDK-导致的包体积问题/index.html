@@ -38,7 +38,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98\/android.png",
                             "width":  900 ,
                             "height":  500 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1072 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  1070 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/NDK-%E5%AF%BC%E8%87%B4%E7%9A%84%E5%8C%85%E4%BD%93%E7%A7%AF%E9%97%AE%E9%A2%98\/","datePublished": "2022-08-11T00:00:00+00:00","dateModified": "2022-08-11T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -122,7 +122,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">NDK 导致的包体积问题</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-11">2022-08-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1072 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-11">2022-08-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1070 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -155,11 +155,11 @@
 <p>同事是本地打包编译，所以我当时让他使用 <code>local.properties 配置 ndk.dir</code>(在后续进一步分析中，发现这个方式其实已经废弃了，不过依然奏效)，指定一个 ndk 路径，最终他打出的 APK <code>体积恢复到了 110M 左右</code>。</p>
 <p>那已经实锤了，<code>是 NDK 的问题</code></p>
 <p>其实，在 android 打包过程中，有一个 <code>Task</code> 专门用于 strip so 的。后续，也在 log 中发现，如果 ndk 环境配置有问题，那<code>一定会出现一些 strip 异常 log</code></p>
-<p>于是，另一个同事，为了支持 CI 打包(因为升级 Android 13，同时升级 AGP，同时升级 JDK11)，开始进行相应配置，最终在打包机上打出 APK ！然而体积为惊人的 160M···</p>
+<p>于是，另一个同事，为了支持 CI 打包(因为升级 Android 13，同时升级 AGP，同时升级 JDK11)，开始进行相应配置，最终在打包机上打出 APK ！然而体积为惊人的 160M……</p>
 <p>查看 jekins 环境(前端页面)，发现 NDK 的环境变量是已经配置了的，这就很奇怪了！</p>
 <p>于是，登上了打包机，echo 了一下 ANDROID_NDK，发现居然是空值！</p>
 <p>十分兴奋的以为找到了原因，手动修改 ANDROID_NDK 环境变量，重新打包！</p>
-<p>一个小时过去了，打出 APK 体积依然为惊人的 160M···</p>
+<p>一个小时过去了，打出 APK 体积依然为惊人的 160M……</p>
 <h2 id="问题的深层原因">问题的深层原因</h2>
 <p>当时，在修改 ANDROID_NDK 环境变量时，就觉得不太对劲。</p>
 <p>因为，这台机器编译正常分支是没有问题的，so 也被 strip 了，但是编译 Android13 这个分支却有问题。</p>
@@ -213,5 +213,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-08-11T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"NDK 导致的包体积问题"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-08-11T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"NDK 导致的包体积问题"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

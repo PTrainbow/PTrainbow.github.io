@@ -6,98 +6,96 @@
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 12 Jan 2026 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://PTrainbow.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
-    <title>HashCode Equals 小坑</title>
+    <title>HashCode 与 Equals 小坑</title>
     <link>http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/</link>
     <pubDate>Mon, 12 Jan 2026 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/</guid>
-    <description><![CDATA[<p>今天同事在旁边问我，&ldquo;哎？hashmap 为什么 hashcode 是 0 啊&rdquo;</p>
-<p>我猜：&ldquo;估计你是个空 map 吧&rdquo;</p>
-<p>果不其然，同事用的是一个空 map，不知道他经历了什么，总不至于把 hashmap 塞到 hashmap 里当 key 了吧？</p>]]></description>
+    <description><![CDATA[<p>同事问了一句：「HashMap 的 hashCode 为什么是 0？」</p>
+<p>我猜是空 map。果然，他用的就是一个空的 <code>HashMap</code>。于是顺带想到经典面试题 hashCode / equals，以及 Kotlin 的 data class 在这上面容易踩的坑，整理一下。</p>]]></description>
 </item><item>
-    <title>KMP 和 XCode26</title>
+    <title>KMP 和 Xcode 26 适配</title>
     <link>http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/</link>
     <pubDate>Tue, 11 Nov 2025 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/</guid>
-    <description><![CDATA[<p>iOS 最近打包机已经升级 xcode26，突然出现了 kmp 相关的编译问题，包括一些头文件 not found 和 unresolved classifier 等等的问题</p>
-<p>因为，我们的 kotlin/native 编译器基于 kotlin 2.0.21 做了魔改，用于支持鸿蒙系统，而且整个主工程的 kotlin 也没法轻易升级，所以直接升级 kotlin 2.2.20 官方支持的 xcode26 版本，短时间是不现实的</p>]]></description>
+    <description><![CDATA[<h2 id="背景">背景</h2>
+<p>iOS 打包机升级到 Xcode 26 后，KMP（Kotlin Multiplatform）相关工程开始出现编译错误，例如头文件 not found、unresolved classifier 等。</p>]]></description>
 </item><item>
-    <title>BumpPointerAllocator</title>
+    <title>简单的 BumpPointerAllocator</title>
     <link>http://PTrainbow.github.io/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/</link>
     <pubDate>Mon, 29 Sep 2025 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/</guid>
-    <description><![CDATA[<p>看一个简单的 <a href="https://github.com/cloudwu/bpa/blob/master/bpa.c" target="_blank" rel="noopener noreffer">bump pointer</a> 的实现</p>
+    <description><![CDATA[<p>记录一个简单的 <a href="https://github.com/cloudwu/bpa/blob/master/bpa.c" target="_blank" rel="noopener noreffer">Bump Pointer 分配器</a> 实现。</p>
 <blockquote>
-<p>github： <a href="https://github.com/cloudwu/bpa/blob/master/bpa.c" target="_blank" rel="noopener noreffer">https://github.com/cloudwu/bpa/blob/master/bpa.c</a></p>
+<p>代码与说明：<a href="https://github.com/cloudwu/bpa/blob/master/bpa.c" target="_blank" rel="noopener noreffer">https://github.com/cloudwu/bpa/blob/master/bpa.c</a></p>
 </blockquote>
-<p>代码都在上方链接中，还自带一个回收算法，回收算法也比较简单，就是一个压缩清理，还有一定的大小限制</p>
-<p>为了让整个分配的过程尽量快，作者使用了一个 slot 结构，O(1) 的方式就可以获取到内存数据，内存分配的过程最差是 O(MAX_SLOT)，整体还是挺高效的</p>]]></description>
+<p>作者在仓库里还带了一个回收算法：压缩清理 + 一定的大小限制，逻辑比较直观。</p>
+<p>为了尽量加快分配，用了 <strong>slot</strong> 结构：取内存数据是 O(1)，整体分配最坏是 O(MAX_SLOT)，整体效率不错。</p>]]></description>
 </item><item>
-    <title>转到 AI 项目</title>
+    <title>从 KMP 转到 AI 项目</title>
     <link>http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/</link>
     <pubDate>Mon, 01 Sep 2025 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/</guid>
-    <description><![CDATA[<h2 id="开头的碎碎念">开头的碎碎念</h2>
-<p>刚入职公司的时候，风风火火的搞了半年多的 KMP(Kotlin Multiplatform)，学到了非常多东西：LLVM、KSP(Kotlin Symbol Processor)、KCP(Kotlin Compiler Plugin)、 Kotlin IR 和 FIR、iOS Framework、后来为了搞 iOS 在 KMP 侧的热修还学了点 OC(Objective-C) 语法···</p>]]></description>
+    <description><![CDATA[<h2 id="一从-kmp-到-ai">一、从 KMP 到 AI</h2>
+<p>刚入职时在 KMP（Kotlin Multiplatform）上搞了半年多，LLVM、KSP、KCP、Kotlin IR/FIR、iOS Framework、为热修还学了点 OC，收获不少。</p>]]></description>
 </item><item>
     <title>无感而发</title>
     <link>http://PTrainbow.github.io/posts/2025-08-22-%E6%97%A0%E6%84%9F%E8%80%8C%E5%8F%91/</link>
     <pubDate>Fri, 22 Aug 2025 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2025-08-22-%E6%97%A0%E6%84%9F%E8%80%8C%E5%8F%91/</guid>
-    <description><![CDATA[<p>对于我的朋友们，我总是问什么说什么</p>
-<p>以前，我遇到过两个同事，他们的口吻十分相似。他们会问我一些敏感的问题或者技术核心的问题，我基本都是倾囊相授。然而，身份互换以后，我基本得到不任何有用的信息。这两个同事让我开始对别人有所保留(但是几乎也没啥保留···)，但是那些无关紧要的、不敏感的东西，似乎也无所谓</p>]]></description>
+    <description><![CDATA[<p>对朋友我一般是问什么说什么。</p>
+<p>以前遇到过两个同事，风格很像：会问我一些敏感或技术核心的问题，我基本都说了；反过来我问他们，几乎得不到什么有用信息。从那以后我开始对别人有所保留（虽然也没保留多少），无关紧要的事倒无所谓。</p>]]></description>
 </item><item>
-    <title>KCP 开发</title>
+    <title>Kotlin Compiler Plugin（KCP）开发小结</title>
     <link>http://PTrainbow.github.io/posts/2025-07-09-KCP/</link>
     <pubDate>Wed, 09 Jul 2025 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2025-07-09-KCP/</guid>
-    <description><![CDATA[<p>最近，一直在搞 kmp(Kotlin Multiplatform)，这个框架出发点倒还可以，可以实现一码多端</p>
-<p>但是，路漫漫其修远兮，感觉就是在用 kotlin 写 c</p>
-<p>各种提效工具比较落后，文档比较稀少，需要自己去研究(国内大厂：研究 + 魔改 = 自研 = 世界领先)</p>]]></description>
+    <description><![CDATA[<p>最近在搞 KMP（Kotlin Multiplatform），框架思路不错，一码多端，但路漫漫：体验有点像用 Kotlin 写 C，提效工具和文档都偏少，得自己啃（国内大厂：研究 + 魔改 = 自研 = 世界领先）。</p>]]></description>
 </item><item>
-    <title>Android Studio Plugin 开发</title>
+    <title>Android Studio 插件开发：New Module 与 OHOS</title>
     <link>http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/</link>
     <pubDate>Mon, 30 Jun 2025 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/</guid>
     <description><![CDATA[<h2 id="背景">背景</h2>
-<p>最近，在搞 kmp 工程化的一些东西，因为官方不支持 ohos，所以其对应的 android studio plugin 也不支持 ohos</p>
-<p>比如：创建一个 module 等等，都不会自动携带 ohos 目录</p>
-<p>看了 kuikly 提供了一个 project 模板，但是没有提供 new module 的模板，所以，开始研究有关 new module 的插件开发</p>]]></description>
+<p>在做 KMP 工程化时，官方不支持 OHOS，对应的 Android Studio 插件也不会自动带 OHOS 目录（例如新建 module 时）。Kuikly 提供了 project 模板，但没有 <strong>New Module</strong> 模板，所以需要自己研究「在 AS 里增加一种 Module Type」的插件开发。</p>]]></description>
 </item><item>
-    <title>Kotlin Native 部分枚举类型导出后消失</title>
+    <title>Kotlin/Native 部分枚举类型在 cinterop 导出后消失</title>
     <link>http://PTrainbow.github.io/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/</link>
     <pubDate>Thu, 12 Jun 2025 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/</guid>
     <description><![CDATA[<h2 id="背景">背景</h2>
-<p>最近，腾讯 kuikly 开源了自己的 kotlin 编译器，支持了鸿蒙平台</p>
-<p>查看了一些他们的源码后，发现，他们做的一些优化和适配比较有借鉴意义。其中，符号导出、字符串优化 和 鸿蒙平台的 ndk 适配这块，最值得学习</p>]]></description>
+<p>腾讯 Kuikly 开源了支持鸿蒙的 Kotlin 编译器，符号导出、字符串优化和鸿蒙 NDK 适配等很有参考价值。我们当时因 Kotlin 2.0.21 的 LLVM 限制用的是 <strong>OHOS 3.x</strong> SDK，native binding 基于 3.x 头文件生成，新版本能力用不上。借鉴 Kuikly 后想改用 <strong>Clang/LLVM 12</strong>，sysroot、链接目录等改用 <strong>OHOS 5.x</strong> SDK，以用到新能力。</p>]]></description>
 </item><item>
-    <title>Kotlin Native OHOS ASAN 适配</title>
+    <title>Kotlin/Native 在 OHOS 上开启 ASAN</title>
     <link>http://PTrainbow.github.io/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/</link>
     <pubDate>Tue, 03 Jun 2025 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/</guid>
-    <description><![CDATA[<p>本文主要介绍如何让 kotlin/native 在适配了鸿蒙平台后，开启 asan 功能(kotlin 版本基于 2.0.21)</p>
-<h2 id="asan-简介">ASAN 简介</h2>
-<p>ASAN（Address Sanitizer）是针对 C/C++ 的快速内存错误检测工具，在运行时检测 C/C++ 代码中的多种内存错误</p>]]></description>
+    <description><![CDATA[<p>本文记录如何在适配鸿蒙的 Kotlin/Native（基于 Kotlin 2.0.21）上开启 <strong>ASAN（Address Sanitizer）</strong>。</p>
+<h2 id="一asan-简介">一、ASAN 简介</h2>
+<p>ASAN 是面向 C/C++ 的内存错误检测工具，运行时能发现例如：</p>]]></description>
 </item><item>
-    <title>KSP For OHOS NAPI</title>
+    <title>KSP 生成 OHOS NAPI 代码</title>
     <link>http://PTrainbow.github.io/posts/2025-04-08-KSP/</link>
     <pubDate>Tue, 08 Apr 2025 00:00:00 &#43;0000</pubDate>
     <author>作者</author>
     <guid>http://PTrainbow.github.io/posts/2025-04-08-KSP/</guid>
-    <description><![CDATA[<p>kotlin/native 适配鸿蒙，除了编译器方面的修改之外，还有比较重要的一部分就是 napi 代码的自动生成了</p>
-<p>kotlin/native 和 napi 的关系：</p>
-<blockquote>
-<p>kotlin/native 实际产物就是对应平台二进制，在 ohos 上就是 linux elf<br>
-ohos 上层应用使用 arkts 开发，想调用 so 中的方法，有一层类似 jni 的机制，其实就是 nodejs 的 napi 机制<br>
-所以，想从 arkts 调用 kotlin/native 的代码，其实就是要自己写一层 napi</p>]]></description>
+    <description><![CDATA[<p>Kotlin/Native 适配鸿蒙，除了改编译器，还有一块很重要：<strong>NAPI 桥接代码的自动生成</strong>。</p>
+<p><strong>Kotlin/Native 和 NAPI 的关系</strong>：</p>
+<ul>
+<li>Kotlin/Native 的产物是平台二进制，在 OHOS 上就是 Linux ELF。</li>
+<li>OHOS 上层用 ArkTS 开发，要调 so 里的逻辑，需要一层类似 JNI 的桥，用的就是 Node.js 那套 <strong>NAPI</strong>。</li>
+<li>所以「从 ArkTS 调 Kotlin/Native」= 自己写一层 NAPI 桥。</li>
+</ul>
+<hr>
+<h2 id="一为什么需要自动生成-napi">一、为什么需要自动生成 NAPI</h2>
+<p>先看一个最简例子：K/N 里有个 <code>hello_world()</code>，要在 ArkTS 里调用，就要在 C++ 里注册 NAPI：</p>]]></description>
 </item></channel>
 </rss>

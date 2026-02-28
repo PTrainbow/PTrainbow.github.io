@@ -5,33 +5,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>转到 AI 项目 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/">
+        <title>从 KMP 转到 AI 项目 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/">
   <meta property="og:site_name" content="北邙山之光的 Blog">
-  <meta property="og:title" content="转到 AI 项目">
-  <meta property="og:description" content="开头的碎碎念 刚入职公司的时候，风风火火的搞了半年多的 KMP(Kotlin Multiplatform)，学到了非常多东西：LLVM、KSP(Kotlin Symbol Processor)、KCP(Kotlin Compiler Plugin)、 Kotlin IR 和 FIR、iOS Framework、后来为了搞 iOS 在 KMP 侧的热修还学了点 OC(Objective-C) 语法···">
+  <meta property="og:title" content="从 KMP 转到 AI 项目">
+  <meta property="og:description" content="一、从 KMP 到 AI 刚入职时在 KMP（Kotlin Multiplatform）上搞了半年多，LLVM、KSP、KCP、Kotlin IR/FIR、iOS Framework、为热修还学了点 OC，收获不少。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-09-01T00:00:00+00:00">
     <meta property="article:modified_time" content="2025-09-01T00:00:00+00:00">
     <meta property="article:tag" content="Android">
+    <meta property="article:tag" content="Kotlin">
+    <meta property="article:tag" content="KMP">
     <meta property="og:image" content="http://PTrainbow.github.io/logo.png">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="http://PTrainbow.github.io/logo.png">
-  <meta name="twitter:title" content="转到 AI 项目">
-  <meta name="twitter:description" content="开头的碎碎念 刚入职公司的时候，风风火火的搞了半年多的 KMP(Kotlin Multiplatform)，学到了非常多东西：LLVM、KSP(Kotlin Symbol Processor)、KCP(Kotlin Compiler Plugin)、 Kotlin IR 和 FIR、iOS Framework、后来为了搞 iOS 在 KMP 侧的热修还学了点 OC(Objective-C) 语法···">
+  <meta name="twitter:title" content="从 KMP 转到 AI 项目">
+  <meta name="twitter:description" content="一、从 KMP 到 AI 刚入职时在 KMP（Kotlin Multiplatform）上搞了半年多，LLVM、KSP、KCP、Kotlin IR/FIR、iOS Framework、为热修还学了点 OC，收获不少。">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/" /><link rel="prev" href="http://PTrainbow.github.io/posts/2025-08-22-%E6%97%A0%E6%84%9F%E8%80%8C%E5%8F%91/" /><link rel="next" href="http://PTrainbow.github.io/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "转到 AI 项目",
+        "headline": "从 KMP 转到 AI 项目",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrainbow.github.io\/posts\/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE\/"
-        },"genre": "posts","keywords": "Android","wordcount":  2335 ,
+        },"genre": "posts","keywords": "Android, Kotlin, KMP","wordcount":  1376 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE\/","datePublished": "2025-09-01T00:00:00+00:00","dateModified": "2025-09-01T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -113,10 +115,10 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">转到 AI 项目</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animated flipInX">从 KMP 转到 AI 项目</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-09-01">2025-09-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2335 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-09-01">2025-09-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1376 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -125,35 +127,32 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#开头的碎碎念">开头的碎碎念</a></li>
-    <li><a href="#参加端侧-ai-框架开发">参加端侧 AI 框架开发</a></li>
-    <li><a href="#结尾的碎碎念">结尾的碎碎念</a></li>
+    <li><a href="#一从-kmp-到-ai">一、从 KMP 到 AI</a></li>
+    <li><a href="#二端侧-ai-框架">二、端侧 AI 框架</a></li>
+    <li><a href="#三一点感想">三、一点感想</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h2 id="开头的碎碎念">开头的碎碎念</h2>
-<p>刚入职公司的时候，风风火火的搞了半年多的 KMP(Kotlin Multiplatform)，学到了非常多东西：LLVM、KSP(Kotlin Symbol Processor)、KCP(Kotlin Compiler Plugin)、 Kotlin IR 和 FIR、iOS Framework、后来为了搞 iOS 在 KMP 侧的热修还学了点 OC(Objective-C) 语法···</p>
-<p>国内的公司，因为 OHOS 鸿蒙系统的存在，为了节省人力，都开始重新探索起了一码多端的方案，而 KMP 无疑是目前最火的方案之一。我们一开始并没有把 UI 的一码多端渲染放在规划之中(因为公司已经有了成熟的 RN 框架，并且华为官方在支持 OHOS 上的 RN 框架)，所以 KMP 在我司，就是纯粹为了实现逻辑的跨端，并没有进行 CMP(Compose Multiplatform) 方面的拓展</p>
-<p>我觉得我做的非常可以(主要是克服了很多技术困难，而且业界并没有解决方案，比如 ohos 适配， llvm 隔离， asan 支持， arkts 和 kotlin 互调用， iOS 热修， debug 能力···)，即使现在 Kuikly 已经开源。通过查看其开源代码，也会发现：llvm 隔离、asan、热修、包括 ohos 高版本枚举类型导入的问题，他们都是没有解决的。</p>
-<p>但是吧，这个项目被 AI PK 下去了，也很合理。一码多端，还需要别人都来学 Kotlin，那如果 AI 可以一码转换为多端的代码呢？如果准确率足够高？那是不是 KMP 就成了伪命题？顺其自然的绩效就是普通拉(我以为至少会是个 普通+，当然也可能就没有这个档位···)，不过，做为新人老猿，尽量放平心态把</p>
-<p>AI 确实是一个提效的方向，但是现在各大公司的老板们都觉得 AI 是万能的，比如：提供要求排期 -40% 之类的。然而，很多时候 AI 效果并不好，或者在瞎编。就我使用 cursor 的情况来看，让 AI 设计代码框架是 OK 的，但是实现具体细节就会出现瞎编的情况。当然了，老板们表示，这块是可以优化的，可以很完美。如果以后 AI 这条路真的走不通，可以再走回 KMP 这个提效的方向。</p>
-<p>于是，我从 KMP 项目组转向了 AI 项目组</p>
-<h2 id="参加端侧-ai-框架开发">参加端侧 AI 框架开发</h2>
-<p>我们端侧使用 ONNX 框架，然后 Android 这块的代码，由之前的一位同学实现的(我感觉他的代码是 AI 写的···各种反人类的设计···)</p>
-<p>这也是我第一次真实接触到 AI 模型相关，至今也没搞懂其内部的各种算法。只是知道，输入矩阵，模型推理后，输出矩阵，就可以知道推断结果了</p>
-<p>在我的感觉里，输入和输出的矩阵结果，就像是一个巨大的参数，只不过被矩阵表示了，然后模型里可能就是一个巨大的 if-else，被各种神奇的算法表示了，然后根据输入参数，就可以得到一个细分的 if-else 分支的结果(当然，也可能我的理解完全不对，毕竟才接触了第一周)</p>
-<p>这个看似高端的工作，当模型框架和协议制定好以后，更多的是找特征值、收集客户端原始数据、写 sql 查询原始数据生成模型需要的矩阵。而且受到数据的数量和质量的影响，可能模型一点都不智能，甚至准确率可能不太高···而且，有些业务点就是为了用而用，实验回收来的效果，并没有什么正向增长</p>
-<p>所以，我已经预感到了，这个项目最终的评判标准就是：落地了多少业务，如果有提升什么指标那是极好了</p>
-<h2 id="结尾的碎碎念">结尾的碎碎念</h2>
-<p>我觉得我个人还是喜欢钻研 KMP 那种偏底层的技术，当然了，工作这么多年了，其实干啥都差不多，谋生罢了</p>
-<p>只是觉得现在的程序员，很多都很鸡贼：他们往往不想在技术上深究，更多在处理人际关系(我觉得也无可厚非把，中国就是人情社会)。但是，讨厌的是，他们会觉得钻研技术的都是傻逼，他们的认知是碾压搞技术的人的，有一种莫名的优越感，这块让我觉得非常不适。他们并不会尊重你钻研技术，而是每天研究自己的股票、维护好老板的人际关系、留下一片屎山代码(可能是 AI 帮他写的，人类阅读非常困难)给接手的可怜人。同时，国内的一线老板们，很多也是靠着上述的方式爬上来的，当然我也遇到了一些非常硬实力的领导，和他们交流就会畅通很多，很多时候他们理解我们在干什么，究竟有什么困难</p>
-<p>举个例子把<br>
-我之前在字节的时候，安全那边反馈我们有一些用户的连接数有成千上万个，可能是黑产。于是，老板半路把我拉进去，让我协助排查，我是一头雾水的，后来判定是黑产，安全侧问我们有没有什么措施防止，我的老板留下了一句话，我至今还记得：“那是黑产的话，我们端上一定要做一些措施的，严厉打击！”这句话，说了和没说有啥区别···有这种人做老板的话，将会是灾难级的。因为，很多时候，他并不知道自己要什么，你做完了一个事情，他随时可能会觉得不满意，进而推翻重做。很多时候，是你在帮他打工，你帮他设计，他拿去汇报。这个时候，肯定又有一些人要说了，那老板就是这样啊，你当老板你还要写代码？我觉得现在的环境，就是这批观念奇怪的人搞坏的。即使不写代码，也要思考一下业务方向把，整个团队的路，你要指明，每个人的工作内容，你要安排。如果，什么都不思考，我觉得那会是灾难，当然了，可能另外一批人觉得很开心把</p>
-<p>再举个之前在小红书的例子<br>
-做内存检测，老板会定下这个事情的基调，目标是 OOM 率降低，OOM 问题解决率提升，目标十分明确。我的任务就是做具体的实施，优化整个过程。这时候，又有人要开口了，职级高了就要自己想要做什么，你做这些单项内容，是因为当时你的职级不高，不是一个方向的 owner。那问题来了，老板的职级更高，他难道不是更应该对某些方向有规划吗？而且基层老板，小团队可能就5-10人，方向可能就 3 4 个，甚至更少。总之，我不是很理解部分领导的神操作</p>
-<p>当然了，其实以上的情况，也发生在各个行业。因为现在大家的认知就是：挣钱。不能升职加薪、不能挣钱，那就是不行的。为了升职加薪，也就无所不用其极了。而如此的浮躁的大环境的背景下，认认真真搞技术，可想而知有多难了，就好比前段时间的某司的大模型套壳等等，连大厂都这样了，可想而知···</p>
-<p>越是干的久，越觉得志同道合的人很少</p>
-<p>我也不算是什么高尚的技术支持者，而且现在 AI 确实处理很多东西，比我处理的要好</p>
-<p>我只是觉得，如果以后的社会就是人和人之间的演戏、尔虞我诈、阿谀奉承，会非常的没意思</p>
+            </div><div class="content" id="content"><h2 id="一从-kmp-到-ai">一、从 KMP 到 AI</h2>
+<p>刚入职时在 KMP（Kotlin Multiplatform）上搞了半年多，LLVM、KSP、KCP、Kotlin IR/FIR、iOS Framework、为热修还学了点 OC，收获不少。</p>
+<p>国内因为鸿蒙，一码多端又被提上日程，KMP 是主流方案之一。我们没做 UI 跨端（公司已有 RN，华为也在推 OHOS 上的 RN），所以 KMP 只做<strong>逻辑跨端</strong>，没上 CMP。</p>
+<p>自认做得还行：OHOS 适配、LLVM 隔离、ASAN、ArkTS 与 Kotlin 互调、iOS 热修、Debug 能力等，当时业界没有现成方案；即便现在 Kuikly 开源了，看代码可知他们也没解决 LLVM 隔离、ASAN、热修、OHOS 高版本枚举导入等问题。</p>
+<p>但这个项目被 AI「取代」了，也合理：一码多端还要全员学 Kotlin，若 AI 能直接生成多端代码且准确率够高，KMP 的价值就会打问号。绩效普通就普通吧，新人老猿，心态放平。</p>
+<p>AI 确实是提效方向，但很多老板把 AI 当万能（例如排期 -40%）。实际用下来，AI 设计框架还行，落到具体实现就容易瞎编；老板们说「可以优化到完美」。若 AI 这条路走不通，再回头做 KMP 这类提效也行。于是我从 KMP 组转到了 AI 组。</p>
+<hr>
+<h2 id="二端侧-ai-框架">二、端侧 AI 框架</h2>
+<p>我们端侧用 ONNX，Android 这块是之前同事写的（读起来很像 AI 生成的，反人类设计不少）。这是我第一次正经接触 AI 模型，至今也没搞懂内部算法，只知道：输入矩阵 → 模型推理 → 输出矩阵 → 得到推断结果。</p>
+<p>我粗浅理解是：输入输出就像一大坨参数用矩阵表示，模型里相当于巨大的 if-else 被各种算法包装，根据输入走不同分支。当然可能理解有偏差，才接触一周。</p>
+<p>模型框架和协议定好之后，工作多半是：找特征、收集客户端数据、写 SQL 做矩阵、看效果。数据质量和数量一差，模型可能既不智能也不准；有些业务是「为了用而用」，实验下来没有正向收益。</p>
+<p>所以我对这个项目的预期是：评判标准就是<strong>落地了多少业务</strong>，能带上一点指标提升就更好。</p>
+<hr>
+<h2 id="三一点感想">三、一点感想</h2>
+<p>个人还是更喜欢 KMP 那种偏底层的技术；不过工作这么多年，干啥都是谋生。</p>
+<p>感觉很多程序员不太愿意在技术上深挖，更愿意搞人际关系（在国内也正常）。让人不舒服的是，有人会觉得钻研技术的是傻子、自己认知碾压搞技术的，还不尊重你搞技术，自己炒股票、维护老板关系、留下一片屎山（可能还是 AI 写的）给接盘的人。国内不少一线老板也是这么上来的；当然也遇到过真有实力的领导，沟通就顺畅很多，他们理解你在做什么、难在哪。</p>
+<p>举两个例子。</p>
+<p><strong>字节</strong>：安全反馈有用户连接数异常多，可能是黑产。老板拉我进去协助排查，最后判定是黑产，安全问端上有什么措施，老板说：「那是黑产的话，我们端上一定要做一些措施的，严厉打击！」——说了和没说一样。这种老板很灾难：不知道自己想要什么，你做完他可能随时推翻；你在帮他设计和落地，他拿去汇报。</p>
+<p><strong>小红书</strong>：做内存检测时，老板把目标定得很清楚：OOM 率降、OOM 解决率升。我的任务就是落地和优化。有人会说「职级高了就要自己找方向」——那老板职级更高，不是更该对方向有规划吗？小团队就几个人、几个方向，我不太理解部分领导的神操作。</p>
+<p>这类情况各行各业都有。大环境认知是「挣钱、升职加薪」，为达目的各显神通；在这种氛围下认真搞技术挺难，某司大模型套壳之类的事，大厂也干得出来。</p>
+<p>越是干得久，越觉得志同道合的人少。我也不是什么高尚的技术信徒，AI 在很多事上确实比我强。只是觉得，如果以后社会就是人与人之间演戏、尔虞我诈、阿谀奉承，会挺没意思的。</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -171,14 +170,14 @@
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/kotlin/">Kotlin</a>,&nbsp;<a href="/tags/KMP/">KMP</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
         </section>
     </div>
 
     <div class="post-nav"><a href="/posts/2025-08-22-%E6%97%A0%E6%84%9F%E8%80%8C%E5%8F%91/" class="prev" rel="prev" title="无感而发"><i class="fas fa-angle-left fa-fw"></i>无感而发</a>
-            <a href="/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/" class="next" rel="next" title="BumpPointerAllocator">BumpPointerAllocator<i class="fas fa-angle-right fa-fw"></i></a></div>
+            <a href="/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/" class="next" rel="next" title="简单的 BumpPointerAllocator">简单的 BumpPointerAllocator<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
@@ -194,5 +193,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-09-01T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"转到 AI 项目"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-09-01T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"从 KMP 转到 AI 项目"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

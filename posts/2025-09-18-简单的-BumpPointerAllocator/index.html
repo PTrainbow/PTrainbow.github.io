@@ -5,39 +5,40 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>BumpPointerAllocator - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/">
+        <title>简单的 BumpPointerAllocator - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/">
   <meta property="og:site_name" content="北邙山之光的 Blog">
-  <meta property="og:title" content="BumpPointerAllocator">
-  <meta property="og:description" content="看一个简单的 bump pointer 的实现
-github： https://github.com/cloudwu/bpa/blob/master/bpa.c
-代码都在上方链接中，还自带一个回收算法，回收算法也比较简单，就是一个压缩清理，还有一定的大小限制
-为了让整个分配的过程尽量快，作者使用了一个 slot 结构，O(1) 的方式就可以获取到内存数据，内存分配的过程最差是 O(MAX_SLOT)，整体还是挺高效的">
+  <meta property="og:title" content="简单的 BumpPointerAllocator">
+  <meta property="og:description" content="记录一个简单的 Bump Pointer 分配器 实现。
+代码与说明：https://github.com/cloudwu/bpa/blob/master/bpa.c
+作者在仓库里还带了一个回收算法：压缩清理 &#43; 一定的大小限制，逻辑比较直观。
+为了尽量加快分配，用了 slot 结构：取内存数据是 O(1)，整体分配最坏是 O(MAX_SLOT)，整体效率不错。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-09-29T00:00:00+00:00">
     <meta property="article:modified_time" content="2025-09-29T00:00:00+00:00">
     <meta property="article:tag" content="Android">
+    <meta property="article:tag" content="C">
     <meta property="og:image" content="http://PTrainbow.github.io/logo.png">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="http://PTrainbow.github.io/logo.png">
-  <meta name="twitter:title" content="BumpPointerAllocator">
-  <meta name="twitter:description" content="看一个简单的 bump pointer 的实现
-github： https://github.com/cloudwu/bpa/blob/master/bpa.c
-代码都在上方链接中，还自带一个回收算法，回收算法也比较简单，就是一个压缩清理，还有一定的大小限制
-为了让整个分配的过程尽量快，作者使用了一个 slot 结构，O(1) 的方式就可以获取到内存数据，内存分配的过程最差是 O(MAX_SLOT)，整体还是挺高效的">
+  <meta name="twitter:title" content="简单的 BumpPointerAllocator">
+  <meta name="twitter:description" content="记录一个简单的 Bump Pointer 分配器 实现。
+代码与说明：https://github.com/cloudwu/bpa/blob/master/bpa.c
+作者在仓库里还带了一个回收算法：压缩清理 &#43; 一定的大小限制，逻辑比较直观。
+为了尽量加快分配，用了 slot 结构：取内存数据是 O(1)，整体分配最坏是 O(MAX_SLOT)，整体效率不错。">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/" /><link rel="prev" href="http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/" /><link rel="next" href="http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "BumpPointerAllocator",
+        "headline": "简单的 BumpPointerAllocator",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrainbow.github.io\/posts\/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator\/"
-        },"genre": "posts","keywords": "Android","wordcount":  234 ,
+        },"genre": "posts","keywords": "Android, C","wordcount":  288 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator\/","datePublished": "2025-09-29T00:00:00+00:00","dateModified": "2025-09-29T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -119,9 +120,9 @@ github： https://github.com/cloudwu/bpa/blob/master/bpa.c
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">BumpPointerAllocator</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animated flipInX">简单的 BumpPointerAllocator</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-09-29">2025-09-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 234 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-09-29">2025-09-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 288 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -129,18 +130,25 @@ github： https://github.com/cloudwu/bpa/blob/master/bpa.c
                     <span>目录</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
                 </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
-            </div><div class="content" id="content"><p>看一个简单的 <a href="https://github.com/cloudwu/bpa/blob/master/bpa.c" target="_blank" rel="noopener noreffer">bump pointer</a> 的实现</p>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#核心结构slotoffsetslice">核心结构：slot、offset、slice</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>记录一个简单的 <a href="https://github.com/cloudwu/bpa/blob/master/bpa.c" target="_blank" rel="noopener noreffer">Bump Pointer 分配器</a> 实现。</p>
 <blockquote>
-<p>github： <a href="https://github.com/cloudwu/bpa/blob/master/bpa.c" target="_blank" rel="noopener noreffer">https://github.com/cloudwu/bpa/blob/master/bpa.c</a></p>
+<p>代码与说明：<a href="https://github.com/cloudwu/bpa/blob/master/bpa.c" target="_blank" rel="noopener noreffer">https://github.com/cloudwu/bpa/blob/master/bpa.c</a></p>
 </blockquote>
-<p>代码都在上方链接中，还自带一个回收算法，回收算法也比较简单，就是一个压缩清理，还有一定的大小限制</p>
-<p>为了让整个分配的过程尽量快，作者使用了一个 slot 结构，O(1) 的方式就可以获取到内存数据，内存分配的过程最差是 O(MAX_SLOT)，整体还是挺高效的</p>
-<p>核心点在于 slot 和 offset 还有 slice 的 结构</p>
-<p>offset 其实是除了 align_size(8 bytes) 的结果<br>
-slot[i] 存储了 offset，通过 uid 可以快速找到内存<br>
-slice 除了数据区域还会存储 id，这样，通过 pointer 计算 出offset 也能快速找到对应 slice 和 对应的 id</p>
-<p>如下图：</p>
+<p>作者在仓库里还带了一个回收算法：压缩清理 + 一定的大小限制，逻辑比较直观。</p>
+<p>为了尽量加快分配，用了 <strong>slot</strong> 结构：取内存数据是 O(1)，整体分配最坏是 O(MAX_SLOT)，整体效率不错。</p>
+<hr>
+<h2 id="核心结构slotoffsetslice">核心结构：slot、offset、slice</h2>
+<ul>
+<li><strong>offset</strong>：按 <code>align_size</code>（8 字节）对齐后的偏移。</li>
+<li><strong>slot[i]</strong>：存的是 offset，通过 uid 可以快速定位到对应内存。</li>
+<li><strong>slice</strong>：除数据区外还存 id，这样从 pointer 算出 offset 后，也能快速找到对应 slice 和 id。</li>
+</ul>
+<p>关系大致如下图：</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -166,14 +174,14 @@ slice 除了数据区域还会存储 id，这样，通过 pointer 计算 出offs
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/C/">C</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/" class="prev" rel="prev" title="转到 AI 项目"><i class="fas fa-angle-left fa-fw"></i>转到 AI 项目</a>
-            <a href="/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/" class="next" rel="next" title="KMP 和 XCode26">KMP 和 XCode26<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/" class="prev" rel="prev" title="从 KMP 转到 AI 项目"><i class="fas fa-angle-left fa-fw"></i>从 KMP 转到 AI 项目</a>
+            <a href="/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/" class="next" rel="next" title="KMP 和 Xcode 26 适配">KMP 和 Xcode 26 适配<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
@@ -189,5 +197,5 @@ slice 除了数据区域还会存储 id，这样，通过 pointer 计算 出offs
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-09-29T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"BumpPointerAllocator"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-09-29T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"简单的 BumpPointerAllocator"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

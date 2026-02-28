@@ -5,32 +5,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>Android Studio Plugin 开发 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/">
+        <title>Android Studio 插件开发：New Module 与 OHOS - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/">
   <meta property="og:site_name" content="北邙山之光的 Blog">
-  <meta property="og:title" content="Android Studio Plugin 开发">
-  <meta property="og:description" content="背景 最近，在搞 kmp 工程化的一些东西，因为官方不支持 ohos，所以其对应的 android studio plugin 也不支持 ohos
-比如：创建一个 module 等等，都不会自动携带 ohos 目录
-看了 kuikly 提供了一个 project 模板，但是没有提供 new module 的模板，所以，开始研究有关 new module 的插件开发">
+  <meta property="og:title" content="Android Studio 插件开发：New Module 与 OHOS">
+  <meta property="og:description" content="背景 在做 KMP 工程化时，官方不支持 OHOS，对应的 Android Studio 插件也不会自动带 OHOS 目录（例如新建 module 时）。Kuikly 提供了 project 模板，但没有 New Module 模板，所以需要自己研究「在 AS 里增加一种 Module Type」的插件开发。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-06-30T00:00:00+00:00">
     <meta property="article:modified_time" content="2025-06-30T00:00:00+00:00">
     <meta property="article:tag" content="Android">
+    <meta property="article:tag" content="Kotlin">
     <meta property="og:image" content="http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/android_studio.jpg">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/android_studio.jpg">
-  <meta name="twitter:title" content="Android Studio Plugin 开发">
-  <meta name="twitter:description" content="背景 最近，在搞 kmp 工程化的一些东西，因为官方不支持 ohos，所以其对应的 android studio plugin 也不支持 ohos
-比如：创建一个 module 等等，都不会自动携带 ohos 目录
-看了 kuikly 提供了一个 project 模板，但是没有提供 new module 的模板，所以，开始研究有关 new module 的插件开发">
+  <meta name="twitter:title" content="Android Studio 插件开发：New Module 与 OHOS">
+  <meta name="twitter:description" content="背景 在做 KMP 工程化时，官方不支持 OHOS，对应的 Android Studio 插件也不会自动带 OHOS 目录（例如新建 module 时）。Kuikly 提供了 project 模板，但没有 New Module 模板，所以需要自己研究「在 AS 里增加一种 Module Type」的插件开发。">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/" /><link rel="prev" href="http://PTrainbow.github.io/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/" /><link rel="next" href="http://PTrainbow.github.io/posts/2025-07-09-KCP/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Android Studio Plugin 开发",
+        "headline": "Android Studio 插件开发：New Module 与 OHOS",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -40,7 +37,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/Android-Studio-Plugin-%E5%BC%80%E5%8F%91\/android_studio.jpg",
                             "width":  1144 ,
                             "height":  556 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1270 ,
+                        }],"genre": "posts","keywords": "Android, Kotlin","wordcount":  1182 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/Android-Studio-Plugin-%E5%BC%80%E5%8F%91\/","datePublished": "2025-06-30T00:00:00+00:00","dateModified": "2025-06-30T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -122,9 +119,9 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">Android Studio Plugin 开发</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animated flipInX">Android Studio 插件开发：New Module 与 OHOS</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-06-30">2025-06-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1270 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-06-30">2025-06-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1182 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -142,60 +139,50 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#背景">背景</a></li>
-    <li><a href="#android-studio-plugin-开发">Android Studio Plugin 开发</a>
+    <li><a href="#一创建插件工程">一、创建插件工程</a></li>
+    <li><a href="#二添加本地依赖android-studio">二、添加本地依赖（Android Studio）</a></li>
+    <li><a href="#三new-moduleidea-与-android-studio-的差异">三、New Module：IDEA 与 Android Studio 的差异</a></li>
+    <li><a href="#四android-studio-的-new-module用-agp-扩展点">四、Android Studio 的 New Module：用 AGP 扩展点</a>
       <ul>
-        <li><a href="#创建工程">创建工程</a></li>
-        <li><a href="#添加本地依赖">添加本地依赖</a></li>
-        <li><a href="#idea-的-new-module-开发">IDEA 的 New Module 开发</a></li>
-        <li><a href="#android-studio-的-new-module-开发">Android Studio 的 New Module 开发</a></li>
+        <li><a href="#41-核心逻辑简述">4.1 核心逻辑简述</a></li>
       </ul>
     </li>
-    <li><a href="#总结">总结</a></li>
+    <li><a href="#五总结">五、总结</a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="背景">背景</h2>
-<p>最近，在搞 kmp 工程化的一些东西，因为官方不支持 ohos，所以其对应的 android studio plugin 也不支持 ohos</p>
-<p>比如：创建一个 module 等等，都不会自动携带 ohos 目录</p>
-<p>看了 kuikly 提供了一个 project 模板，但是没有提供 new module 的模板，所以，开始研究有关 new module 的插件开发</p>
-<h2 id="android-studio-plugin-开发">Android Studio Plugin 开发</h2>
-<h3 id="创建工程">创建工程</h3>
-<p>参考： <a href="https://plugins.jetbrains.com/docs/intellij/creating-plugin-project.html" target="_blank" rel="noopener noreffer">https://plugins.jetbrains.com/docs/intellij/creating-plugin-project.html</a></p>
-<p>需要先安装 plugin devkit</p>
-<p>然后按照文档创建即可</p>
+<p>在做 KMP 工程化时，官方不支持 OHOS，对应的 Android Studio 插件也不会自动带 OHOS 目录（例如新建 module 时）。Kuikly 提供了 project 模板，但没有 <strong>New Module</strong> 模板，所以需要自己研究「在 AS 里增加一种 Module Type」的插件开发。</p>
+<hr>
+<h2 id="一创建插件工程">一、创建插件工程</h2>
+<p>参考：<a href="https://plugins.jetbrains.com/docs/intellij/creating-plugin-project.html" target="_blank" rel="noopener noreffer">IntelliJ 创建插件项目</a></p>
+<p>先安装 Plugin DevKit，按文档创建工程即可。</p>
 <div class="details admonition note open">
         <div class="details-summary admonition-title">
             <i class="icon fas fa-pencil-alt fa-fw"></i>注意<i class="details-icon fas fa-angle-right fa-fw"></i>
         </div>
         <div class="details-content">
-            <div class="admonition-content">JDK 版本 因为 platform version 不同，要求不同</div>
+            <div class="admonition-content">JDK 版本随 Platform 版本不同有要求，需对照文档。</div>
         </div>
     </div>
-<h3 id="添加本地依赖">添加本地依赖</h3>
-<p>因为我们要开发的是 android studio 插件，所以 dependency 需要选择 android studio 平台，还有对应的版本</p>
-<p>android studio 对应的版本在这里查看：https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html</p>
-<p>如果依赖添加的是对应版本，则会自动下载对应版本的 android studio，如果我们本地存在一个版本的 android studio，则可以从本地依赖，完全没必要下载</p>
-<p>配置如下：</p>
+<hr>
+<h2 id="二添加本地依赖android-studio">二、添加本地依赖（Android Studio）</h2>
+<p>开发的是 <strong>Android Studio 插件</strong>，dependency 要选 Android Studio 平台及对应版本。版本列表：<a href="https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html" target="_blank" rel="noopener noreffer">https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html</a>。</p>
+<p>若指定了对应版本，会自动下载该版本 AS；若本机已有，可直接用本地路径，不必再下：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="n">dependencies</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">intellijPlatform</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 本地路径
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">local</span><span class="p">(</span><span class="s2">&#34;/Applications/Android Studio.app/Contents&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="c1">// 添加一些打在 andorid studio 内部的插件
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 不然有些代码，我们无法引用
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">bundledPlugins</span><span class="p">(</span><span class="n">listOf</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">local</span><span class="p">(</span><span class="s2">&#34;/Applications/Android Studio.app/Contents&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bundledPlugins</span><span class="p">(</span><span class="n">listOf</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">            <span class="s2">&#34;com.intellij.java&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">            <span class="s2">&#34;org.jetbrains.kotlin&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">            <span class="s2">&#34;org.jetbrains.android&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">        <span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>接下来就是进入开发的步骤了</p>
-<h3 id="idea-的-new-module-开发">IDEA 的 New Module 开发</h3>
-<p>查了很多网上的教程，都是对于 action 的开发</p>
-<p>这块我自己验证了下没什么问题</p>
-<p>但是，当我想开发 New Module 的界面，增加下图中红色部分的一个 type 的时候，遇到了困难
-<img
+</span></span></code></pre></div><p>这样才能引用 AS 内置的代码。</p>
+<hr>
+<h2 id="三new-moduleidea-与-android-studio-的差异">三、New Module：IDEA 与 Android Studio 的差异</h2>
+<p>网上教程多是 <strong>Action</strong> 开发，这块按文档做即可。但要做 <strong>New Module</strong> 界面、在图中红色位置增加一种 Module Type，就卡住了：</p>
+<p><img
         class="lazyload"
         src="/svg/loading.min.svg"
         data-src="/img/in-post/as_module_type.jpg"
@@ -203,135 +190,54 @@
         data-sizes="auto"
         alt="/img/in-post/as_module_type.jpg"
         title="/img/in-post/as_module_type.jpg" /></p>
-<p>官方文档如下：<a href="https://plugins.jetbrains.com/docs/intellij/module-types.html" target="_blank" rel="noopener noreffer">文档链接</a></p>
-<p>简单介绍一下就是：</p>
-<ol>
-<li>添加一个 module type</li>
-<li>实现 module type 和 module builder</li>
-</ol>
-<p>然后就可以了</p>
-<p>按照文档介绍以后，我如果将上面的 dependency 的配置改成 IDEA，确实可以看到，new module 多了一个 type</p>
-<p>但是，android studio 纹丝不动</p>
-<h3 id="android-studio-的-new-module-开发">Android Studio 的 New Module 开发</h3>
-<p>尝试了半天，无功而返，只好去查看 andorid studio 的源码，提供一个可以预览源码的网址 <a href="https://cs.android.com/android-studio?hl=zh-cn" target="_blank" rel="noopener noreffer">链接</a></p>
-<p>经过不懈努力，最终，发现了如下配置</p>
+<p>官方文档：<a href="https://plugins.jetbrains.com/docs/intellij/module-types.html" target="_blank" rel="noopener noreffer">Module Types</a><br>
+步骤大致是：1）添加一个 module type；2）实现 module type 和 module builder。</p>
+<p>按文档在 <strong>IDEA</strong> 上配置 dependency 后，New Module 里确实会多出一个 type；但 <strong>Android Studio 纹丝不动</strong>。</p>
+<hr>
+<h2 id="四android-studio-的-new-module用-agp-扩展点">四、Android Studio 的 New Module：用 AGP 扩展点</h2>
+<p>查不到现成方案，只能看 Android Studio 源码：<a href="https://cs.android.com/android-studio?hl=zh-cn" target="_blank" rel="noopener noreffer">Android Studio 源码预览</a>。</p>
+<p>最后发现要用 <strong>AGP 的扩展</strong>，而不是纯 IntelliJ 的 Module Type：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;extensions</span> <span class="na">defaultExtensionNs=</span><span class="s">&#34;com.android&#34;</span><span class="nt">&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&lt;moduleDescriptionProvider</span> <span class="na">implementation=</span><span class="s">&#34;com.XXXXX&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;moduleDescriptionProvider</span> <span class="na">implementation=</span><span class="s">&#34;com.xxxxx.YourModuleDescriptionProvider&#34;</span><span class="nt">/&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/extensions&gt;</span>
-</span></span></code></pre></div><p>通过 copy 相关代码到我自己的工程中，最终实现了 andorid studio 中增加一个 module type 的能力</p>
-<h4 id="部分核心代码">部分核心代码</h4>
-<p>需要继承自 <code>ModuleDescriptionProvider</code>，并且实现其 <code>ModuleGalleryEntry</code>，然后就进入到了正常的 create step 步骤</p>
-<p>create step 也需要继承自 <code>ConfigureModuleStep</code> 重写其 <code>createMainPanel</code>，也就是我们的 UI 界面</p>
-<p>同时，需要绑定一个 Model，model 又有一些 render 方法，负责渲染对应模板</p>
-<blockquote>
-<p>其实，我们没必要这么复杂，可以简化一些操作</p>
-</blockquote>
-<p>部分 copy 过来的核心代码如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="c1">// plugin.xml 中注册 moduleDescriptionProvider
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">&lt;</span><span class="n">extensions</span> <span class="n">defaultExtensionNs</span><span class="p">=</span><span class="s2">&#34;com.android&#34;</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="n">moduleDescriptionProvider</span> <span class="n">implementation</span><span class="p">=</span><span class="s2">&#34;com.XXX.TestModuleDescriptionProvider&#34;</span><span class="p">/&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="n">extensions</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">
+</span></span></code></pre></div><p>把相关代码 copy 到自己的工程里，就能在 Android Studio 的 New Module 里多出一种 type。</p>
+<h3 id="41-核心逻辑简述">4.1 核心逻辑简述</h3>
+<ul>
+<li>实现 <strong>ModuleDescriptionProvider</strong>，并给出 <strong>ModuleGalleryEntry</strong>（名称、描述、图标、createStep 等）。</li>
+<li><strong>createStep</strong> 继承 <strong>ConfigureModuleStep</strong>，重写 <strong>createMainPanel</strong> 做 UI；同时绑定一个 <strong>Model</strong>，Model 有 render 方法负责渲染模板。实际可以按需求简化，不必完全照搬 KMP 那套。</li>
+</ul>
+<p>部分示例（plugin.xml 注册 + Provider + Step + Model 骨架）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="c1">// plugin.xml
+</span></span></span><span class="line"><span class="cl"><span class="c1">// &lt;extensions defaultExtensionNs=&#34;com.android&#34;&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1">//     &lt;moduleDescriptionProvider implementation=&#34;com.XXX.TestModuleDescriptionProvider&#34;/&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// &lt;/extensions&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TestModuleDescriptionProvider</span> <span class="p">:</span> <span class="n">ModuleDescriptionProvider</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getDescriptions</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">):</span> <span class="n">Collection</span><span class="p">&lt;</span><span class="n">ModuleGalleryEntry</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">listOfNotNull</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nc">StudioFlags</span><span class="p">.</span><span class="nc">NPW_NEW_KOTLIN_MULTIPLATFORM_MODULE</span><span class="p">.</span><span class="k">get</span><span class="p">())</span> <span class="n">KotlinMultiplatformLibraryModuleTemplateGalleryEntry</span><span class="p">()</span> <span class="k">else</span> <span class="k">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nc">StudioFlags</span><span class="p">.</span><span class="nc">NPW_NEW_KOTLIN_MULTIPLATFORM_MODULE</span><span class="p">.</span><span class="k">get</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">            <span class="n">KotlinMultiplatformLibraryModuleTemplateGalleryEntry</span><span class="p">()</span> <span class="k">else</span> <span class="k">null</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">    <span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// copy from kmp plugin
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">private</span> <span class="k">class</span> <span class="nc">KotlinMultiplatformLibraryModuleTemplateGalleryEntry</span> <span class="p">:</span> <span class="n">ModuleGalleryEntry</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">class</span> <span class="nc">KotlinMultiplatformLibraryModuleTemplateGalleryEntry</span> <span class="p">:</span> <span class="n">ModuleGalleryEntry</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">override</span> <span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;Your Library Name&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">override</span> <span class="k">val</span> <span class="py">description</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;your library escription&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">override</span> <span class="k">val</span> <span class="py">description</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;your library description&#34;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">override</span> <span class="k">val</span> <span class="py">icon</span><span class="p">:</span> <span class="n">Icon</span> <span class="p">=</span> <span class="nc">IconLoader</span><span class="p">.</span><span class="n">getIcon</span><span class="p">(</span><span class="s2">&#34;/icons/your_icon.png&#34;</span><span class="p">,</span> <span class="k">this</span><span class="o">::</span><span class="k">class</span><span class="p">.</span><span class="n">java</span><span class="p">.</span><span class="n">classLoader</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="c1">// 重写 createStep
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">override</span> <span class="k">fun</span> <span class="nf">createStep</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">moduleParent</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">projectSyncInvoker</span><span class="p">:</span> <span class="n">ProjectSyncInvoker</span><span class="p">):</span> <span class="n">SkippableWizardStep</span><span class="p">&lt;*&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="c1">// 这里我是想创建一个类似 kmp plugin 的 module type
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">return</span> <span class="n">ConfigureKmpLibraryModuleStep</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">                <span class="n">KmpModel</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">moduleParent</span><span class="p">,</span> <span class="n">projectSyncInvoker</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">override</span> <span class="k">fun</span> <span class="nf">createStep</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">moduleParent</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">projectSyncInvoker</span><span class="p">:</span> <span class="n">ProjectSyncInvoker</span><span class="p">):</span> <span class="n">SkippableWizardStep</span><span class="p">&lt;*&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">ConfigureKmpLibraryModuleStep</span><span class="p">(</span><span class="n">KmpModel</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">moduleParent</span><span class="p">,</span> <span class="n">projectSyncInvoker</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ConfigureKmpLibraryModuleStep</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="p">:</span> <span class="n">KmpModel</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">title</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="p">:</span> <span class="n">ConfigureModuleStep</span><span class="p">&lt;</span><span class="n">KmpModel</span><span class="p">&gt;(</span>  <span class="n">model</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="nc">FormFactor</span><span class="p">.</span><span class="n">MOBILE</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="nc">SdkVersionInfo</span><span class="p">.</span><span class="n">LOWEST_ACTIVE_API</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="n">title</span> <span class="p">=</span> <span class="n">title</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// UI 界面
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">override</span> <span class="k">fun</span> <span class="nf">createMainPanel</span><span class="p">():</span> <span class="n">DialogPanel</span> <span class="p">=</span>
-</span></span><span class="line"><span class="cl">        <span class="n">panel</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">row</span><span class="p">(</span><span class="n">contextLabel</span><span class="p">(</span><span class="s2">&#34;Module name&#34;</span><span class="p">,</span> <span class="nc">AndroidBundle</span><span class="p">.</span><span class="n">message</span><span class="p">(</span><span class="s2">&#34;android.wizard.module.help.name&#34;</span><span class="p">)))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">cell</span><span class="p">(</span><span class="n">moduleName</span><span class="p">).</span><span class="n">align</span><span class="p">(</span><span class="nc">AlignX</span><span class="p">.</span><span class="n">FILL</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">            <span class="n">row</span><span class="p">(</span><span class="s2">&#34;Package name&#34;</span><span class="p">)</span> <span class="p">{</span> <span class="n">cell</span><span class="p">(</span><span class="n">packageName</span><span class="p">).</span><span class="n">align</span><span class="p">(</span><span class="nc">AlignX</span><span class="p">.</span><span class="n">FILL</span><span class="p">)</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}.</span><span class="n">withBorder</span><span class="p">(</span><span class="n">empty</span><span class="p">(</span><span class="m">6</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onProceeding</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">super</span><span class="p">.</span><span class="n">onProceeding</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="n">model</span><span class="p">.</span><span class="n">template</span><span class="p">.</span><span class="k">set</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">            <span class="c1">// 创建自己的 template
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// 需要继承 
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getPreferredFocusComponent</span><span class="p">()</span> <span class="p">=</span> <span class="n">moduleName</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">KmpModel</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">    <span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">moduleParent</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">projectSyncInvoker</span><span class="p">:</span> <span class="n">ProjectSyncInvoker</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">name</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;shared&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">ModuleModel</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">        <span class="n">name</span> <span class="p">=</span> <span class="n">name</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="n">commandName</span> <span class="p">=</span> <span class="s2">&#34;New Kotlin Multiplatform Library Module&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="n">isLibrary</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="n">_template</span> <span class="p">=</span> <span class="nc">GradleAndroidModuleTemplate</span><span class="p">.</span><span class="n">createMultiplatformModuleTemplate</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">        <span class="n">projectModelData</span> <span class="p">=</span> <span class="n">ExistingProjectModelData</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">projectSyncInvoker</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">        <span class="n">moduleParent</span> <span class="p">=</span> <span class="n">moduleParent</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="n">wizardContext</span> <span class="p">=</span> <span class="nc">AndroidStudioEvent</span><span class="p">.</span><span class="nc">TemplatesUsage</span><span class="p">.</span><span class="nc">TemplateComponent</span><span class="p">.</span><span class="nc">WizardUiContext</span><span class="p">.</span><span class="n">NEW_MODULE</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">override</span> <span class="k">val</span> <span class="py">renderer</span><span class="p">:</span> <span class="nc">MultiTemplateRenderer</span><span class="p">.</span><span class="n">TemplateRenderer</span> <span class="p">=</span>
-</span></span><span class="line"><span class="cl">        <span class="k">object</span> <span class="err">: </span><span class="nc">ModuleTemplateRenderer</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="nd">@WorkerThread</span>
-</span></span><span class="line"><span class="cl">            <span class="k">override</span> <span class="k">fun</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="k">super</span><span class="p">.</span><span class="k">init</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">                <span class="n">moduleTemplateDataBuilder</span><span class="p">.</span><span class="n">apply</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                    <span class="n">commonSrcDir</span> <span class="p">=</span>
-</span></span><span class="line"><span class="cl">                        <span class="p">(</span><span class="n">template</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">paths</span> <span class="k">as</span> <span class="n">KotlinMultiplatformModulePathsImpl</span><span class="p">).</span><span class="n">getCommonSrcDirectory</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">                            <span class="k">this</span><span class="nd">@KmpModel</span><span class="p">.</span><span class="n">packageName</span><span class="p">.</span><span class="k">get</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">                        <span class="p">)</span>
-</span></span><span class="line"><span class="cl">                    <span class="n">iosSrcDir</span> <span class="p">=</span>
-</span></span><span class="line"><span class="cl">                        <span class="p">(</span><span class="n">template</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">paths</span> <span class="k">as</span> <span class="n">KotlinMultiplatformModulePathsImpl</span><span class="p">).</span><span class="n">getIosSrcDirectory</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">                            <span class="k">this</span><span class="nd">@KmpModel</span><span class="p">.</span><span class="n">packageName</span><span class="p">.</span><span class="k">get</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">                        <span class="p">)</span>
-</span></span><span class="line"><span class="cl">                <span class="p">}</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="c1">// 这部分的调用没有详细去看，强行塞了个 ohos dir 进去
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">override</span> <span class="k">val</span> <span class="py">recipe</span><span class="p">:</span> <span class="n">Recipe</span>
-</span></span><span class="line"><span class="cl">                <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="p">{</span> <span class="n">td</span><span class="p">:</span> <span class="n">TemplateData</span> <span class="o">-&gt;</span>
-</span></span><span class="line"><span class="cl">                    <span class="k">val</span> <span class="py">ohosSrcDir</span> <span class="p">=</span> <span class="p">(</span><span class="n">template</span><span class="p">.</span><span class="k">get</span><span class="p">().</span><span class="n">paths</span> <span class="k">as</span> <span class="n">KotlinMultiplatformModulePathsImpl</span><span class="p">).</span><span class="n">getOHOSSrcDirectory</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">                        <span class="k">this</span><span class="nd">@KmpModel</span><span class="p">.</span><span class="n">packageName</span><span class="p">.</span><span class="k">get</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">                    <span class="p">)</span>
-</span></span><span class="line"><span class="cl">                    <span class="n">generateCTModule</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">data</span> <span class="p">=</span> <span class="n">td</span> <span class="k">as</span> <span class="n">ModuleTemplateData</span><span class="p">,</span> <span class="n">ohosSrcDir</span><span class="p">,</span> <span class="n">useKts</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">generateManifest</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">                <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span></code></pre></div><h2 id="总结">总结</h2>
-<p>想给 Android Studio 添加 Module Type，按照 Intellij SDK 添加 Module Type 是不行的</p>
-<p>对于新版本的 Android Studio，需要注册 moduleDescriptionProvider，并且参照 kmp plugin 来实现 moduleDescriptionProvider 对应逻辑</p>
-<p>如果需要额外定制目录等等，则需要自己深入修改</p>
+</span></span><span class="line"><span class="cl"><span class="c1">// ConfigureKmpLibraryModuleStep：createMainPanel 做 UI，onProceeding 里 set template
+</span></span></span><span class="line"><span class="cl"><span class="c1">// KmpModel：继承 ModuleModel，实现 TemplateRenderer，recipe 里生成目录/文件（可塞入 ohos 目录等）
+</span></span></span></code></pre></div><p>若要定制目录结构（例如强制带 OHOS 目录），需要在 Model 的 renderer / recipe 里自己改。</p>
+<hr>
+<h2 id="五总结">五、总结</h2>
+<ul>
+<li>给 <strong>Android Studio</strong> 增加 Module Type，不能只按 <strong>IntelliJ</strong> 的 Module Type 文档做。</li>
+<li>新版本 Android Studio 需要注册 <strong>moduleDescriptionProvider</strong>（<code>com.android</code> 命名空间），并参考 KMP 插件实现 Provider 和对应的 Step、Model。</li>
+<li>额外定制（目录、模板内容）需要深入改 Model 和 recipe。</li>
+</ul>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -349,14 +255,14 @@
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/kotlin/">Kotlin</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/" class="prev" rel="prev" title="Kotlin Native 部分枚举类型导出后消失"><i class="fas fa-angle-left fa-fw"></i>Kotlin Native 部分枚举类型导出后消失</a>
-            <a href="/posts/2025-07-09-KCP/" class="next" rel="next" title="KCP 开发">KCP 开发<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/" class="prev" rel="prev" title="Kotlin/Native 部分枚举类型在 cinterop 导出后消失"><i class="fas fa-angle-left fa-fw"></i>Kotlin/Native 部分枚举类型在 cinterop 导出后消失</a>
+            <a href="/posts/2025-07-09-KCP/" class="next" rel="next" title="Kotlin Compiler Plugin（KCP）开发小结">Kotlin Compiler Plugin（KCP）开发小结<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
@@ -372,5 +278,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-06-30T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Android Studio Plugin 开发"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-06-30T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Android Studio 插件开发：New Module 与 OHOS"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

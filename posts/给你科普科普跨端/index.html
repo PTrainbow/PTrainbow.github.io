@@ -8,7 +8,7 @@
         <title>给你科普科普跨端 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/">
   <meta property="og:site_name" content="北邙山之光的 Blog">
   <meta property="og:title" content="给你科普科普跨端">
-  <meta property="og:description" content="前言 鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从0到1的写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过 Weex，对于跨端研究过一阵，所以来科普一下。">
+  <meta property="og:description" content="前言 鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从 0 到 1 写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过 Weex，对于跨端研究过一阵，所以来科普一下。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="http://PTrainbow.github.io/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/multi_platform_base_3.jpg">
   <meta name="twitter:title" content="给你科普科普跨端">
-  <meta name="twitter:description" content="前言 鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从0到1的写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过 Weex，对于跨端研究过一阵，所以来科普一下。">
+  <meta name="twitter:description" content="前言 鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从 0 到 1 写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过 Weex，对于跨端研究过一阵，所以来科普一下。">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/" /><link rel="prev" href="http://PTrainbow.github.io/posts/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB/" /><link rel="next" href="http://PTrainbow.github.io/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
@@ -36,7 +36,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF\/multi_platform_base_3.jpg",
                             "width":  1838 ,
                             "height":  794 
-                        }],"genre": "posts","keywords": "Android","wordcount":  3807 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  3808 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF\/","datePublished": "2021-03-27T00:00:00+00:00","dateModified": "2021-03-27T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -120,7 +120,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">给你科普科普跨端</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-03-27">2021-03-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3807 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-03-27">2021-03-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3808 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -139,7 +139,16 @@
   <ul>
     <li><a href="#前言">前言</a>
       <ul>
-        <li><a href="#为什么需要跨端呢">为什么需要跨端呢？</a></li>
+        <li><a href="#为什么需要跨端呢">为什么需要跨端呢？</a>
+          <ul>
+            <li><a href="#一套代码多端运行减少了人力成本">一套代码，多端运行，减少了人力成本？</a></li>
+            <li><a href="#动态化能力这个我认为才是重点">动态化能力(这个我认为才是重点)</a>
+              <ul>
+                <li><a href="#h5-的动态化能力">H5 的动态化能力</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
         <li><a href="#平时说的-weexrnhippymln-等等算不算跨端">平时说的 Weex、RN、Hippy、MLN 等等，算不算跨端？</a></li>
       </ul>
     </li>
@@ -156,7 +165,7 @@
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="前言">前言</h2>
-<p>鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从0到1的写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过 Weex，对于跨端研究过一阵，所以来科普一下。</p>
+<p>鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从 0 到 1 写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过 Weex，对于跨端研究过一阵，所以来科普一下。</p>
 <p>在科普之前，首先你得知道，为什么需要跨端技术呢？我们平时说的 Weex、React-Native(本文统一简称为 RN) 算不算 <code>跨端技术</code>(单独没说 Flutter) 呢？</p>
 <h3 id="为什么需要跨端呢">为什么需要跨端呢？</h3>
 <h4 id="一套代码多端运行减少了人力成本">一套代码，多端运行，减少了人力成本？</h4>
@@ -200,7 +209,7 @@
         alt="/img/in-post/js_engine.jpg"
         title="/img/in-post/js_engine.jpg" /></p>
 <p>没错，有这么多！当然还有 <code>JavaScriptCore</code>(图里没有)。</p>
-<p>其中最后一行是跑分，越多越好。带 JIT 的 V8 以 3w+ 吊打了一切。其中 <code>QuikJS</code> 特别小而且分数也很高，估计也有很多人会用 <code>QuikJS</code> 作为跨端的 JavaScript Engine 吧？<code>Hermes</code> 由 Facebook 搞出来的，似乎是 RN 目前 Android 使用的 JavaScript Engine 代替了之前用的 <code>JavaScriptCore</code>。为什么 RN 一直没有使用 V8？这个我也不清楚···</p>
+<p>其中最后一行是跑分，越多越好。带 JIT 的 V8 以 3w+ 吊打了一切。其中 <code>QuickJS</code> 特别小而且分数也很高，估计也有很多人会用 <code>QuickJS</code> 作为跨端的 JavaScript Engine 吧？<code>Hermes</code> 由 Facebook 搞出来的，似乎是 RN 目前 Android 使用的 JavaScript Engine 代替了之前用的 <code>JavaScriptCore</code>。为什么 RN 一直没有使用 V8？这个我也不清楚……</p>
 <p>不过有很多人在搞 Android 的 V8 工程，Github 上也有一些开源项目。其次就是 iOS 因为不支持 JIT，而且有自己的 JavaScriptCore，所以换不换没有 JIT 的 V8 似乎意义不大。</p>
 <h2 id="weexrn-跨端原理">Weex/RN 跨端原理</h2>
 <p>一个正常的跨端框架 <code>最简单</code> 的情况是这样的(<code>后面会说这其中的问题，并逐步丰富</code>)：</p>
@@ -265,12 +274,12 @@
 <p>从而所谓的 <code>JavaScript Runtime</code>，我觉得可以单纯的理解为 JavaScript Engine 自身的代码跑起来后的环境，也可以理解为 core.js 等被跨端框架所需要的、包含了各种逻辑的前端代码被加载运行后的环境。</p>
 <h3 id="怎么就能知道每个视图的位置和属性了">怎么就能知道每个视图的位置和属性了？</h3>
 <p>当你用这些跨端框架的时候，你会发现他们只支持 <code>css 子集</code>，而且布局方式基本都是 <code>flexbox(一种布局模型)</code>。</p>
-<p>那么比如你写了一个横着容纳了三个小方块的大方块，你的前端 css 代码肯定要写成，<code>flex-diretion:row</code>，那么抛给端上的消息可能如下：</p>
+<p>那么比如你写了一个横着容纳了三个小方块的大方块，你的前端 css 代码肯定要写成，<code>flex-direction: row</code>，那么抛给端上的消息可能如下：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;div&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;attribute&#34;</span><span class="p">:{</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// 使用布局
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nt">&#34;flex-diretion&#34;</span><span class="p">:</span><span class="s2">&#34;row&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nt">&#34;flex-direction&#34;</span><span class="p">:</span> <span class="s2">&#34;row&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">},</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;children&#34;</span><span class="p">:[</span>
 </span></span><span class="line"><span class="cl">        <span class="p">{</span>
@@ -297,12 +306,12 @@
 <p>而且当你做动画还想监听动画过程的时候，肯定在短时间内发送了大量消息，这些过程肯定是 <code>需要优化</code> 的。</p>
 <p>并且！据我个人用 Weex 的经验，有的 flexbox 属性两端都不统一(可能是 Weex 的 Bug，毕竟 KPI 项目，都不维护了)</p>
 <p>我记得当时还开玩笑说，用了 Weex 终于领悟了跨端的真谛：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">platform</span> <span class="o">===</span> <span class="s1">&#39;Andoird&#39;</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">platform</span> <span class="o">===</span> <span class="s1">&#39;Android&#39;</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// 差异化逻辑
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">platform</span> <span class="o">===</span> <span class="s1">&#39;iOS&#39;</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// 差异化逻辑
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
-</span></span></code></pre></div><p>跨端的代价就是，你 <code>本以为</code> 真的可以一套代码两端跑，后来发现真的有点做梦了(连 H5 有时候 Andoird/iOS 都不一致，因为用的内核都不是一个)，代码里有不少的 if-else。</p>
+</span></span></code></pre></div><p>跨端的代价就是，你 <code>本以为</code> 真的可以一套代码两端跑，后来发现真的有点做梦了(连 H5 有时候 Android/iOS 都不一致，因为用的内核都不是一个)，代码里有不少的 if-else。</p>
 <h2 id="总结">总结</h2>
 <p>所以经过上面的一系列科普，一个跨端框架成了这样：</p>
 <p><img
@@ -362,5 +371,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-03-27T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"给你科普科普跨端"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-03-27T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"给你科普科普跨端"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

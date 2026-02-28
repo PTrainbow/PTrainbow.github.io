@@ -40,7 +40,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB\/android.png",
                             "width":  900 ,
                             "height":  500 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1294 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  1293 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/AGP-BuildTools-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB\/","datePublished": "2022-06-23T00:00:00+00:00","dateModified": "2022-06-23T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -124,7 +124,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">AGP BuildTools 之间的关系</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-23">2022-06-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1294 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-23">2022-06-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1293 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -169,7 +169,7 @@
 <p>那只好拿出证据来实锤了！</p>
 <h2 id="一些线索">一些线索</h2>
 <p>Android 的编译其实是 <code>很复杂的</code>，AGP 自带的各种 task，各种 buildtools 工具，加上 R8(D8 老早就已经开始计算 maindex，并且新版本的混淆路径更短了似乎) 等等，巨量源码肯定是无从查起的</p>
-<p>如果涉及 native 层的编译，那就更复杂了，ndk 各个版本之间的区别，谁又知道呢···</p>
+<p>如果涉及 native 层的编译，那就更复杂了，ndk 各个版本之间的区别，谁又知道呢……</p>
 <p>这个时候，同事经过了一个简单的 AGP7.0 demo 发现了这肯定是个系统行为，于是开始搜索有关 resource 的一些配置</p>
 <p>最终发现，<code>android.enableResourceOptimizations</code> 这样一个配置</p>
 <p>那就有了切入点了！</p>
@@ -236,22 +236,22 @@
 </span></span><span class="line"><span class="cl">      <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span></code></pre></div><p>配上 commit 信息，应该就是这里了</p>
-<pre tabindex="0"><code>Resource Path Obfuscation
-
-This CL allows aapt2 to obfuscate resource paths within the output apk
-and move resources to shorter obfuscated paths. This reduces apk size
-when there is a large number of resources since the path metadata exists
-in 4 places in the apk.
-
-This CL adds two arguments to aapt2, one to enable resource path
-obfuscation and one to point to a path to output the path map to (for
-later debugging).
-
-Test: make aapt2_tests
-Bug: b/75965637
-
-Change-Id: I9cacafe1d17800d673566b2d61b0b88f3fb8d60c
-</code></pre><p>且搜索源码后发现，此 Task 只在 AGP &gt;= 4.1.0 版本以上存在</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Resource Path Obfuscation
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">This CL allows aapt2 to obfuscate resource paths within the output apk
+</span></span><span class="line"><span class="cl">and move resources to shorter obfuscated paths. This reduces apk size
+</span></span><span class="line"><span class="cl">when there is a large number of resources since the path metadata exists
+</span></span><span class="line"><span class="cl">in 4 places in the apk.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">This CL adds two arguments to aapt2, one to enable resource path
+</span></span><span class="line"><span class="cl">obfuscation and one to point to a path to output the path map to (for
+</span></span><span class="line"><span class="cl">later debugging).
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Test: make aapt2_tests
+</span></span><span class="line"><span class="cl">Bug: b/75965637
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Change-Id: I9cacafe1d17800d673566b2d61b0b88f3fb8d60c
+</span></span></code></pre></div><p>且搜索源码后发现，此 Task 只在 AGP &gt;= 4.1.0 版本以上存在</p>
 <p>且 AGP &gt;= 4.2.0 以后，optimizeFlags 默认包含了 SHORTEN_RESOURCE_PATHS</p>
 <p>那么到此，基本可以断定，<code>在 AGP 4.2.0 时就有了资源混淆的功能</code></p>
 <p>通过验证简单 demo 验证，也正是如此</p>
@@ -332,5 +332,5 @@ Change-Id: I9cacafe1d17800d673566b2d61b0b88f3fb8d60c
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-06-23T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"AGP BuildTools 之间的关系"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-06-23T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"AGP BuildTools 之间的关系"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

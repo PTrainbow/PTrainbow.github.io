@@ -5,30 +5,30 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>Kotlin Native 梳理 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/">
+        <title>Kotlin/Native 适配鸿蒙的一些梳理 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/">
   <meta property="og:site_name" content="北邙山之光的 Blog">
-  <meta property="og:title" content="Kotlin Native 梳理">
-  <meta property="og:description" content="最近在 kotlin/native 上适配鸿蒙，感觉坑很多。而且 kotlin/native 相当于用 kotlin 写 c/c&#43;&#43;，出现内存问题，一样挠头
-其次，kotlin/native 因为要适配 iOS 的 platform，和 xcode 绑定的也很死，同时自己又和 llvm 绑定的很死，编译的时候有各种问题，比如 kotlin 1.9.x 没法和 xcode16 一起使用···">
+  <meta property="og:title" content="Kotlin/Native 适配鸿蒙的一些梳理">
+  <meta property="og:description" content="最近在 Kotlin/Native 上适配鸿蒙，坑不少；而且 K/N 相当于用 Kotlin 写 C/C&#43;&#43;，一出内存问题就挠头。另外 K/N 和 iOS / Xcode、LLVM 绑得比较紧，编译时各种版本兼容问题（比如 Kotlin 1.9.x 和 Xcode 16 不兼容）。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-03-28T00:00:00+00:00">
     <meta property="article:modified_time" content="2025-03-28T00:00:00+00:00">
     <meta property="article:tag" content="Android">
+    <meta property="article:tag" content="Kotlin">
+    <meta property="article:tag" content="鸿蒙">
     <meta property="og:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-llvm.jpg">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/kotlin-native-compile-llvm.jpg">
-  <meta name="twitter:title" content="Kotlin Native 梳理">
-  <meta name="twitter:description" content="最近在 kotlin/native 上适配鸿蒙，感觉坑很多。而且 kotlin/native 相当于用 kotlin 写 c/c&#43;&#43;，出现内存问题，一样挠头
-其次，kotlin/native 因为要适配 iOS 的 platform，和 xcode 绑定的也很死，同时自己又和 llvm 绑定的很死，编译的时候有各种问题，比如 kotlin 1.9.x 没法和 xcode16 一起使用···">
+  <meta name="twitter:title" content="Kotlin/Native 适配鸿蒙的一些梳理">
+  <meta name="twitter:description" content="最近在 Kotlin/Native 上适配鸿蒙，坑不少；而且 K/N 相当于用 Kotlin 写 C/C&#43;&#43;，一出内存问题就挠头。另外 K/N 和 iOS / Xcode、LLVM 绑得比较紧，编译时各种版本兼容问题（比如 Kotlin 1.9.x 和 Xcode 16 不兼容）。">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/" /><link rel="prev" href="http://PTrainbow.github.io/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/" /><link rel="next" href="http://PTrainbow.github.io/posts/2025-04-08-KSP/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Kotlin Native 梳理",
+        "headline": "Kotlin/Native 适配鸿蒙的一些梳理",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -38,7 +38,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E6%A2%B3%E7%90%86\/kotlin-native-compile-llvm.jpg",
                             "width":  2142 ,
                             "height":  1764 
-                        }],"genre": "posts","keywords": "Android","wordcount":  607 ,
+                        }],"genre": "posts","keywords": "Android, Kotlin, 鸿蒙","wordcount":  518 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/Kotlin-Native-%E6%A2%B3%E7%90%86\/","datePublished": "2025-03-28T00:00:00+00:00","dateModified": "2025-03-28T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -120,9 +120,9 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">Kotlin Native 梳理</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animated flipInX">Kotlin/Native 适配鸿蒙的一些梳理</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-03-28">2025-03-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 607 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-03-28">2025-03-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 518 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -139,40 +139,41 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#kotlin-2021-适配-ohos-一些通用问题">kotlin 2.0.21 适配 ohos 一些通用问题</a>
+    <li><a href="#一kotlin-2021-适配-ohos-的通用问题">一、Kotlin 2.0.21 适配 OHOS 的通用问题</a>
       <ul>
-        <li><a href="#llvm-版本">llvm 版本</a></li>
-        <li><a href="#编译-llvm-问题">编译 llvm 问题</a></li>
-        <li><a href="#kt-69094-问题">KT-69094 问题</a></li>
+        <li><a href="#11-llvm-版本">1.1 LLVM 版本</a></li>
+        <li><a href="#12-编译-llvm-本身">1.2 编译 LLVM 本身</a></li>
+        <li><a href="#13-kt-69094">1.3 KT-69094</a></li>
       </ul>
     </li>
-    <li><a href="#编译器本身编译">编译器本身编译</a></li>
-    <li><a href="#编译-kt-文件">编译 kt 文件</a></li>
-    <li><a href="#隔离-llvm-遇到的问题">隔离 llvm 遇到的问题</a></li>
+    <li><a href="#二编译器与编译流程">二、编译器与编译流程</a>
+      <ul>
+        <li><a href="#21-编译器本身编译">2.1 编译器本身编译</a></li>
+        <li><a href="#22-编译-kt-文件">2.2 编译 kt 文件</a></li>
+        <li><a href="#23-隔离-llvm-时遇到的问题">2.3 隔离 LLVM 时遇到的问题</a></li>
+      </ul>
+    </li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p>最近在 kotlin/native 上适配鸿蒙，感觉坑很多。而且 kotlin/native 相当于用 kotlin 写 c/c++，出现内存问题，一样挠头</p>
-<p>其次，kotlin/native 因为要适配 iOS 的 platform，和 xcode 绑定的也很死，同时自己又和 llvm 绑定的很死，编译的时候有各种问题，比如 kotlin 1.9.x 没法和 xcode16 一起使用···</p>
-<p>总之，最终在 kotlin/native 上替换了官方 llvm11 到 llvm12 适配了鸿蒙，但是还没有经过线上测试(ksp 生成鸿蒙 napi 胶水代码，又是一件头疼的事情)，目前还想和官方保持一致使用 llvm11，但是鸿蒙单独使用 llvm12，所以还需要一个隔离的过程</p>
-<p>以下是目前的一些理解(当然，可能不准确)</p>
-<h2 id="kotlin-2021-适配-ohos-一些通用问题">kotlin 2.0.21 适配 ohos 一些通用问题</h2>
-<h3 id="llvm-版本">llvm 版本</h3>
-<p>一直到 kotlin 2.1.0 之前 kotlin/native 都是使用的 llvm 11.1.0<br>
-鸿蒙 3.2.X 使用的 llvm 12.0.1，5.X 使用的 15.0.4</p>
-<blockquote>
-<p>鸿蒙后面简称 ohos</p>
-</blockquote>
-<p>我尝试过在 kotlin 2.0.21 上使用 ohos 15.0.4 的版本，指定 llvm home path，报错一堆，差异有些太大，所以，切换回了 3.2.X</p>
-<p>在 3.2.X 使用 ohos 自己的 clang 的时候，遇到了 llvm bitcode 版本不匹配的问题(但是，这里听淘宝和快手的人说，他们没有遇到任何问题)</p>
-<p>所以，我又将 kotlin/native 的工程升级到了 12.0.1，但是社区版本的 llvm 和 clang 在使用的时候又遇到了编译问题，我又自己编译了一份 apple llvm 12.0.0···最终成功</p>
-<h3 id="编译-llvm-问题">编译 llvm 问题</h3>
-<p>在 kotlin 2.0.21 上，不能直接使用开源版本的 llvm，因为 kotlin 对 llvm 做了特殊的修改，删掉了一些 hardcode</p>
-<p>所以，特地 cherry-pick 过来，重新编译了一份</p>
-<h3 id="kt-69094-问题">KT-69094 问题</h3>
-<p><a href="https://youtrack.jetbrains.com/issue/KT-69094" target="_blank" rel="noopener noreffer">https://youtrack.jetbrains.com/issue/KT-69094</a>
-kotlin 官方自己兜了个底</p>
-<p>bundle 或者 publish 或者 涉及编译 apple 系 x86 时，需要加参数 -Pkonan.xcodeForSimdOverlay=/path/to/xcode15</p>
-<h2 id="编译器本身编译">编译器本身编译</h2>
+            </div><div class="content" id="content"><p>最近在 Kotlin/Native 上适配鸿蒙，坑不少；而且 K/N 相当于用 Kotlin 写 C/C++，一出内存问题就挠头。另外 K/N 和 iOS / Xcode、LLVM 绑得比较紧，编译时各种版本兼容问题（比如 Kotlin 1.9.x 和 Xcode 16 不兼容）。</p>
+<p>最终是在 K/N 里把官方 LLVM 11 换成 LLVM 12 做了鸿蒙适配，但还没经过线上验证（KSP 生成鸿蒙 NAPI 胶水又是另一件头疼事）；目前倾向和官方保持一致用 LLVM 11，鸿蒙单独用 LLVM 12，所以还要做<strong>隔离</strong>。下面是一些理解，不一定完全准确。</p>
+<hr>
+<h2 id="一kotlin-2021-适配-ohos-的通用问题">一、Kotlin 2.0.21 适配 OHOS 的通用问题</h2>
+<h3 id="11-llvm-版本">1.1 LLVM 版本</h3>
+<ul>
+<li>到 Kotlin 2.1.0 之前，K/N 用的都是 <strong>LLVM 11.1.0</strong>。</li>
+<li>鸿蒙（后文简称 OHOS）3.2.x 用 <strong>LLVM 12.0.1</strong>，5.x 用 <strong>15.0.4</strong>。</li>
+</ul>
+<p>试过在 Kotlin 2.0.21 上指到 OHOS 15.0.4 的 LLVM，报错很多，差异太大，就退回 3.2.x。在 3.2.x 用 OHOS 自带的 clang 时遇到 <strong>LLVM bitcode 版本不匹配</strong>（听说淘宝、快手没遇到）。于是把 K/N 工程升到 <strong>LLVM 12.0.1</strong>，社区版 LLVM/Clang 又有编译问题，最后自己编了一份 <strong>Apple LLVM 12.0.0</strong> 才过。</p>
+<h3 id="12-编译-llvm-本身">1.2 编译 LLVM 本身</h3>
+<p>Kotlin 2.0.21 不能直接用上游 LLVM，因为 K/N 对 LLVM 有修改、去掉了一些 hardcode，需要把相关 patch cherry-pick 过来再编一份。</p>
+<h3 id="13-kt-69094">1.3 KT-69094</h3>
+<p><a href="https://youtrack.jetbrains.com/issue/KT-69094" target="_blank" rel="noopener noreffer">https://youtrack.jetbrains.com/issue/KT-69094</a><br>
+官方自己兜了底：bundle / publish 或编译 Apple 系 x86 时，需要加参数：</p>
+<p><code>-Pkonan.xcodeForSimdOverlay=/path/to/xcode15</code></p>
+<hr>
+<h2 id="二编译器与编译流程">二、编译器与编译流程</h2>
+<h3 id="21-编译器本身编译">2.1 编译器本身编译</h3>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -181,9 +182,9 @@ kotlin 官方自己兜了个底</p>
         data-sizes="auto"
         alt="/img/in-post/kotlin-native-compile.jpg"
         title="/img/in-post/kotlin-native-compile.jpg" /></p>
-<h2 id="编译-kt-文件">编译 kt 文件</h2>
-<p>其实有两种路径，不过最终应该都是走的 cli runner
-<img
+<h3 id="22-编译-kt-文件">2.2 编译 kt 文件</h3>
+<p>有两条路径，但最终都会走到 CLI runner：</p>
+<p><img
         class="lazyload"
         src="/svg/loading.min.svg"
         data-src="/img/in-post/all_in_one.png"
@@ -191,7 +192,7 @@ kotlin 官方自己兜了个底</p>
         data-sizes="auto"
         alt="/img/in-post/all_in_one.png"
         title="/img/in-post/all_in_one.png" /></p>
-<h2 id="隔离-llvm-遇到的问题">隔离 llvm 遇到的问题</h2>
+<h3 id="23-隔离-llvm-时遇到的问题">2.3 隔离 LLVM 时遇到的问题</h3>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -217,14 +218,14 @@ kotlin 官方自己兜了个底</p>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/kotlin/">Kotlin</a>,&nbsp;<a href="/tags/%E9%B8%BF%E8%92%99/">鸿蒙</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
         </section>
     </div>
 
     <div class="post-nav"><a href="/posts/2024%E6%8F%90%E5%89%8D%E6%80%BB%E7%BB%93/" class="prev" rel="prev" title="2024提前总结"><i class="fas fa-angle-left fa-fw"></i>2024提前总结</a>
-            <a href="/posts/2025-04-08-KSP/" class="next" rel="next" title="KSP For OHOS NAPI">KSP For OHOS NAPI<i class="fas fa-angle-right fa-fw"></i></a></div>
+            <a href="/posts/2025-04-08-KSP/" class="next" rel="next" title="KSP 生成 OHOS NAPI 代码">KSP 生成 OHOS NAPI 代码<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
@@ -240,5 +241,5 @@ kotlin 官方自己兜了个底</p>
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-03-28T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Kotlin Native 梳理"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-03-28T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Kotlin/Native 适配鸿蒙的一些梳理"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

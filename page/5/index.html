@@ -168,8 +168,8 @@
 <li>解决办法
 <ol>
 <li>-keepclasseswithmembers class * {
-<!-- raw HTML omitted -->(&hellip;);
-@com.google.gson.annotations.SerializedName <!-- raw HTML omitted -->;
+<init>(&hellip;);
+@com.google.gson.annotations.SerializedName <fields>;
 }</li>
 </ol>
 </li>
@@ -228,7 +228,7 @@ proGuard 描述了代码混淆和删减的规则，代码删减直接缩减 dex 
 <h2 id="前言">前言</h2>
 <p>最近看了很多 fd 的问题，在一些机型上 fd 数量超过 1024 便会抛出 OOM。</p>
 <p>mmkv 正常是没什么问题的，但是如果使用了过多实例，也是会占用一部分的 fd。</p>
-<p>mmkv 每一个实例会持有两个 fd(如果你没有释放过的话)，在一个大工程里，很有可能同时存在 30+ 的 mmkv 实例，也就是 60+ 的 fd，因为每个业务可能都想有自己的 mmkv 实例(文件)，甚至同一个业务下的子逻辑也想有自己的 mmkv 实例，加上 java 程序员从不考虑资源释放问题(me too)，这也进一步加剧了 fd 不够用···最终 OOM</p></div><div class="post-footer">
+<p>mmkv 每一个实例会持有两个 fd(如果你没有释放过的话)，在一个大工程里，很有可能同时存在 30+ 的 mmkv 实例，也就是 60+ 的 fd，因为每个业务可能都想有自己的 mmkv 实例(文件)，甚至同一个业务下的子逻辑也想有自己的 mmkv 实例，加上 java 程序员从不考虑资源释放问题(me too)，这也进一步加剧了 fd 不够用……最终 OOM</p></div><div class="post-footer">
         <a href="/posts/%E4%B8%8D%E5%A4%AA%E4%BC%98%E9%9B%85%E7%9A%84%E6%B2%BB%E7%90%86-MMKV-FD-%E7%9A%84%E6%96%B9%E5%BC%8F/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -305,9 +305,9 @@ proGuard 描述了代码混淆和删减的规则，代码删减直接缩减 dex 
         <a href="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/">好玩的 Kotlin</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-05-12">2021-05-12</time></span></div><div class="content"><p>​</p>
 <h2 id="前言">前言</h2>
-<p>又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够 的情况下，写不出东西来。</p>
+<p>又好久好久没更新了，主要是最近研究的东西对我来说都比较难，内功不够的情况下，写不出东西来。</p>
 <h3 id="cc-被我暂时搁置了">C/C++ 被我暂时搁置了</h3>
-<p>最近本来是打算捡起来 C++ 的(也 Hello World 了一下 Rust，这个语言感觉对于以前写 Java 的人来说， 看起来理解起来都好别扭啊···)。</p></div><div class="post-footer">
+<p>最近本来是打算捡起来 C++ 的(也 Hello World 了一下 Rust，这个语言对以前写 Java 的人来说，看起来、理解起来都有点别扭……)。</p></div><div class="post-footer">
         <a href="/posts/%E5%A5%BD%E7%8E%A9%E7%9A%84-Kotlin/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -322,7 +322,7 @@ proGuard 描述了代码混淆和删减的规则，代码删减直接缩减 dex 
         </div><h1 class="single-title" itemprop="name headline">
         <a href="/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/">给你科普科普跨端</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-03-27">2021-03-27</time></span></div><div class="content"><h2 id="前言">前言</h2>
-<p>鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从0到1的写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过 Weex，对于跨端研究过一阵，所以来科普一下。</p></div><div class="post-footer">
+<p>鉴于好多人对于跨端技术觉得玄之又玄，我自己虽然没有实际从 0 到 1 写过跨端框架，但是使用过 Yoga(React-Native 的布局引擎)做过一些简易的跨端的事且后来使用过 Weex，对于跨端研究过一阵，所以来科普一下。</p></div><div class="post-footer">
         <a href="/posts/%E7%BB%99%E4%BD%A0%E7%A7%91%E6%99%AE%E7%A7%91%E6%99%AE%E8%B7%A8%E7%AB%AF/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -384,5 +384,5 @@ proGuard 描述了代码混淆和删减的规则，代码删减直接缩减 dex 
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

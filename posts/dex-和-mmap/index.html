@@ -42,7 +42,7 @@ dex2oat 的现状 其实在 Android 10 以后，之前的 dex2oat 命令行已�
                             "url": "http:\/\/PTrainbow.github.io\/posts\/dex-%E5%92%8C-mmap\/jit-arch.png",
                             "width":  504 ,
                             "height":  508 
-                        }],"genre": "posts","keywords": "Android","wordcount":  2182 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  2180 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/dex-%E5%92%8C-mmap\/","datePublished": "2022-06-29T00:00:00+00:00","dateModified": "2022-06-29T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -126,7 +126,7 @@ dex2oat 的现状 其实在 Android 10 以后，之前的 dex2oat 命令行已�
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">dex 和 mmap</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-29">2022-06-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2182 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-29">2022-06-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2180 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -175,7 +175,7 @@ dex2oat 的现状 其实在 Android 10 以后，之前的 dex2oat 命令行已�
 <p>但是，通过这次提交以后<br>
 <a href="https://android-review.googlesource.com/c/platform/frameworks/base/&#43;/1699071" target="_blank" rel="noopener noreffer">https://android-review.googlesource.com/c/platform/frameworks/base/+/1699071</a></p>
 <p>Android12 上进行 dex2oat 的路已经被封死了</p>
-<p>当然，因为国内的一些 ROM 的独特性···可能存在一些未被封死的情况</p>
+<p>当然，因为国内的一些 ROM 的独特性……可能存在一些未被封死的情况</p>
 <p>我用小米手机测试了一下，运行 dex2oat 会秒返回 success(正常应该会有个几十秒的等待时间)，应该并没有真实的执行，因为手机并不是 root 的，无法确定有没有 odex 文件的变化，这个可以后续找个 root 手机实锤一下</p>
 <h3 id="baseline-profiles">Baseline Profiles</h3>
 <p>不过！现在有了个神奇的 Baseline Profiles 的功能，https://developer.android.com/topic/performance/baselineprofiles</p>
@@ -199,7 +199,7 @@ dex2oat 的现状 其实在 Android 10 以后，之前的 dex2oat 命令行已�
 使用太宽的规则进行编译，可能会由于更多的磁盘访问导致启动变慢</p>
 </blockquote>
 <p>为什么会有更多的磁盘访问呢？因为 dex2oat 以后产生的 oat(其实命名为 base.odex) 文件会大很多。</p>
-<p>之前亲测一个 115MB(也可能是70MB，记不清楚了···) 左右的 APK，全量编译以后的 odex 为 260MB+。我们也知道内存操作 200MB 的数据是快到离谱的。但是，如果从磁盘来读呢？无疑，是很慢的，所以拖垮了启动速度。</p>
+<p>之前亲测一个 115MB(也可能是70MB，记不清楚了……) 左右的 APK，全量编译以后的 odex 为 260MB+。我们也知道内存操作 200MB 的数据是快到离谱的。但是，如果从磁盘来读呢？无疑，是很慢的，所以拖垮了启动速度。</p>
 <p>但是，稍微想想，不知道你会不会有个疑问?</p>
 <p><code>odex 文件，或者说 class 是怎么加载的？启动时一次性载入内存？还是懒加载？</code></p>
 <p>考虑到计算机的一切都是懒加载的，应该是懒加载的。</p>
@@ -406,5 +406,5 @@ openDexFileNative -&gt; OpenDexFilesFromOat -&gt; GetOptimizationStatus -&gt; Ge
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-06-29T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"dex 和 mmap"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-06-29T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"dex 和 mmap"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

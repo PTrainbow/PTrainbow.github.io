@@ -3,7 +3,86 @@
         <title>Kotlin - 标签 - 北邙山之光的 Blog</title>
         <link>http://PTrainbow.github.io/tags/kotlin/</link>
         <description>Kotlin - 标签 - 北邙山之光的 Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 08 Dec 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/kotlin/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 12 Jan 2026 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/kotlin/" rel="self" type="application/rss+xml" /><item>
+    <title>HashCode 与 Equals 小坑</title>
+    <link>http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/</link>
+    <pubDate>Mon, 12 Jan 2026 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/</guid>
+    <description><![CDATA[<p>同事问了一句：「HashMap 的 hashCode 为什么是 0？」</p>
+<p>我猜是空 map。果然，他用的就是一个空的 <code>HashMap</code>。于是顺带想到经典面试题 hashCode / equals，以及 Kotlin 的 data class 在这上面容易踩的坑，整理一下。</p>]]></description>
+</item><item>
+    <title>KMP 和 Xcode 26 适配</title>
+    <link>http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/</link>
+    <pubDate>Tue, 11 Nov 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/</guid>
+    <description><![CDATA[<h2 id="背景">背景</h2>
+<p>iOS 打包机升级到 Xcode 26 后，KMP（Kotlin Multiplatform）相关工程开始出现编译错误，例如头文件 not found、unresolved classifier 等。</p>]]></description>
+</item><item>
+    <title>从 KMP 转到 AI 项目</title>
+    <link>http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/</link>
+    <pubDate>Mon, 01 Sep 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-09-01-%E8%BD%AC%E5%88%B0-AI-%E9%A1%B9%E7%9B%AE/</guid>
+    <description><![CDATA[<h2 id="一从-kmp-到-ai">一、从 KMP 到 AI</h2>
+<p>刚入职时在 KMP（Kotlin Multiplatform）上搞了半年多，LLVM、KSP、KCP、Kotlin IR/FIR、iOS Framework、为热修还学了点 OC，收获不少。</p>]]></description>
+</item><item>
+    <title>Kotlin Compiler Plugin（KCP）开发小结</title>
+    <link>http://PTrainbow.github.io/posts/2025-07-09-KCP/</link>
+    <pubDate>Wed, 09 Jul 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-07-09-KCP/</guid>
+    <description><![CDATA[<p>最近在搞 KMP（Kotlin Multiplatform），框架思路不错，一码多端，但路漫漫：体验有点像用 Kotlin 写 C，提效工具和文档都偏少，得自己啃（国内大厂：研究 + 魔改 = 自研 = 世界领先）。</p>]]></description>
+</item><item>
+    <title>Android Studio 插件开发：New Module 与 OHOS</title>
+    <link>http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/</link>
+    <pubDate>Mon, 30 Jun 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/</guid>
+    <description><![CDATA[<h2 id="背景">背景</h2>
+<p>在做 KMP 工程化时，官方不支持 OHOS，对应的 Android Studio 插件也不会自动带 OHOS 目录（例如新建 module 时）。Kuikly 提供了 project 模板，但没有 <strong>New Module</strong> 模板，所以需要自己研究「在 AS 里增加一种 Module Type」的插件开发。</p>]]></description>
+</item><item>
+    <title>Kotlin/Native 部分枚举类型在 cinterop 导出后消失</title>
+    <link>http://PTrainbow.github.io/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/</link>
+    <pubDate>Thu, 12 Jun 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/</guid>
+    <description><![CDATA[<h2 id="背景">背景</h2>
+<p>腾讯 Kuikly 开源了支持鸿蒙的 Kotlin 编译器，符号导出、字符串优化和鸿蒙 NDK 适配等很有参考价值。我们当时因 Kotlin 2.0.21 的 LLVM 限制用的是 <strong>OHOS 3.x</strong> SDK，native binding 基于 3.x 头文件生成，新版本能力用不上。借鉴 Kuikly 后想改用 <strong>Clang/LLVM 12</strong>，sysroot、链接目录等改用 <strong>OHOS 5.x</strong> SDK，以用到新能力。</p>]]></description>
+</item><item>
+    <title>Kotlin/Native 在 OHOS 上开启 ASAN</title>
+    <link>http://PTrainbow.github.io/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/</link>
+    <pubDate>Tue, 03 Jun 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/</guid>
+    <description><![CDATA[<p>本文记录如何在适配鸿蒙的 Kotlin/Native（基于 Kotlin 2.0.21）上开启 <strong>ASAN（Address Sanitizer）</strong>。</p>
+<h2 id="一asan-简介">一、ASAN 简介</h2>
+<p>ASAN 是面向 C/C++ 的内存错误检测工具，运行时能发现例如：</p>]]></description>
+</item><item>
+    <title>KSP 生成 OHOS NAPI 代码</title>
+    <link>http://PTrainbow.github.io/posts/2025-04-08-KSP/</link>
+    <pubDate>Tue, 08 Apr 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-04-08-KSP/</guid>
+    <description><![CDATA[<p>Kotlin/Native 适配鸿蒙，除了改编译器，还有一块很重要：<strong>NAPI 桥接代码的自动生成</strong>。</p>
+<p><strong>Kotlin/Native 和 NAPI 的关系</strong>：</p>
+<ul>
+<li>Kotlin/Native 的产物是平台二进制，在 OHOS 上就是 Linux ELF。</li>
+<li>OHOS 上层用 ArkTS 开发，要调 so 里的逻辑，需要一层类似 JNI 的桥，用的就是 Node.js 那套 <strong>NAPI</strong>。</li>
+<li>所以「从 ArkTS 调 Kotlin/Native」= 自己写一层 NAPI 桥。</li>
+</ul>
+<hr>
+<h2 id="一为什么需要自动生成-napi">一、为什么需要自动生成 NAPI</h2>
+<p>先看一个最简例子：K/N 里有个 <code>hello_world()</code>，要在 ArkTS 里调用，就要在 C++ 里注册 NAPI：</p>]]></description>
+</item><item>
+    <title>Kotlin/Native 适配鸿蒙的一些梳理</title>
+    <link>http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/</link>
+    <pubDate>Fri, 28 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/Kotlin-Native-%E6%A2%B3%E7%90%86/</guid>
+    <description><![CDATA[<p>最近在 Kotlin/Native 上适配鸿蒙，坑不少；而且 K/N 相当于用 Kotlin 写 C/C++，一出内存问题就挠头。另外 K/N 和 iOS / Xcode、LLVM 绑得比较紧，编译时各种版本兼容问题（比如 Kotlin 1.9.x 和 Xcode 16 不兼容）。</p>]]></description>
+</item><item>
     <title>Kotlin/Native</title>
     <link>http://PTrainbow.github.io/posts/20231208-Kotlin-Native/</link>
     <pubDate>Fri, 08 Dec 2023 00:00:00 &#43;0000</pubDate>
@@ -11,32 +90,5 @@
     <guid>http://PTrainbow.github.io/posts/20231208-Kotlin-Native/</guid>
     <description><![CDATA[<p>最近 KMP 或者说 KMM 在移动端挺火，我非常好奇它是如何跨端的</p>
 <p>看了一下官方文档，只知道是通过 LLVM 把 Kotlin 转为 IR 再转为目标平台二进制。这部分我目前还没去分析，因为 LLVM 相关的知识我实在知之甚少，后面也会去补足</p>]]></description>
-</item><item>
-    <title>Kotlin Coroutines VS Goroutines</title>
-    <link>http://PTrainbow.github.io/posts/2021-01-24-Kotlin-Coroutines-VS-Goroutines/</link>
-    <pubDate>Sun, 24 Jan 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/2021-01-24-Kotlin-Coroutines-VS-Goroutines/</guid>
-    <description><![CDATA[<h2 id="前言">前言</h2>
-<p>最近一直在看 Kotlin 协程，因为以前也写过 Golang，所以试着去对比了一下，发现了很多好玩的事情。</p>
-<h2 id="两种协程的比较">两种协程的比较</h2>
-<h3 id="一个-kotlin-的小例子">一个 Kotlin 的小例子</h3>
-<p>试问下面一段代码，执行结果是什么呢？</p>]]></description>
-</item><item>
-    <title>Kotlin Scope Function</title>
-    <link>http://PTrainbow.github.io/posts/2021-01-22-Kotlin-Scope-Function/</link>
-    <pubDate>Fri, 22 Jan 2021 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/2021-01-22-Kotlin-Scope-Function/</guid>
-    <description><![CDATA[<h2 id="前言">前言</h2>
-<p>经常看公司里的人写的一些基础库(基于 Kotlin)看不太懂，总有各种关键字和函数，不知道他们是在刻意用还是咋地，所以学一波，就从出现次数最多的 Scope Function 开始了。</p>]]></description>
-</item><item>
-    <title>半天入门了下 kotlin</title>
-    <link>http://PTrainbow.github.io/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/</link>
-    <pubDate>Thu, 24 Dec 2020 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>http://PTrainbow.github.io/posts/2020-12-24-%E5%8D%8A%E5%A4%A9%E5%85%A5%E9%97%A8%E4%BA%86%E4%B8%8B-kotlin/</guid>
-    <description><![CDATA[<p>最近好多人都在用 kotlin 了，我真实接触并且使用 kotlin 的时候是 2019 年。那个时候也依葫芦画瓢写了一篇《lateinit 和 by lazy 》的文章</p>
-<p>但是，当时写代码还是停留在 if-else、 for 循环等等，跟 java 代码没什么区别，所以并没有深入的理解。</p>]]></description>
 </item></channel>
 </rss>

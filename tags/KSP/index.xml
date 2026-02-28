@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>KSP - 标签 - 北邙山之光的 Blog</title>
+        <link>http://PTrainbow.github.io/tags/KSP/</link>
+        <description>KSP - 标签 - 北邙山之光的 Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 08 Apr 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://PTrainbow.github.io/tags/KSP/" rel="self" type="application/rss+xml" /><item>
+    <title>KSP 生成 OHOS NAPI 代码</title>
+    <link>http://PTrainbow.github.io/posts/2025-04-08-KSP/</link>
+    <pubDate>Tue, 08 Apr 2025 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>http://PTrainbow.github.io/posts/2025-04-08-KSP/</guid>
+    <description><![CDATA[<p>Kotlin/Native 适配鸿蒙，除了改编译器，还有一块很重要：<strong>NAPI 桥接代码的自动生成</strong>。</p>
+<p><strong>Kotlin/Native 和 NAPI 的关系</strong>：</p>
+<ul>
+<li>Kotlin/Native 的产物是平台二进制，在 OHOS 上就是 Linux ELF。</li>
+<li>OHOS 上层用 ArkTS 开发，要调 so 里的逻辑，需要一层类似 JNI 的桥，用的就是 Node.js 那套 <strong>NAPI</strong>。</li>
+<li>所以「从 ArkTS 调 Kotlin/Native」= 自己写一层 NAPI 桥。</li>
+</ul>
+<hr>
+<h2 id="一为什么需要自动生成-napi">一、为什么需要自动生成 NAPI</h2>
+<p>先看一个最简例子：K/N 里有个 <code>hello_world()</code>，要在 ArkTS 里调用，就要在 C++ 里注册 NAPI：</p>]]></description>
+</item></channel>
+</rss>

@@ -5,30 +5,30 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>KMP 和 XCode26 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/">
+        <title>KMP 和 Xcode 26 适配 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/">
   <meta property="og:site_name" content="北邙山之光的 Blog">
-  <meta property="og:title" content="KMP 和 XCode26">
-  <meta property="og:description" content="iOS 最近打包机已经升级 xcode26，突然出现了 kmp 相关的编译问题，包括一些头文件 not found 和 unresolved classifier 等等的问题
-因为，我们的 kotlin/native 编译器基于 kotlin 2.0.21 做了魔改，用于支持鸿蒙系统，而且整个主工程的 kotlin 也没法轻易升级，所以直接升级 kotlin 2.2.20 官方支持的 xcode26 版本，短时间是不现实的">
+  <meta property="og:title" content="KMP 和 Xcode 26 适配">
+  <meta property="og:description" content="背景 iOS 打包机升级到 Xcode 26 后，KMP（Kotlin Multiplatform）相关工程开始出现编译错误，例如头文件 not found、unresolved classifier 等。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-11-11T00:00:00+00:00">
     <meta property="article:modified_time" content="2025-11-11T00:00:00+00:00">
     <meta property="article:tag" content="Android">
+    <meta property="article:tag" content="Kotlin">
+    <meta property="article:tag" content="IOS">
     <meta property="og:image" content="http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/xcode26.png">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/xcode26.png">
-  <meta name="twitter:title" content="KMP 和 XCode26">
-  <meta name="twitter:description" content="iOS 最近打包机已经升级 xcode26，突然出现了 kmp 相关的编译问题，包括一些头文件 not found 和 unresolved classifier 等等的问题
-因为，我们的 kotlin/native 编译器基于 kotlin 2.0.21 做了魔改，用于支持鸿蒙系统，而且整个主工程的 kotlin 也没法轻易升级，所以直接升级 kotlin 2.2.20 官方支持的 xcode26 版本，短时间是不现实的">
+  <meta name="twitter:title" content="KMP 和 Xcode 26 适配">
+  <meta name="twitter:description" content="背景 iOS 打包机升级到 Xcode 26 后，KMP（Kotlin Multiplatform）相关工程开始出现编译错误，例如头文件 not found、unresolved classifier 等。">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D/" /><link rel="prev" href="http://PTrainbow.github.io/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/" /><link rel="next" href="http://PTrainbow.github.io/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "KMP 和 XCode26",
+        "headline": "KMP 和 Xcode 26 适配",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -38,7 +38,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D\/xcode26.png",
                             "width":  1200 ,
                             "height":  800 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1121 ,
+                        }],"genre": "posts","keywords": "Android, Kotlin, iOS","wordcount":  1155 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2025-11-11-KMP-XCode26-%E9%80%82%E9%85%8D\/","datePublished": "2025-11-11T00:00:00+00:00","dateModified": "2025-11-11T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -120,9 +120,9 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">KMP 和 XCode26</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animated flipInX">KMP 和 Xcode 26 适配</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-11-11">2025-11-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1121 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-11-11">2025-11-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1155 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -139,28 +139,31 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#kuikly-写在前面">Kuikly 写在前面</a></li>
-    <li><a href="#基于-llvm-1110-适配-xcode26">基于 llvm 11.1.0 适配 XCode26</a>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#方案一直接用腾讯-kuikly">方案一：直接用腾讯 Kuikly</a></li>
+    <li><a href="#方案二基于-llvm-1110-适配-xcode-26">方案二：基于 LLVM 11.1.0 适配 Xcode 26</a>
       <ul>
-        <li><a href="#uiutilitiesuidefinesh-file-not-found">&lsquo;UIUtilities/UIDefines.h&rsquo; file not found</a></li>
-        <li><a href="#-lto_library-library-filename-must-be-libltodylib">-lto_library library filename must be &rsquo;libLTO.dylib&rsquo;</a></li>
-        <li><a href="#modulemap-问题">modulemap 问题</a></li>
-        <li><a href="#acceleratedef-问题">Accelerate.def 问题</a></li>
+        <li><a href="#1-uiutilitiesuidefinesh-file-not-found">1. <code>UIUtilities/UIDefines.h</code> file not found</a></li>
+        <li><a href="#2--lto_library-library-filename-must-be-libltodylib">2. <code>-lto_library</code> library filename must be <code>libLTO.dylib</code></a></li>
+        <li><a href="#3-modulemap-与-_c_standard_library_obsolete-报错">3. modulemap 与 <code>_c_standard_library_obsolete</code> 报错</a></li>
+        <li><a href="#4-acceleratedef-问题">4. Accelerate.def 问题</a></li>
       </ul>
     </li>
     <li><a href="#总结">总结</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p>iOS 最近打包机已经升级 xcode26，突然出现了 kmp 相关的编译问题，包括一些头文件 not found 和 unresolved classifier 等等的问题</p>
-<p>因为，我们的 kotlin/native 编译器基于 kotlin 2.0.21 做了魔改，用于支持鸿蒙系统，而且整个主工程的 kotlin 也没法轻易升级，所以直接升级 kotlin 2.2.20 官方支持的 xcode26 版本，短时间是不现实的</p>
-<p>所以，需要想办法在 kotlin 2.0.21 的基础上支持 xcode26</p>
-<h2 id="kuikly-写在前面">Kuikly 写在前面</h2>
-<p>Tencent Kuikly Kotlin 已经适配 xcode26，如果没啥特殊需求定制的话，可以直接使用</p>
-<p><a href="https://github.com/Tencent-TDS/KuiklyBase-kotlin/commit/56b5c978e857dc9bcbccd4d66055b618fda7040e" target="_blank" rel="noopener noreffer">https://github.com/Tencent-TDS/KuiklyBase-kotlin/commit/56b5c978e857dc9bcbccd4d66055b618fda7040e</a></p>
-<p>作者说修改集中在 llvm 部分，但是 llvm 修改的部分似乎没有公开</p>
-<p>猜测是他们需要编译一份独立的 llvm/clang 12.0.1，这个版本的 llvm 在 xcode26 的高版本的 clang 下编译是有问题的，所以需要修改</p>
-<p>之前，我也基于 llvm 12.0.1 魔改了较多代码，让其可以在高版本的 clang 下编译通过</p>
-<p>修改涉及了众多文件，如下：</p>
+            </div><div class="content" id="content"><h2 id="背景">背景</h2>
+<p>iOS 打包机升级到 Xcode 26 后，KMP（Kotlin Multiplatform）相关工程开始出现编译错误，例如头文件 not found、unresolved classifier 等。</p>
+<p>我们当前的 Kotlin/Native 编译器基于 Kotlin 2.0.21 做了魔改（用于支持鸿蒙），主工程的 Kotlin 版本也不好随意升级，因此短期内无法直接切到官方已支持 Xcode 26 的 Kotlin 2.2.20。</p>
+<p>目标就是在 <strong>Kotlin 2.0.21 的基础上</strong> 支持 Xcode 26。</p>
+<hr>
+<h2 id="方案一直接用腾讯-kuikly">方案一：直接用腾讯 Kuikly</h2>
+<p>Tencent Kuikly Kotlin 已经完成 Xcode 26 适配，若无特殊定制需求，可以直接采用：</p>
+<ul>
+<li>提交参考：<a href="https://github.com/Tencent-TDS/KuiklyBase-kotlin/commit/56b5c978e857dc9bcbccd4d66055b618fda7040e" target="_blank" rel="noopener noreffer">https://github.com/Tencent-TDS/KuiklyBase-kotlin/commit/56b5c978e857dc9bcbccd4d66055b618fda7040e</a></li>
+<li>作者说明改动集中在 LLVM 部分，但 LLVM 的具体修改未开源。</li>
+</ul>
+<p>推测是自建了一套可在 Xcode 26 所用高版本 Clang 下编译通过的 LLVM/Clang 12.0.1（该版本 LLVM 在高版本 Clang 下默认会编不过）。我之前也基于 LLVM 12.0.1 改过不少地方才在高版本 Clang 下编译通过，涉及文件较多，大致如下：</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -169,48 +172,49 @@
         data-sizes="auto"
         alt="/img/in-post/llvm_xcode26.jpg"
         title="/img/in-post/llvm_xcode26.jpg" /></p>
-<p>但是，最终没敢用我自己魔改的 llvm(腾讯修改的 llvm 应该会比较靠谱&hellip;吧)，原因是：</p>
+<p>最终没有采用这套自改 LLVM，原因有两点：</p>
 <ol>
-<li>修改了很多神奇的地方，不确定正确性，不敢提交(对 llvm/clang 了解有限，很多地方借助 AI 辅助)</li>
-<li>我们做了编译上的隔离，只有 ohos 才会使用到 llvm/clang 12，而其他的都还是 llvm 11.1.0，而且 xcode 其实也只是影响 apple 系的东西，所以也可以考虑修修补补 llvm 11.1.0 上遇到的问题</li>
+<li><strong>改动的正确性没把握</strong>：动了很多底层逻辑，对 LLVM/Clang 理解有限，不少地方靠 AI 辅助，不敢直接上生产。</li>
+<li><strong>我们已有编译隔离</strong>：只有 OHOS 在用 LLVM/Clang 12，其余仍是 LLVM 11.1.0；Xcode 只影响 Apple 系。因此也可以选择在 <strong>LLVM 11.1.0</strong> 上针对 Xcode 26 做修补。</li>
 </ol>
-<h2 id="基于-llvm-1110-适配-xcode26">基于 llvm 11.1.0 适配 XCode26</h2>
+<hr>
+<h2 id="方案二基于-llvm-1110-适配-xcode-26">方案二：基于 LLVM 11.1.0 适配 Xcode 26</h2>
 <div class="details admonition warning open">
         <div class="details-summary admonition-title">
             <i class="icon fas fa-exclamation-triangle fa-fw"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
         </div>
         <div class="details-content">
-            <div class="admonition-content">此方案不确定有没有潜在问题，不保证线上效果，也还没经过系统测试</div>
+            <div class="admonition-content">此方案未经系统测试，不保证无潜在问题与线上表现，仅供参考。</div>
         </div>
     </div>
-<p>既然想基于 llvm11.1.0 适配，那我们就看看到底在编译 kotlin/native 编译器的过程中有什么问题，并一个个解决</p>
-<h3 id="uiutilitiesuidefinesh-file-not-found">&lsquo;UIUtilities/UIDefines.h&rsquo; file not found</h3>
-<p>因为并不是 iOS 开发，搜索了一些文章和本地 sdk 后发现，UIUtilities 被移动到了 subframework</p>
-<p>在 ClangArgs 中添加 -F path/to/SubFrameworks 解决</p>
-<h3 id="-lto_library-library-filename-must-be-libltodylib">-lto_library library filename must be &rsquo;libLTO.dylib&rsquo;</h3>
-<p>似乎是 toolchains 升级以后，linker 有变化？</p>
-<p>总之，按照它的要求 -lto_library 后添加 libLTO.dylib</p>
-<p>因为有多个地方的 build.gradle 有类似的写法</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">linkerOpts<span class="o">(</span><span class="s2">&#34;-Xlinker&#34;</span>, <span class="s2">&#34;-lto_library&#34;</span>, <span class="s2">&#34;-Xlinker&#34;</span>, <span class="s2">&#34;KT-69382&#34;</span><span class="o">)</span>
+<p>下面是在 Kotlin/Native 编译过程中遇到的具体问题及处理方式。</p>
+<h3 id="1-uiutilitiesuidefinesh-file-not-found">1. <code>UIUtilities/UIDefines.h</code> file not found</h3>
+<p>原因：Xcode 26 将 UIUtilities 挪到了 SubFramework。</p>
+<p><strong>处理</strong>：在 ClangArgs 中增加 <code>-F path/to/SubFrameworks</code>。</p>
+<h3 id="2--lto_library-library-filename-must-be-libltodylib">2. <code>-lto_library</code> library filename must be <code>libLTO.dylib</code></h3>
+<p>与 toolchain 升级后 linker 行为变化有关，需按新要求指定 LTO 库。</p>
+<p><strong>处理</strong>：在 <code>-lto_library</code> 后显式传入 <code>libLTO.dylib</code>。工程里有多处 <code>build.gradle</code> 有类似配置，统一改为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 原写法</span>
+</span></span><span class="line"><span class="cl">linkerOpts<span class="o">(</span><span class="s2">&#34;-Xlinker&#34;</span>, <span class="s2">&#34;-lto_library&#34;</span>, <span class="s2">&#34;-Xlinker&#34;</span>, <span class="s2">&#34;KT-69382&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">// 修改为
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改为</span>
 </span></span><span class="line"><span class="cl">linkerOpts<span class="o">(</span><span class="s2">&#34;-Xlinker&#34;</span>, <span class="s2">&#34;-lto_library&#34;</span>, <span class="s2">&#34;-Xlinker&#34;</span>, <span class="s2">&#34;</span><span class="nv">$llvmDir</span><span class="s2">/lib/libLTO.dylib&#34;</span><span class="o">)</span>
-</span></span></code></pre></div><h3 id="modulemap-问题">modulemap 问题</h3>
-<p>类似如下报错</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">module <span class="s1">&#39;_c_standard_library_obsolete&#39;</span> requires feature XXXXX
-</span></span></code></pre></div><p>包括 stddef.h 相关头文件中的 size_t 等等问题，似乎也是 clang feature 相关的问题，导致了 use_clang_def 的宏定义有问题，头文件不会被引入，或者高版本有了其他修改，就应该不被引入？</p>
-<p>这块的修改不确定是否正确</p>
-<p>因为 modulemap 中的 _c_standard_library_obsolete require 相关语句导致了编译报错，所以我将 modulemap 还原为了头文件引入的方式</p>
-<p>大致就是根据 moduleName 和 modulemap 中的 header 文件，拼接为原本的头文件路径，如 XXXModule/XXX.h</p>
-<p>这样以后，重新拼装 includes 传递给 buildNativeLibrary 即可绕过此问题</p>
-<h3 id="acceleratedef-问题">Accelerate.def 问题</h3>
-<p>这个我尝试修改了下，似乎是高版本多了个参数定义，但是不确定怎么传进去，或者说，具体传哪个值？</p>
-<p>所以，干脆把这个模块 disable 掉，不进行 interop，绕过</p>
+</span></span></code></pre></div><h3 id="3-modulemap-与-_c_standard_library_obsolete-报错">3. modulemap 与 <code>_c_standard_library_obsolete</code> 报错</h3>
+<p>报错形如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">module &#39;_c_standard_library_obsolete&#39; requires feature XXXXX
+</span></span></code></pre></div><p>同时伴随 <code>stddef.h</code> 等头文件里 <code>size_t</code> 相关问题，与 Clang 的 feature 配置有关，导致 <code>use_clang_def</code> 等宏或头文件引入异常。这块修改是否完全正确尚不确定。</p>
+<p><strong>处理</strong>：因 modulemap 里 <code>_c_standard_library_obsolete</code> 的 require 导致编译失败，将相关 modulemap 改回<strong>按头文件直接 include</strong> 的方式：根据 moduleName 和 modulemap 里的 header 信息拼出原始头文件路径（如 <code>XXXModule/XXX.h</code>），再重新拼好 includes 传给 <code>buildNativeLibrary</code>，从而绕过该问题。</p>
+<h3 id="4-acceleratedef-问题">4. Accelerate.def 问题</h3>
+<p>高版本多了一个参数定义，暂不确定如何传入或应传何值。</p>
+<p><strong>处理</strong>：暂时将该模块 disable，不做 interop，先绕过。</p>
+<hr>
 <h2 id="总结">总结</h2>
-<p>kotlin/native 的方案目前还是有很多问题，比如崩溃问题解决起来也是只能挠脑壳子，还要不停的适配 xcode，如果是国内团队还要适配鸿蒙</p>
-<p>幸运的是，有腾讯帮忙做适配</p>
-<p>所以，如果是小团队想试用，写写三段逻辑，建议直接用 kuikly 的 kotlin 编译器，同时，写 UI 的话，也有 Kuikly UI 和 ovCompose(支持 compose multiplatform 在鸿蒙上渲染)。如果是大团队，人力充足，那就自己卷吗</p>
-<p>本人很不幸，团队人员稀少，还要卷这些东西，脑细胞已经死绝，后续打算直接投入 kuikly  kotlin 编译器的怀抱好了</p>
+<p>Kotlin/Native 目前仍要面对不少问题：崩溃排查难、要持续跟进 Xcode 升级，国内团队还要兼顾鸿蒙适配。腾讯 Kuikly 的适配能减轻不少负担。</p>
+<ul>
+<li><strong>小团队、以业务逻辑为主</strong>：建议直接用 Kuikly 的 Kotlin 编译器；写 UI 可考虑 Kuikly UI 或 ovCompose（支持 Compose Multiplatform 在鸿蒙上渲染）。</li>
+<li><strong>大团队、人力充足</strong>：可以继续自研、自己卷适配。</li>
+</ul>
+<p>我们团队人少又要扛这类基建，实在扛不动了，后续打算直接切到 Kuikly Kotlin 编译器。</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -228,14 +232,14 @@
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/kotlin/">Kotlin</a>,&nbsp;<a href="/tags/iOS/">IOS</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/" class="prev" rel="prev" title="BumpPointerAllocator"><i class="fas fa-angle-left fa-fw"></i>BumpPointerAllocator</a>
-            <a href="/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/" class="next" rel="next" title="HashCode Equals 小坑">HashCode Equals 小坑<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/posts/2025-09-18-%E7%AE%80%E5%8D%95%E7%9A%84-BumpPointerAllocator/" class="prev" rel="prev" title="简单的 BumpPointerAllocator"><i class="fas fa-angle-left fa-fw"></i>简单的 BumpPointerAllocator</a>
+            <a href="/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/" class="next" rel="next" title="HashCode 与 Equals 小坑">HashCode 与 Equals 小坑<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
@@ -251,5 +255,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-11-11T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"KMP 和 XCode26"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-11-11T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"KMP 和 Xcode 26 适配"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

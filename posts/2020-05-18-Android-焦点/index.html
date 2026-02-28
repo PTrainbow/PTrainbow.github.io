@@ -9,7 +9,7 @@
   <meta property="og:site_name" content="北邙山之光的 Blog">
   <meta property="og:title" content="Android 焦点">
   <meta property="og:description" content="最近在做 Android TV，和手机 APP 不同的是，TV 大都需要依赖遥控器来改变焦点而不是 Touch 事件(除非你的屏幕可以触控~~)
-Leanback 当时做 TV 项目搜到的资料都是它，但是没几个人细讲，我也不打算细讲···
+Leanback 当时做 TV 项目搜到的资料都是它，但是没几个人细讲，我也不打算细讲……
 因为这个库需要你自己去源码编译，有很多东西写死了，或者不是 public 的，而且不一定符合你们设计的审美~~
 我们最后就是用源码编译搞的，只用了一个 VerticalGridView, 还改了一些东西。">
   <meta property="og:locale" content="zh_CN">
@@ -24,7 +24,7 @@ Leanback 当时做 TV 项目搜到的资料都是它，但是没几个人细讲�
   <meta name="twitter:image" content="http://PTrainbow.github.io/logo.png">
   <meta name="twitter:title" content="Android 焦点">
   <meta name="twitter:description" content="最近在做 Android TV，和手机 APP 不同的是，TV 大都需要依赖遥控器来改变焦点而不是 Touch 事件(除非你的屏幕可以触控~~)
-Leanback 当时做 TV 项目搜到的资料都是它，但是没几个人细讲，我也不打算细讲···
+Leanback 当时做 TV 项目搜到的资料都是它，但是没几个人细讲，我也不打算细讲……
 因为这个库需要你自己去源码编译，有很多东西写死了，或者不是 public 的，而且不一定符合你们设计的审美~~
 我们最后就是用源码编译搞的，只用了一个 VerticalGridView, 还改了一些东西。">
 <meta name="application-name" content="北邙山之光的 Blog">
@@ -37,7 +37,7 @@ Leanback 当时做 TV 项目搜到的资料都是它，但是没几个人细讲�
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrainbow.github.io\/posts\/2020-05-18-Android-%E7%84%A6%E7%82%B9\/"
-        },"genre": "posts","keywords": "Android","wordcount":  1764 ,
+        },"genre": "posts","keywords": "Android","wordcount":  1761 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2020-05-18-Android-%E7%84%A6%E7%82%B9\/","datePublished": "2020-05-18T00:00:00+00:00","dateModified": "2020-05-18T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -121,7 +121,7 @@ Leanback 当时做 TV 项目搜到的资料都是它，但是没几个人细讲�
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Android 焦点</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-05-18">2020-05-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1764 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-05-18">2020-05-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1761 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -134,20 +134,25 @@ Leanback 当时做 TV 项目搜到的资料都是它，但是没几个人细讲�
     <li><a href="#leanback">Leanback</a></li>
     <li><a href="#如何自定义我的焦点呢">如何自定义我的焦点呢？</a>
       <ul>
-        <li></li>
+        <li>
+          <ul>
+            <li><a href="#事件起源">事件起源</a></li>
+            <li><a href="#理一理思路">理一理思路</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><p>最近在做 Android TV，和手机 APP 不同的是，TV 大都需要依赖遥控器来改变焦点而不是 Touch 事件(除非你的屏幕可以触控~~)</p>
 <h2 id="leanback">Leanback</h2>
-<p>当时做 TV 项目搜到的资料都是它，但是没几个人细讲，我也不打算细讲···<br>
+<p>当时做 TV 项目搜到的资料都是它，但是没几个人细讲，我也不打算细讲……<br>
 因为这个库需要你自己去源码编译，有很多东西写死了，或者不是 public 的，而且不一定符合你们设计的审美~~<br>
 我们最后就是用源码编译搞的，只用了一个 VerticalGridView, 还改了一些东西。</p>
 <h2 id="如何自定义我的焦点呢">如何自定义我的焦点呢？</h2>
 <p>项目中有很多神奇的 UI 上的要求，要我去实现一些自定义的效果。比如，进入播放页，要按确认键或者下键，呼出一些菜单？比如，跳转 tab 栏，焦点永远先跑到第二个 tab 上(因为第一个 tab 是历史记录)等等。这就不得不研究一下，焦点是如何分发寻找的。</p>
 <h4 id="事件起源">事件起源</h4>
-<p>如果非要讲···不知道有没有人说的清···反正我是说不清。要从硬件说起，从驱动程序说起，从操作系统说起，中断程序说起~~</p>
+<p>如果非要讲……不知道有没有人说的清……反正我是说不清。要从硬件说起，从驱动程序说起，从操作系统说起，中断程序说起~~</p>
 <p>但是对于我等渣渣，还是从 ViewRootImpl 看起来吧~~</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">processKeyEvent</span><span class="p">(</span><span class="n">QueuedInputEvent</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="kd">final</span><span class="w"> </span><span class="n">KeyEvent</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">KeyEvent</span><span class="p">)</span><span class="n">q</span><span class="p">.</span><span class="na">mEvent</span><span class="p">;</span><span class="w">
@@ -345,5 +350,5 @@ Leanback 当时做 TV 项目搜到的资料都是它，但是没几个人细讲�
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2020-05-18T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Android 焦点"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2020-05-18T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Android 焦点"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

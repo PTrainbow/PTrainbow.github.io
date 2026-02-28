@@ -40,7 +40,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98\/fresco-autosize.jpg",
                             "width":  1510 ,
                             "height":  652 
-                        }],"genre": "posts","keywords": "Android","wordcount":  2750 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  2749 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/%E8%AE%B0%E4%B8%80%E6%AC%A1-Fresco-%E5%92%8C-AutoSize-%E5%AF%BC%E8%87%B4%E7%9A%84-Bitmap-%E9%97%AE%E9%A2%98\/","datePublished": "2021-12-23T00:00:00+00:00","dateModified": "2021-12-23T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -124,7 +124,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">记一次 Fresco 和 AutoSize 导致的 Bitmap 问题</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-12-23">2021-12-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2750 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-12-23">2021-12-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2749 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -145,7 +145,12 @@
     <li><a href="#fresco-圆角">Fresco 圆角</a></li>
     <li><a href="#图片是如何展示的">图片是如何展示的</a>
       <ul>
-        <li><a href="#bitmap">Bitmap</a></li>
+        <li><a href="#bitmap">Bitmap</a>
+          <ul>
+            <li><a href="#mutable-和-reconfigure">Mutable 和 Reconfigure</a></li>
+            <li><a href="#density">density</a></li>
+          </ul>
+        </li>
         <li><a href="#drawable">Drawable</a></li>
         <li><a href="#小结">小结</a></li>
       </ul>
@@ -211,7 +216,7 @@ Replicate the edge color if the shader draws outside of its original bounds.<br>
 计算下分别多大啊？<br>
 如果 ImageView 宽高不同呢？<br>
 RGB_565 和 RGB_8888 啥区别啊？</p>
-<p>我个人感觉这种问题其实大家都知道，大家心里都存在这么个概念，心里有数，碰到问题解决问题即可，非要当面试题算，纯属耍流氓···</p>
+<p>我个人感觉这种问题其实大家都知道，大家心里都存在这么个概念，心里有数，碰到问题解决问题即可，非要当面试题算，纯属耍流氓……</p>
 <p>既然今天遇到了，那就看看呗，相当于顺便复习了</p>
 <h3 id="bitmap">Bitmap</h3>
 <p>Bitmap 就是一张图片的数据源，当我们从网络上下载一张图片时，图片从流中解码成 Bitmap。</p>
@@ -414,5 +419,5 @@ RGB_565 和 RGB_8888 啥区别啊？</p>
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-12-23T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"记一次 Fresco 和 AutoSize 导致的 Bitmap 问题"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-12-23T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"记一次 Fresco 和 AutoSize 导致的 Bitmap 问题"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

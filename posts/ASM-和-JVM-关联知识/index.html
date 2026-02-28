@@ -144,7 +144,14 @@
       <ul>
         <li><a href="#1方法调用和栈帧的通用概念">1.方法调用和栈帧的通用概念</a></li>
         <li><a href="#2java-classfile-format-中的-operand-stack-和-local-variable">2.Java ClassFile Format 中的 Operand Stack 和 Local Variable</a></li>
-        <li><a href="#3java-方法执行流程">3.Java 方法执行流程</a></li>
+        <li><a href="#3java-方法执行流程">3.Java 方法执行流程</a>
+          <ul>
+            <li><a href="#l0">L0</a></li>
+            <li><a href="#l1">L1</a></li>
+            <li><a href="#l2">L2</a></li>
+            <li><a href="#l3">L3</a></li>
+          </ul>
+        </li>
         <li><a href="#4asm-简单了解">4.ASM 简单了解</a></li>
         <li><a href="#5transform-简单了解">5.Transform 简单了解</a></li>
       </ul>
@@ -218,43 +225,43 @@
 </span></span><span class="line"><span class="cl">    <span class="n">println</span><span class="p">(</span><span class="s2">&#34;hello world! </span><span class="si">$c</span><span class="s2">&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>对应字节码如下：</p>
-<pre tabindex="0"><code>  L0
-    LINENUMBER 6 L0
-    ICONST_1
-    ISTORE 0
-   L1
-    LINENUMBER 7 L1
-    ICONST_2
-    ISTORE 1
-   L2
-    LINENUMBER 8 L2
-    ILOAD 0
-    ILOAD 1
-    IADD
-    ISTORE 2
-   L3
-    LINENUMBER 9 L3
-    NEW java/lang/StringBuilder
-    DUP
-    INVOKESPECIAL java/lang/StringBuilder.&lt;init&gt; ()V
-    LDC &#34;hello world! &#34;
-    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;
-    ILOAD 2
-    INVOKEVIRTUAL java/lang/StringBuilder.append (I)Ljava/lang/StringBuilder;
-    INVOKEVIRTUAL java/lang/StringBuilder.toString ()Ljava/lang/String;
-    GETSTATIC java/lang/System.out : Ljava/io/PrintStream;
-    SWAP
-    INVOKEVIRTUAL java/io/PrintStream.println (Ljava/lang/Object;)V
-   L4
-    LINENUMBER 10 L4
-    RETURN
-   L5
-    LOCALVARIABLE a I L1 L5 0
-    LOCALVARIABLE b I L2 L5 1
-    LOCALVARIABLE c I L3 L5 2
-    MAXSTACK = 2
-    MAXLOCALS = 3
-</code></pre><p>通过上面的字节码我们也可以意外的发现，kotlin ${} 表达式，其实就是 StringBuilder~~</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  L0
+</span></span><span class="line"><span class="cl">    LINENUMBER 6 L0
+</span></span><span class="line"><span class="cl">    ICONST_1
+</span></span><span class="line"><span class="cl">    ISTORE 0
+</span></span><span class="line"><span class="cl">   L1
+</span></span><span class="line"><span class="cl">    LINENUMBER 7 L1
+</span></span><span class="line"><span class="cl">    ICONST_2
+</span></span><span class="line"><span class="cl">    ISTORE 1
+</span></span><span class="line"><span class="cl">   L2
+</span></span><span class="line"><span class="cl">    LINENUMBER 8 L2
+</span></span><span class="line"><span class="cl">    ILOAD 0
+</span></span><span class="line"><span class="cl">    ILOAD 1
+</span></span><span class="line"><span class="cl">    IADD
+</span></span><span class="line"><span class="cl">    ISTORE 2
+</span></span><span class="line"><span class="cl">   L3
+</span></span><span class="line"><span class="cl">    LINENUMBER 9 L3
+</span></span><span class="line"><span class="cl">    NEW java/lang/StringBuilder
+</span></span><span class="line"><span class="cl">    DUP
+</span></span><span class="line"><span class="cl">    INVOKESPECIAL java/lang/StringBuilder.&lt;init&gt; ()V
+</span></span><span class="line"><span class="cl">    LDC &#34;hello world! &#34;
+</span></span><span class="line"><span class="cl">    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;
+</span></span><span class="line"><span class="cl">    ILOAD 2
+</span></span><span class="line"><span class="cl">    INVOKEVIRTUAL java/lang/StringBuilder.append (I)Ljava/lang/StringBuilder;
+</span></span><span class="line"><span class="cl">    INVOKEVIRTUAL java/lang/StringBuilder.toString ()Ljava/lang/String;
+</span></span><span class="line"><span class="cl">    GETSTATIC java/lang/System.out : Ljava/io/PrintStream;
+</span></span><span class="line"><span class="cl">    SWAP
+</span></span><span class="line"><span class="cl">    INVOKEVIRTUAL java/io/PrintStream.println (Ljava/lang/Object;)V
+</span></span><span class="line"><span class="cl">   L4
+</span></span><span class="line"><span class="cl">    LINENUMBER 10 L4
+</span></span><span class="line"><span class="cl">    RETURN
+</span></span><span class="line"><span class="cl">   L5
+</span></span><span class="line"><span class="cl">    LOCALVARIABLE a I L1 L5 0
+</span></span><span class="line"><span class="cl">    LOCALVARIABLE b I L2 L5 1
+</span></span><span class="line"><span class="cl">    LOCALVARIABLE c I L3 L5 2
+</span></span><span class="line"><span class="cl">    MAXSTACK = 2
+</span></span><span class="line"><span class="cl">    MAXLOCALS = 3
+</span></span></code></pre></div><p>通过上面的字节码我们也可以意外的发现，kotlin ${} 表达式，其实就是 StringBuilder~~</p>
 <p>我们逐行解析</p>
 <h4 id="l0">L0</h4>
 <p><code>LINENUMBER</code>： 表示源码中的行号信息，这也是 class 文件中存在的，用于回溯代码行号，我这里是第六行开始写的第一行代码</p>
@@ -477,5 +484,5 @@ operand_stack[0] = StringBuilderRef</p>
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2024-07-21T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"ASM 和 JVM 关联知识"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2024-07-21T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"ASM 和 JVM 关联知识"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

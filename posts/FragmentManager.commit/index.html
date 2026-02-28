@@ -40,7 +40,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/FragmentManager.commit\/fragment.png",
                             "width":  2240 ,
                             "height":  1260 
-                        }],"genre": "posts","keywords": "Android","wordcount":  721 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  715 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/FragmentManager.commit\/","datePublished": "2022-03-10T00:00:00+00:00","dateModified": "2022-03-10T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -124,7 +124,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">fragmentManager.commit 的一些潜在问题</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-10">2022-03-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 721 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-10">2022-03-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 715 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -155,15 +155,15 @@
 <blockquote>
 <p><strong>吐槽1</strong><br>
 经常遇到负责一个模块的人，对这个模块一概不知。答复就是：我不清楚，你看主工程怎么写的~~<br>
-文档也没，代码一团乱麻，这些人往往还是主力···可悲可叹</p>
+文档也没，代码一团乱麻，这些人往往还是主力……可悲可叹</p>
 </blockquote>
 <blockquote>
 <p><strong>吐槽2</strong><br>
-大家现在总想搞点黑科技，但是基础知识好差，似乎 mach-o/elf/pe 这些都不太清楚，互联网的面试玄学吧，程序员有啥门槛···</p>
+大家现在总想搞点黑科技，但是基础知识好差，似乎 mach-o/elf/pe 这些都不太清楚，互联网的面试玄学吧，程序员有啥门槛……</p>
 </blockquote>
 <h2 id="结论">结论</h2>
-<p>已经很晚了···码不动字了</p>
-<p>一路跟着路由框架 debug，加上插件双进程···来回断点···</p>
+<p>已经很晚了……码不动字了</p>
+<p>一路跟着路由框架 debug，加上插件双进程……来回断点……</p>
 <p>最终发现了这么一段代码</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">attach</span><span class="p">(</span><span class="n">Activity</span><span class="w"> </span><span class="n">activity</span><span class="p">,</span><span class="w"> </span><span class="n">Intent</span><span class="w"> </span><span class="n">intent</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">requestCode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -194,7 +194,7 @@
 </blockquote>
 <p>所以说，这个问题应该在 android 9 以前都可能会发生~~</p>
 <p>目前解决办法只能是将 commit 替换为 commitAllowingStateLoss 了</p>
-<p>下班下班···</p>
+<p>下班下班……</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -235,5 +235,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-03-10T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"fragmentManager.commit 的一些潜在问题"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2022-03-10T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"fragmentManager.commit 的一些潜在问题"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

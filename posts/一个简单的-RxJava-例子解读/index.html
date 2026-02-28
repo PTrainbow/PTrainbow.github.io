@@ -36,7 +36,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB\/rxjava_all.jpg",
                             "width":  2174 ,
                             "height":  1078 
-                        }],"genre": "posts","keywords": "Android","wordcount":  4335 ,
+                        }],"genre": "posts","keywords": "Android","wordcount":  4333 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-RxJava-%E4%BE%8B%E5%AD%90%E8%A7%A3%E8%AF%BB\/","datePublished": "2021-03-20T00:00:00+00:00","dateModified": "2021-03-20T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -120,7 +120,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">一个简单的 RxJava 例子解读</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-03-20">2021-03-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4335 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-03-20">2021-03-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4333 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
@@ -141,9 +141,27 @@
     <li><a href="#一个简单的例子">一个简单的例子</a>
       <ul>
         <li><a href="#observable-的创建">Observable 的创建</a></li>
-        <li><a href="#代码中-subscribe-的解释">代码中 subscribe() 的解释</a></li>
+        <li><a href="#代码中-subscribe-的解释">代码中 subscribe() 的解释</a>
+          <ul>
+            <li>
+              <ul>
+                <li><a href="#lambdaobserver">LambdaObserver</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
         <li><a href="#observablesubscribe">Observable.subscribe()</a></li>
-        <li><a href="#observablesubscribeactual">Observable.subscribeActual()</a></li>
+        <li><a href="#observablesubscribeactual">Observable.subscribeActual()</a>
+          <ul>
+            <li>
+              <ul>
+                <li><a href="#observeonsubscribeactual">observeOn.subscribeActual()</a></li>
+                <li><a href="#subscribeonsubscribeactual">subscribeOn.subscribeActual()</a></li>
+                <li><a href="#阶段小结">阶段小结</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
         <li><a href="#observeronnext-串联">Observer.onNext() 串联</a></li>
         <li><a href="#subscribeon-和-observeon-操作符的不同">subscribeOn 和 observeOn 操作符的不同</a></li>
       </ul>
@@ -154,7 +172,7 @@
             </div><div class="content" id="content"><h2 id="前言">前言</h2>
 <p>RxJava 是一个经常让人出错的库，有的同事第一次接触完全搞不懂，个人感觉是没抓住核心的理念(其实我个人对于 RxJava 是有偏见的)，抓住核心的理念应该会很好理解，其实就是一个事件流的问题。</p>
 <p>当然 RxJava 有许许多多的操作符，使得其更难被理解，但是日常开发中使用的操作符往往就那几个，遇到不熟悉的操作符再去探究也不迟。</p>
-<p>RxJava 也经常出现在面试题中，我觉得考察操作符的面试官都是耍流氓···</p>
+<p>RxJava 也经常出现在面试题中，我觉得考察操作符的面试官都是耍流氓……</p>
 <p>我这里解析一个简单的例子，让搞不懂 RxJava 的人还有我自己对于 RxJava 有更多的认知，同时顺便也能回答下面这个 <code>面试八股</code> 问题：</p>
 <div class="details admonition question open">
         <div class="details-summary admonition-title">
@@ -416,7 +434,7 @@
 <ol>
 <li>鄙视链👎。似乎总有人觉得我用 RxJava 我牛皮，你不会用你好笨。</li>
 <li>滥用。比如我司 RxJava 满天飞，且还会有很多 <strong>高工</strong> 要造轮子，在这之上又封装了一层网络库，但是隐藏了一些操作符，进而使得很多人养成了错误的习惯。还有很多时候用于 Fragment 之间的通信，配合 MVP，Presenter 再复用，对于工程不了解的人怕是要研究半小时。</li>
-<li>为了用而用。有的时候简单的处理并用不上 RxJava；有的时候一个操作符能解决的事情并不需要两个操作符；有时候自己写完都很难理解，不知道为什么正确和错误，那就不要在继续堆叠操作符了···</li>
+<li>为了用而用。有的时候简单的处理并用不上 RxJava；有的时候一个操作符能解决的事情并不需要两个操作符；有时候自己写完都很难理解，不知道为什么正确和错误，那就不要在继续堆叠操作符了……</li>
 </ol>
 </div>
         </div>
@@ -461,5 +479,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-03-20T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"一个简单的 RxJava 例子解读"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-03-20T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"一个简单的 RxJava 例子解读"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

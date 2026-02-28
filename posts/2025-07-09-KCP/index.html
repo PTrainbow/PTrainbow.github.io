@@ -5,32 +5,30 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>KCP 开发 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2025-07-09-KCP/">
+        <title>Kotlin Compiler Plugin（KCP）开发小结 - 北邙山之光的 Blog</title><meta name="Description" content=""><meta property="og:url" content="http://PTrainbow.github.io/posts/2025-07-09-KCP/">
   <meta property="og:site_name" content="北邙山之光的 Blog">
-  <meta property="og:title" content="KCP 开发">
-  <meta property="og:description" content="最近，一直在搞 kmp(Kotlin Multiplatform)，这个框架出发点倒还可以，可以实现一码多端
-但是，路漫漫其修远兮，感觉就是在用 kotlin 写 c
-各种提效工具比较落后，文档比较稀少，需要自己去研究(国内大厂：研究 &#43; 魔改 = 自研 = 世界领先)">
+  <meta property="og:title" content="Kotlin Compiler Plugin（KCP）开发小结">
+  <meta property="og:description" content="最近在搞 KMP（Kotlin Multiplatform），框架思路不错，一码多端，但路漫漫：体验有点像用 Kotlin 写 C，提效工具和文档都偏少，得自己啃（国内大厂：研究 &#43; 魔改 = 自研 = 世界领先）。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-07-09T00:00:00+00:00">
     <meta property="article:modified_time" content="2025-07-09T00:00:00+00:00">
     <meta property="article:tag" content="Android">
+    <meta property="article:tag" content="Kotlin">
+    <meta property="article:tag" content="KMP">
     <meta property="og:image" content="http://PTrainbow.github.io/posts/2025-07-09-KCP/kcp.jpg">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="http://PTrainbow.github.io/posts/2025-07-09-KCP/kcp.jpg">
-  <meta name="twitter:title" content="KCP 开发">
-  <meta name="twitter:description" content="最近，一直在搞 kmp(Kotlin Multiplatform)，这个框架出发点倒还可以，可以实现一码多端
-但是，路漫漫其修远兮，感觉就是在用 kotlin 写 c
-各种提效工具比较落后，文档比较稀少，需要自己去研究(国内大厂：研究 &#43; 魔改 = 自研 = 世界领先)">
+  <meta name="twitter:title" content="Kotlin Compiler Plugin（KCP）开发小结">
+  <meta name="twitter:description" content="最近在搞 KMP（Kotlin Multiplatform），框架思路不错，一码多端，但路漫漫：体验有点像用 Kotlin 写 C，提效工具和文档都偏少，得自己啃（国内大厂：研究 &#43; 魔改 = 自研 = 世界领先）。">
 <meta name="application-name" content="北邙山之光的 Blog">
 <meta name="apple-mobile-web-app-title" content="北邙山之光的 Blog"><link rel="icon" href="/img/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://PTrainbow.github.io/posts/2025-07-09-KCP/" /><link rel="prev" href="http://PTrainbow.github.io/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/" /><link rel="next" href="http://PTrainbow.github.io/posts/2025-08-22-%E6%97%A0%E6%84%9F%E8%80%8C%E5%8F%91/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "KCP 开发",
+        "headline": "Kotlin Compiler Plugin（KCP）开发小结",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -40,7 +38,7 @@
                             "url": "http:\/\/PTrainbow.github.io\/posts\/2025-07-09-KCP\/kcp.jpg",
                             "width":  686 ,
                             "height":  386 
-                        }],"genre": "posts","keywords": "Android","wordcount":  1571 ,
+                        }],"genre": "posts","keywords": "Android, Kotlin, KMP","wordcount":  1061 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2025-07-09-KCP\/","datePublished": "2025-07-09T00:00:00+00:00","dateModified": "2025-07-09T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -122,10 +120,10 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">KCP 开发</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animated flipInX">Kotlin Compiler Plugin（KCP）开发小结</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-07-09">2025-07-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1571 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2025-07-09">2025-07-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1061 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -141,274 +139,134 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#kotlin-compiler-plugin">Kotlin Compiler Plugin</a></li>
-    <li><a href="#开发一个-kcp-模块">开发一个 KCP 模块</a>
+    <li><a href="#一为什么需要-kotlin-compiler-plugin">一、为什么需要 Kotlin Compiler Plugin</a></li>
+    <li><a href="#二开发一个-kcp-模块">二、开发一个 KCP 模块</a>
       <ul>
-        <li><a href="#基础依赖">基础依赖</a></li>
-        <li><a href="#meta-inf-配置">META-INF 配置</a></li>
-        <li><a href="#compiler-plugin-注册方式">Compiler Plugin 注册方式</a></li>
-        <li><a href="#extension-能力注册">Extension 能力注册</a></li>
-        <li><a href="#处理-ir-extention-transform-的例子">处理 IR Extention Transform 的例子</a></li>
-        <li><a href="#处理-options-和-commanlineprocessor">处理 Options 和 CommanLineProcessor</a></li>
+        <li><a href="#21-基础依赖">2.1 基础依赖</a></li>
+        <li><a href="#22-meta-inf-配置">2.2 META-INF 配置</a></li>
+        <li><a href="#23-compiler-plugin-注册">2.3 Compiler Plugin 注册</a></li>
+        <li><a href="#24-extension-能力注册">2.4 Extension 能力注册</a></li>
+        <li><a href="#25-ir-transform-示例">2.5 IR Transform 示例</a></li>
+        <li><a href="#26-options-与-commandlineprocessor">2.6 Options 与 CommandLineProcessor</a></li>
       </ul>
     </li>
-    <li><a href="#给-kcp-添加单元测试">给 KCP 添加单元测试</a></li>
-    <li><a href="#faq">FAQ</a>
+    <li><a href="#三给-kcp-写单元测试">三、给 KCP 写单元测试</a></li>
+    <li><a href="#四faq">四、FAQ</a>
       <ul>
-        <li><a href="#log-无法打印的问题">log 无法打印的问题</a></li>
-        <li><a href="#fir-问题">fir 问题</a></li>
+        <li><a href="#41-日志打不出来">4.1 日志打不出来</a></li>
+        <li><a href="#42-fir-与-ir-顺序">4.2 FIR 与 IR 顺序</a></li>
       </ul>
     </li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p>最近，一直在搞 kmp(Kotlin Multiplatform)，这个框架出发点倒还可以，可以实现一码多端</p>
-<p>但是，路漫漫其修远兮，感觉就是在用 kotlin 写 c</p>
-<p>各种提效工具比较落后，文档比较稀少，需要自己去研究(国内大厂：研究 + 魔改 = 自研 = 世界领先)</p>
-<h2 id="kotlin-compiler-plugin">Kotlin Compiler Plugin</h2>
-<p>kotlin 如今已经不是简单的将 kotlin 代码编译成 java bytecode 了，kotlin/jvm 只是其中之一的 backend</p>
-<p>还有诸如 kotlin/js kotlin/native 等等的 backend</p>
-<p>在 android 开发中，我们可以使用 agp 提供的 transform  能力来实现代码的插桩，或者任意的修改</p>
-<p>但是，如今，我们的 kotlin 代码还需要编译成 native binary</p>
-<p>这其中，kotlin ir 会被转换为 llvm ir，那我们如何插桩呢？</p>
-<p>这就需要 kotlin compiler plugin 了</p>
-<h2 id="开发一个-kcp-模块">开发一个 KCP 模块</h2>
-<h3 id="基础依赖">基础依赖</h3>
+            </div><div class="content" id="content"><p>最近在搞 KMP（Kotlin Multiplatform），框架思路不错，一码多端，但路漫漫：体验有点像用 Kotlin 写 C，提效工具和文档都偏少，得自己啃（国内大厂：研究 + 魔改 = 自研 = 世界领先）。</p>
+<h2 id="一为什么需要-kotlin-compiler-plugin">一、为什么需要 Kotlin Compiler Plugin</h2>
+<p>Kotlin 早已不只有 JVM backend，还有 kotlin/js、kotlin/native 等。在 Android 里可以用 AGP 的 transform 做插桩或改代码，但若要把 Kotlin 编译成 <strong>native binary</strong>，中间会经过 Kotlin IR → LLVM IR，插桩就要在<strong>编译器</strong>里做，这就需要 <strong>Kotlin Compiler Plugin（KCP）</strong>。</p>
+<hr>
+<h2 id="二开发一个-kcp-模块">二、开发一个 KCP 模块</h2>
+<h3 id="21-基础依赖">2.1 基础依赖</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="n">implementation</span><span class="p">(</span><span class="n">kotlin</span><span class="p">(</span><span class="s2">&#34;gradle-plugin-api&#34;</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="n">implementation</span><span class="p">(</span><span class="n">kotlin</span><span class="p">(</span><span class="s2">&#34;compiler-embeddable&#34;</span><span class="p">,</span> <span class="s2">&#34;2.0.21-4&#34;</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// 如果需要 auto service 帮助 kcp services 生成 meta-inf，可以添加
+</span></span><span class="line"><span class="cl"><span class="c1">// 可选：用 Auto Service + KSP 生成 META-INF
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ksp</span><span class="p">(</span><span class="s2">&#34;dev.zacsweers.autoservice:auto-service-ksp:1.2.0&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">implementation</span><span class="p">(</span><span class="s2">&#34;com.google.devtools.ksp:symbol-processing-api:2.0.21-1.0.25&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">compileOnly</span><span class="p">(</span><span class="s2">&#34;com.google.auto.service:auto-service-annotations:1.1.1&#34;</span><span class="p">)</span>
-</span></span></code></pre></div><h3 id="meta-inf-配置">META-INF 配置</h3>
-<p>可以选择手写，也可以选择如下方式</p>
-<p>这样会自动生成 meta-inf 下的 plugin 配置</p>
+</span></span></code></pre></div><h3 id="22-meta-inf-配置">2.2 META-INF 配置</h3>
+<p>可以手写，也可以用 Gradle 的 <code>gradlePlugin</code> 自动生成：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="n">gradlePlugin</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">plugins</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">create</span><span class="p">(</span><span class="s2">&#34;test&#34;</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">id</span> <span class="p">=</span>  <span class="n">rootProject</span><span class="p">.</span><span class="n">group</span><span class="p">.</span><span class="n">toString</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="n">id</span> <span class="p">=</span> <span class="n">rootProject</span><span class="p">.</span><span class="n">group</span><span class="p">.</span><span class="n">toString</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">            <span class="n">implementationClass</span> <span class="p">=</span> <span class="s2">&#34;com.example.test.TestPlugin&#34;</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="compiler-plugin-注册方式">Compiler Plugin 注册方式</h3>
-<p>我们可以通过注册常规的 plugin 来加载 kotlin compiler plugin</p>
+</span></span></code></pre></div><h3 id="23-compiler-plugin-注册">2.3 Compiler Plugin 注册</h3>
+<p>通过实现 <code>KotlinCompilerPluginSupportPlugin</code> 把 KCP 挂到编译流程里：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TestPlugin</span> <span class="p">:</span> <span class="n">KotlinCompilerPluginSupportPlugin</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 和普通的 gradle plugin 一样
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 可以获取 extension 等等
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">override</span> <span class="k">fun</span> <span class="nf">apply</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="n">Project</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">apply</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="n">Project</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">super</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// options 用于传递参数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">override</span> <span class="k">fun</span> <span class="nf">applyToCompilation</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">applyToCompilation</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">        <span class="n">kotlinCompilation</span><span class="p">:</span> <span class="n">KotlinCompilation</span><span class="p">&lt;*&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">):</span> <span class="n">Provider</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">SubpluginOption</span><span class="p">&gt;&gt;</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">project</span> <span class="p">=</span> <span class="n">kotlinCompilation</span><span class="p">.</span><span class="n">target</span><span class="p">.</span><span class="n">project</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">project</span><span class="p">.</span><span class="n">provider</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">val</span> <span class="py">options</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">&lt;</span><span class="n">SubpluginOption</span><span class="p">&gt;()</span>
-</span></span><span class="line"><span class="cl">            <span class="n">options</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">SubpluginOption</span><span class="p">(</span><span class="n">KEY_TARGET</span><span class="p">,</span> <span class="n">kotlinCompilation</span><span class="p">.</span><span class="n">target</span><span class="p">.</span><span class="n">targetName</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">            <span class="n">options</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mutableListOf</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">SubpluginOption</span><span class="p">(</span><span class="n">KEY_TARGET</span><span class="p">,</span> <span class="n">kotlinCompilation</span><span class="p">.</span><span class="n">target</span><span class="p">.</span><span class="n">targetName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// kcp plugin id
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getCompilerPluginId</span><span class="p">():</span> <span class="n">String</span> <span class="p">=</span> <span class="nc">BuildConfig</span><span class="p">.</span><span class="n">KOTLIN_PLUGIN_ID</span>
-</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getCompilerPluginId</span><span class="p">():</span> <span class="n">String</span> <span class="p">=</span> <span class="nc">BuildConfig</span><span class="p">.</span><span class="n">KOTLIN_PLUGIN_ID</span>
 </span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getPluginArtifact</span><span class="p">():</span> <span class="n">SubpluginArtifact</span> <span class="p">=</span> <span class="n">SubpluginArtifact</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">        <span class="n">groupId</span> <span class="p">=</span> <span class="nc">BuildConfig</span><span class="p">.</span><span class="n">KOTLIN_PLUGIN_GROUP</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">        <span class="n">artifactId</span> <span class="p">=</span> <span class="nc">BuildConfig</span><span class="p">.</span><span class="n">KOTLIN_PLUGIN_NAME</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">        <span class="n">version</span> <span class="p">=</span> <span class="nc">BuildConfig</span><span class="p">.</span><span class="n">KOTLIN_PLUGIN_VERSION</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">    <span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 返回 true 才会走到 applyToCompilation
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 可以添加一些特殊逻辑
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">override</span> <span class="k">fun</span> <span class="nf">isApplicable</span><span class="p">(</span><span class="n">kotlinCompilation</span><span class="p">:</span> <span class="n">KotlinCompilation</span><span class="p">&lt;*&gt;):</span> <span class="n">Boolean</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">true</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">isApplicable</span><span class="p">(</span><span class="n">kotlinCompilation</span><span class="p">:</span> <span class="n">KotlinCompilation</span><span class="p">&lt;*&gt;):</span> <span class="n">Boolean</span> <span class="p">=</span> <span class="k">true</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="extension-能力注册">Extension 能力注册</h3>
-<p>需要实现 CompilerPluginRegistrar</p>
-<p>在 registerExtensions 中注册自己需要的 extension 能力</p>
-<p>常见的，可以注册 fir 和 ir 能力</p>
-<blockquote>
-<p>fir 是 kotlin 源码 和 ir 之间的一种状态， 新版 kotlin compiler 使用 k2，而 k2 就是使用 fir 来解析 kotlin 源码 <br>
-ir 是 kotlin 转为多端产物的标准的中间表达式，它会通过 fir2ir 将 fir 转为 ir</p>
-</blockquote>
-<p>所以，我们注册的 fir extension 会先执行，ir extension 会后执行</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="c1">// 这里使用 auto service 就不用手写 meta-inf/services 了
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalCompilerApi</span><span class="o">::</span><span class="k">class</span><span class="p">)</span>
+</span></span></code></pre></div><h3 id="24-extension-能力注册">2.4 Extension 能力注册</h3>
+<p>实现 <code>CompilerPluginRegistrar</code>，在 <code>registerExtensions</code> 里注册 FIR / IR 等能力。FIR 是源码到 IR 的中间状态（K2 用 FIR 解析），IR 再转成多端产物；所以 <strong>FIR extension 先执行，IR extension 后执行</strong>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalCompilerApi</span><span class="o">::</span><span class="k">class</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nd">@AutoService</span><span class="p">(</span><span class="n">CompilerPluginRegistrar</span><span class="o">::</span><span class="k">class</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TestPluginRegistrar</span> <span class="p">:</span> <span class="n">CompilerPluginRegistrar</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">val</span> <span class="py">supportsK2</span><span class="p">:</span> <span class="n">Boolean</span>
-</span></span><span class="line"><span class="cl">        <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">val</span> <span class="py">supportsK2</span><span class="p">:</span> <span class="n">Boolean</span> <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="k">true</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">ExtensionStorage</span><span class="p">.</span><span class="n">registerExtensions</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">        <span class="n">configuration</span><span class="p">:</span> <span class="n">CompilerConfiguration</span>
 </span></span><span class="line"><span class="cl">    <span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 注册 fir
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nc">FirExtensionRegistrarAdapter</span><span class="p">.</span><span class="n">registerExtension</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">            <span class="n">FirAllPublicExtensionRegistrar</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 注册 ir
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nc">IrGenerationExtension</span><span class="p">.</span><span class="n">registerExtension</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">            <span class="n">HotfixIrGenerationExtension</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">FirExtensionRegistrarAdapter</span><span class="p">.</span><span class="n">registerExtension</span><span class="p">(</span><span class="n">FirAllPublicExtensionRegistrar</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">IrGenerationExtension</span><span class="p">.</span><span class="n">registerExtension</span><span class="p">(</span><span class="n">HotfixIrGenerationExtension</span><span class="p">())</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="处理-ir-extention-transform-的例子">处理 IR Extention Transform 的例子</h3>
-<p>kotlin ir extension 的逻辑很简单，主要是注册 transform</p>
+</span></span></code></pre></div><h3 id="25-ir-transform-示例">2.5 IR Transform 示例</h3>
+<p>在 IR 里主要是注册各种 <code>IrElementVisitorVoid</code> 做 transform：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TestIrGenerationExtension</span><span class="p">(</span><span class="k">private</span> <span class="k">val</span> <span class="py">config</span><span class="p">:</span> <span class="n">HotfixConfig</span><span class="p">)</span> <span class="p">:</span> <span class="n">IrGenerationExtension</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">generate</span><span class="p">(</span><span class="n">moduleFragment</span><span class="p">:</span> <span class="n">IrModuleFragment</span><span class="p">,</span> <span class="n">pluginContext</span><span class="p">:</span> <span class="n">IrPluginContext</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">transformers</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">&lt;</span><span class="n">IrElementVisitorVoid</span><span class="p">&gt;()</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// transform 逻辑
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">transformers</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">TestTransformer</span><span class="p">(</span><span class="n">pluginContext</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">transformer</span> <span class="k">in</span> <span class="n">transformers</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">moduleFragment</span><span class="p">.</span><span class="n">acceptChildrenVoid</span><span class="p">(</span><span class="n">transformer</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>我们来看一下 transform 如何实现</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TestTransformer</span><span class="p">(</span><span class="k">val</span> <span class="py">context</span><span class="p">:</span> <span class="n">IrPluginContext</span><span class="p">)</span> <span class="p">:</span> <span class="n">IrElementVisitorVoid</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">override</span> <span class="k">fun</span> <span class="nf">visitElement</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="n">IrElement</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 这里选择自己感兴趣的 element
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 调用 element.acceptChildrenVoid(this) 
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 后续就会开始遍历 class funtion 等等
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">super</span><span class="p">.</span><span class="n">visitElement</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="c1">// 遍历 class
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">override</span> <span class="k">fun</span> <span class="nf">visitClass</span><span class="p">(</span><span class="n">declaration</span><span class="p">:</span> <span class="n">IrClass</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">super</span><span class="p">.</span><span class="n">visitClass</span><span class="p">(</span><span class="n">declaration</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="k">override</span> <span class="k">fun</span> <span class="nf">visitSimpleFunction</span><span class="p">(</span><span class="n">declaration</span><span class="p">:</span> <span class="n">IrSimpleFunction</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">super</span><span class="p">.</span><span class="n">visitSimpleFunction</span><span class="p">(</span><span class="n">declaration</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>IR 语法较多，我这里了解也比较有限</p>
-<p>在 IrBuilder 下，可以使用 IrCall 等等指令执行方法调用，context.reference 方法可以获取已经在编译环境中的 class/function 等信息</p>
-<p>还有 irAs/irReturn 等众多方法，满足我们任何修方法体内代码的需求</p>
-<h3 id="处理-options-和-commanlineprocessor">处理 Options 和 CommanLineProcessor</h3>
-<p>kotlin gradle plugin 的参数可以通过 commandline processor 解析，传递给 configuration</p>
-<p>在 compilerPluginRegistrar 调用 registerExtension 时，会回传 configuration，进而可以被 kotlin compiler plugin 获取到对应参数，可以用做定制逻辑</p>
-<p>example:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="c1">// commandline processor
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">TestCommandLineProcessor</span> <span class="p">:</span> <span class="n">CommandLineProcessor</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">val</span> <span class="py">pluginId</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span> <span class="nc">BuildConfig</span><span class="p">.</span><span class="n">KOTLIN_PLUGIN_ID</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">val</span> <span class="py">pluginOptions</span><span class="p">:</span> <span class="n">Collection</span><span class="p">&lt;</span><span class="n">AbstractCliOption</span><span class="p">&gt;</span> <span class="p">=</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 处理哪些参数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">listOf</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">            <span class="n">CliOption</span><span class="p">(</span><span class="n">KEY_TARGET</span><span class="p">,</span> <span class="s2">&#34;target name&#34;</span><span class="p">,</span> <span class="s2">&#34;platform target&#34;</span><span class="p">,</span> <span class="n">required</span> <span class="p">=</span> <span class="k">false</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">            <span class="n">CliOption</span><span class="p">(</span><span class="n">KEY_DEBUG</span><span class="p">,</span> <span class="s2">&#34;debug mode&#34;</span><span class="p">,</span> <span class="s2">&#34;debug mode&#34;</span><span class="p">,</span> <span class="n">required</span> <span class="p">=</span> <span class="k">false</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">processOption</span><span class="p">(</span><span class="n">option</span><span class="p">:</span> <span class="n">AbstractCliOption</span><span class="p">,</span> <span class="k">value</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">CompilerConfiguration</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 自己解析，塞到 configuration 中区
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">when</span> <span class="p">(</span><span class="n">option</span><span class="p">.</span><span class="n">optionName</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">KEY_TARGET</span> <span class="o">-&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">configuration</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="nc">TestConfigurationKeys</span><span class="p">.</span><span class="n">TARGET</span><span class="p">,</span> <span class="k">value</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="n">KEY_DEBUG</span> <span class="o">-&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">configuration</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="nc">TestConfigurationKeys</span><span class="p">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="k">value</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="k">else</span> <span class="o">-&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="k">super</span><span class="p">.</span><span class="n">processOption</span><span class="p">(</span><span class="n">option</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="n">configuration</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">transformers</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">TestTransformer</span><span class="p">(</span><span class="n">pluginContext</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">transformers</span><span class="p">.</span><span class="n">forEach</span> <span class="p">{</span> <span class="n">moduleFragment</span><span class="p">.</span><span class="n">acceptChildrenVoid</span><span class="p">(</span><span class="k">it</span><span class="p">)</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// key 需要是一个 CompilerConfigurationKey
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">object</span> <span class="nc">TestConfigurationKeys</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">TARGET</span> <span class="p">=</span> <span class="n">CompilerConfigurationKey</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;(</span><span class="n">KEY_TARGET</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">DEBUG</span> <span class="p">=</span> <span class="n">CompilerConfigurationKey</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;(</span><span class="n">KEY_DEBUG</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// CompilerPluginRegistrar 中获取参数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">TestPluginRegistrar</span> <span class="p">:</span> <span class="n">CompilerPluginRegistrar</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="k">override</span> <span class="k">fun</span> <span class="nf">ExtensionStorage</span><span class="p">.</span><span class="n">registerExtensions</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">        <span class="n">configuration</span><span class="p">:</span> <span class="n">CompilerConfiguration</span>
-</span></span><span class="line"><span class="cl">    <span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="k">val</span> <span class="py">target</span> <span class="p">=</span> <span class="n">configuration</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="nc">TestConfigurationKeys</span><span class="p">.</span><span class="n">TARGET</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">isDebug</span> <span class="p">=</span> <span class="n">configuration</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="nc">TestConfigurationKeys</span><span class="p">.</span><span class="n">DEBUG</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TestTransformer</span><span class="p">(</span><span class="k">val</span> <span class="py">context</span><span class="p">:</span> <span class="n">IrPluginContext</span><span class="p">)</span> <span class="p">:</span> <span class="n">IrElementVisitorVoid</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">visitElement</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="n">IrElement</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">super</span><span class="p">.</span><span class="n">visitElement</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">visitClass</span><span class="p">(</span><span class="n">declaration</span><span class="p">:</span> <span class="n">IrClass</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">super</span><span class="p">.</span><span class="n">visitClass</span><span class="p">(</span><span class="n">declaration</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">fun</span> <span class="nf">visitSimpleFunction</span><span class="p">(</span><span class="n">declaration</span><span class="p">:</span> <span class="n">IrSimpleFunction</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">super</span><span class="p">.</span><span class="n">visitSimpleFunction</span><span class="p">(</span><span class="n">declaration</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h2 id="给-kcp-添加单元测试">给 KCP 添加单元测试</h2>
-<p>开发完一个插件，debug 过程是痛苦的</p>
-<p>如果，需要发布、引用插件、gradle debug 那整个路径也太长了</p>
-<p>好在，我们可以通过写 kotlin test 的方式，直接像单元测试一样，跑测试</p>
-<p>这里我使用的是：<a href="https://github.com/ZacSweers/kotlin-compile-testing" target="_blank" rel="noopener noreffer">dev.zacsweers.kctfork:core:0.6.0</a> 这个开源库</p>
-<p>gradle 中添加我们的 test 依赖即可</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="c1">// 如果需要引用到你其他模块的代码
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">testImplementation</span><span class="p">(</span><span class="n">project</span><span class="p">(</span><span class="s2">&#34;:test-runtime&#34;</span><span class="p">))</span>
+</span></span></code></pre></div><p>用 <code>IrBuilder</code> 可以构造 <code>IrCall</code> 等，<code>context.reference</code> 拿已有 class/function，还有 <code>irAs</code>、<code>irReturn</code> 等，满足在方法体内改代码的需求。IR 语法较多，这里只点到为止。</p>
+<h3 id="26-options-与-commandlineprocessor">2.6 Options 与 CommandLineProcessor</h3>
+<p>Gradle 传下来的参数通过 <code>CommandLineProcessor</code> 解析进 <code>CompilerConfiguration</code>，在 <code>CompilerPluginRegistrar</code> 里能拿到，用来做开关或定制逻辑。示例略（定义 <code>CliOption</code>、在 <code>processOption</code> 里塞到 <code>configuration</code>，再在 Registrar 里 <code>configuration.get(YourKey)</code> 即可）。</p>
+<hr>
+<h2 id="三给-kcp-写单元测试">三、给 KCP 写单元测试</h2>
+<p>直接跑 Gradle 发布再引用、再 debug，链路太长。可以用 <strong>kotlin-compile-testing</strong> 在单测里编译代码并跑 KCP，方便很多。</p>
+<p>依赖示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="n">testImplementation</span><span class="p">(</span><span class="n">project</span><span class="p">(</span><span class="s2">&#34;:test-runtime&#34;</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="n">testImplementation</span><span class="p">(</span><span class="s2">&#34;org.junit.jupiter:junit-jupiter:5.8.2&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">testImplementation</span><span class="p">(</span><span class="s2">&#34;junit:junit:4.13.2&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="c1">// 添加 依赖
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">testImplementation</span><span class="p">(</span><span class="s2">&#34;dev.zacsweers.kctfork:core:0.6.0&#34;</span><span class="p">)</span>
-</span></span></code></pre></div><p>test 代码示例：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalCompilerApi</span><span class="o">::</span><span class="k">class</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">CompilerPluginTest</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 可以直接 run/debug
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nd">@Test</span>
-</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="nf">testExample</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 读取要测试的 kt 文件
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">val</span> <span class="py">sourceFile</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">&lt;</span><span class="n">SourceFile</span><span class="p">&gt;()</span>
-</span></span><span class="line"><span class="cl">        <span class="n">listOf</span><span class="p">(</span><span class="s2">&#34;TestEnum.kt&#34;</span><span class="p">).</span><span class="n">forEach</span> <span class="p">{</span> <span class="k">it</span><span class="o">-&gt;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">sourceFile</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="nc">SourceFile</span><span class="p">.</span><span class="n">kotlin</span><span class="p">(</span><span class="k">it</span><span class="p">,</span> <span class="n">classLoader</span><span class="p">.</span><span class="n">getResourceAsStream</span><span class="p">(</span><span class="k">it</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="n">bufferedReader</span><span class="p">().</span><span class="n">use</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="k">it</span><span class="p">.</span><span class="n">readText</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}))</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 编译，详见下方 compile 方法
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">compile</span><span class="p">(</span><span class="n">sourceFile</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">fun</span> <span class="nf">compile</span><span class="p">(</span><span class="n">sourceFile</span><span class="p">:</span> <span class="n">MutableList</span><span class="p">&lt;</span><span class="n">SourceFile</span><span class="p">&gt;)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="py">result</span> <span class="p">=</span> <span class="n">KotlinCompilation</span><span class="p">().</span><span class="n">apply</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">sources</span> <span class="p">=</span> <span class="n">sourceFile</span>
-</span></span><span class="line"><span class="cl">            <span class="n">supportsK2</span> <span class="p">=</span> <span class="k">true</span>
-</span></span><span class="line"><span class="cl">            <span class="c1">// 注册我们写好的 kcp
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">compilerPluginRegistrars</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">TestPluginRegistrar</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">            <span class="n">inheritClassPath</span> <span class="p">=</span> <span class="k">true</span>
-</span></span><span class="line"><span class="cl">            <span class="c1">// 注册我们写好的 command line processor
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">commandLineProcessors</span> <span class="o">+=</span> <span class="n">TestCommandLineProcessor</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">            <span class="c1">// 添加我们的参数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">pluginOptions</span> <span class="o">+=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">PluginOption</span><span class="p">(</span><span class="s2">&#34;your_plugin_id&#34;</span><span class="p">,</span> <span class="s2">&#34;target&#34;</span><span class="p">,</span><span class="s2">&#34;jvm&#34;</span><span class="p">),</span> <span class="n">PluginOption</span><span class="p">(</span><span class="s2">&#34;your_plugin_id&#34;</span><span class="p">,</span> <span class="s2">&#34;debug&#34;</span><span class="p">,</span><span class="s2">&#34;true&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">            <span class="n">messageOutputStream</span> <span class="p">=</span> <span class="nc">System</span><span class="p">.</span><span class="k">out</span>
-</span></span><span class="line"><span class="cl">            <span class="c1">// 指定最终产物目录
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">workingDir</span> <span class="p">=</span> <span class="n">File</span><span class="p">(</span><span class="s2">&#34;build&#34;</span><span class="p">,</span> <span class="s2">&#34;kcp&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}.</span><span class="n">compile</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h2 id="faq">FAQ</h2>
-<h3 id="log-无法打印的问题">log 无法打印的问题</h3>
-<p>在写 kcp 的时候，发现使用 println 打印不出日志，还不太清楚原因</p>
-<p>总之，目前可以通过 MessageCollector 打印</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="c1">// CompilerRegistrar 中，可以获取 messageCollector
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="py">messageCollector</span> <span class="p">=</span> <span class="n">configuration</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="nc">CommonConfigurationKeys</span><span class="p">.</span><span class="n">MESSAGE_COLLECTOR_KEY</span><span class="p">,</span> <span class="nc">MessageCollector</span><span class="p">.</span><span class="n">NONE</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">MSG_COLLECTOR</span> <span class="p">=</span> <span class="n">messageCollector</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// 随便封装一个 log 方法
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">const</span> <span class="k">val</span> <span class="py">TAG</span> <span class="p">=</span> <span class="s2">&#34;TestPlugin: &#34;</span>
-</span></span><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">logInfo</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nc">MSG_COLLECTOR</span><span class="p">.</span><span class="n">report</span><span class="p">(</span><span class="nc">CompilerMessageSeverity</span><span class="p">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">TAG</span> <span class="p">+</span> <span class="n">msg</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="fir-问题">fir 问题</h3>
-<p>如果，你的 CompilerRegistrar 中不仅注册了 irExtension 还注册了 firextension</p>
-<p>那么 fir extension 肯定是优先执行的(因为 kotlin 文件编译流程为: .kt -&gt; fir -&gt; ir -&gt; backend)</p>
-<p>当你，强行修改一些 fir 的东西时，后续的 backend ir 阶段可能会报错，需要自己反查</p>
+</span></span><span class="line"><span class="cl"><span class="n">testImplementation</span><span class="p">(</span><span class="s2">&#34;dev.zacsweers.kctfork:core:0.6.0&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>测试里读 kt 源文件、构造 <code>KotlinCompilation</code>、挂上 <code>compilerPluginRegistrars</code> 和 <code>commandLineProcessors</code>、传 <code>pluginOptions</code>，然后 <code>compile()</code> 看结果即可。详见 <a href="https://github.com/ZacSweers/kotlin-compile-testing" target="_blank" rel="noopener noreffer">kotlin-compile-testing</a>。</p>
+<hr>
+<h2 id="四faq">四、FAQ</h2>
+<h3 id="41-日志打不出来">4.1 日志打不出来</h3>
+<p>写 KCP 时 <code>println</code> 可能看不到。可以用 <code>CompilerConfiguration</code> 里的 <code>MessageCollector</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">val</span> <span class="py">messageCollector</span> <span class="p">=</span> <span class="n">configuration</span><span class="p">.</span><span class="k">get</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">CommonConfigurationKeys</span><span class="p">.</span><span class="n">MESSAGE_COLLECTOR_KEY</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">MessageCollector</span><span class="p">.</span><span class="n">NONE</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 封装成 log 方法，用 messageCollector.report(CompilerMessageSeverity.INFO, msg)
+</span></span></span></code></pre></div><h3 id="42-fir-与-ir-顺序">4.2 FIR 与 IR 顺序</h3>
+<p>若同时注册了 FIR 和 IR extension，执行顺序是：<code>.kt → FIR → IR → backend</code>。若在 FIR 里强行改东西，后面 IR / backend 可能报错，需要自己反查。</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -426,13 +284,13 @@ ir 是 kotlin 转为多端产物的标准的中间表达式，它会通过 fir2i
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/kotlin/">Kotlin</a>,&nbsp;<a href="/tags/KMP/">KMP</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/" class="prev" rel="prev" title="Android Studio Plugin 开发"><i class="fas fa-angle-left fa-fw"></i>Android Studio Plugin 开发</a>
+    <div class="post-nav"><a href="/posts/Android-Studio-Plugin-%E5%BC%80%E5%8F%91/" class="prev" rel="prev" title="Android Studio 插件开发：New Module 与 OHOS"><i class="fas fa-angle-left fa-fw"></i>Android Studio 插件开发：New Module 与 OHOS</a>
             <a href="/posts/2025-08-22-%E6%97%A0%E6%84%9F%E8%80%8C%E5%8F%91/" class="next" rel="next" title="无感而发">无感而发<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
@@ -449,5 +307,5 @@ ir 是 kotlin 转为多端产物的标准的中间表达式，它会通过 fir2i
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-07-09T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"KCP 开发"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2025-07-09T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Kotlin Compiler Plugin（KCP）开发小结"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

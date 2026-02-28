@@ -33,7 +33,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/PTrainbow.github.io\/posts\/2021-01-24-Kotlin-Coroutines-VS-Goroutines\/"
-        },"genre": "posts","keywords": "kotlin","wordcount":  1379 ,
+        },"genre": "posts","keywords": "kotlin","wordcount":  1377 ,
         "url": "http:\/\/PTrainbow.github.io\/posts\/2021-01-24-Kotlin-Coroutines-VS-Goroutines\/","datePublished": "2021-01-24T00:00:00+00:00","dateModified": "2021-01-24T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": "北邙山之光"},"author": {
@@ -117,7 +117,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Kotlin Coroutines VS Goroutines</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-01-24">2021-01-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1379 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-01-24">2021-01-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1377 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;
             </div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -190,7 +190,7 @@ kotlin-stdlib: 1.4.0</p>
 </span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
 </span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
 </span></span><span class="line"><span class="cl">thread-id = pool-1-thread-1, do  work 0
-</span></span><span class="line"><span class="cl">// 无限多···
+</span></span><span class="line"><span class="cl">// 无限多……
 </span></span></code></pre></div><p>可以看到，协程的载体是 <code>线程</code>，协程的代码逻辑可以理解为一个 <code>任务</code>，多线程多任务且没有特殊的阻塞任务(死循环等)的情况下，任务早晚是可以被执行的。</p>
 <p>但是这段逻辑是死循环，且是单线程，以致于 i = 0 时，创建的协程任务占用住了当前线程，第二个协程任务 <code>无法被执行</code>。</p>
 <p>所以看得出，对于 Kotlin 的协程任务因为其是 <code>非抢占式</code> 的，是存在不被执行的情况的(协程被 <code>饿死了</code>)。</p>
@@ -277,7 +277,7 @@ kotlin-stdlib: 1.4.0</p>
 </span></span><span class="line"><span class="cl">thread-id = 2873233, do work 1
 </span></span><span class="line"><span class="cl">finish work
 </span></span></code></pre></div><p>是不是很神奇！结果 <code>不一致</code> 了！并没有因为死循环卡死在第一个任务上，且在1s后主线程结束、程序退出(因为代码里，主线程只是 sleep 了1s)。</p>
-<p>这里就很神奇了，通过 <code>gettid()</code> 打印的线程 id 显示，这3个协程运行在了同一个线程之上，居然可以打破死循环···</p>
+<p>这里就很神奇了，通过 <code>gettid()</code> 打印的线程 id 显示，这3个协程运行在了同一个线程之上，居然可以打破死循环……</p>
 <h3 id="gettid-的小插曲">gettid 的小插曲</h3>
 <p>因为电脑是 MacOSX，一开始使用 Golang 自己提供的 <code>syscall.Gettid()</code> 方法来获取 tid，结果发现报错：<code>undefined Gettid()</code>，似乎是 MacOSX 并没有实现这个方法，所以问了大哥得到了另一种方法</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">gettid</span><span class="p">()</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">uint64</span><span class="p">)</span> <span class="p">{</span>
@@ -331,5 +331,5 @@ kotlin-stdlib: 1.4.0</p>
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-01-24T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Kotlin Coroutines VS Goroutines"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="true"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["PTrainbow"],"clientID":"2266a6b1be9e64aca6b8","clientSecret":"95a87d5d16492501b3629046e7d5689bb5f949bf","id":"2021-01-24T00:00:00Z","owner":"PTrainbow","repo":"PTrainbow.github.io","title":"Kotlin Coroutines VS Goroutines"}},"data":{"id-1":"北邙山之光的 Blog","id-2":"北邙山之光的 Blog"},"search":{"algoliaAppID":"DY3IPG94HO","algoliaIndex":"blog","algoliaSearchKey":"e9b70bb1815b657ef5122006a8a499b6","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>
