@@ -97,6 +97,23 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2026-09-03-Codex/">Codex</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2026-09-03">2026-09-03</time></span></div><div class="content"><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/in-post/codex_flow.png"
+        data-srcset="/img/in-post/codex_flow.png, /img/in-post/codex_flow.png 1.5x, /img/in-post/codex_flow.png 2x"
+        data-sizes="auto"
+        alt="/img/in-post/codex_flow.png"
+        title="/img/in-post/codex_flow.png" /></p></div><div class="post-footer">
+        <a href="/posts/2026-09-03-Codex/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/kotlin/">Kotlin</a>,&nbsp;<a href="/tags/Java/">Java</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2026-04-28-SDUI/">SDUI</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2026-04-28">2026-04-28</time></span></div><div class="content"><p>最近，端侧 AI 又不是重点项目了，转而去做 Markdown 组件 和 SDUI 卡片了。Markdown 在 Android 侧的渲染多多少少都有点问题，虽然有各种开源库做了很多处理，但是各大公司内部的聪明的大脑袋们，总会添加各种奇怪的规则，来彰显我方的不同，直接拿开源库来使用是万万不能的</p></div><div class="post-footer">
+        <a href="/posts/2026-04-28-SDUI/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/kotlin/">Kotlin</a>,&nbsp;<a href="/tags/Java/">Java</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2026-01-12-HashCode-Equals-%E5%B0%8F%E5%9D%91/">HashCode 与 Equals 小坑</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2026-01-12">2026-01-12</time></span></div><div class="content"><p>同事问了一句：「HashMap 的 hashCode 为什么是 0？」</p>
 <p>我猜是空 map。果然，他用的就是一个空的 <code>HashMap</code>。于是顺带想到经典面试题 hashCode / equals，以及 Kotlin 的 data class 在这上面容易踩的坑，整理一下。</p></div><div class="post-footer">
@@ -183,45 +200,6 @@
 <p>腾讯 Kuikly 开源了支持鸿蒙的 Kotlin 编译器，符号导出、字符串优化和鸿蒙 NDK 适配等很有参考价值。我们当时因 Kotlin 2.0.21 的 LLVM 限制用的是 <strong>OHOS 3.x</strong> SDK，native binding 基于 3.x 头文件生成，新版本能力用不上。借鉴 Kuikly 后想改用 <strong>Clang/LLVM 12</strong>，sysroot、链接目录等改用 <strong>OHOS 5.x</strong> SDK，以用到新能力。</p></div><div class="post-footer">
         <a href="/posts/Kotlin-Native-%E9%83%A8%E5%88%86%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%AF%BC%E5%87%BA%E5%90%8E%E6%B6%88%E5%A4%B1/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/kotlin/">Kotlin</a>,&nbsp;<a href="/tags/%E9%B8%BF%E8%92%99/">鸿蒙</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png"
-        data-srcset="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png, /posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png 1.5x, /posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png 2x"
-        data-sizes="auto"
-        alt="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png"
-        title="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/asan.png" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/">Kotlin/Native 在 OHOS 上开启 ASAN</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-06-03">2025-06-03</time></span></div><div class="content"><p>本文记录如何在适配鸿蒙的 Kotlin/Native（基于 Kotlin 2.0.21）上开启 <strong>ASAN（Address Sanitizer）</strong>。</p>
-<h2 id="一asan-简介">一、ASAN 简介</h2>
-<p>ASAN 是面向 C/C++ 的内存错误检测工具，运行时能发现例如：</p></div><div class="post-footer">
-        <a href="/posts/Kotlin-Native-OHOS-ASAN-%E9%80%82%E9%85%8D/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/kotlin/">Kotlin</a>,&nbsp;<a href="/tags/%E9%B8%BF%E8%92%99/">鸿蒙</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
-            <a href="/posts/2025-04-08-KSP/"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2025-04-08-KSP/lifecycle.jpg"
-        data-srcset="/posts/2025-04-08-KSP/lifecycle.jpg, /posts/2025-04-08-KSP/lifecycle.jpg 1.5x, /posts/2025-04-08-KSP/lifecycle.jpg 2x"
-        data-sizes="auto"
-        alt="/posts/2025-04-08-KSP/lifecycle.jpg"
-        title="/posts/2025-04-08-KSP/lifecycle.jpg" /></a>
-        </div><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2025-04-08-KSP/">KSP 生成 OHOS NAPI 代码</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>北邙山之光</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025-04-08">2025-04-08</time></span></div><div class="content"><p>Kotlin/Native 适配鸿蒙，除了改编译器，还有一块很重要：<strong>NAPI 桥接代码的自动生成</strong>。</p>
-<p><strong>Kotlin/Native 和 NAPI 的关系</strong>：</p>
-<ul>
-<li>Kotlin/Native 的产物是平台二进制，在 OHOS 上就是 Linux ELF。</li>
-<li>OHOS 上层用 ArkTS 开发，要调 so 里的逻辑，需要一层类似 JNI 的桥，用的就是 Node.js 那套 <strong>NAPI</strong>。</li>
-<li>所以「从 ArkTS 调 Kotlin/Native」= 自己写一层 NAPI 桥。</li>
-</ul>
-<hr>
-<h2 id="一为什么需要自动生成-napi">一、为什么需要自动生成 NAPI</h2>
-<p>先看一个最简例子：K/N 里有个 <code>hello_world()</code>，要在 ArkTS 里调用，就要在 C++ 里注册 NAPI：</p></div><div class="post-footer">
-        <a href="/posts/2025-04-08-KSP/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/Android/">Android</a>,&nbsp;<a href="/tags/kotlin/">Kotlin</a>,&nbsp;<a href="/tags/KSP/">KSP</a>,&nbsp;<a href="/tags/%E9%B8%BF%E8%92%99/">鸿蒙</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">
                         <a href="/">1</a>
